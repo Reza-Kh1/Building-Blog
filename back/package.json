@@ -1,0 +1,32 @@
+{
+  "name": "smart-build",
+  "version": "1.0.0",
+  "description": "The initial full-stack blogging project built with React JS & Node JS & Next JS & PostgreSQL.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon server.js",
+    "migration:create": "npx sequelize-cli migration:create --name",
+    "migrate": "npx sequelize-cli db:migrate",
+    "migrate:undo": "npx sequelize-cli db:migrate:undo",
+    "migrate:undo:all": "npx sequelize-cli db:migrate:undo:all",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "reza",
+  "license": "ISC",
+  "devDependencies": {
+    "@eslint/js": "^9.3.0",
+    "eslint": "^9.3.0",
+    "globals": "^15.3.0",
+    "prettier": "^3.2.5"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "helmet": "^7.1.0",
+    "nodemon": "^3.1.1",
+    "pg": "^8.11.5",
+    "sequelize": "^6.37.3",
+    "sequelize-cli": "^6.6.2"
+  }
+}

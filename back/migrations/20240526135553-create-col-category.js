@@ -3,10 +3,12 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.addColumn("Category", "img", {
-      type: Sequelize.STRING
-    })
-    await queryInterface.addIndex("Category", ["img"], { unique: false })
+    await queryInterface.removeIndex("User", ["email"], { unique: true })
+    await queryInterface.removeIndex("User", ["phone"], { unique: true })
+    // await queryInterface.addColumn("Category", "img", {
+    //   type: Sequelize.STRING
+    // })
+    // await queryInterface.addIndex("Category", ["img"], { unique: false })
     // await queryInterface.createTable('NewModel', {
     //   id: {
     //     allowNull: false,
@@ -32,8 +34,10 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.removeColumn("Category", "img")
-    await queryInterface.removeIndex("Category", ["img"])
+    await queryInterface.addIndex("User", ["email"], { unique: true })
+    await queryInterface.addIndex("User", ["phone"], { unique: true })
+    // await queryInterface.removeColumn("Category", "img")
+    // await queryInterface.removeIndex("Category", ["img"])
     // await queryInterface.dropTable('NewModel');
   }
 };

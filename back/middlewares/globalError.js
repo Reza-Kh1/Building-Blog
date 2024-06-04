@@ -10,14 +10,14 @@ const globalHandler = (err, req, res, next) => {
 const customError = (message, statusCode) => {
   const error = new Error(message);
   error.statusCode = statusCode;
+  delete error.stack
   return error;
 };
-
 const notFound = (req, res, next) => {
   return res.status(404).send(`Route ${req.originalUrl} Not Found`);
 };
 module.exports = {
   globalHandler,
   customError,
-  notFound
-}
+  notFound,
+};

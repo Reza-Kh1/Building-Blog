@@ -99,7 +99,7 @@ const getProfileUser = errorHandler(async (req, res) => {
     if (!data) throw customError("کاربر یافت نشد");
     res.send({ data });
   } catch (err) {
-    throw customError(err, 403);
+    throw customError(err.message, 403);
   }
 });
 const updateUser = errorHandler(async (req, res) => {
@@ -149,7 +149,7 @@ const loginUser = errorHandler(async (req, res) => {
         });
       }
     }
-    res.send({ data: deletePass(checkUser), token });
+    res.send({ ...deletePass(checkUser), token });
   } catch (err) {
     throw customError(err.message, 403);
   }

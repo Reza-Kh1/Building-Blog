@@ -18,6 +18,6 @@ const detailPostModel = dataBase.define(
       type: DataTypes.STRING,
     },
   },
-  { tableName: "DetailPost", timestamps: true }
+  { tableName: "DetailPost", timestamps: false }
 );
 module.exports = detailPostModel;

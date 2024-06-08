@@ -12,6 +12,7 @@ const detailPost = require("../routes/detailPostRoute.js");
 const imagePost = require("../routes/imageRoute.js");
 const path = require("path");
 const cookieParser = require("cookie-parser");
+
 //////////////// setting security api
 dotenv.config();
 const app = express();

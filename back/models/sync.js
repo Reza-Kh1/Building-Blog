@@ -3,7 +3,7 @@ const userModel = require("./userModel");
 const categoryModel = require("./categoryModel");
 const postModel = require("./postModel");
 const reviewModel = require("./reviewModel");
-const detailPost = require("./detailPostModel");
+const detailPostModel = require("./detailPostModel");
 const imageModel = require("./imageModel");
 ////////  Relation Categorys
 userModel.hasMany(categoryModel, {
@@ -49,12 +49,12 @@ postModel.belongsTo(categoryModel, {
   onDelete: "RESTRICT",
   onUpdate: "RESTRICT",
 });
-postModel.hasOne(detailPost, {
+postModel.hasOne(detailPostModel, {
   foreignKey: "postId",
   onDelete: "CASCADE",
   onUpdate: "CASCADE",
 });
-detailPost.belongsTo(postModel, {
+detailPostModel.belongsTo(postModel, {
   foreignKey: "postId",
   onDelete: "CASCADE",
   onUpdate: "CASCADE",
@@ -78,6 +78,6 @@ module.exports = {
   reviewModel,
   categoryModel,
   postModel,
-  detailPost,
+  detailPostModel,
   imageModel,
 };

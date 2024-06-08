@@ -5,6 +5,8 @@ const {
 } = require("../controllers/detailPostCtrl");
 const isAuthor = require("../utils/isAuthor");
 const app = express.Router();
-app.post("/", isAuthor, createDetailPost);
-app.put("/:id", isAuthor, updateDetailPost);
+app
+  .route("/:id")
+  .post(isAuthor, createDetailPost)
+  .put(isAuthor, updateDetailPost);
 module.exports = app;

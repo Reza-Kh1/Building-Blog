@@ -1,4 +1,5 @@
 const express = require("express");
+const isAuthor = require("../utils/isAuthor");
 const {
   getAllPost,
   createPost,
@@ -7,6 +8,10 @@ const {
   deletePost,
 } = require("../controllers/postCtrl");
 const app = express.Router();
-app.route("/").get(getAllPost).post(createPost);
-app.route("/:id").get(getSinglePost).put(updatePost).delete(deletePost);
+app.route("/").get(getAllPost).post(isAuthor, createPost);
+app
+  .route("/:id")
+  .get(getSinglePost)
+  .put(isAuthor, updatePost)
+  .delete(isAuthor, deletePost);
 module.exports = app;

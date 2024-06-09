@@ -1,7 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const { customError } = require("../middlewares/globalError");
 const { postModel, detailPostModel, userModel } = require("../models/sync");
-const Sequelize = require("sequelize");
+const { Op } = require("sequelize");
 const { dataBase } = require("../config/db");
 const limit = process.env.LIMIT;
 
@@ -25,20 +25,42 @@ const createPost = asyncHandler(async (req, res) => {
     throw customError(err.message, 401);
   }
 });
-const getAllPost = asyncHandler(async (req, res) => {
-  let { page, status, title } = req.query;
+const getAllPost = asyncHandler(async (req, res, status, isAdmin) => {
+  let { search, page, order } = req.query;
   page = page || 1;
+  let filter = {};
+  let orderFilter = [];
+  if (order) {
+    orderFilter.push(order.split(","));
+  }
+  if (isAdmin && status) {
+    filter.status = status;
+  }
+  if (!isAdmin) {
+    filter.status = true;
+  }
+  if (search) {
+    filter[Op.or] = [
+      { title: { [Op.iLike]: `%${search}%` } },
+      { description: { [Op.iLike]: `%${search}%` } },
+      { keycode: { [Op.iLike]: `%${search}%` } },
+    ];
+  }
   try {
     const data = await postModel.findAndCountAll({
-      where: {},
+      where: filter,
       offset: (page - 1) * limit,
       limit: limit,
-      order: [["createdAt", "ASC"]],
+      order: orderFilter || [["createdAt", "ASC"]],
     });
-    res.send({ ...data });
+    res.send(data);
   } catch (err) {
     throw customError(err.message, 401);
   }
+});
+const getAllPostAdmin = asyncHandler(async (req, res) => {
+  const { status } = req.query;
+  getAllPost(req, res, status, true);
 });
 const getSinglePost = asyncHandler(async (req, res) => {
   const { id } = req.params;
@@ -110,9 +132,10 @@ const deletePost = asyncHandler(async (req, res) => {
 });
 
 module.exports = {
+  getAllPost,
   deletePost,
   getSinglePost,
   updatePost,
   createPost,
-  getAllPost,
+  getAllPostAdmin,
 };

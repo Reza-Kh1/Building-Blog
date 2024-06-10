@@ -31,8 +31,8 @@ const getAllImage = asyncHandler(async (req, res) => {
       offset: page * limit - limit,
     });
     if (!data.count) return res.send({ message: "هیچ عکسی دخیره نشده" });
-    const pager = pagination(data.count, limit, page);
-    res.send({ ...data, pagination: pager });
+    const paginate = pagination(data.count, page, limit);
+    res.send({ ...data, paginate });
   } catch (err) {
     throw customError(err, 400);
   }

@@ -3,24 +3,23 @@ const { customError } = require("../middlewares/globalError");
 const { postModel, detailPostModel, userModel } = require("../models/sync");
 const { Op } = require("sequelize");
 const { dataBase } = require("../config/db");
+const pagination = require("../utils/pagination");
 const limit = process.env.LIMIT;
-
 const createPost = asyncHandler(async (req, res) => {
-  const { title, image, slug, description, totalComments, status } = req.body;
+  const { title, image, slug, description, status, categoryId } = req.body;
   if (!title || !slug || !description)
     throw customError("تمام فیلدهای لازم را پر کنید", 401);
   const userId = res.userInfo.id;
   try {
-    const data = await postModel.create({
+    await postModel.create({
       title,
       image,
       slug,
       description,
-      totalComments,
       status,
-      userId,
+      userId, categoryId
     });
-    res.send(data);
+    res.send({ success: true });
   } catch (err) {
     throw customError(err.message, 401);
   }
@@ -51,9 +50,10 @@ const getAllPost = asyncHandler(async (req, res, status, isAdmin) => {
       where: filter,
       offset: (page - 1) * limit,
       limit: limit,
-      order: orderFilter || [["createdAt", "ASC"]],
+      order: orderFilter || [["createdAt", "DESC"]],
     });
-    res.send(data);
+    const paginate = pagination(data.count, page, limit)
+    res.send({ data, paginate });
   } catch (err) {
     throw customError(err.message, 401);
   }

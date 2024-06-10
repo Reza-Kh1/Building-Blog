@@ -2,10 +2,10 @@ const { dataBase } = require("../config/db");
 const userModel = require("./userModel");
 const categoryModel = require("./categoryModel");
 const postModel = require("./postModel");
-const reviewModel = require("./reviewModel");
+const commentModel = require("./commentModel");
 const detailPostModel = require("./detailPostModel");
 const imageModel = require("./imageModel");
-////////  Relation Categorys
+////////  The Relationship of Categorys
 userModel.hasMany(categoryModel, {
   foreignKey: "userId",
   onUpdate: "SET NULL",
@@ -18,17 +18,17 @@ categoryModel.belongsTo(userModel, {
 });
 categoryModel.hasMany(categoryModel, {
   as: "subCategory",
-  foreignKey: "categoryId",
+  foreignKey: "parentCategoryId",
   onDelete: "RESTRICT",
   onUpdate: "RESTRICT",
 });
 categoryModel.belongsTo(categoryModel, {
   as: "parentCategory",
-  foreignKey: "categoryId",
+  foreignKey: "parentCategoryId",
   onDelete: "RESTRICT",
   onUpdate: "RESTRICT",
 });
-//////// Relation Posts
+//////// The Relationship of Posts
 userModel.hasMany(postModel, {
   foreignKey: "userId",
   onDelete: "SET NULL",
@@ -59,23 +59,36 @@ detailPostModel.belongsTo(postModel, {
   onDelete: "CASCADE",
   onUpdate: "CASCADE",
 });
-//////// Relation Reviews
-postModel.hasMany(reviewModel, {
+//////// The Relationship of Comments
+postModel.hasMany(commentModel, {
   foreignKey: "postId",
   onDelete: "CASCADE",
   onUpdate: "CASCADE",
 });
-reviewModel.belongsTo(postModel, {
+commentModel.belongsTo(postModel, {
   foreignKey: "postId",
   onDelete: "CASCADE",
   onUpdate: "CASCADE",
 });
+commentModel.hasMany(commentModel, {
+  as: "replies",
+  foreignKey: "parentId",
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
+});
+commentModel.belongsTo(postModel, {
+  as: "parent",
+  foreignKey: "parentId",
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
+});
+
 
 // dataBase.sync({ force: true });
 dataBase.sync();
 module.exports = {
   userModel,
-  reviewModel,
+  commentModel,
   categoryModel,
   postModel,
   detailPostModel,

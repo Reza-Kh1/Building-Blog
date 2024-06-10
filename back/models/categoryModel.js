@@ -15,6 +15,13 @@ const categoryModel = dataBase.define(
         msg: "این نام دسته از قبل وجود دارد",
       },
     },
+    parentCategoryId: {
+      type: DataTypes.INTEGER,
+      references:{
+        model:"Category",
+        key:"id"
+      }
+    }
   },
   {
     tableName: "Category",

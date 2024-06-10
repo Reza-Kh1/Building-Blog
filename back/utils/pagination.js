@@ -1,5 +1,5 @@
-const limit = process.env.LIMIT
-const pagination = (count, page) => {
+
+const pagination = (count, page, limit) => {
     const allPage = Math.ceil(count / limit);
     const nextPage = Number(page) + 1;
     const prevPage = Number(page) - 1;

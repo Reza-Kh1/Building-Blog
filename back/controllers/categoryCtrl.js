@@ -1,5 +1,5 @@
 const errorHandler = require("express-async-handler");
-const { categoryModel } = require("../models/sync");
+const { categoryModel, postModel } = require("../models/sync");
 const { customError } = require("../middlewares/globalError");
 const createCategory = errorHandler(async (req, res) => {
   const { name, slug, categoryId } = req.body;
@@ -10,7 +10,7 @@ const createCategory = errorHandler(async (req, res) => {
       name,
       slug,
       userId,
-      categoryId,
+      parentCategoryId: categoryId,
     });
     res.send({ success: true });
   } catch (err) {
@@ -30,7 +30,7 @@ const updateCategory = errorHandler(async (req, res) => {
       data.slug = slug;
     }
     if (categoryId) {
-      data.categoryId = categoryId;
+      data.parentCategoryId = categoryId;
     }
     await data.save();
     res.send({ success: true });
@@ -51,7 +51,7 @@ const deleteCategory = errorHandler(async (req, res) => {
 const getAllCategory = errorHandler(async (req, res) => {
   try {
     const data = await categoryModel.findAll({
-      where: { categoryId: null },
+      where: { parentCategoryId: null },
       order: [["createdAt", "ASC"]],
       attributes: { exclude: ["createdAt", "updatedAt", "userId"] },
     });
@@ -64,14 +64,26 @@ const getAllCategory = errorHandler(async (req, res) => {
   }
 });
 const getCategoryPosts = errorHandler(async (req, res) => {
+  const { id } = req.params
   try {
+    const data = await categoryModel.findOne({
+      where: { slug: id }, include: [{
+        model: postModel,
+        separate: true,
+        attributes: { exclude: ["status", "createdAt", "userId", "categoryId"] },
+        where: { status: true }
+      }], attributes: {
+        exclude: ["parentCategoryId", "createdAt", "userId"]
+      }
+    })
+    res.send( data )
   } catch (err) {
     throw customError(err.message, 401);
   }
 });
 const getReplies = async (categoryId) => {
   const replies = await categoryModel.findAll({
-    where: { categoryId: categoryId },
+    where: { parentCategoryId: categoryId },
     order: [["createdAt", "ASC"]],
     attributes: { exclude: ["createdAt", "updatedAt", "userId"] },
   });

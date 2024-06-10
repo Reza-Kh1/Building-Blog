@@ -30,21 +30,12 @@ const postModel = dataBase.define(
       type: DataTypes.BOOLEAN,
       defaultValue: false,
     },
-    keycode: {
-      type: DataTypes.STRING,
-      defaultValue: () => {
-        const key = [...Array(8)]
-          .map(() => (~~(Math.random() * 36)).toString(36))
-          .join("");
-        return key.toUpperCase();
-      },
-    },
   },
   {
     tableName: "Post",
     timestamps: true,
     indexes: [
-      { unique: true, fields: ["slug", "keycode"] },
+      { unique: true, fields: ["slug"] },
       { unique: false, fields: ["status", "description", "title"] },
     ],
   }

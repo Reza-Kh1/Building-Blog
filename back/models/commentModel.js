@@ -2,7 +2,7 @@ const { DataTypes, Model } = require("sequelize");
 const { dataBase } = require("../config/db");
 
 const reviewModel = dataBase.define(
-  "Review",
+  "Comment",
   {
     name: {
       type: DataTypes.STRING,
@@ -28,7 +28,18 @@ const reviewModel = dataBase.define(
         },
       },
     },
+    parentId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'Comment',
+        key: 'id'
+      },
+    },
+    status: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+    }
   },
-  { updatedAt: false, createdAt: true, tableName: "Review" }
+  { updatedAt: false, createdAt: true, tableName: "Comment" }
 );
 module.exports = reviewModel;

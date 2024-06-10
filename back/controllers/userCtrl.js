@@ -74,7 +74,7 @@ const getAllUser = errorHandler(async (req, res) => {
       order: orderFilter || [["createdAt", "DESC"]],
       attributes: { exclude: ["password", "updatedAt"] },
     });
-    const paginate = pagination(data.count, page);
+    const paginate = pagination(data.count, page, limit);
     res.send({ ...data, pagination: paginate });
   } catch (err) {
     throw customError(err.message, 400);

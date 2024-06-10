@@ -4,7 +4,6 @@ const categoryModel = require("./categoryModel");
 const postModel = require("./postModel");
 const commentModel = require("./commentModel");
 const detailPostModel = require("./detailPostModel");
-const imageModel = require("./imageModel");
 ////////  The Relationship of Categorys
 userModel.hasMany(categoryModel, {
   foreignKey: "userId",
@@ -83,7 +82,6 @@ commentModel.belongsTo(postModel, {
   onUpdate: "CASCADE",
 });
 
-
 // dataBase.sync({ force: true });
 dataBase.sync();
 module.exports = {
@@ -92,5 +90,4 @@ module.exports = {
   categoryModel,
   postModel,
   detailPostModel,
-  imageModel,
 };

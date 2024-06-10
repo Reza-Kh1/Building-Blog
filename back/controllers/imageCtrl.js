@@ -1,21 +1,25 @@
 const asyncHandler = require("express-async-handler");
 const { customError } = require("../middlewares/globalError");
-const imageModel = require("../models/imageModel");
-
-const createImage = asyncHandler(async (req, res) => {
+const uploadImage = asyncHandler(async (req, res) => {
   if (req.file == undefined) throw customError("هیچ عکسی انتخاب نشده", 401);
   try {
-    const url = req.file.path.replace(/\\/g, "/");
-    await imageModel.create({ url });
-    const body = {
-      success: 1,
-      file: {
-        url: process.env.URL_SITE + url,
-      },
-    };
-    res.send({ ...body });
-  } catch (err) {
-    throw customError(err, 400);
+    return res.send({ url: req.file.location });
+  } catch (error) {
+    throw customError(error.message, 400);
+  }
+});
+const deleteImage = asyncHandler(async (req, res) => {
+  const { url } = req.query;
+  const key = url.split("/").slice(-1)[0];
+  const params = {
+    Bucket: process.env.LIARA_BUCKET_NAME,
+    Key: key,
+  };
+  try {
+    await client.send(new DeleteObjectCommand(params));
+    res.send({ success: true });
+  } catch (error) {
+    throw customError(error.message, 400);
   }
 });
 const getAllImage = asyncHandler(async (req, res) => {
@@ -37,29 +41,8 @@ const getAllImage = asyncHandler(async (req, res) => {
     throw customError(err, 400);
   }
 });
-const deleteImage = asyncHandler(async (req, res) => {
-  const { id } = req.params;
-  const img = await imageModel.findByPk(id);
-  if (!img) throw customError("عکس مورد نظر یافت نشد !", 404);
-  const nameImg = img.url.replace(process.env.URL_SAVE_IMAGE, "");
-  const directory = path.join(
-    __dirname,
-    `${process.env.URL_IMAGE_WWW}/${nameImg}`
-  );
-  try {
-    if (fs.existsSync(directory)) {
-      fs.unlinkSync(directory);
-      await img.destroy();
-      res.send({ message: "عکس با موفقیت حذف شد" });
-    } else {
-      throw customError("فایل مورد نظر وجود ندارد");
-    }
-  } catch (err) {
-    throw customError(err, 404);
-  }
-});
 module.exports = {
   deleteImage,
-  createImage,
+  uploadImage,
   getAllImage,
 };

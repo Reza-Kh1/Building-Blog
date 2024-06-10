@@ -1,6 +1,11 @@
 const asyncHandler = require("express-async-handler");
 const { customError } = require("../middlewares/globalError");
-const { postModel, detailPostModel, userModel } = require("../models/sync");
+const {
+  postModel,
+  detailPostModel,
+  userModel,
+  commentModel,
+} = require("../models/sync");
 const { Op } = require("sequelize");
 const { dataBase } = require("../config/db");
 const pagination = require("../utils/pagination");
@@ -17,7 +22,8 @@ const createPost = asyncHandler(async (req, res) => {
       slug,
       description,
       status,
-      userId, categoryId
+      userId,
+      categoryId,
     });
     res.send({ success: true });
   } catch (err) {
@@ -52,7 +58,7 @@ const getAllPost = asyncHandler(async (req, res, status, isAdmin) => {
       limit: limit,
       order: orderFilter || [["createdAt", "DESC"]],
     });
-    const paginate = pagination(data.count, page, limit)
+    const paginate = pagination(data.count, page, limit);
     res.send({ data, paginate });
   } catch (err) {
     throw customError(err.message, 401);
@@ -70,10 +76,24 @@ const getSinglePost = asyncHandler(async (req, res) => {
       include: [
         { model: detailPostModel, attributes: { exclude: ["id", "postId"] } },
         { model: userModel, attributes: ["name"] },
+        {
+          model: commentModel,
+          where: { parentId: null, status: true },
+          limit: process.env.LIMIT_COMMENT,
+          order: [["createdAt", "DESC"]],
+          attributes: {
+            exclude: ["email", "phone", "parentId", "status", "postId"],
+          },
+        },
       ],
       attributes: { exclude: ["userId", "createdAt"] },
     });
     if (!data) throw customError("این صفحه وجود ندارد");
+    for (let i = 0; i < data.dataValues.Comments.length; i++) {
+      data.dataValues.Comments[i].dataValues.replies = await getReplies(
+        data.dataValues.Comments[i].id
+      );
+    }
     res.send(data);
   } catch (err) {
     throw customError(err.message, 404);
@@ -130,7 +150,17 @@ const deletePost = asyncHandler(async (req, res) => {
     throw customError(err.message, 401);
   }
 });
-
+const getReplies = async (commentId) => {
+  const replies = await commentModel.findAll({
+    where: { parentId: commentId, status: true },
+    order: [["createdAt", "DESC"]],
+    attributes: { exclude: ["email", "phone", "parentId", "status", "postId"] },
+  });
+  for (let i = 0; i < replies.length; i++) {
+    replies[i].dataValues.replies = await getReplies(replies[i].id);
+  }
+  return replies;
+};
 module.exports = {
   getAllPost,
   deletePost,

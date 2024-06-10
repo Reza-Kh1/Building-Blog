@@ -1,15 +1,15 @@
 const express = require("express");
-const uploadImage = require("../middlewares/upload");
+const upload = require("../middlewares/upload");
 const {
   getAllImage,
-  createImage,
+  uploadImage,
   deleteImage,
 } = require("../controllers/imageCtrl");
 const isAuthor = require("../utils/isAuthor");
 const app = express.Router();
 app
   .route("/")
-  .post(isAuthor, uploadImage, createImage)
+  .post(isAuthor, upload, uploadImage)
+  .delete(isAuthor, deleteImage)
   .get(isAuthor, getAllImage);
-app.route("/:id").delete(deleteImage);
 module.exports = app;

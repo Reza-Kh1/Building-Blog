@@ -16,7 +16,7 @@ const upload = multer({
     bucket: process.env.LIARA_BUCKET_NAME,
     contentType: multerS3.AUTO_CONTENT_TYPE,
     key: function (req, file, cb) {
-      cb(null, file.originalname);
+      cb(null, Date.now() + "-" + file.originalname);
     },
   }),
   limits: { fileSize: 5 * 1024 * 1024 },

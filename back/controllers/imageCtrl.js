@@ -1,5 +1,15 @@
 const asyncHandler = require("express-async-handler");
 const { customError } = require("../middlewares/globalError");
+const { S3Client, DeleteObjectCommand, ListObjectsV2Command } = require("@aws-sdk/client-s3");
+const client = new S3Client({
+  region: "default",
+  endpoint: process.env.LIARA_ENDPOINT,
+  credentials: {
+    accessKeyId: process.env.LIARA_ACCESS_KEY,
+    secretAccessKey: process.env.LIARA_SECRET_KEY,
+  },
+});
+
 const uploadImage = asyncHandler(async (req, res) => {
   if (req.file == undefined) throw customError("هیچ عکسی انتخاب نشده", 401);
   try {
@@ -23,20 +33,16 @@ const deleteImage = asyncHandler(async (req, res) => {
   }
 });
 const getAllImage = asyncHandler(async (req, res) => {
-  let { page } = req.query;
-  if (!page) {
-    page = 1;
-  }
-  const limit = process.env.LIMIT;
+  const params = {
+    Bucket: process.env.LIARA_BUCKET_NAME,
+  };
   try {
-    const data = await imageModel.findAndCountAll({
-      order: [["createdAt", "DESC"]],
-      limit: limit,
-      offset: page * limit - limit,
-    });
-    if (!data.count) return res.send({ message: "هیچ عکسی دخیره نشده" });
-    const paginate = pagination(data.count, page, limit);
-    res.send({ ...data, paginate });
+    const data = await client.send(new ListObjectsV2Command(params));
+    const files = data.Contents.map((file) => file.Key);
+    const urls = files.map((i) => {
+      return process.env.URL_IMAGE_LIARA + i
+    })
+    res.send(urls);
   } catch (err) {
     throw customError(err, 400);
   }

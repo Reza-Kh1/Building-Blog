@@ -1,3 +1,171 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+    font-family: "iranSans";
+    src: url("./fonts/Vazir-Regular.woff") format("woff");
+}
+
+@keyframes ldio-q5iz3826roe {
+    0% {
+        opacity: 1
+    }
+
+    100% {
+        opacity: 0
+    }
+}
+
+.font-sans {
+    font-family: "iranSans", Arial, Helvetica, sans-serif !important;
+}
+
+body {
+    min-height: 100vh;
+    background: linear-gradient(360deg, #596a7b, #8bb4ca);
+    font-family: "iranSans", Arial, Helvetica, sans-serif !important;
+    box-sizing: border-box;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+}
+
+li {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+.dialog-upload::-webkit-scrollbar {
+    width: 5px;
+}
+
+.dialog-upload::-webkit-scrollbar-track {
+    background: #0d0d0d;
+}
+
+.dialog-upload::-webkit-scrollbar-thumb {
+    background: #5b5b5b;
+}
+
+.dialog-upload::-webkit-scrollbar-thumb:hover {
+    background: #000000;
+}
+
+.ql-snow .ql-picker.ql-header .ql-picker-label::before,
+.ql-snow .ql-picker.ql-header .ql-picker-item::before {
+    content: 'Normal';
+}
+
+.ql-snow .ql-picker.ql-size .ql-picker-label::before,
+.ql-snow .ql-picker.ql-size .ql-picker-item::before {
+    content: 'Size';
+}
+
+.ql-snow .ql-picker.ql-font .ql-picker-label::before,
+.ql-snow .ql-picker.ql-font .ql-picker-item::before {
+    content: 'Font';
+}
+
+.ql-container.ql-snow {
+    min-height: 300px;
+    background-color: #f4f4f4;
+    border-radius: 0 0 15px 15px;
+    box-shadow: 0px 0px 6px 8px #c8c8c8;
+}
+
+.ql-toolbar.ql-snow {
+    position: sticky;
+    width: 100%;
+    z-index: 50;
+    box-shadow: 0px -1px 14px 0px #dcdada;
+    background: aliceblue;
+    top: 0;
+}
+
+.table-rounded thead tr:last-child th:first-child {
+    border-radius: 0 10px 0 0;
+}
+
+.table-rounded thead tr:last-child th:last-child {
+    border-radius: 10px 0 0 0;
+}
+
+.table-rounded tbody tr:last-child td:first-child {
+    border-radius: 0 0 10px 0;
+}
+
+.table-rounded tbody tr:last-child td:last-child {
+    border-radius: 0 0 0px 10px;
+}
+
+.table-rounded tbody tr:last-child {
+    border: none;
+}
+
+.input-identity:focus-visible {
+    outline: 1px solid #fa8a46;
+    box-shadow: 0px 0px 5px 1px #f27a3e;
+}
+
+.input-customize:focus-visible {
+    outline: 1px solid #fff;
+}
+
+.side-bar a.active button {
+    transition: all ease-in-out 0.1s;
+    margin-right: 8px;
+    background-image: linear-gradient(to right, #212121, #005aff);
+}
+
+.swiper-button-prev:after,
+.swiper-button-next:after {
+    font-size: 10px;
+    color: white;
+    padding: 25px 5px;
+    border-radius: 3px;
+    background: #626262c9;
+}
+
+.cut-line {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5;
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.rmdp-input {
+    box-shadow: 0px 1px 5px 1px #716f6f;
+    color: #ededed;
+    background: #343333;
+    border: none !important;
+    width: 100%;
+    border-radius: 4px !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 7px 5px !important;
+    cursor: pointer;
+}
+
+.rmdp-panel-body li .b-deselect {
+    padding: 0 5px;
+}
+
+.ql-snow .ql-picker-label {
+    direction: ltr;
+}
+
+.ql-editor {
+    font-family: "iranSans", Arial, Helvetica, sans-serif !important;
+}
+
+.rmdp-container {
+    width: 100% !important;
+}

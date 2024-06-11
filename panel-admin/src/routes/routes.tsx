@@ -1,20 +1,26 @@
+import Auth from "../pages/Auth/Auth";
+import Categorys from "../pages/Categorys/Categorys";
+import Dashboard from "../pages/Dashboard/Dashboard";
+import Home from "../pages/Home/Home";
+import NotFound from "../pages/NotFound/NotFound";
+import Posts from "../pages/Posts/Posts";
+import Reviews from "../pages/Reviews/Reviews";
+import Setting from "../pages/Setting/Setting";
+import Users from "../pages/Users/Users";
+
 export default [
-    { path: "/", element: <Home /> },
-    {
-        path: "/panel", element: <Panel />, children: [
-            { path: "dashboard", element: <Dashboard /> },
-            { path: "users", element: <Users /> },
-            { path: "profile", element: <Profile /> },
-            { path: "list-expert", element: <ListExpert /> },
-            { path: "information-expert", element: <InformationExpert /> },
-            { path: "page-arzyab", element: <FormArzyab /> },
-            { path: "show-madrak", element: <ShowMadrak /> },
-            { path: "info-show-madrak", element: <InfoShowMadrak /> },
-            { path: "logs", element: <PageLogs /> },
-            { path: "eval", element: <PageEval /> },
-            { path: "eval-information", element: <EvalInfo /> },
-            { path: "update-expert", element: <UpdateFormExpert /> }
-        ]
-    },
-    // { path: "/*", element: <NotFound /> },
-]
+  { path: "/", element: <Auth /> },
+  {
+    path: "/home",
+    element: <Home />,
+    children: [
+      { path: "users", element: <Users /> },
+      { path: "dashboard", element: <Dashboard /> },
+      { path: "posts", element: <Posts /> },
+      { path: "reviews", element: <Reviews /> },
+      { path: "categorys", element: <Categorys /> },
+      { path: "setting", element: <Setting /> },
+    ],
+  },
+  { path: "/*", element: <NotFound /> },
+];

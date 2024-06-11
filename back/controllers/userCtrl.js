@@ -6,6 +6,7 @@ const token = require("jsonwebtoken");
 const pagination = require("../utils/pagination");
 const { createHash, comaprePassword } = require("../utils/hashPassword");
 const createToken = require("../utils/createToken");
+const nodemailer = require("nodemailer")
 const limit = process.env.LIMIT;
 const registerUser = errorHandler(async (req, res) => {
   let { name, phone, email, password, role } = req.body;
@@ -154,6 +155,48 @@ const loginUser = errorHandler(async (req, res) => {
     throw customError(err.message, 403);
   }
 });
+const forgetPassword = errorHandler(async (req, res) => {
+  const { email } = req.body;
+  try {
+    const verify = await userModel.findOne({ where: { email } });
+    if (!verify)
+      throw new Error(
+        "با این ایمیل کسی ثبت نام نکرده است لطفا ایمیل صحیح وارد کنید "
+      );
+    const newPass = [...Array(8)]
+      .map((i) => (~~(Math.random() * 36)).toString(36))
+      .join("");
+    const transporter = nodemailer.createTransport({
+      port: 465,
+      secure: true,
+      service: "gmail",
+      auth: {
+        user: "emailwebsite2024@gmail.com",
+        pass: "hexh zbsk orwh tinr",
+      },
+    });
+    const mailOptions = {
+      from: "emailwebsite2024@gmail.com",
+      to: email,
+      subject: "باز نشانی رمز عبور ",
+      text: `پس از ورود به حساب کاربری رمز عبور خود را تغییر دهید  .رمز عبور : ${newPass}`,
+    };
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        throw customError(error, 404);
+      }
+    });
+    verify.password = await createHash(newPass);
+    verify.save();
+    res.send({ message: "رمز عبور جدید به ایمیل شما ارسال شد" });
+  } catch (err) {
+    throw customError(err, 404);
+  }
+});
+const logOutUser = errorHandler(async (req, res) => {
+  res.cookie("user", "", { expires: new Date(0) });
+  res.send({ success: true });
+})
 const deletePass = (data) => {
   return {
     name: data.name,
@@ -164,6 +207,8 @@ const deletePass = (data) => {
   };
 };
 module.exports = {
+  logOutUser,
+  forgetPassword,
   updateUser,
   registerUser,
   getAllUser,

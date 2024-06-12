@@ -133,9 +133,9 @@ const updateUser = errorHandler(async (req, res) => {
   }
 });
 const loginUser = errorHandler(async (req, res) => {
-  const { phone, password } = req.body;
+  const { email, password } = req.body;
   try {
-    const checkUser = await userModel.findOne({ where: { phone } });
+    const checkUser = await userModel.findOne({ where: { email } });
     if (!checkUser)
       throw customError("کاربری با این شماره تلفن ثبت نام نکرده است!", 404);
     await comaprePassword(password, checkUser.password);

@@ -19,6 +19,7 @@ export default [
       { path: "posts", element: <Posts /> },
       { path: "reviews", element: <Reviews /> },
       { path: "categorys", element: <Categorys /> },
+      { path: "image", element: <Setting /> },
       { path: "setting", element: <Setting /> },
     ],
   },

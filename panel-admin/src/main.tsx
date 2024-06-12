@@ -6,7 +6,6 @@ import createCache from '@emotion/cache';
 import rtlPlugin from 'stylis-plugin-rtl';
 import React from 'react'
 import App from './App.tsx'
-import './index.css'
 const theme = createTheme({
   typography: {
     fontFamily: 'iranSans, Arial',
@@ -16,6 +15,7 @@ const cacheRtl = createCache({
   key: 'muirtl',
   stylisPlugins: [rtlPlugin],
 });
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <BrowserRouter>

@@ -11,7 +11,7 @@ const {
   forgetPassword,
 } = require("../controllers/userCtrl");
 const routes = express.Router();
-routes.route("/").get(isAdmin, getAllUser).post(isAdmin, registerUser);
+routes.route("/").get(isAdmin, getAllUser).post(registerUser);
 routes.post("/login", loginUser);
 routes.get("/logout", logOutUser)
 routes.route("/forget-password").post(forgetPassword)

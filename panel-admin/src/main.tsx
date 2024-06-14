@@ -1,29 +1,49 @@
-import { ThemeProvider, createTheme } from '@mui/material';
-import { CacheProvider } from '@emotion/react';
-import ReactDOM from 'react-dom/client'
-import { BrowserRouter } from 'react-router-dom'
-import createCache from '@emotion/cache';
-import rtlPlugin from 'stylis-plugin-rtl';
-import React from 'react'
-import App from './App.tsx'
+import { ThemeProvider, createTheme } from "@mui/material";
+import { CacheProvider } from "@emotion/react";
+import ReactDOM from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
+import {
+  QueryCache,
+  QueryClient,
+  QueryClientProvider,
+} from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import createCache from "@emotion/cache";
+import rtlPlugin from "stylis-plugin-rtl";
+import React from "react";
+import App from "./App.tsx";
+import { toast } from "react-toastify";
 const theme = createTheme({
   typography: {
-    fontFamily: 'iranSans, Arial',
-  }
+    fontFamily: "iranSans, Arial",
+  },
 });
 const cacheRtl = createCache({
-  key: 'muirtl',
+  key: "muirtl",
   stylisPlugins: [rtlPlugin],
 });
-
-ReactDOM.createRoot(document.getElementById('root')!).render(
+const query = new QueryClient({
+  queryCache: new QueryCache({
+    onError: (err) => {
+      toast.error("در ارتباط با دیتابیس با خطا روبرو شدیم")
+      console.log(err.stack);
+      console.log(err.message);
+      console.log(err?.response?.status);
+      console.log(err);
+    },
+  }),
+});
+ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <BrowserRouter>
-      <CacheProvider value={cacheRtl}>
-        <ThemeProvider theme={theme}>
-          <App />
-        </ThemeProvider>
-      </CacheProvider>
-    </BrowserRouter>
-  </React.StrictMode>,
-)
+    <QueryClientProvider client={query}>
+      <BrowserRouter>
+        <CacheProvider value={cacheRtl}>
+          <ThemeProvider theme={theme}>
+            <App />
+          </ThemeProvider>
+        </CacheProvider>
+      </BrowserRouter>
+      <ReactQueryDevtools />
+    </QueryClientProvider>
+  </React.StrictMode>
+);

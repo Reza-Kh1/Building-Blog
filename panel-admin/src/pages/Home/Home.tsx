@@ -11,7 +11,7 @@ export default function Home() {
       <div className="w-10/12">
         <Navbar />
         <div className="w-full px-2">
-          <div className="bg-gray-100 rounded-md shadow-md p-2">
+          <div className="bg-gray-100 rounded-md shadow-md p-2 mb-2">
             <Outlet />
           </div>
         </div>

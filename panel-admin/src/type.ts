@@ -1,7 +1,10 @@
 export type CategortType = {
-    id: number,
-    name: string,
-    slug: string,
-    parentCategoryId: null | number,
-    subCategory: CategortType[]
-}
+  id: string;
+  name: string;
+  slug: string;
+  createdAt: Date;
+  parentCategory?: {
+    name: string;
+  };
+  parentCategoryId: string | null;
+};

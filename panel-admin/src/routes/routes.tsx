@@ -2,6 +2,7 @@ import Auth from "../pages/Auth/Auth";
 import Categorys from "../pages/Categorys/Categorys";
 import Dashboard from "../pages/Dashboard/Dashboard";
 import Home from "../pages/Home/Home";
+import Images from "../pages/Images/Images";
 import NotFound from "../pages/NotFound/NotFound";
 import Posts from "../pages/Posts/Posts";
 import Reviews from "../pages/Reviews/Reviews";
@@ -19,7 +20,7 @@ export default [
       { path: "posts", element: <Posts /> },
       { path: "reviews", element: <Reviews /> },
       { path: "categorys", element: <Categorys /> },
-      { path: "image", element: <Setting /> },
+      { path: "image", element: <Images /> },
       { path: "setting", element: <Setting /> },
     ],
   },

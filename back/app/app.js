@@ -16,16 +16,16 @@ const cookieParser = require("cookie-parser");
 //////////////// setting security api
 dotenv.config();
 const app = express();
-app.use(helmet.xssFilter());
-app.use(express.json());
-app.use(cookieParser());
 app.use(
   cors({
     origin: ["http://localhost:5173", "http://localhost:3000"],
     credentials: true,
   })
 );
+app.use(helmet.xssFilter());
+app.use(express.json());
 app.use("/public", express.static(path.join(__dirname, "../public")));
+app.use(cookieParser());
 connectDb();
 
 ////////////////// routes api

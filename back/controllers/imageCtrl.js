@@ -1,6 +1,10 @@
 const asyncHandler = require("express-async-handler");
 const { customError } = require("../middlewares/globalError");
-const { S3Client, DeleteObjectCommand, ListObjectsV2Command } = require("@aws-sdk/client-s3");
+const {
+  S3Client,
+  DeleteObjectCommand,
+  ListObjectsV2Command,
+} = require("@aws-sdk/client-s3");
 const client = new S3Client({
   region: "default",
   endpoint: process.env.LIARA_ENDPOINT,
@@ -33,16 +37,19 @@ const deleteImage = asyncHandler(async (req, res) => {
   }
 });
 const getAllImage = asyncHandler(async (req, res) => {
+  const { next } = req.query;
   const params = {
     Bucket: process.env.LIARA_BUCKET_NAME,
+    MaxKeys: 2,
+    ContinuationToken: next,
   };
   try {
     const data = await client.send(new ListObjectsV2Command(params));
-    const files = data.Contents.map((file) => file.Key);
-    const urls = files.map((i) => {
-      return process.env.URL_IMAGE_LIARA + i
-    })
-    res.send(urls);
+    const files = data?.Contents?.map((file) => file.Key);
+    const urls = files?.map((i) => {
+      return process.env.URL_IMAGE_LIARA + i;
+    });
+    res.send({ urls, next: data.NextContinuationToken });
   } catch (err) {
     throw customError(err, 400);
   }

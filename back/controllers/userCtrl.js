@@ -6,7 +6,7 @@ const token = require("jsonwebtoken");
 const pagination = require("../utils/pagination");
 const { createHash, comaprePassword } = require("../utils/hashPassword");
 const createToken = require("../utils/createToken");
-const nodemailer = require("nodemailer")
+const nodemailer = require("nodemailer");
 const limit = process.env.LIMIT;
 const registerUser = errorHandler(async (req, res) => {
   let { name, phone, email, password, role } = req.body;
@@ -141,14 +141,12 @@ const loginUser = errorHandler(async (req, res) => {
     await comaprePassword(password, checkUser.password);
     const token = createToken(deletePass(checkUser));
     if (checkUser.role !== "USER") {
-      if (checkUser.role !== "USER") {
-        res.cookie("user", token, {
-          httpOnly: true,
-          secure: true,
-          sameSite: "strict",
-          maxAge: 30 * 24 * 60 * 60 * 1000,
-        });
-      }
+      res.cookie("user", token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "strict",
+        maxAge: 30 * 24 * 60 * 60 * 1000,
+      });
     }
     res.send({ ...deletePass(checkUser), token });
   } catch (err) {
@@ -196,7 +194,7 @@ const forgetPassword = errorHandler(async (req, res) => {
 const logOutUser = errorHandler(async (req, res) => {
   res.cookie("user", "", { expires: new Date(0) });
   res.send({ success: true });
-})
+});
 const deletePass = (data) => {
   return {
     name: data.name,

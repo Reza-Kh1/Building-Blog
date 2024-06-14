@@ -64,19 +64,25 @@ const getAllCategory = errorHandler(async (req, res) => {
   }
 });
 const getCategoryPosts = errorHandler(async (req, res) => {
-  const { id } = req.params
+  const { id } = req.params;
   try {
     const data = await categoryModel.findOne({
-      where: { slug: id }, include: [{
-        model: postModel,
-        separate: true,
-        attributes: { exclude: ["status", "createdAt", "userId", "categoryId"] },
-        where: { status: true }
-      }], attributes: {
-        exclude: ["parentCategoryId", "createdAt", "userId"]
-      }
-    })
-    res.send( data )
+      where: { slug: id },
+      include: [
+        {
+          model: postModel,
+          separate: true,
+          attributes: {
+            exclude: ["status", "createdAt", "userId", "categoryId"],
+          },
+          where: { status: true },
+        },
+      ],
+      attributes: {
+        exclude: ["parentCategoryId", "createdAt", "userId"],
+      },
+    });
+    res.send(data);
   } catch (err) {
     throw customError(err.message, 401);
   }
@@ -92,10 +98,24 @@ const getReplies = async (categoryId) => {
   }
   return replies;
 };
+const getAllAdminCategory = errorHandler(async (req, res) => {
+  try {
+    const data = await categoryModel.findAll({
+      include: [
+        { model: categoryModel, as: "parentCategory", attributes: ["name"] },
+      ],
+      attributes: { exclude: ["userId"] },
+    });
+    res.send(data);
+  } catch (err) {
+    throw customError(err.message, 401);
+  }
+});
 module.exports = {
   createCategory,
   deleteCategory,
   getAllCategory,
   getCategoryPosts,
   updateCategory,
+  getAllAdminCategory,
 };

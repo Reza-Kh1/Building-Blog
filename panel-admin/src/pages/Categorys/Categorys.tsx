@@ -21,9 +21,10 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { CategortType } from "../../type";
 import { FaMinus, FaPen, FaPlus, FaTrash } from "react-icons/fa6";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchCategory } from "../../services/category";
 import { toast } from "react-toastify";
+import PendingApi from "../../components/PendingApi/PendingApi";
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -62,54 +63,63 @@ export default function Categorys() {
     staleTime: 1000 * 60 * 60 * 24,
     gcTime: 1000 * 60 * 60 * 24,
   });
-  const updateCategory = (form: FormCategoryType) => {
-    const body = {
-      ...form,
-    };
-    if (form.categoryId === "s") {
-      delete body.categoryId;
+  const { isPending: createPending, mutate: createCategory } = useMutation({
+    mutationFn: (form: FormCategoryType) => {
+      const body = {
+        ...form,
+      };
+      if (form.categoryId === "s") {
+        delete body.categoryId;
+      }
+
+      return axios.post("category", body)
+    },
+    onSuccess: () => {
+      query.invalidateQueries({ queryKey: ["getCategory"] });
+      setOpenAddCategory(false);
+      toast.success("دسته با موفقیت اضافه شد");
+      reset();
+    },
+    onError: (error: any) => {
+      toast.error(error?.response?.data?.message || "خطا در اضافه کردن دسته");
     }
-    axios
-      .put(`category/${singleCategory?.category.id}`, body)
-      .then(() => {
-        query.invalidateQueries({ queryKey: ["getCategory"] });
-        reset();
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-      .finally(closeHandler);
-  };
-  const createCategory = (form: FormCategoryType) => {
-    const body = {
-      ...form,
-    };
-    if (form.categoryId === "s") {
-      delete body.categoryId;
+  })
+  const { isPending: updatePending, mutate: updateCategory } = useMutation({
+    mutationFn: (form: FormCategoryType) => {
+      const body = {
+        ...form,
+      };
+      if (form.categoryId === "s") {
+        delete body.categoryId;
+      }
+      return axios
+        .put(`category/${singleCategory?.category.id}`, body)
+        .then(() => {
+
+        })
+    },
+    onSuccess: () => {
+      closeHandler()
+      query.invalidateQueries({ queryKey: ["getCategory"] });
+    },
+    onError: (err) => {
+      console.log(err);
+      closeHandler()
+    },
+  })
+  const { isPending: deletePending, mutate: deleteCategory } = useMutation({
+    mutationFn: (id?: string) => {
+      return axios.delete(`category/${id}`)
+    },
+    onSuccess: () => {
+      query.invalidateQueries({ queryKey: ["getCategory"] });
+      toast.success("دسته با موفقیت حذف شد");
+    },
+    onError: (err) => {
+      toast.warning("چک کنید دسته محصولاتی نداشته باشد");
+      console.log(err);
     }
-    axios
-      .post("category", body)
-      .then(() => {
-        query.invalidateQueries({ queryKey: ["getCategory"] });
-        reset();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-  const deleteCategory = (id?: string) => {
-    axios
-      .delete(`category/${id}`)
-      .then(() => {
-        query.invalidateQueries({ queryKey: ["getCategory"] });
-        toast.success("دسته با موفقیت حذف شد");
-      })
-      .catch((err) => {
-        toast.warning("چک کنید دسته محصولاتی نداشته باشد");
-        console.log(err);
-      })
-      .finally(closeHandler);
-  };
+  })
   const openUpdate = (items: CategortType) => {
     setValue("name", items.name);
     setValue("slug", items.slug);
@@ -170,16 +180,18 @@ export default function Categorys() {
   };
   return (
     <>
+      {(createPending || updatePending || deletePending) && (<PendingApi />)}
       <div>
         <div>
           {openAddCategory && <FormCategory />}
           <div className="flex justify-between">
             {openAddCategory && (
               <Button
-                onClick={handleSubmit(createCategory)}
+                onClick={handleSubmit((data) => createCategory(data))}
                 variant="contained"
                 className="!w-1/6"
                 color="warning"
+                disabled={createPending}
                 endIcon={<FaPlus />}
               >
                 افزودن
@@ -241,6 +253,7 @@ export default function Categorys() {
                             color="error"
                             variant="outlined"
                             endIcon={<FaTrash size={15} />}
+                            disabled={deletePending}
                           >
                             حذف
                           </Button>
@@ -249,6 +262,7 @@ export default function Categorys() {
                             color="success"
                             variant="outlined"
                             endIcon={<FaPen size={15} />}
+                            disabled={updatePending}
                           >
                             ویرایش
                           </Button>
@@ -305,7 +319,8 @@ export default function Categorys() {
               <Button
                 variant="text"
                 color="success"
-                onClick={handleSubmit(updateCategory)}
+                onClick={handleSubmit((data) => updateCategory(data))}
+                disabled={updatePending}
               >
                 ذخیره
               </Button>
@@ -314,8 +329,9 @@ export default function Categorys() {
                 variant="text"
                 color="error"
                 onClick={() => {
-                  setOpen(false), deleteCategory(singleCategory?.category?.id);
+                  deleteCategory(singleCategory?.category?.id);
                 }}
+                disabled={deletePending}
               >
                 حذف
               </Button>

@@ -1,5 +1,5 @@
 import UploadImage from "../../components/UploadImage/UploadImage";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useInfiniteQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { FaEye, FaTrash } from "react-icons/fa6";
@@ -11,38 +11,40 @@ import {
   IconButton,
 } from "@mui/material";
 import { useState } from "react";
+import { fetchImage } from "../../services/Image";
 type AllImageType = {
   urls: string[];
   next: string | null;
-};
-const fetchImage = async () => {
-  const { data } = await axios.get(`image`);
-  return data;
 };
 export default function Images() {
   const query = useQueryClient();
   const [open, setOpen] = useState<boolean>(false);
   const [viewImage, setViewImage] = useState<string>();
-  const { data } = useQuery<AllImageType>({
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery<AllImageType>({
     queryKey: ["allImage"],
     queryFn: fetchImage,
+    getNextPageParam: (lastPage) => lastPage.next || undefined,
     staleTime: 1000 * 60 * 60 * 24,
     gcTime: 1000 * 60 * 60 * 24,
+    initialPageParam: ""
   });
-  const deleteImage = (i: string) => {
-    axios
-      .delete(`image?url=${i}`)
-      .then(() => {
-        toast.success("عکس با موفقیت حذف شد");
-        query.invalidateQueries({ queryKey: ["allImage"] });
-      })
-      .catch(() => {
-        toast.warning("عکس حذف نشد");
-      });
-  };
-  const loadImage = () => {
-    console.log("iamge?next=" + data?.next);
-  };
+  const deleteImage = useMutation({
+    mutationFn: (i: string) => {
+      return axios.delete(`image?url=${i}`)
+    },
+    onSuccess: () => {
+      toast.success("عکس با موفقیت حذف شد");
+      query.invalidateQueries({ queryKey: ["allImage"] });
+    },
+    onError: () => {
+      toast.warning("عکس حذف نشد");
+    }
+  })
   return (
     <>
       <div>
@@ -50,45 +52,42 @@ export default function Images() {
         <div className="w-1/12 mt-3">
           <UploadImage />
         </div>
+
         <div className="mt-8">
           <div className="grid grid-cols-5 gap-5">
-            {data?.urls?.length ? (
-              data?.urls?.map((i, index) => (
-                <figure key={index} className="relative h-52 group">
-                  <img
-                    src={i}
-                    className="shadow-md rounded-md bg-cover w-full h-full"
-                  />
-                  <span
-                    className="absolute bottom-2 cursor-pointer left-2"
-                    onClick={() => deleteImage(i)}
-                  >
-                    <IconButton>
-                      <FaTrash size={20} color="red" />
-                    </IconButton>
-                  </span>
-                  <span
-                    className="absolute transform bg-[#000000d4] p-3 rounded-full -translate-x-1/2  -translate-y-1/2  top-1/2 group-hover:inline hidden cursor-pointer left-1/2 "
-                    onClick={() => {
-                      setViewImage(i), setOpen(true);
-                    }}
-                  >
-                    <FaEye size={35} color="white" />
-                  </span>
-                </figure>
-              ))
-            ) : (
-              <span>هیچ عکسی آپلود نشده است.</span>
-            )}
+            {
+              data?.pages?.map((item) => {
+                return item?.urls?.map((i, index) => (
+                  <figure key={index} className="relative h-52 group">
+                    <img alt="" src={i} className="shadow-md rounded-md bg-cover w-full h-full" />
+                    <span className="absolute bottom-2 cursor-pointer left-2" onClick={() => deleteImage.mutate(i)}>
+                      <IconButton>
+                        <FaTrash size={20} color="red" />
+                      </IconButton>
+                    </span>
+                    <span
+                      className="absolute transform bg-[#000000d4] p-3 rounded-full -translate-x-1/2 -translate-y-1/2 top-1/2 group-hover:inline hidden cursor-pointer left-1/2"
+                      onClick={() => {
+                        setViewImage(i);
+                        setOpen(true);
+                      }}
+                    >
+                      <FaEye size={35} color="white" />
+                    </span>
+                  </figure>
+                ))
+              })
+            }
           </div>
-          {data?.next && (
+          {hasNextPage && (
             <Button
-              onClick={loadImage}
+              onClick={() => fetchNextPage()}
               color="success"
               className="!mt-5"
               variant="outlined"
+              disabled={isFetchingNextPage}
             >
-              بارگزاری بیشتر
+              {isFetchingNextPage ? 'در حال بارگزاری...' : 'بارگزاری بیشتر'}
             </Button>
           )}
         </div>
@@ -101,7 +100,7 @@ export default function Images() {
       >
         <DialogContent>
           <figure>
-            <img src={viewImage} className="shadow-md rounded-md" />
+            <img alt="" src={viewImage} className="shadow-md rounded-md" />
           </figure>
         </DialogContent>
         <DialogActions>

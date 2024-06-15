@@ -8,3 +8,21 @@ export type CategortType = {
   };
   parentCategoryId: string | null;
 };
+export type UserArrayType = {
+  count: number,
+  rows: UserType[]
+  pagination: {
+    allPage: number
+    nextPage: number
+    prevPage: number
+  }
+}
+export type UserType = {
+  id: string
+  name?: string
+  email: string
+  phone?: string
+  role?: string
+  password?: string
+  createdAt: Date
+}

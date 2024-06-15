@@ -21,9 +21,10 @@ import {
   tableCellClasses,
 } from "@mui/material";
 import { UserArrayType, UserType } from "../../type";
-import { FaPen, FaTrash } from "react-icons/fa6";
+import { FaMinus, FaPen, FaPlus, FaTrash, FaUserPlus } from "react-icons/fa6";
 import { useState } from "react";
 import PendingApi from "../../components/PendingApi/PendingApi";
+import Pagination from "../../components/Pagination/Pagination";
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -42,89 +43,117 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 type DataUSerType = {
-  data: UserType,
-  position: boolean,
-}
-const dataRole = [{ value: "USER", name: "کاربر" }, { value: "AUTHOR", name: "نویسنده" }, { value: "ADMIN", name: "ادمین" }]
+  data: UserType;
+  position: boolean;
+};
+const dataRole = [
+  { value: "USER", name: "کاربر" },
+  { value: "AUTHOR", name: "نویسنده" },
+  { value: "ADMIN", name: "ادمین" },
+];
 export default function Users() {
-  const { register, getValues, setValue, handleSubmit, reset } = useForm<UserType>()
-  const [open, setOpen] = useState<boolean>(false)
-  const [dataUser, setDataUser] = useState<DataUSerType | null>()
-  const query = useQueryClient()
+  const { register, getValues, setValue, handleSubmit, reset } =
+    useForm<UserType>();
+  const [open, setOpen] = useState<boolean>(false);
+  const [openBox, setOpenBox] = useState<boolean>(false);
+  const [dataUser, setDataUser] = useState<DataUSerType | null>();
+  const query = useQueryClient();
   const { data } = useQuery<UserArrayType>({
     queryKey: ["getUsers"],
     queryFn: fetchUser,
     staleTime: 1000 * 60 * 60 * 24,
     gcTime: 1000 * 60 * 60 * 24,
-
-  })
+  });
   const { isPending: updatePending, mutate: updateUser } = useMutation({
     mutationFn: (form: UserType) => {
-      return axios.put(`user/${dataUser?.data.id}`, form)
+      return axios.put(`user/${dataUser?.data.id}`, form);
     },
     onSuccess: () => {
-      setOpen(false)
-      closeHandler()
-      query.invalidateQueries({ queryKey: ["getUsers"] })
+      setOpen(false);
+      closeHandler();
+      query.invalidateQueries({ queryKey: ["getUsers"] });
     },
     onError: (err) => {
-      toast.success("خطا در اجرای عملیات")
+      toast.success("خطا در اجرای عملیات");
       console.log(err);
-    }
-  })
+    },
+  });
   const { isPending: deletePending, mutate: deleteUser } = useMutation({
     mutationFn: (id?: string) => {
-      return axios.delete(`user/${id}`)
+      return axios.delete(`user/${id}`);
     },
     onSuccess: () => {
-      query.invalidateQueries({ queryKey: ["getUsers"] })
-      closeHandler()
-      toast.success("کاربر با موفقیت حذف شد")
+      query.invalidateQueries({ queryKey: ["getUsers"] });
+      closeHandler();
+      toast.success("کاربر با موفقیت حذف شد");
     },
     onError: (err) => {
-      toast.success("خطا در اجرای عملیات")
+      toast.success("خطا در اجرای عملیات");
       console.log(err);
-
-    }
-  })
+    },
+  });
   const { isPending: createPending, mutate: createUser } = useMutation({
     mutationFn: (form: UserType) => {
-      return axios.post("user", form)
+      return axios.post("user", form);
     },
     onSuccess: () => {
-      toast.success("کاربر اضافه شد")
-      query.invalidateQueries({ queryKey: ["getUsers"] })
-      closeHandler()
+      toast.success("کاربر اضافه شد");
+      query.invalidateQueries({ queryKey: ["getUsers"] });
+      closeHandler();
     },
     onError: (err) => {
-      toast.success("خطا در اجرای عملیات")
+      toast.success("خطا در اجرای عملیات");
       console.log(err);
-    }
-  })
+    },
+  });
   const openUpdate = (item: UserType) => {
     setDataUser({
       position: true,
-      data: item
-    })
-    setValue("name", item?.name)
-    setValue("email", item?.email)
-    setValue("password", item?.password)
-    setValue("phone", item?.phone)
-    setValue("role", item?.role)
-    setOpen(true)
-  }
+      data: item,
+    });
+    setValue("name", item?.name);
+    setValue("email", item?.email);
+    setValue("password", item?.password);
+    setValue("phone", item?.phone);
+    setValue("role", item?.role);
+    setOpen(true);
+  };
   const closeHandler = () => {
-    setOpen(false)
-    reset()
-    setDataUser(null)
-  }
+    setOpen(false);
+    reset();
+    setDataUser(null);
+  };
   const FormUser = () => {
     return (
       <form className="w-full grid grid-cols-4 gap-4 mt-5">
-        <TextField autoComplete="off" className="shadow-md" label={"نام کاربر"} fullWidth {...register("name")} />
-        <TextField autoComplete="off" className="shadow-md" label={"ایمیل کاربر"} fullWidth {...register("email")} />
-        <TextField autoComplete="off" className="shadow-md" label={"شماره تلفن کاربر"} fullWidth {...register("phone")} />
-        <TextField autoComplete="off" className="shadow-md" label={"پسورد کاربر"} fullWidth {...register("password")} />
+        <TextField
+          autoComplete="off"
+          className="shadow-md"
+          label={"نام کاربر"}
+          fullWidth
+          {...register("name")}
+        />
+        <TextField
+          autoComplete="off"
+          className="shadow-md"
+          label={"ایمیل کاربر"}
+          fullWidth
+          {...register("email")}
+        />
+        <TextField
+          autoComplete="off"
+          className="shadow-md"
+          label={"شماره تلفن کاربر"}
+          fullWidth
+          {...register("phone")}
+        />
+        <TextField
+          autoComplete="off"
+          className="shadow-md"
+          label={"پسورد کاربر"}
+          fullWidth
+          {...register("password")}
+        />
         <TextField
           fullWidth
           autoComplete="off"
@@ -147,17 +176,38 @@ export default function Users() {
           ))}
         </TextField>
       </form>
-    )
-  }
+    );
+  };
   return (
     <>
-      {(createPending || updatePending || deletePending) && (<PendingApi />)}
+      {(createPending || updatePending || deletePending) && <PendingApi />}
       <div className="w-full">
-        <div >
-          <FormUser />
-          <Button variant="contained" disabled={createPending} className="!my-5" color="warning" onClick={handleSubmit((data) => createUser(data))}>
-            افزودن کاربر
-          </Button>
+        <div>
+          {openBox && <FormUser />}
+          <div className="flex justify-between items-center my-5">
+            {openBox && (
+              <Button
+                endIcon={<FaUserPlus />}
+                variant="contained"
+                disabled={createPending}
+                className="!w-1/5"
+                color="warning"
+                onClick={handleSubmit((data) => createUser(data))}
+              >
+                افزودن کاربر
+              </Button>
+            )}
+            <Button
+              variant="outlined"
+              disabled={createPending}
+              className={`${openBox ? "!w-1/5" : "!w-full"}  `}
+              color="primary"
+              onClick={() => setOpenBox((prev) => !prev)}
+              endIcon={openBox ? <FaPlus /> : <FaMinus />}
+            >
+              بستن باکس
+            </Button>
+          </div>
         </div>
         <div>
           <TableContainer component={Paper}>
@@ -175,17 +225,15 @@ export default function Users() {
               <TableBody>
                 {data?.rows.map((i, index) => (
                   <StyledTableRow key={index}>
+                    <StyledTableCell align="center">{i?.name}</StyledTableCell>
+                    <StyledTableCell align="center">{i?.phone}</StyledTableCell>
+                    <StyledTableCell align="center">{i?.email}</StyledTableCell>
                     <StyledTableCell align="center">
-                      {i?.name}
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      {i?.phone}
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      {i?.email}
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      {i?.role === "ADMIN" ? "ادمین" : i?.role === "AUTHOR" ? "نویسنده" : "کاربر"}
+                      {i?.role === "ADMIN"
+                        ? "ادمین"
+                        : i?.role === "AUTHOR"
+                        ? "نویسنده"
+                        : "کاربر"}
                     </StyledTableCell>
                     <StyledTableCell align="center">
                       {new Date(i?.createdAt).toLocaleDateString("fa")}
@@ -224,6 +272,7 @@ export default function Users() {
             </Table>
           </TableContainer>
         </div>
+        <Pagination pager={data?.pagination} />
       </div>
       <Dialog
         fullWidth={true}
@@ -247,11 +296,21 @@ export default function Users() {
                 </TableHead>
                 <TableBody>
                   <StyledTableRow>
-                    <StyledTableCell align="center">{dataUser?.data?.name}</StyledTableCell>
-                    <StyledTableCell align="center">{dataUser?.data?.email}</StyledTableCell>
-                    <StyledTableCell align="center">{dataUser?.data?.phone}</StyledTableCell>
                     <StyledTableCell align="center">
-                      {dataUser?.data?.role === "ADMIN" ? "ادمین" : dataUser?.data?.role === "AUTHOR" ? "نویسنده" : "کاربر"}
+                      {dataUser?.data?.name}
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      {dataUser?.data?.email}
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      {dataUser?.data?.phone}
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      {dataUser?.data?.role === "ADMIN"
+                        ? "ادمین"
+                        : dataUser?.data?.role === "AUTHOR"
+                        ? "نویسنده"
+                        : "کاربر"}
                     </StyledTableCell>
                   </StyledTableRow>
                 </TableBody>
@@ -288,5 +347,6 @@ export default function Users() {
           </div>
         </DialogActions>
       </Dialog>
-    </>)
+    </>
+  );
 }

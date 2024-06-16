@@ -35,17 +35,17 @@ export default function Pagination({ pager }: { pager?: PaginationType }) {
         )}
         {pager.allPage
           ? Array.from(
-              { length: Math.min(11, endPage - startPage + 1) },
-              (_, i) => startPage + i
-            ).map((i) => {
-              return (
-                <Link to={`${pathname}?page=${i}&${searchQuery}`} key={i}>
-                  <IconButton disabled={Number(page) === i} color="primary">
-                    {i}
-                  </IconButton>
-                </Link>
-              );
-            })
+            { length: Math.min(11, endPage - startPage + 1) },
+            (_, i) => startPage + i
+          ).map((i) => {
+            return (
+              <Link to={`${pathname}?page=${i}&${searchQuery}`} key={i}>
+                <IconButton disabled={Number(page) === i} color="primary">
+                  {i}
+                </IconButton>
+              </Link>
+            );
+          })
           : null}
         {pager.allPage - Number(page) > 3 && (
           <>

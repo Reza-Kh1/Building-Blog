@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { fetchUser } from "../../services/user";
 import axios from "axios";
@@ -22,9 +22,11 @@ import {
 } from "@mui/material";
 import { UserArrayType, UserType } from "../../type";
 import { FaMinus, FaPen, FaPlus, FaTrash, FaUserPlus } from "react-icons/fa6";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PendingApi from "../../components/PendingApi/PendingApi";
 import Pagination from "../../components/Pagination/Pagination";
+import { useLocation } from "react-router-dom";
+import queryString from "query-string";
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -57,10 +59,13 @@ export default function Users() {
   const [open, setOpen] = useState<boolean>(false);
   const [openBox, setOpenBox] = useState<boolean>(false);
   const [dataUser, setDataUser] = useState<DataUSerType | null>();
+  const [searchQuery, setSerachQuery] = useState<any>("")
   const query = useQueryClient();
-  const { data } = useQuery<UserArrayType>({
-    queryKey: ["getUsers"],
-    queryFn: fetchUser,
+  const { search } = useLocation()
+  const querySearch = queryString.parse(search)
+  const { data, isLoading } = useQuery<UserArrayType>({
+    queryKey: ["getUsers", searchQuery],
+    queryFn: () => fetchUser(searchQuery),
     staleTime: 1000 * 60 * 60 * 24,
     gcTime: 1000 * 60 * 60 * 24,
   });
@@ -178,11 +183,18 @@ export default function Users() {
       </form>
     );
   };
+  useEffect(() => {
+    const search = new URLSearchParams(querySearch) 
+    const gog = `user?${search}`
+    console.log(gog);
+    setSerachQuery(gog)
+  }, [search])
   return (
     <>
       {(createPending || updatePending || deletePending) && <PendingApi />}
       <div className="w-full">
         <div>
+        
           {openBox && <FormUser />}
           <div className="flex justify-between items-center my-5">
             {openBox && (
@@ -232,8 +244,8 @@ export default function Users() {
                       {i?.role === "ADMIN"
                         ? "ادمین"
                         : i?.role === "AUTHOR"
-                        ? "نویسنده"
-                        : "کاربر"}
+                          ? "نویسنده"
+                          : "کاربر"}
                     </StyledTableCell>
                     <StyledTableCell align="center">
                       {new Date(i?.createdAt).toLocaleDateString("fa")}
@@ -309,8 +321,8 @@ export default function Users() {
                       {dataUser?.data?.role === "ADMIN"
                         ? "ادمین"
                         : dataUser?.data?.role === "AUTHOR"
-                        ? "نویسنده"
-                        : "کاربر"}
+                          ? "نویسنده"
+                          : "کاربر"}
                     </StyledTableCell>
                   </StyledTableRow>
                 </TableBody>

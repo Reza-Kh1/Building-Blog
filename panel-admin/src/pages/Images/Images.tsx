@@ -52,7 +52,6 @@ export default function Images() {
         <div className="w-1/12 mt-3">
           <UploadImage />
         </div>
-
         <div className="mt-8">
           <div className="grid grid-cols-5 gap-5">
             {

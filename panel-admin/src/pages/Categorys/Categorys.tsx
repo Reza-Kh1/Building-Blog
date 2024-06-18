@@ -114,6 +114,7 @@ export default function Categorys() {
     onSuccess: () => {
       query.invalidateQueries({ queryKey: ["getCategory"] });
       toast.success("دسته با موفقیت حذف شد");
+      closeHandler()
     },
     onError: (err) => {
       toast.warning("چک کنید دسته محصولاتی نداشته باشد");

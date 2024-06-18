@@ -1,4 +1,8 @@
-import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { fetchUser } from "../../services/user";
 import axios from "axios";
@@ -59,16 +63,18 @@ export default function Users() {
   const [open, setOpen] = useState<boolean>(false);
   const [openBox, setOpenBox] = useState<boolean>(false);
   const [dataUser, setDataUser] = useState<DataUSerType | null>();
-  const [searchQuery, setSerachQuery] = useState<any>("")
+  const [searchQuery, setSerachQuery] = useState<any>("");
   const query = useQueryClient();
-  const { search } = useLocation()
-  const querySearch = queryString.parse(search)
-  const { data, isLoading } = useQuery<UserArrayType>({
-    queryKey: ["getUsers", searchQuery],
-    queryFn: () => fetchUser(searchQuery),
-    staleTime: 1000 * 60 * 60 * 24,
-    gcTime: 1000 * 60 * 60 * 24,
-  });
+  const { search } = useLocation();
+  const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useInfiniteQuery<UserArrayType>({
+      queryKey: ["getUsers", searchQuery],
+      queryFn: () => fetchUser(searchQuery),
+      staleTime: 1000 * 60 * 60 * 24,
+      gcTime: 1000 * 60 * 60 * 24,
+      getNextPageParam: (lastPage) => lastPage.pagination.nextPage || undefined,
+      initialPageParam: "",
+    });
   const { isPending: updatePending, mutate: updateUser } = useMutation({
     mutationFn: (form: UserType) => {
       return axios.put(`user/${dataUser?.data.id}`, form);
@@ -184,17 +190,14 @@ export default function Users() {
     );
   };
   useEffect(() => {
-    const search = new URLSearchParams(querySearch) 
-    const gog = `user?${search}`
-    console.log(gog);
-    setSerachQuery(gog)
-  }, [search])
+    const query = queryString.parse(search);
+    setSerachQuery(query);
+  }, [search]);
   return (
     <>
       {(createPending || updatePending || deletePending) && <PendingApi />}
       <div className="w-full">
         <div>
-        
           {openBox && <FormUser />}
           <div className="flex justify-between items-center my-5">
             {openBox && (
@@ -235,7 +238,7 @@ export default function Users() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {data?.rows.map((i, index) => (
+                {data?.pages[0]?.rows.map((i, index) => (
                   <StyledTableRow key={index}>
                     <StyledTableCell align="center">{i?.name}</StyledTableCell>
                     <StyledTableCell align="center">{i?.phone}</StyledTableCell>
@@ -244,8 +247,8 @@ export default function Users() {
                       {i?.role === "ADMIN"
                         ? "ادمین"
                         : i?.role === "AUTHOR"
-                          ? "نویسنده"
-                          : "کاربر"}
+                        ? "نویسنده"
+                        : "کاربر"}
                     </StyledTableCell>
                     <StyledTableCell align="center">
                       {new Date(i?.createdAt).toLocaleDateString("fa")}
@@ -284,7 +287,7 @@ export default function Users() {
             </Table>
           </TableContainer>
         </div>
-        <Pagination pager={data?.pagination} />
+        <Pagination pager={data?.pages[0].pagination} />
       </div>
       <Dialog
         fullWidth={true}
@@ -321,8 +324,8 @@ export default function Users() {
                       {dataUser?.data?.role === "ADMIN"
                         ? "ادمین"
                         : dataUser?.data?.role === "AUTHOR"
-                          ? "نویسنده"
-                          : "کاربر"}
+                        ? "نویسنده"
+                        : "کاربر"}
                     </StyledTableCell>
                   </StyledTableRow>
                 </TableBody>

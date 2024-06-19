@@ -13,7 +13,6 @@ export type UserArrayType = {
   rows: UserType[];
   pagination: PaginationType;
 };
-
 export type PaginationType = {
   allPage: number;
   nextPage?: number;
@@ -28,3 +27,11 @@ export type UserType = {
   password?: string;
   createdAt: Date;
 };
+export type FormPostType = {
+  title: string,
+  image: string,
+  slug: string,
+  description: string,
+  status: boolean
+  categoryId: string
+}

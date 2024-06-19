@@ -14,21 +14,32 @@ export default function Pagination({ pager }: { pager?: PaginationType }) {
 
   return (
     <div className="flex justify-between items-center mt-3">
-      <Link
-        to={
-          pathname +
-          `?page=${pager.prevPage ? Number(page) - 1 : page}&${searchQuery}`
-        }
-      >
-        <IconButton color="primary" disabled={pager.prevPage ? false : true}>
-          <FaAnglesRight size={25} />
-        </IconButton>
-      </Link>
+      {
+        pager?.prevPage ?
+          <Link
+            to={
+              pathname +
+              `?page=${pager.prevPage ? Number(page) - 1 : page}&${searchQuery}`
+            }
+          >
+            <IconButton className="shadow-md !bg-[#6198f7]" disabled={pager.prevPage ? false : true}>
+              <FaAnglesRight size={22} color="#ededed" />
+            </IconButton>
+          </Link>
+          :
+          <IconButton disabled={true}>
+            <FaAnglesRight size={22} />
+          </IconButton>
+      }
       <div className="flex gap-2 items-center justify-evenly">
         {Number(page) > 4 && (
           <>
             <Link to={`${pathname}?page=${1}&${searchQuery}`}>
-              <IconButton color="primary">1</IconButton>
+              <IconButton size="small" className="shadow-md !px-4 !bg-[#6198f7]">
+                <span className="text-gray-50 pt-1">
+                  1
+                </span>
+              </IconButton>
             </Link>
             <span>...</span>
           </>
@@ -38,34 +49,52 @@ export default function Pagination({ pager }: { pager?: PaginationType }) {
             { length: Math.min(11, endPage - startPage + 1) },
             (_, i) => startPage + i
           ).map((i) => {
-            return (
-              <Link to={`${pathname}?page=${i}&${searchQuery}`} key={i}>
-                <IconButton disabled={Number(page) === i} color="primary">
+            return i === Number(page) ?
+              <IconButton key={i} disabled={Number(page) === i} size="small" className={`!px-4 shadow-md ${i === Number(page) ? "!bg-[#9db4c8]" : "!bg-[#6198f7]"}`}>
+                <span className="text-gray-50 pt-1">
                   {i}
+                </span>
+              </IconButton>
+              :
+              <Link to={`${pathname}?page=${i}&${searchQuery}`} key={i}>
+                <IconButton disabled={Number(page) === i} size="small" className={`!px-4 shadow-md ${i === Number(page) ? "!bg-[#9db4c8]" : "!bg-[#6198f7]"}`}>
+                  <span className="text-gray-50 pt-1">
+                    {i}
+                  </span>
                 </IconButton>
               </Link>
-            );
           })
           : null}
         {pager.allPage - Number(page) > 3 && (
           <>
             <span>...</span>
             <Link to={`${pathname}?page=${pager.allPage}&${searchQuery}`}>
-              <IconButton color="primary">{pager.allPage}</IconButton>
+              <IconButton size="small" className="shadow-md !px-4 !bg-[#6198f7]">
+                <span className="text-gray-50 pt-1">
+                  {pager.allPage}
+                </span>
+              </IconButton>
             </Link>
           </>
         )}
       </div>
-      <Link
-        to={
-          pathname +
-          `?page=${pager.nextPage ? Number(page) + 1 : page}&${searchQuery}`
-        }
-      >
-        <IconButton color="primary" disabled={pager.nextPage ? false : true}>
-          <FaAnglesLeft size={25} />
-        </IconButton>
-      </Link>
-    </div>
+      {
+        pager.nextPage ?
+          <Link
+            to={
+              pathname +
+              `?page=${pager.nextPage ? Number(page) + 1 : page}&${searchQuery}`
+            }
+          >
+            <IconButton className="shadow-md !bg-[#6198f7]" disabled={pager.nextPage ? false : true}>
+              <FaAnglesLeft size={22} color="#ededed" />
+            </IconButton>
+          </Link>
+          :
+          <IconButton disabled={true}>
+            <FaAnglesLeft size={22} />
+          </IconButton>
+      }
+    </div >
   );
 }

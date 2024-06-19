@@ -31,6 +31,8 @@ import PendingApi from "../../components/PendingApi/PendingApi";
 import Pagination from "../../components/Pagination/Pagination";
 import { useLocation } from "react-router-dom";
 import queryString from "query-string";
+import SearchUser from "../../components/SearchUser/SearchUser";
+import { dataRole } from "../../data/selectData";
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -52,11 +54,6 @@ type DataUSerType = {
   data: UserType;
   position: boolean;
 };
-const dataRole = [
-  { value: "USER", name: "کاربر" },
-  { value: "AUTHOR", name: "نویسنده" },
-  { value: "ADMIN", name: "ادمین" },
-];
 export default function Users() {
   const { register, getValues, setValue, handleSubmit, reset } =
     useForm<UserType>();
@@ -66,7 +63,7 @@ export default function Users() {
   const [searchQuery, setSerachQuery] = useState<any>("");
   const query = useQueryClient();
   const { search } = useLocation();
-  const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
+  const { data } =
     useInfiniteQuery<UserArrayType>({
       queryKey: ["getUsers", searchQuery],
       queryFn: () => fetchUser(searchQuery),
@@ -218,13 +215,14 @@ export default function Users() {
               className={`${openBox ? "!w-1/5" : "!w-full"}  `}
               color="primary"
               onClick={() => setOpenBox((prev) => !prev)}
-              endIcon={openBox ? <FaPlus /> : <FaMinus />}
+              endIcon={openBox ? <FaMinus /> : <FaPlus />}
             >
-              بستن باکس
+              {openBox ? "بستن باکس" : "افزودن کاربر"}
             </Button>
           </div>
         </div>
-        <div>
+        <SearchUser />
+        {data?.pages[0]?.rows.length ? <div>
           <TableContainer component={Paper}>
             <Table sx={{ minWidth: 700 }} aria-label="customized table">
               <TableHead>
@@ -247,8 +245,8 @@ export default function Users() {
                       {i?.role === "ADMIN"
                         ? "ادمین"
                         : i?.role === "AUTHOR"
-                        ? "نویسنده"
-                        : "کاربر"}
+                          ? "نویسنده"
+                          : "کاربر"}
                     </StyledTableCell>
                     <StyledTableCell align="center">
                       {new Date(i?.createdAt).toLocaleDateString("fa")}
@@ -286,8 +284,13 @@ export default function Users() {
               </TableBody>
             </Table>
           </TableContainer>
+          <Pagination pager={data?.pages[0].pagination} />
         </div>
-        <Pagination pager={data?.pages[0].pagination} />
+          :
+          <div>
+            هیچ کاربری ثبت نشده !!!
+          </div>
+        }
       </div>
       <Dialog
         fullWidth={true}
@@ -324,8 +327,8 @@ export default function Users() {
                       {dataUser?.data?.role === "ADMIN"
                         ? "ادمین"
                         : dataUser?.data?.role === "AUTHOR"
-                        ? "نویسنده"
-                        : "کاربر"}
+                          ? "نویسنده"
+                          : "کاربر"}
                     </StyledTableCell>
                   </StyledTableRow>
                 </TableBody>

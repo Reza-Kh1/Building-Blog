@@ -48,31 +48,34 @@ const registerUser = errorHandler(async (req, res) => {
   }
 });
 const getAllUser = errorHandler(async (req, res) => {
-  let { role, name, email, phone, page, order } = req.query;
+  let { role, search, page, order } = req.query;
   page = page || 1;
   let filter = {};
   let orderFilter = [];
   if (order) {
-    orderFilter.push(JSON.parse(order));
+    const length1 = order.split("-")[0]
+    const length2 = order.split("-")[1]
+    orderFilter.push(length1)
+    orderFilter.push(length2)
+  } else {
+    orderFilter.push(["createdAt", "DESC"])
   }
   if (role) {
     filter.role = role;
   }
-  if (name) {
-    filter.name = { [Op.iLike]: `%${name}%` };
-  }
-  if (email) {
-    filter.email = { [Op.iLike]: `%${email}%` };
-  }
-  if (phone) {
-    filter.phone = { [Op.iLike]: `%${phone}%` };
+  if (search) {
+    filter[Op.or] = [
+      { phone: { [Op.iLike]: `%${search}%` } },
+      { name: { [Op.iLike]: `%${search}%` } },
+      { email: { [Op.iLike]: `%${search}%` } },
+    ]
   }
   try {
     const data = await userModel.findAndCountAll({
       where: filter,
       limit: limit,
       offset: (page - 1) * limit,
-      order: orderFilter || [["createdAt", "DESC"]],
+      order: [orderFilter],
       attributes: { exclude: ["password", "updatedAt"] },
     });
     const paginate = pagination(data.count, page, limit);

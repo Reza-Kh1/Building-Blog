@@ -28,7 +28,7 @@ export default function Sidebar() {
           </NavLink>
         </li>
         <li>
-          <NavLink to={"/home/posts"} className={({ isActive }) => `transition-all inline-block w-11/12 ${!isActive ? "" : "mr-5 !bg-slate-300"}`}>
+          <NavLink to={"/home/posts?page=1&"} className={({ isActive }) => `transition-all inline-block w-11/12 ${!isActive ? "" : "mr-5 !bg-slate-300"}`}>
             <Button className="!bg-[#4889f7]" fullWidth variant="contained" startIcon={<MdOutlinePostAdd />}>
               پست ها
             </Button>
@@ -42,14 +42,12 @@ export default function Sidebar() {
           </NavLink>
         </li>
         <li>
-          <NavLink to={"/home/users"} className={({ isActive }) => `transition-all inline-block w-11/12 ${!isActive ? "" : "mr-5 !bg-slate-300"}`}>
+          <NavLink to={"/home/users?page=1&"} className={({ isActive }) => `transition-all inline-block w-11/12 ${!isActive ? "" : "mr-5 !bg-slate-300"}`}>
             <Button className="!bg-[#4889f7]" fullWidth variant="contained" startIcon={<FaUsers />}>
               کاربران
             </Button>
           </NavLink>
         </li>
-
-
         <li>
           <NavLink to={"/home/categorys"} className={({ isActive }) => `transition-all inline-block w-11/12 ${!isActive ? "" : "mr-5 !bg-slate-300"}`}>
             <Button className="!bg-[#4889f7]" fullWidth variant="contained" startIcon={<MdOutlineCategory />}>

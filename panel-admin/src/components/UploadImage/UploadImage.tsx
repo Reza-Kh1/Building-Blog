@@ -13,32 +13,34 @@ export default function UploadImage({ setUpload, setClose }: UploadImageType) {
   const uploadImage = useMutation({
     mutationFn: async (event: React.ChangeEvent<HTMLInputElement>) => {
       const newFile = event.target.files;
-      if (!newFile) return Promise.reject(new Error("هیچ عکسی انتخاب نشده"))
+      if (!newFile) return Promise.reject(new Error("هیچ عکسی انتخاب نشده"));
       if (newFile[0].size > 3000000) {
-        return Promise.reject(new Error("حجم عکس زیر 5 مگابایت باشد"))
+        return Promise.reject(new Error("حجم عکس زیر 5 مگابایت باشد"));
       }
       const formData = new FormData();
       for (let file of newFile) {
         formData.append("image", file);
       }
       setLoading(true);
-      const { data } = await axios.post("image", formData)
-      if (setUpload && setClose) {
-        setUpload(data.url)
-        setClose(false)
+      const { data } = await axios.post("image", formData);
+      if (setUpload) {
+        setUpload(data.url);
       }
-      return data
+      if (setClose) {
+        setClose(false);
+      }
+      return data;
     },
     onSuccess: () => {
       toast.success("عکس با موفقیت افزوده شد");
       query.invalidateQueries({ queryKey: ["allImage"] });
-      setLoading(false)
+      setLoading(false);
     },
     onError: (err) => {
       toast.warning(err.message || "عکس آپلود نشد!");
-      setLoading(false)
-    }
-  })
+      setLoading(false);
+    },
+  });
   return (
     <>
       {loading ? (

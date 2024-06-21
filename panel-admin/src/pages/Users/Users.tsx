@@ -222,6 +222,7 @@ export default function Users() {
           </div>
         </div>
         <SearchUser />
+        <h1 className="w-full bg-blue-400 shadow-md rounded-md text-gray-50 p-2 mb-3">{data?.pages[0].count} کاربر</h1>
         {data?.pages[0]?.rows.length ? <div>
           <TableContainer component={Paper}>
             <Table sx={{ minWidth: 700 }} aria-label="customized table">

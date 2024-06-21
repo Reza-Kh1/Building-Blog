@@ -72,7 +72,7 @@ export default function Categorys() {
         delete body.categoryId;
       }
 
-      return axios.post("category", body)
+      return axios.post("category", body);
     },
     onSuccess: () => {
       query.invalidateQueries({ queryKey: ["getCategory"] });
@@ -82,8 +82,8 @@ export default function Categorys() {
     },
     onError: (error: any) => {
       toast.error(error?.response?.data?.message || "خطا در اضافه کردن دسته");
-    }
-  })
+    },
+  });
   const { isPending: updatePending, mutate: updateCategory } = useMutation({
     mutationFn: (form: FormCategoryType) => {
       const body = {
@@ -94,33 +94,31 @@ export default function Categorys() {
       }
       return axios
         .put(`category/${singleCategory?.category.id}`, body)
-        .then(() => {
-
-        })
+        .then(() => {});
     },
     onSuccess: () => {
-      closeHandler()
+      closeHandler();
       query.invalidateQueries({ queryKey: ["getCategory"] });
     },
     onError: (err) => {
       console.log(err);
-      closeHandler()
+      closeHandler();
     },
-  })
+  });
   const { isPending: deletePending, mutate: deleteCategory } = useMutation({
     mutationFn: (id?: string) => {
-      return axios.delete(`category/${id}`)
+      return axios.delete(`category/${id}`);
     },
     onSuccess: () => {
       query.invalidateQueries({ queryKey: ["getCategory"] });
       toast.success("دسته با موفقیت حذف شد");
-      closeHandler()
+      closeHandler();
     },
     onError: (err) => {
       toast.warning("چک کنید دسته محصولاتی نداشته باشد");
       console.log(err);
-    }
-  })
+    },
+  });
   const openUpdate = (items: CategortType) => {
     setValue("name", items.name);
     setValue("slug", items.slug);
@@ -181,7 +179,7 @@ export default function Categorys() {
   };
   return (
     <>
-      {(createPending || updatePending || deletePending) && (<PendingApi />)}
+      {(createPending || updatePending || deletePending) && <PendingApi />}
       <div>
         <div>
           {openAddCategory && <FormCategory />}
@@ -236,10 +234,10 @@ export default function Categorys() {
                         {items.slug}
                       </StyledTableCell>
                       <StyledTableCell align="center">
-                        {new Date(items.createdAt).toLocaleDateString("fa")}
+                        {items.parentCategory?.name || "---"}
                       </StyledTableCell>
                       <StyledTableCell align="center">
-                        {items.parentCategory?.name || "---"}
+                        {new Date(items.createdAt).toLocaleDateString("fa")}
                       </StyledTableCell>
                       <StyledTableCell align="center">
                         <div className="flex justify-evenly">

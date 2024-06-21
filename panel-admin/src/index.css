@@ -41,20 +41,9 @@ a {
     text-decoration: none;
 }
 
-.dialog-upload::-webkit-scrollbar {
-    width: 5px;
-}
-
-.dialog-upload::-webkit-scrollbar-track {
-    background: #0d0d0d;
-}
-
-.dialog-upload::-webkit-scrollbar-thumb {
-    background: #5b5b5b;
-}
-
-.dialog-upload::-webkit-scrollbar-thumb:hover {
-    background: #000000;
+.box-editor {
+    max-width: 1300px;
+    border: 1px;
 }
 
 .ql-snow .ql-picker.ql-header .ql-picker-label::before,
@@ -73,7 +62,7 @@ a {
 }
 
 .ql-container.ql-snow {
-    min-height: 300px;
+    min-height: 700px;
     background-color: #f4f4f4;
     border-radius: 0 0 15px 15px;
     box-shadow: 0px 0px 6px 8px #c8c8c8;
@@ -83,62 +72,9 @@ a {
     position: sticky;
     width: 100%;
     z-index: 50;
-    box-shadow: 0px -1px 14px 0px #dcdada;
+    box-shadow: 0px 0px 13px 1px #c8c8c8;
     background: aliceblue;
     top: 0;
-}
-
-.table-rounded thead tr:last-child th:first-child {
-    border-radius: 0 10px 0 0;
-}
-
-.table-rounded thead tr:last-child th:last-child {
-    border-radius: 10px 0 0 0;
-}
-
-.table-rounded tbody tr:last-child td:first-child {
-    border-radius: 0 0 10px 0;
-}
-
-.table-rounded tbody tr:last-child td:last-child {
-    border-radius: 0 0 0px 10px;
-}
-
-.table-rounded tbody tr:last-child {
-    border: none;
-}
-
-.input-identity:focus-visible {
-    outline: 1px solid #fa8a46;
-    box-shadow: 0px 0px 5px 1px #f27a3e;
-}
-
-.input-customize:focus-visible {
-    outline: 1px solid #fff;
-}
-
-.side-bar a.active button {
-    transition: all ease-in-out 0.1s;
-    margin-right: 8px;
-    background-image: linear-gradient(to right, #212121, #005aff);
-}
-
-.swiper-button-prev:after,
-.swiper-button-next:after {
-    font-size: 10px;
-    color: white;
-    padding: 25px 5px;
-    border-radius: 3px;
-    background: #626262c9;
-}
-
-.cut-line {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 5;
-    white-space: normal;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 
 .rmdp-input {
@@ -168,4 +104,26 @@ a {
 
 .rmdp-container {
     width: 100% !important;
+}
+
+.cutline {
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+}
+
+.cutline-1 {
+    -webkit-line-clamp: 1;
+}
+
+.cutline-2 {
+    -webkit-line-clamp: 2;
+}
+.cutline-3 {
+    -webkit-line-clamp: 3;
+}
+.cutline-3 {
+    -webkit-line-clamp: 4;
 }

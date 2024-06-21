@@ -5,6 +5,7 @@ const {
   detailPostModel,
   userModel,
   commentModel,
+  categoryModel,
 } = require("../models/sync");
 const { Op } = require("sequelize");
 const { dataBase } = require("../config/db");
@@ -16,7 +17,7 @@ const createPost = asyncHandler(async (req, res) => {
     throw customError("تمام فیلدهای لازم را پر کنید", 401);
   const userId = res.userInfo.id;
   try {
-    await postModel.create({
+    const dataId = await postModel.create({
       title,
       image,
       slug,
@@ -25,7 +26,7 @@ const createPost = asyncHandler(async (req, res) => {
       userId,
       categoryId,
     });
-    res.send({ success: true });
+    res.send({ id: dataId.id });
   } catch (err) {
     throw customError(err.message, 401);
   }
@@ -36,7 +37,12 @@ const getAllPost = asyncHandler(async (req, res, status, isAdmin) => {
   let filter = {};
   let orderFilter = [];
   if (order) {
-    orderFilter.push(order.split(","));
+    const length1 = order.split("-")[0];
+    const length2 = order.split("-")[1];
+    orderFilter.push(length1);
+    orderFilter.push(length2);
+  } else {
+    orderFilter.push(["createdAt", "DESC"]);
   }
   if (isAdmin && status) {
     filter.status = status;
@@ -48,7 +54,6 @@ const getAllPost = asyncHandler(async (req, res, status, isAdmin) => {
     filter[Op.or] = [
       { title: { [Op.iLike]: `%${search}%` } },
       { description: { [Op.iLike]: `%${search}%` } },
-      { keycode: { [Op.iLike]: `%${search}%` } },
     ];
   }
   try {
@@ -56,10 +61,18 @@ const getAllPost = asyncHandler(async (req, res, status, isAdmin) => {
       where: filter,
       offset: (page - 1) * limit,
       limit: limit,
-      order: orderFilter || [["createdAt", "DESC"]],
+      order: [orderFilter],
+      attributes: { exclude: ["userId", "createdAt", "categoryId"] },
+      include: [
+        { model: categoryModel, attributes: ["slug", "name"] },
+        {
+          model: userModel,
+          attributes: ["name"],
+        },
+      ],
     });
     const paginate = pagination(data.count, page, limit);
-    res.send({ data, paginate });
+    res.send({ ...data, paginate });
   } catch (err) {
     throw customError(err.message, 401);
   }
@@ -76,17 +89,25 @@ const getSinglePost = asyncHandler(async (req, res) => {
       include: [
         { model: detailPostModel, attributes: { exclude: ["id", "postId"] } },
         { model: userModel, attributes: ["name"] },
+        { model: categoryModel, attributes: ["name", "slug", "id"] },
         {
           model: commentModel,
           where: { parentId: null, status: true },
           limit: process.env.LIMIT_COMMENT,
           order: [["createdAt", "DESC"]],
           attributes: {
-            exclude: ["email", "phone", "parentId", "status", "postId"],
+            exclude: [
+              "email",
+              "phone",
+              "parentId",
+              "status",
+              "postId",
+              "categoryId",
+            ],
           },
         },
       ],
-      attributes: { exclude: ["userId", "createdAt"] },
+      attributes: { exclude: ["userId", "createdAt", "categoryId"] },
     });
     if (!data) throw customError("این صفحه وجود ندارد");
     for (let i = 0; i < data.dataValues.Comments.length; i++) {
@@ -121,12 +142,11 @@ const updatePost = asyncHandler(async (req, res) => {
     if (totalComments) {
       updatePost.totalComments = totalComments;
     }
-    if (status) {
-      updatePost.status = status;
-    }
+    updatePost.status = status || false;
     if (categoryId) {
       updatePost.categoryId = categoryId;
     }
+    updatePost.userId = res.userInfo.id;
     await updatePost.save();
     res.send({ success: true });
   } catch (err) {

@@ -1,18 +1,22 @@
 const asyncHandler = require("express-async-handler");
 const { customError } = require("../middlewares/globalError");
-const { detailPostModel } = require("../models/sync");
+const { detailPostModel, postModel } = require("../models/sync");
 const updateDetailPost = asyncHandler(async (req, res) => {
-  const { text, title, keyward, image } = req.body;
+  const { text, title, keyword } = req.body;
   const { id } = req.params;
   try {
+    const post = await postModel.findByPk(id, {
+      include: [{ model: detailPostModel, attributes: ["id"] }],
+      attributes: ["id"],
+    });
+    if (!post) throw customError("خطا در ارتباط با دیتابیس");
     await detailPostModel.update(
       {
         text,
         title,
-        keyward,
-        image,
+        keyword,
       },
-      { where: { id } }
+      { where: { id: post.DetailPost.id } }
     );
     res.send({ success: true });
   } catch (err) {
@@ -20,14 +24,13 @@ const updateDetailPost = asyncHandler(async (req, res) => {
   }
 });
 const createDetailPost = asyncHandler(async (req, res) => {
-  const { text, title, keyward, image } = req.body;
+  const { text, title, keyword } = req.body;
   const { id } = req.params;
   try {
     await detailPostModel.create({
       text,
       title,
-      keyward,
-      image,
+      keyword,
       postId: id,
     });
     res.send({ success: true });

@@ -11,12 +11,9 @@ const detailPostModel = dataBase.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    keyward: {
+    keyword: {
       type: DataTypes.ARRAY(DataTypes.STRING),
-    },
-    image: {
-      type: DataTypes.STRING,
-    },
+    }
   },
   { tableName: "DetailPost", timestamps: false }
 );

@@ -87,7 +87,7 @@ const updateComment = asyncHandler(async (req, res) => {
       post.save();
     }
     const comment = await commentModel.update(
-      { name, text, email, phone, status },
+      { name, text, email, phone, status: status || false },
       { where: { id } }
     );
     if (!comment) throw customError("کامنت یافت نشد");

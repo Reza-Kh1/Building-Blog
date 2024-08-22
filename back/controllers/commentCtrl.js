@@ -78,6 +78,7 @@ const updateComment = asyncHandler(async (req, res) => {
   try {
     if (status) {
       const post = await postModel.findByPk(postId);
+      console.log(post);
       post.totalComments = Number(post.totalComments) + 1;
       post.save();
     }
@@ -104,7 +105,12 @@ const getAllComment = asyncHandler(async (req, res) => {
   };
   let orderFilter = [];
   if (order) {
-    orderFilter.push(order.split(","));
+    const length1 = order.split("-")[0];
+    const length2 = order.split("-")[1];
+    orderFilter.push(length1);
+    orderFilter.push(length2);
+  } else {
+    orderFilter.push(["createdAt", "DESC"]);
   }
   if (search) {
     filter[Op.or] = [
@@ -119,8 +125,8 @@ const getAllComment = asyncHandler(async (req, res) => {
       where: filter,
       limit,
       offset: (page - 1) * limit,
-      order: orderFilter || [["createdAt", "DESC"]],
-      include: [{ model: postModel, attributes: ["slug"] }],
+      order: [orderFilter],
+      include: [{ model: postModel, attributes: ["slug", "id"] }],
       attributes: { exclude: ["postId"] },
     });
     const paginate = pagination(allComment.count, page, limit);

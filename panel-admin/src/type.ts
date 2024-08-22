@@ -101,6 +101,7 @@ export type ReviewType = {
   status: boolean;
   createdAt: Date;
   Post?: {
+    id: string;
     slug?: string;
   };
 };

@@ -1,31 +1,32 @@
 import { Button, MenuItem, TextField } from "@mui/material";
-import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { FaSearch } from "react-icons/fa";
 import { dataOrder, dataStatus } from "../../data/selectData";
+import { useNavigate } from "react-router-dom";
 type SearchFormType = {
   search?: string;
   status?: string;
   order?: string;
 };
-export default function SearchPost() {
+export default function SearchReviews() {
+  const navigate = useNavigate();
   const { register, setValue, handleSubmit, watch } = useForm<SearchFormType>({
     defaultValues: {
-      status: "s",
+      status: "false",
       order: "createdAt-DESC",
     },
   });
-  const navigate = useNavigate();
-  const searchUser = (form: SearchFormType) => {
-    const newForm =
-      form.status === "s" ? { search: form.search, order: form.order } : form;
+  const roleValue = watch("status");
+  const orderValue = watch("order");
+  const getSearch = (form: SearchFormType) => {
+    const newForm = form.search
+      ? form
+      : { order: form.order, status: form.status };
     const url = "?" + new URLSearchParams(newForm);
     navigate(url);
   };
-  const roleValue = watch("status");
-  const orderValue = watch("order");
   return (
-    <form className="w-full grid my-4 grid-cols-4 gap-3 items-center justify-center">
+    <form className="w-full grid grid-cols-4 gap-3 mb-3">
       <TextField
         autoComplete="off"
         className="shadow-md"
@@ -33,23 +34,6 @@ export default function SearchPost() {
         fullWidth
         {...register("search")}
       />
-      <TextField
-        fullWidth
-        autoComplete="off"
-        select
-        className="shadow-md"
-        label="وضعیت پست"
-        id="evaluationField"
-        value={roleValue}
-        onChange={(e) => setValue("status", e.target.value)}
-      >
-        <MenuItem value={"s"}>نمایش همه</MenuItem>
-        {dataStatus?.map((i, index) => (
-          <MenuItem key={index} value={i.value}>
-            {i.name}
-          </MenuItem>
-        ))}
-      </TextField>
       <TextField
         fullWidth
         autoComplete="off"
@@ -66,13 +50,33 @@ export default function SearchPost() {
           </MenuItem>
         ))}
       </TextField>
-      <Button
-        variant="contained"
-        onClick={handleSubmit(searchUser)}
-        color="success"
+      <TextField
+        fullWidth
+        autoComplete="off"
+        select
+        className="shadow-md"
+        label="وضعیت کامنت ها"
+        id="evaluationField"
+        value={roleValue}
+        onChange={(e) => setValue("status", e.target.value)}
       >
-        جستجو
-      </Button>
+        {dataStatus?.map((i, index) => (
+          <MenuItem key={index} value={i.value}>
+            {i.name}
+          </MenuItem>
+        ))}
+      </TextField>
+      <div className="flex justify-center items-center">
+        <Button
+          color="success"
+          variant="contained"
+          onClick={handleSubmit(getSearch)}
+          fullWidth
+          endIcon={<FaSearch />}
+        >
+          جستجو
+        </Button>
+      </div>
     </form>
   );
 }

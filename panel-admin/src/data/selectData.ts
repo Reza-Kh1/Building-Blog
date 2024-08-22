@@ -11,6 +11,10 @@ export const dataStatus = [
   { value: "true", name: "منتشر شده" },
   { value: "false", name: "منتشر نشده" },
 ];
+export const dataStatusReview = [
+  { value: "false", name: "تایید نشده" },
+  { value: "true", name: "تایید شده" },
+];
 export const classImg = [
   "object-fill",
   "object-contain",

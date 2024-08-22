@@ -60,7 +60,7 @@ export default function Users() {
   const [open, setOpen] = useState<boolean>(false);
   const [openBox, setOpenBox] = useState<boolean>(false);
   const [dataUser, setDataUser] = useState<DataUSerType | null>();
-  const [searchQuery, setSerachQuery] = useState<any>("");
+  const [searchQuery, setSearchQuery] = useState<any>("");
   const query = useQueryClient();
   const { search } = useLocation();
   const { data } =
@@ -188,7 +188,7 @@ export default function Users() {
   };
   useEffect(() => {
     const query = queryString.parse(search);
-    setSerachQuery(query);
+    setSearchQuery(query);
   }, [search]);
   return (
     <>

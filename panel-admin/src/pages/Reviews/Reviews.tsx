@@ -3,7 +3,7 @@ import {
   useMutation,
   useQueryClient,
 } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { fetchReview } from "../../services/review";
 import Pagination from "../../components/Pagination/Pagination";
 import {
@@ -20,16 +20,20 @@ import {
   TableHead,
   TableRow,
   TextField,
+  Tooltip,
+  colors,
   styled,
   tableCellClasses,
 } from "@mui/material";
 import { AllReviewType, ReviewType } from "../../type";
-import { FaCheck, FaEye, FaPen, FaTrash } from "react-icons/fa6";
-import { Link } from "react-router-dom";
+import { FaCheck, FaEye, FaMinus, FaPen, FaTrash } from "react-icons/fa6";
+import { Link, useLocation } from "react-router-dom";
 import { MdClose } from "react-icons/md";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { useForm } from "react-hook-form";
+import queryString from "query-string";
+import SearchReviews from "../../components/SearchReviews/SearchReviews";
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -59,6 +63,7 @@ export default function Reviews() {
   const [open, setOpen] = useState<boolean>(false);
   const { handleSubmit, register, setValue } = useForm<FormReviewType>();
   const query = useQueryClient();
+  const { search } = useLocation();
   const [review, setReview] = useState<{
     position: boolean;
     data: ReviewType;
@@ -84,23 +89,25 @@ export default function Reviews() {
   };
   const { isPending: isPendingUpdate, mutate: reviewUpdate } = useMutation({
     mutationFn: (form: FormReviewType) => {
-      const check = checkReplie(form, review?.data);
-      console.log(check);
-      
-      // console.log(JSON.stringify(pol1) === JSON.stringify(pol));
-      // console.log(form,review?.data);
+      if (form.replie) {
+        const body = {
+          replies: form.replie,
+          postId: review?.data.Post?.id,
+        };
+        return axios.put(`comment/${review?.data.id}`, body);
+      }
+      if (checkReplie(form, review?.data)) {
+        //  const body = {...form,status:true,postId:}
 
-      // if(){
-
-      // }else{
-
-      // }
-      return true;
+        return axios.put(`comment/${review?.data.id}`, form);
+      } else {
+        return axios.put(`comment/${review?.data.id}`, form);
+      }
       // return axios.put(`comment/${review?.data.id}`, form);
     },
     onSuccess: () => {
-      // closeHandler();
-      // query.invalidateQueries({ queryKey: ["AllReview"] });
+      closeHandler();
+      query.invalidateQueries({ queryKey: ["AllReview"] });
       toast.success("کامنت ثبت شد");
     },
     onError: (err) => {
@@ -123,6 +130,40 @@ export default function Reviews() {
       toast.warning("دوباره تلاش کنید");
     },
   });
+  const { isPending: isPendingCheck, mutate: reviewCheck } = useMutation({
+    mutationFn: (form: ReviewType) => {
+      const body = {
+        postId: form.Post?.id,
+        status: true,
+      };
+      return axios.put(`comment/${form?.id}`, body);
+    },
+    onSuccess: () => {
+      query.invalidateQueries({ queryKey: ["AllReview"] });
+      toast.success("کامنت تایید شد");
+    },
+    onError: (err) => {
+      console.log(err);
+      toast.warning("دوباره تلاش کنید");
+    },
+  });
+  const { isPending: isPendingMinus, mutate: reviewMinus } = useMutation({
+    mutationFn: (form: ReviewType) => {
+      const body = {
+        postId: form.Post?.id,
+        status: false,
+      };
+      return axios.put(`comment/${form?.id}`, body);
+    },
+    onSuccess: () => {
+      query.invalidateQueries({ queryKey: ["AllReview"] });
+      toast.success("کامنت لغو شد");
+    },
+    onError: (err) => {
+      console.log(err);
+      toast.warning("دوباره تلاش کنید");
+    },
+  });
   const openUpdate = (value: ReviewType) => {
     setValue("email", value.email || "");
     setValue("name", value.name || "");
@@ -138,9 +179,15 @@ export default function Reviews() {
     setOpen(false);
     setReview(null);
   };
+
+  useEffect(() => {
+    const query = queryString.parse(search);
+    setSearchQuery(query);
+  }, [search]);
   return (
     <>
       <div className="w-full">
+        <SearchReviews />
         {data?.pages[0].rows.length ? (
           <>
             <TableContainer component={Paper}>
@@ -162,25 +209,29 @@ export default function Reviews() {
                   {data?.pages[0]?.rows.map((i, index) => (
                     <StyledTableRow key={index}>
                       <StyledTableCell align="center">
-                        {i?.name}
+                        <p className="text-sm cutline cutline-2">{i?.name}</p>
                       </StyledTableCell>
                       <StyledTableCell align="center">
-                        {i?.phone || i?.email}
+                        <p className="text-sm cutline cutline-2">
+                          {i?.phone || i?.email}
+                        </p>
                       </StyledTableCell>
                       <StyledTableCell align="center">
                         <p className="text-sm cutline cutline-3">{i.text}</p>
                       </StyledTableCell>
                       <StyledTableCell align="center">
-                        <Link to={`/home/posts/${i?.Post?.slug}`}>
-                          <Button
-                            color="primary"
-                            variant="outlined"
-                            endIcon={<FaEye size={13} />}
-                            size="small"
-                          >
-                            پست
-                          </Button>
-                        </Link>
+                        <Tooltip title={i.Post?.slug} placement="top" arrow>
+                          <Link to={`/home/posts/${i?.Post?.slug}`}>
+                            <Button
+                              color="primary"
+                              variant="outlined"
+                              endIcon={<FaEye size={13} />}
+                              size="small"
+                            >
+                              پست
+                            </Button>
+                          </Link>
+                        </Tooltip>
                       </StyledTableCell>
                       <StyledTableCell align="center">
                         {new Date(i?.createdAt).toLocaleDateString("fa")}
@@ -192,6 +243,29 @@ export default function Reviews() {
                       </StyledTableCell>
                       <StyledTableCell align="center">
                         <div className="flex justify-evenly gap-2">
+                          {i.status ? (
+                            <Button
+                              onClick={() => reviewMinus(i)}
+                              color="warning"
+                              variant="outlined"
+                              endIcon={<MdClose size={12} />}
+                              size="small"
+                              disabled={isPendingMinus}
+                            >
+                              لغو
+                            </Button>
+                          ) : (
+                            <Button
+                              onClick={() => reviewCheck(i)}
+                              color="success"
+                              variant="outlined"
+                              endIcon={<FaCheck size={12} />}
+                              size="small"
+                              disabled={isPendingCheck}
+                            >
+                              تایید
+                            </Button>
+                          )}
                           <Button
                             onClick={() => {
                               setOpen(true),

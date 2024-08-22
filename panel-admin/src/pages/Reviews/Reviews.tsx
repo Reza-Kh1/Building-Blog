@@ -21,12 +21,11 @@ import {
   TableRow,
   TextField,
   Tooltip,
-  colors,
   styled,
   tableCellClasses,
 } from "@mui/material";
 import { AllReviewType, ReviewType } from "../../type";
-import { FaCheck, FaEye, FaMinus, FaPen, FaTrash } from "react-icons/fa6";
+import { FaCheck, FaEye, FaPen, FaTrash } from "react-icons/fa6";
 import { Link, useLocation } from "react-router-dom";
 import { MdClose } from "react-icons/md";
 import { toast } from "react-toastify";

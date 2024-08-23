@@ -10,9 +10,11 @@ import Reviews from "../pages/Reviews/Reviews";
 import Setting from "../pages/Setting/Setting";
 import SinglePost from "../pages/SinglePost/SinglePost";
 import Users from "../pages/Users/Users";
+import ForgetPassword from "../pages/ForgetPassword/ForgetPassword";
 
 export default [
   { path: "/", element: <Auth /> },
+  { path: "/forget-password", element: <ForgetPassword /> },
   {
     path: "/home",
     element: <Home />,

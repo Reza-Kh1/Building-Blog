@@ -1,9 +1,11 @@
 import { Button, TextField } from "@mui/material";
+import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import PendingApi from "../../components/PendingApi/PendingApi";
 type FormType = {
   password: string;
   phone: string;
@@ -11,24 +13,40 @@ type FormType = {
   name: string;
 };
 export default function Auth() {
+  const [err, setErr] = useState<number>(0);
   const [isLogin, setIsLogin] = useState<boolean>(false);
   const { register, handleSubmit } = useForm<FormType>();
   const navigate = useNavigate();
-  const loginHandler = (form: FormType) => {
-    const url = isLogin ? "user" : "user/login";
-    axios
-      .post(url, form)
-      .then(({ data }) => {
-        const name = `خوش آمدید ${data?.name}`;
-        navigate("/home/dashboard");
-        toast.success(name);
-      })
-      .catch(({ response }) => {
-        toast.warning(response?.data?.message);
-      });
-  };
+  const { isPending, mutate: loginHandler } = useMutation({
+    mutationFn: (form: FormType) => {
+      const url = isLogin ? "user" : "user/login";
+      return axios.post(url, form);
+    },
+    onSuccess: ({ data }) => {
+      const body = {
+        name: data.name,
+        role: data.role,
+      };
+      localStorage.setItem("user", JSON.stringify(body));
+      const name = `خوش آمدید ${data?.name}`;
+      navigate("home/dashboard");
+      toast.success(name);
+    },
+    onError: ({ response }: any) => {
+      setErr((prev) => prev + 1);
+      toast.warning(response?.data?.message);
+    },
+  });
+  useEffect(() => {
+    const infoLocal = localStorage.getItem("user");
+    if (infoLocal) {
+      toast.success(`خوش آمدید`);
+      navigate("home/dashboard");
+    }
+  }, []);
   return (
     <div className="w-full h-screen flex justify-center items-center">
+      {isPending && <PendingApi />}
       <div className="p-5 w-1/3 rounded-md bg-gray-200 shadow-md">
         <div className="grid grid-cols-2 gap-2 mb-5 border-b border-b-gray-700 pb-5">
           <Button
@@ -47,7 +65,7 @@ export default function Auth() {
           </Button>
         </div>
         <form
-          onSubmit={handleSubmit(loginHandler)}
+          onSubmit={handleSubmit((data) => loginHandler(data))}
           className="flex w-full flex-col gap-5"
         >
           <h1 className="text-center">ورود به پنل ادمین</h1>
@@ -88,18 +106,33 @@ export default function Auth() {
               }}
             />
           )}
-          <TextField
-            autoSave="false"
-            autoComplete="off"
-            type="password"
-            label={"پسورد خود را وارد کنید"}
-            {...register("password", { required: true })}
-          />
-          <Button type="submit" variant="contained" color="success">
-            {isLogin ? "ثبت نام" : "ورود"}
+          <div className="w-full">
+            <TextField
+              fullWidth
+              autoSave="false"
+              autoComplete="off"
+              type="password"
+              label={"پسورد خود را وارد کنید"}
+              {...register("password", { required: true })}
+            />
+            {err > 2 ? (
+              <Link
+                to={"forget-password"}
+                className="text-sm mt-2 mr-2 block text-blue-500"
+              >
+                رمز خود را فراموش کرده اید ؟
+              </Link>
+            ) : null}
+          </div>
+          <Button
+            type="submit"
+            variant="contained"
+            color="success"
+            disabled={isPending}
+          >
+            {!isPending ? (isLogin ? "ثبت نام" : "ورود") : "صبر کنید..."}
           </Button>
         </form>
-        <div></div>
       </div>
     </div>
   );

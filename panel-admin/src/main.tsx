@@ -13,6 +13,7 @@ import rtlPlugin from "stylis-plugin-rtl";
 import React from "react";
 import App from "./App.tsx";
 import { toast } from "react-toastify";
+
 const theme = createTheme({
   typography: {
     fontFamily: "iranSans, Arial",
@@ -24,12 +25,19 @@ const cacheRtl = createCache({
 });
 const query = new QueryClient({
   queryCache: new QueryCache({
-    onError: (err) => {
-      toast.error("در ارتباط با دیتابیس با خطا روبرو شدیم")
-      console.log(err.stack);
-      console.log(err.message);
+    onError: (err: any) => {
+      console.log(err?.response?.status);
+      if (err?.response?.status === 403) {
+        toast.error("شما اجازه این کار ر ا ندارید !");
+        localStorage.setItem("user", "");
+        window.location.href = "/";
+      } else {
+        toast.error("در ارتباط با دیتابیس با خطا روبرو شدیم");
+      }
+      // console.log(err.stack);
+      // console.log(err.message);
       // console.log(err?.response?.status);
-      console.log(err);
+      // console.log(err);
     },
   }),
 });

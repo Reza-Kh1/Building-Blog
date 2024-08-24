@@ -87,9 +87,9 @@ const getSinglePost = asyncHandler(async (req, res) => {
     const data = await postModel.findOne({
       where: { slug: id },
       include: [
-        { model: detailPostModel, attributes: { exclude: ["id", "postId"] } },
-        { model: userModel, attributes: ["name"] },
-        { model: categoryModel, attributes: ["name", "slug", "id"] },
+        { model: detailPostModel, attributes: { exclude: ["id", "postId"] }, required: false },
+        { model: userModel, attributes: ["name"], required: false },
+        { model: categoryModel, attributes: ["name", "slug", "id"], required: false },
         {
           model: commentModel,
           where: { parentId: null, status: true },

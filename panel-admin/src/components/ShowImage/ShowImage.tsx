@@ -75,6 +75,8 @@ export default function ShowImage({ setUrl, setClose }: ShowImageType) {
                       if (setClose) {
                         setClose(false);
                       }
+                      navigator.clipboard.writeText(i)
+                      toast.success("آدرس کپی شد")
                       setUrl(i);
                     }}
                   >

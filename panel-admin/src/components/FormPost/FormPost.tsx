@@ -27,6 +27,7 @@ import { MdEditNote, MdPostAdd } from "react-icons/md";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useLocation } from "react-router-dom";
+import JoditForm from "../JoditEditor/JoditEditor";
 export default function FormPost({ dataPost }: { dataPost?: SinglePostType }) {
   const { register, handleSubmit, watch, setValue, getValues } =
     useForm<FormPostType>({
@@ -100,6 +101,7 @@ export default function FormPost({ dataPost }: { dataPost?: SinglePostType }) {
       },
       onSuccess: () => {
         toast.success("اطلاعات با موفقیت دخیره شد");
+        queryClient.invalidateQueries({ queryKey: ["siglePost", slug] });
         setIsUpdateDetail(true);
       },
       onError: (err) => {
@@ -304,7 +306,8 @@ export default function FormPost({ dataPost }: { dataPost?: SinglePostType }) {
               />
             </div>
             <div>
-              <MyEditor setEditor={setEditorText} editor={editorText} />
+              <JoditForm setEditor={setEditorText} editor={editorText}/>
+              {/* <MyEditor setEditor={setEditorText} editor={editorText} /> */}
             </div>
             <div className="mt-5">
               {isUpdateDetail ? (

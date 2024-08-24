@@ -106,6 +106,18 @@ a {
     width: 100% !important;
 }
 
+.jodit-container {
+    min-height: 500px !important;
+}
+
+.jodit-workplace {
+    min-height: 400px !important;
+}
+
+.jodit-wysiwyg {
+    min-height: 400px !important;
+}
+
 .cutline {
     white-space: normal;
     overflow: hidden;
@@ -121,9 +133,11 @@ a {
 .cutline-2 {
     -webkit-line-clamp: 2;
 }
+
 .cutline-3 {
     -webkit-line-clamp: 3;
 }
+
 .cutline-3 {
     -webkit-line-clamp: 4;
 }

@@ -53,5 +53,5 @@
 
 .input-subscribe:focus {
     outline: none;
-    /* background-color: rgba(0, 0, 0, 0.399); */
+    background-color: #00000059;
 }

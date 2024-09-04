@@ -5,7 +5,7 @@ import { FaInstagram, FaLinkedin, FaWhatsapp } from 'react-icons/fa6'
 
 export default function IconSocialMedia() {
     return (
-        <ul className="flex gap-5 text-gray-500 dark:text-stone-100 text-2xl">
+        <ul className="flex gap-5 text-gray-500 dark:text-stone-100">
             <li className="relative">
                 <Link
                     href="https://telegram.me/Reza_kh666"

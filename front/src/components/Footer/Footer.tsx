@@ -127,7 +127,9 @@ export default function Footer() {
                   ))
                 }
               </ul>
+              <div className="text-2xl">
               <IconSocialMedia />
+              </div>
             </div>
             <div className="w-1/3 text-slate-500 mx-auto text-center">
               <p>©️ کلیه حقوق این سایت متعلق به invetion است .</p>

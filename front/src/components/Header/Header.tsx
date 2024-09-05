@@ -56,7 +56,7 @@ export default function Header() {
           </div>
           <div className="w-4/12 flex items-center justify-end">
             <figure className="flex justify-end items-end">
-              <Image src={"/logo.png"} width={70} height={20} alt="logo" />
+              <Image src={"/logo.png"} width={70} height={20} alt="logo" loading="eager" />
             </figure>
           </div>
         </div>

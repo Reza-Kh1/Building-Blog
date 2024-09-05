@@ -22,8 +22,7 @@ export default function SearchBox() {
       >
         <BsSearch size={22} />
       </i>
-      {isShow && (
-        <div className="w-full fixed right-0 top-10 z-20">
+        <div className={`w-full fixed ${isShow ? "right-0 top-10 opacity-100": "right-0 opacity-0 -top-20"} transition-all z-20`}>
           <div className="max-w-7xl shadow-lg rounded-xl p-3 mx-auto flex justify-between bg-gray-300 dark:bg-gray-600 items-center">
             <input
               ref={ref}
@@ -36,7 +35,6 @@ export default function SearchBox() {
             </i>
           </div>
         </div>
-      )}
     </div>
   );
 }

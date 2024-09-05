@@ -23,7 +23,7 @@ export default function Footer() {
           <div className="w-3/5">
             <div className="border-b border-b-slate-700 mb-5 pb-5 flex items-stretch gap-5 text-slate-400">
               <figure className="flex">
-                <Image alt="logo" src={"/logo.png"} width={200} height={100} />
+                <Image alt="logo" src={"/logo.png"} width={200} height={100} loading="lazy"/>
               </figure>
               <span className="border border-slate-500"></span>
               <p className="text-justify">

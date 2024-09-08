@@ -4,7 +4,7 @@ const nextConfig = {
         remotePatterns: [
             {
                 protocol: "https",
-                hostname: "th.bing.com",
+                hostname: "building-blog.storage.iran.liara.space",
                 pathname: "**"
             }
         ]

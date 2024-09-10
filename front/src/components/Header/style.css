@@ -1,0 +1,12 @@
+.header-sticky {
+    transition: all ease-in 0.5s;
+    z-index: 30;
+    position: sticky;
+    display: flex;
+}
+
+.header-show {
+    top: 0;
+    transition: all ease-in 0.5s;
+    border-radius: 0 0 10px 10px;
+}

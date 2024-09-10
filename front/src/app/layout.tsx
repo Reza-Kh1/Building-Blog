@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
-import "./globals.css";
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
-import { ToastContainer } from "react-toastify";
+import LayoutProvider from "@/components/LayoutProvider/LayoutProvider";
+import "./globals.css";
+import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
+import React from "react";
 export const metadata: Metadata = {
   title: "ساخت یار - اولین منبع برای ساختن",
   description:
@@ -17,10 +19,15 @@ export default function RootLayout({
   return (
     <html lang="fa" dir="rtl">
       <body>
-        <Header />
-        {children}
-        <Footer />
-        <ToastContainer />
+        <React.StrictMode>
+          <AppRouterCacheProvider options={{ key: "css" }}>
+            <LayoutProvider>
+              <Header />
+              {children}
+              <Footer />
+            </LayoutProvider>
+          </AppRouterCacheProvider >
+        </React.StrictMode>
       </body>
     </html>
   );

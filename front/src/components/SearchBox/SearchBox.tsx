@@ -22,19 +22,21 @@ export default function SearchBox() {
       >
         <BsSearch size={22} />
       </i>
-        <div className={`w-full fixed ${isShow ? "right-0 top-10 opacity-100": "right-0 opacity-0 -top-20"} transition-all z-20`}>
-          <div className="max-w-7xl shadow-lg rounded-xl p-3 mx-auto flex justify-between bg-gray-300 dark:bg-gray-600 items-center">
-            <input
-              ref={ref}
-              type="text"
-              className="w-11/12 p-3 bg-transparent border-b focus-visible:outline-none"
-              placeholder="متن خود را بنویسید..."
-            />
-            <i onClick={() => setIsShow(false)} className="cursor-pointer">
-              <MdClose size={25} />
-            </i>
-          </div>
+      <div className={`w-full backdrop-blur-lg fixed ${isShow ? "right-0 top-20 opacity-100 z-20" : "right-0 opacity-0 -top-20 -z-20"}`} style={{
+        transition: 'all ease 0.5s'
+      }}> 
+        <div className="max-w-7xl shadow-lg rounded-xl p-3 mx-auto flex justify-between bg-gray-300/80 dark:bg-gray-600/70 items-center">
+          <input
+            ref={ref}
+            type="text"
+            className="w-11/12 p-3 bg-transparent border-b focus-visible:outline-none"
+            placeholder="متن خود را بنویسید..."
+          />
+          <i onClick={() => setIsShow(false)} className="cursor-pointer">
+            <MdClose size={25} />
+          </i>
         </div>
+      </div>
     </div>
   );
 }

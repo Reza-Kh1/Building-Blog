@@ -41,11 +41,11 @@ export default function Header() {
         </div>
       </div>
       <HeaderSticky>
-        <div className="w-full flex justify-between">
-          <div className="w-4/12 flex items-center">
+        <div className="w-full flex relative justify-between">
+          <div className="flex items-center">
             <DarkMode />
-            <SearchBox />
           </div>
+          <SearchBox />
           <div className="w-8/12 flex items-center mt-1">
             <ul className="flex justify-evenly text-slate-600 dark:text-gray-300 w-full">
               {menuTitle.map((i, index) => (

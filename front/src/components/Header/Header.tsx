@@ -41,7 +41,7 @@ export default function Header() {
       </div>
       <HeaderSticky>
         <div className="w-full flex justify-between">
-          <div className="flex items-center">
+          <div className="w-2/12 flex items-center">
             <DarkMode />
             <SearchBox />
           </div>
@@ -59,7 +59,7 @@ export default function Header() {
               ))}
             </ul>
           </div>
-          <div className="w-4/12 flex items-center justify-end">
+          <div className="w-2/12 flex items-center justify-end">
             <figure className="flex justify-end items-end">
               <Image
                 src={"/logo.png"}

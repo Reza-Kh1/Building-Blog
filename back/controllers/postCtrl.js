@@ -36,6 +36,7 @@ const getAllPost = asyncHandler(async (req, res, status, isAdmin) => {
   page = page || 1;
   let filter = {};
   let orderFilter = [];
+  let include = []
   if (order) {
     const length1 = order.split("-")[0];
     const length2 = order.split("-")[1];
@@ -56,6 +57,16 @@ const getAllPost = asyncHandler(async (req, res, status, isAdmin) => {
       { description: { [Op.iLike]: `%${search}%` } },
     ];
   }
+  if (isAdmin) {
+    include = [
+      { model: categoryModel, attributes: ["slug", "name"] },
+      { model: userModel, attributes: ["name"] },
+    ]
+  } else {
+    include = [
+      { model: categoryModel, attributes: ["slug", "name"] },
+    ]
+  }
   try {
     const data = await postModel.findAndCountAll({
       where: filter,
@@ -63,13 +74,7 @@ const getAllPost = asyncHandler(async (req, res, status, isAdmin) => {
       limit: limit,
       order: [orderFilter],
       attributes: { exclude: ["userId", "createdAt", "categoryId"] },
-      include: [
-        { model: categoryModel, attributes: ["slug", "name"] },
-        {
-          model: userModel,
-          attributes: ["name"],
-        },
-      ],
+      include: include
     });
     const paginate = pagination(data.count, page, limit);
     res.send({ ...data, paginate });

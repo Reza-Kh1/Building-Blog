@@ -2,20 +2,22 @@
 import { fetchApi } from "@/action/fetchApi";
 import React, { useEffect, useRef, useState } from "react";
 import { BsSearch } from "react-icons/bs";
-import { MdClose } from "react-icons/md";
+import { MdClose, MdManageSearch } from "react-icons/md";
 import LoadingSearch from "../LoadingSearch/LoadingSearch";
 import { toast } from "react-toastify";
-import { useRouter } from "next/navigation";
-
+import Link from "next/link";
+import { FaArrowLeft, FaCalendarDay, FaComments, FaPhotoVideo, FaSearch } from "react-icons/fa";
+import CustomButton from "../CustomButton/CustomButton";
+import { CardPostType } from "@/app/type";
+import CardPost from "../CardPost/CardPost";
 export default function SearchBox() {
   const [isShow, setIsShow] = useState<boolean>(false);
   const ref = useRef<HTMLInputElement>(null);
   const [valSearch, setValSearch] = useState<string>("");
   const [timer, setTimer] = useState<NodeJS.Timeout | null>(null);
   const [timerLoading, setTimerLoading] = useState<NodeJS.Timeout | null>(null);
-  const [data, setData] = useState("");
+  const [data, setData] = useState<CardPostType>();
   const [loading, setLoading] = useState<boolean>(false);
-  const route = useRouter();
   useEffect(() => {
     if (isShow && ref.current) {
       ref.current.focus();
@@ -42,7 +44,6 @@ export default function SearchBox() {
     setLoading(false);
     setTimer(newTimer);
   };
-
   const searchHandler = async (searchValue: string) => {
     if (!searchValue) return;
     setLoading(false);
@@ -50,7 +51,6 @@ export default function SearchBox() {
     fetchApi({ url, method: "GET" })
       .then((data) => {
         console.log(data);
-        route.push(url);
         setData(data);
       })
       .catch(() => {
@@ -60,16 +60,12 @@ export default function SearchBox() {
         setLoading(false);
       });
   };
-
   return (
     <>
       <div className="w-2/12 flex items-center">
         <div className="mr-3 text-gray-800 dark:text-gray-300">
           <i
-            onClick={() => {
-              setIsShow(true);
-              setData("text");
-            }}
+            onClick={() => setIsShow(true)}
             className="cursor-pointer"
           >
             <BsSearch size={22} />
@@ -77,12 +73,11 @@ export default function SearchBox() {
         </div>
       </div>
       <div
-        className={`w-full absolute transition-all right-0 top-36 ${
-          isShow ? "opacity-100 z-20 !top-28" : "opacity-0 -z-20"
-        }`}
+        className={`w-full absolute transition-all right-0 top-36 ${isShow ? "opacity-100 z-20 !top-28" : "opacity-0 -z-20"
+          }`}
       >
         <div className="max-w-7xl transition-all rounded-xl p-3 mx-auto flex justify-between items-center bg-gradient-to-tr from-blue-300/60  to-gray-100/60 dark:from-slate-700 dark:to-zinc-500 backdrop-blur-lg shadow-md">
-          <form className="w-11/12 relative">
+          <form className="w-10/12 relative">
             <input
               ref={ref}
               value={valSearch}
@@ -97,34 +92,30 @@ export default function SearchBox() {
               </div>
             )}
           </form>
-          <i
-            onClick={() => {
-              setIsShow(false), setData("");
-            }}
-            className="cursor-pointer"
-          >
-            <MdClose size={25} />
-          </i>
+          <span className="w-2/12 flex justify-around items-center">
+            <Link href={"/search/" + valSearch} >
+              <CustomButton type="button" className="" name="جستجو" iconEnd={<FaSearch />} />
+            </Link>
+            <i
+              onClick={() => setIsShow(false)}
+              className="cursor-pointer hover:bg-blue-500/70 hover:shadow-md hover:text-white transition-all rounded-full p-3"
+            >
+              <MdClose size={25} />
+            </i>
+          </span>
         </div>
       </div>
       <div
-        className={`-z-20 opacity-0 absolute w-full top-52 left-0 flex justify-center transition-all ${
-          data ? "z-20 opacity-100 top-48" : ""
-        }`}
+        className={`-z-20 h-screen opacity-0 absolute w-full top-52 left-0 flex justify-center transition-all ${data?.count && isShow ? "z-20 opacity-100 top-48" : ""
+          }`}
       >
-        <div className="max-w-7xl bg-gradient-to-tr from-blue-300/60 backdrop-blur-md  to-gray-100/60 shadow-md p-4 rounded-lg flex justify-between">
-          <p>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eum nam
-            inventore modi doloribus eligendi dolore nihil saepe perferendis
-            fugiat, harum blanditiis asperiores iure quisquam illum doloremque
-            laborum nemo. Laboriosam, quo?
-          </p>
-          <p>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eum nam
-            inventore modi doloribus eligendi dolore nihil saepe perferendis
-            fugiat, harum blanditiis asperiores iure quisquam illum doloremque
-            laborum nemo. Laboriosam, quo?
-          </p>
+        <div className="max-w-7xl h-3/4 overflow-y-scroll w-full bg-gradient-to-tr from-blue-300/60 backdrop-blur-md to-gray-100/60 shadow-md p-4 rounded-lg">
+          <div className="grid grid-cols-3 gap-3">
+            <CardPost props={data} />
+          </div>
+          <Link className="mt-4 block" href={`/search/${valSearch}`}>
+            <CustomButton name="مشاهده همه پست ها" type="button" iconClass="text-lg" iconEnd={<MdManageSearch />} />
+          </Link>
         </div>
       </div>
     </>

@@ -1,10 +1,10 @@
 "use client";
 import React from "react";
 import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { ThemeProvider } from "@mui/material";
 import theme from "@/theme/theme";
 import { CacheProvider } from "@emotion/react";
+// import "react-toastify/dist/ReactToastify.css";
 
 
 import createCache from '@emotion/cache';

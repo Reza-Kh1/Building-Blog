@@ -4,9 +4,7 @@ import { ToastContainer } from "react-toastify";
 import { ThemeProvider } from "@mui/material";
 import theme from "@/theme/theme";
 import { CacheProvider } from "@emotion/react";
-// import "react-toastify/dist/ReactToastify.css";
-
-
+import "react-toastify/dist/ReactToastify.css";
 import createCache from '@emotion/cache';
 import rtlPlugin from 'stylis-plugin-rtl';
 import { prefixer } from 'stylis';

@@ -60,15 +60,17 @@ export default function Header() {
             </ul>
           </div>
           <div className="w-2/12 flex items-center justify-end">
-            <figure className="flex justify-end items-end">
-              <Image
-                src={"/logo.png"}
-                width={70}
-                height={20}
-                alt="logo"
-                loading="eager"
-              />
-            </figure>
+            <Link href={"/"}>
+              <figure className="flex justify-end items-end">
+                <Image
+                  src={"/logo.png"}
+                  width={70}
+                  height={20}
+                  alt="logo"
+                  loading="eager"
+                />
+              </figure>
+            </Link>
           </div>
         </div>
       </HeaderSticky>

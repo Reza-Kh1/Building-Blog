@@ -39,13 +39,15 @@ export default async function page({ searchParams }: pageType) {
           </span>
         </span>
       </div>
-      <div className="grid grid-cols-4 gap-3 mt-5">
-        {<CardPost props={data} />}
+      <div className="grid grid-cols-4 gap-3">
+        <CardPost props={data} />
       </div>
-      <div className="paginate">
-        <Pagination />
-      </div>
-      {!data.rows.length && (
+      {data.rows?.length ? (
+        <div className="paginate mt-9">
+          <Pagination pagination={data.paginate} />
+        </div>
+      ) : null}
+      {!data.rows?.length && (
         <div className=" w-full text-center flex flex-col gap-5 my-10">
           <span className="text-lg">
             هیچ پستی با کلمه جستجوی شما یافت نشد !!!

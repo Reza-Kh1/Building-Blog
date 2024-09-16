@@ -7,13 +7,15 @@ import {
   Select,
   SelectChangeEvent,
 } from "@mui/material";
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import React from "react";
 export default function FilterSearch() {
-  const [age, setAge] = React.useState("");
-  const search = useSearchParams().get("search")
+  const [filter, setFilter] = React.useState<string>("");
+  const searchParams = useSearchParams()
+  const { order, search } = Object.fromEntries(searchParams.entries());
   const handleChange = (event: SelectChangeEvent) => {
-    setAge(event.target.value as string);
+    setFilter(event.target.value as string);
   };
   return (
     <>
@@ -30,12 +32,20 @@ export default function FilterSearch() {
               className="shadow-md"
               labelId="demo-simple-select-label"
               id="demo-simple-select"
-              value={age}
+              value={order ? order : filter}
               label="مرتب سازی بر اساس"
               onChange={handleChange}
             >
-              <MenuItem value={"created-ASC"}>قدیمی ترین</MenuItem>
-              <MenuItem value={"created-DESC"}>جدید ترین</MenuItem>
+              <MenuItem value={"createdAt-ASC"}>
+                <Link href={{ query: `${search ? "search=" + search + "&" : ""}order=createdAt-ASC&page=1` }}>
+                  قدیمی ترین
+                </Link>
+              </MenuItem>
+              <MenuItem value={"createdAt-DESC"}>
+                <Link href={{ query: `${search ? "search=" + search + "&" : ""}order=createdAt-DESC&page=1` }}>
+                  جدید ترین
+                </Link>
+              </MenuItem>
             </Select>
           </FormControl>
         </div>
@@ -43,8 +53,8 @@ export default function FilterSearch() {
       <div>
         <h3 className="text-lg my-3">
           نتایج جستجو :
-          <span className="font-semibold text-blue-400 mr-2">
-            {search}
+          <span className=" text-xl text-blue-400 mr-2">
+            {search || "نمایش همه پست ها"}
           </span>
         </h3>
       </div>

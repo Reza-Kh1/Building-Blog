@@ -1,83 +1,95 @@
 "use client"
 import { PaginationType } from "@/app/type";
-import { Button, IconButton } from "@mui/material";
+import { IconButton } from "@mui/material";
 import Link from "next/link";
-import { useParams, usePathname, useSearchParams } from "next/navigation";
-// import { Button, IconButton } from "@material-tailwind/react";
-import {
-    MdKeyboardDoubleArrowLeft,
-    MdKeyboardDoubleArrowRight,
-} from "react-icons/md";
-// import { Link, useLocation } from "react-router-dom";
+import { useSearchParams } from "next/navigation";
+import { FaAnglesLeft, FaAnglesRight } from "react-icons/fa6";
 type PaginationComponentsType = {
-    setPage: (value: number) => void;
     pagination: PaginationType | undefined;
 };
 export default function Pagination({ pagination }: PaginationComponentsType) {
-    // if (!pagination) return;
-    const { page, ...otherQuery } = useSearchParams()
-    // console.log(location, path);
-
+    const searchParams = useSearchParams() as any
+    if (!pagination || !pagination.allPage) return;
+    let { page, ...otherQuery } = Object.fromEntries(searchParams.entries());
+    page = page || 1
+    const newQuery = new URLSearchParams(otherQuery).toString()
+    const startPage = Math.max(1, Number(page) - 3);
+    const endPage = Math.min(pagination.allPage, Number(page) + 3);
     return (
-
-        <div className="w-full flex bg-gray-50 mt-4 rounded-md p-2 justify-between">
-            <Link href={{ query: new URLSearchParams(otherQuery).toString() + `&page=${Number(page) + 1}` }}>test</Link>
-            {/* <div className="flex items-center">
-                {pagination?.prevPage && (
+        <div className="flex justify-between items-center mt-3">
+            {
+                pagination?.prevPage ?
                     <Link
-                        href={location.pathname + `?page=${pagination.prevPage || 1}`}
+                        href={{ query: newQuery + `&page=${pagination.prevPage}` }}
                     >
-                        <Button
-                            variant="outlined"
-                            className="flex items-center"
-                            // size="sm"
-                            onClick={() => setPage(pagination.prevPage || 1)}
-                        >
-                            <MdKeyboardDoubleArrowRight className="ml-1 text-lg" />
-                            صفحه قبل
-                        </Button>
+                        <IconButton className="shadow-md !bg-[#6198f7]" disabled={pagination.prevPage ? false : true}>
+                            <FaAnglesRight size={22} color="#ededed" />
+                        </IconButton>
                     </Link>
+                    :
+                    <IconButton disabled={true}>
+                        <FaAnglesRight size={22} />
+                    </IconButton>
+            }
+            <div className="flex gap-2 items-center justify-evenly">
+                {Number(page) > 4 && (
+                    <>
+                        <Link href={{ query: newQuery + `&page=${1}` }}>
+                            <IconButton size="small" className="shadow-md !px-4 !bg-[#6198f7]">
+                                <span className="text-gray-50 pt-1">
+                                    1
+                                </span>
+                            </IconButton>
+                        </Link>
+                        <span>...</span>
+                    </>
                 )}
-            </div>
-            <div className="flex items-center gap-2">
-                {pagination.allPage &&
-                    Array.from({ length: pagination.allPage }, (_, i) => i + 1).map(
-                        (i) => {
-                            return (
-                                <Link
-                                    key={i}
-                                    href={location.pathname + `?page=${i || 1}`}
-                                >
-                                    <IconButton
-                                        variant="outlined"
-                                        // size="sm"
-                                        onClick={() => setPage(i)}
-                                        className={i === Number(page) ? "bg-blue-400" : ""}
-                                    >
+                {pagination.allPage
+                    ? Array.from(
+                        { length: Math.min(11, endPage - startPage + 1) },
+                        (_, i) => startPage + i
+                    ).map((i) => {
+                        return i === Number(page) ?
+                            <IconButton key={i} disabled={Number(page) === i} size="small" className={`!px-4 shadow-md ${i === Number(page) ? "!bg-[#9db4c8]" : "!bg-[#6198f7]"}`}>
+                                <span className="text-gray-50 pt-1">
+                                    {i}
+                                </span>
+                            </IconButton>
+                            :
+                            <Link href={{ query: newQuery + `&page=${i}` }} key={i}>
+                                <IconButton disabled={Number(page) === i} size="small" className={`!px-4 shadow-md ${i === Number(page) ? "!bg-[#9db4c8]" : "!bg-[#6198f7]"}`}>
+                                    <span className="text-gray-50 pt-1">
                                         {i}
-                                    </IconButton>
-                                </Link>
-                            );
-                        }
-                    )}
-            </div>
-            <div className="flex items-center">
-                {pagination?.nextPage && (
-                    <Link
-                        to={location.pathname + `?page=${pagination.nextPage || 1}`}
-                    >
-                        <Button
-                            variant="outlined"
-                            className="flex items-center"
-                            // size="sm"
-                            onClick={() => setPage(pagination.nextPage || 1)}
-                        >
-                            صفحه بعد
-                            <MdKeyboardDoubleArrowLeft className="mr-1 text-lg" />
-                        </Button>
-                    </Link>
+                                    </span>
+                                </IconButton>
+                            </Link>
+                    })
+                    : null}
+                {pagination.allPage - Number(page) > 3 && (
+                    <>
+                        <span>...</span>
+                        <Link href={{ query: newQuery + `&page=${pagination.allPage}` }}>
+                            <IconButton size="small" className="shadow-md !px-4 !bg-[#6198f7]">
+                                <span className="text-gray-50 pt-1">
+                                    {pagination.allPage}
+                                </span>
+                            </IconButton>
+                        </Link>
+                    </>
                 )}
-            </div> */}
-        </div>
+            </div>
+            {
+                pagination.nextPage ?
+                    <Link href={{ query: newQuery + `&page=${pagination.nextPage ? Number(page) + 1 : page}` }}>
+                        <IconButton className="shadow-md !bg-[#6198f7]" disabled={pagination.nextPage ? false : true}>
+                            <FaAnglesLeft size={22} color="#ededed" />
+                        </IconButton>
+                    </Link>
+                    :
+                    <IconButton disabled={true}>
+                        <FaAnglesLeft size={22} />
+                    </IconButton>
+            }
+        </div >
     );
 }

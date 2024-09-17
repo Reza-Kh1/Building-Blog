@@ -2,7 +2,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import React from 'react'
-import { FaAngleLeft, FaChevronLeft } from 'react-icons/fa6'
+import { FaChevronLeft } from 'react-icons/fa6'
 
 export default function Breadcrums() {
     const route = usePathname()
@@ -36,6 +36,11 @@ export default function Breadcrums() {
         if (i === "contact-us") {
             return {
                 name: "ارتباط با ما", url: "/contact-us"
+            }
+        }
+        if (i === "faqs") {
+            return {
+                name: "سوالات متداول", url: "/faqs"
             }
         }
         return {

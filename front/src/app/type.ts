@@ -18,7 +18,14 @@ type PaginationType = {
     nextPage?: number
     prevPage?: number
 }
+type MenuComType = {
+    name: string
+    url: string
+    child?: MenuComType
+}[]
+
 export type {
     CardPostType,
-    PaginationType
+    PaginationType,
+    MenuComType
 }

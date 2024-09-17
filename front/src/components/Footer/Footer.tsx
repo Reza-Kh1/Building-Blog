@@ -30,13 +30,13 @@ export default function Footer() {
                 ساختمان یار با هدف ارتقاء صنعت ساخت و ساز، ارائه خدمات جامع و حرفه‌ای در زمینه‌های مختلف ساختمانی را در دستور کار خود قرار داده است. از مشاوره و طراحی تا اجرا و نظارت، ما در کنار شما هستیم تا پروژه‌های ساختمانی شما به بهترین نحو ممکن به ثمر برسند.
               </p>
             </div>
-            <div className="flex justify-between">
+            <div className="grid grid-cols-3 gap-3">
               <ul className="flex flex-col gap-2 text-slate-400">
                 {menuTitle.map((i, index) => (
-                  <li key={index} className="flex">
+                  <li key={index} className="flex hover:pr-1 transition-all">
                     <Link
                       href="#"
-                      className="hover:text-slate-100 hover:scale-105 transition-all scale-1 flex items-center"
+                      className="hover:text-slate-100 transition-all scale-1 flex items-center"
                     >
                       <i>
                         <FaAngleLeft />

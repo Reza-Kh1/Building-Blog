@@ -27,4 +27,69 @@
     height: 100%;
     z-index: -1;
     backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px)
+}
+
+.menu-header ul li ul {
+    transition: all ease-in-out 0.3s;
+    position: absolute;
+    visibility: hidden;
+    opacity: 0;
+    top: 70%;
+    right: 0;
+    flex-direction: column;
+    width: 10rem;
+}
+
+.menu-header ul li:hover>ul {
+    transition: all ease-in-out 0.3s;
+    visibility: visible;
+    top: 100%;
+    opacity: 1;
+}
+
+
+.menu-header ul li ul li {
+    position: relative;
+    background-color: #ffffff;
+    transition: all ease-in 0.2s;
+    width: 100%;
+}
+
+.menu-header ul li ul li:first-child {
+    border-top: 3px solid #3379e2;
+    border-right: 1px solid #ffffff;
+    border-left: 1px solid #ffffff;
+    border-bottom: 1px solid #ffffff;
+}
+
+.menu-header ul li ul li:hover {
+    color: #3379e2;
+    background-color: #daf2f9;
+    transition: all ease-in 0.2s;
+    padding-right: 0.3rem;
+}
+
+.menu-header ul li ul li:first-child:hover {
+    border-right: 1px solid transparent;
+    border-left: 1px solid transparent;
+    border-bottom: 1px solid transparent;
+}
+
+.menu-header ul li ul>li>ul {
+    transition: all ease-in-out 0.3s;
+    position: absolute;
+    visibility: hidden;
+    opacity: 0;
+    top: 50%;
+    right: 100%;
+    width: 10rem;
+}
+
+.menu-header ul li ul>li:hover>ul {
+    transition: all ease-in-out 0.3s;
+    visibility: visible;
+    opacity: 1;
+    top: 0%;
+
 }

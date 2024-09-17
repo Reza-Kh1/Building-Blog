@@ -48,8 +48,7 @@ export default function FilterSearch() {
               </MenuItem>
             </Select>
           </FormControl>
-        </div>
-      </div>
+        </div>      </div>
       <div>
         <h3 className="text-lg my-3">
           نتایج جستجو :

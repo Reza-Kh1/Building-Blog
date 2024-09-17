@@ -5,6 +5,7 @@ import LayoutProvider from "@/components/LayoutProvider/LayoutProvider";
 import "./globals.css";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
 import React from "react";
+import Calling from "@/components/Calling/Calling";
 export const metadata: Metadata = {
   title: "ساخت یار - اولین منبع برای ساختن",
   description:
@@ -24,6 +25,7 @@ export default function RootLayout({
             <LayoutProvider>
               <Header />
               {children}
+              <Calling />
               <Footer />
             </LayoutProvider>
           </AppRouterCacheProvider >

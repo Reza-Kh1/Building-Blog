@@ -22,7 +22,7 @@ export default function ImgTag({
                 width={width}
                 height={height}
                 loading="lazy"
-                layout='responsive'
+                // layout='responsive'
                 // placeholder="blur"
                 // blurDataURL="data:image/gif;base64,..."
                 onLoad={() => setLoad(false)}

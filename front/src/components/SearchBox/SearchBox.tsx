@@ -27,7 +27,7 @@ export default function SearchBox() {
   useEffect(() => {
     if (isShow && ref.current) {
       ref.current.focus();
-    }    
+    }
   }, [isShow]);
   const timerSearch = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
     const value = target.value;

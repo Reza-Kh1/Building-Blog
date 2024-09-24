@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import IconSocialMedia from "../IconSocialMedia/IconSocialMedia";
 import Link from "next/link";
 import Image from "next/image";
@@ -109,7 +109,9 @@ export default function Header() {
         <div className="w-full flex justify-between">
           <div className="w-2/12 flex items-center">
             <DarkMode />
-            <SearchBox />
+            <Suspense fallback={<div>loading...</div>}>
+              <SearchBox />
+            </Suspense>
           </div>
           <div className="w-8/12 flex items-center mt-1 menu-header">
             <ul className="flex justify-evenly text-slate-600 dark:text-gray-300 w-full">

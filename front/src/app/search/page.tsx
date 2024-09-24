@@ -2,7 +2,7 @@ import { fetchApi } from "@/action/fetchApi";
 import NotFound from "@/app/not-found";
 import { CardPostType } from "@/app/type";
 import CardPost from "@/components/CardPost/CardPost";
-import React from "react";
+import React, { Suspense } from "react";
 import FilterSearch from "./FilterSearch";
 import Link from "next/link";
 import CustomButton from "@/components/CustomButton/CustomButton";
@@ -29,7 +29,9 @@ export default async function page({ searchParams }: pageType) {
   return (
     <div className="search-page max-w-7xl my-5 mx-auto px-2">
       <div className="navbar-search mb-4">
-        <FilterSearch />
+        <Suspense fallback={<div>loading...</div>}>
+          <FilterSearch />
+        </Suspense>
       </div>
       <div>
         <span>
@@ -43,8 +45,10 @@ export default async function page({ searchParams }: pageType) {
         <CardPost props={data} />
       </div>
       {data.rows?.length ? (
-        <div className="paginate mt-9">
-          <Pagination pagination={data.paginate} />
+        <div className="paginate mt-9">\
+          <Suspense fallback={<div>loading...</div>}>
+            <Pagination pagination={data.paginate} />
+          </Suspense>
         </div>
       ) : null}
       {!data.rows?.length && (

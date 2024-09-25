@@ -53,8 +53,8 @@ const menuTitle = [
     url: "/faqs",
   },
   {
-    name: "گالری",
-    url: "#",
+    name: "درباره ما",
+    url: "/about-us",
   }
 ];
 export default function Header() {

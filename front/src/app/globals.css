@@ -2,19 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-} */
 @font-face {
   font-family: "iranSans";
   src: url("../fonts/Vazir-Regular.woff") format("woff");
@@ -28,13 +15,6 @@
 
 body {
   font-family: "iranSans", Arial, Helvetica, sans-serif !important;
-  /* color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb)); */
 }
 
 ul {
@@ -60,16 +40,29 @@ a {
 
 .cutline-1 {
   -webkit-line-clamp: 1;
+  line-clamp: 1
 }
 
 .cutline-2 {
   -webkit-line-clamp: 2;
+  line-clamp: 2
 }
 
 .cutline-3 {
   -webkit-line-clamp: 3;
+  line-clamp: 3
 }
 
 .cutline-3 {
   -webkit-line-clamp: 4;
+  line-clamp: 4
+}
+
+.hover-project {
+  scale: 1;
+  transition: all ease-in 0.5s;
+}
+.hover-project:hover {
+  scale: 1.5;
+  transition: all ease-in 5s;
 }

@@ -4,9 +4,10 @@ import React, { useState } from "react";
 import { SwiperSlide, Swiper } from "swiper/react";
 import { FreeMode, Navigation, Thumbs } from "swiper/modules";
 import ImgTag from "@/components/ImgTag/ImgTag";
-import { FaHome } from "react-icons/fa";
+import { FaChevronLeft, FaHome } from "react-icons/fa";
 import { FcDepartment } from "react-icons/fc";
 import Image from "next/image";
+import { FaCheck } from "react-icons/fa6";
 export default function page() {
   const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
   return (
@@ -193,6 +194,47 @@ export default function page() {
               </p>
             </div>
           </div>
+        </div>
+      </div>
+      <div className="max-w-7xl mx-auto mt-5 w-full flex gap-3 items-center">
+        <div className="w-1/2">
+          <h3 className="text-xl mb-3 font-semibold">
+            به حرفه ای ها بسپارید !
+          </h3>
+          <h4 className="text-sm text-gray-600 mb-3">
+            6 نکته ای که باعث میشود به ما اعتماد کنید
+          </h4>
+          <ul className="flex flex-col gap-2">
+            <li className="flex items-center gap-3">
+              <i><FaCheck /></i>
+              <span>بیش از 30 سال تجربه</span>
+            </li>
+            <li className="flex items-center gap-3">
+              <i><FaCheck /></i>
+              <span>تحویل پروژه در زمان معین شده</span>
+            </li>
+            <li className="flex items-center gap-3">
+              <i><FaCheck /></i>
+              <span>100% تضمین و اطمینان</span>
+            </li>
+            <li className="flex items-center gap-3">
+              <i><FaCheck /></i>
+              <span>تیم حرفه ای اختصاصی +100</span>
+            </li>
+            <li className="flex items-center gap-3">
+              <i><FaCheck /></i>
+              <span>پشتیبانی بی نظیر پس از اتمام پروژه</span>
+            </li>
+            <li className="flex items-center gap-3">
+              <i><FaCheck /></i>
+              <span>مشاوره درست و متناسب با شرایط شما</span>
+            </li>
+          </ul>
+        </div>
+        <div className="w-1/2">
+          <figure>
+            <ImgTag src={"/about.jpg"} alt={"about-us"} width={500} height={450} />
+          </figure>
         </div>
       </div>
     </div>

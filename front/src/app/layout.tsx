@@ -6,6 +6,12 @@ import "./globals.css";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
 import React from "react";
 import Calling from "@/components/Calling/Calling";
+
+import "react-toastify/dist/ReactToastify.css";
+import "swiper/css";
+import "swiper/css/free-mode";
+import "swiper/css/navigation";
+import "swiper/css/thumbs";
 export const metadata: Metadata = {
   title: "ساخت یار - اولین منبع برای ساختن",
   description:
@@ -28,7 +34,7 @@ export default function RootLayout({
               <Calling />
               <Footer />
             </LayoutProvider>
-          </AppRouterCacheProvider >
+          </AppRouterCacheProvider>
         </React.StrictMode>
       </body>
     </html>

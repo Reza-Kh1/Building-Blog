@@ -50,8 +50,8 @@ const imagesSrc = ["/5.jpg", "/6.jpg", "/7.jpg", "/8.jpg"]
 const dataProject = [{ src: "/6.jpg", url: "#", title: "پروژه برج امید", address: "تهران ، الهیه" }]
 export default function page() {
   return (
-    <div className="w-full my-10">
-      <div className="max-w-7xl mx-auto w-full my-10">
+    <div className="w-full my-6">
+      <div className="max-w-7xl mx-auto w-full my-6">
         <Breadcrums />
         <div className="my-5">
           <h1 className="text-2xl mb-2 font-semibold">درباره ما</h1>

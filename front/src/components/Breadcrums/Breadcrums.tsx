@@ -3,7 +3,6 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import React from 'react'
 import { FaChevronLeft } from 'react-icons/fa6'
-
 export default function Breadcrums() {
     const route = usePathname()
     const arry = route.split("/")
@@ -41,6 +40,11 @@ export default function Breadcrums() {
         if (i === "faqs") {
             return {
                 name: "سوالات متداول", url: "/faqs"
+            }
+        }
+        if (i === "request-project") {
+            return {
+                name: "گرفتن قیمت آنلاین", url: "/request-project"
             }
         }
         return {

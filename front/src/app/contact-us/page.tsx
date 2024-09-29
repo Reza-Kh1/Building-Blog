@@ -5,10 +5,9 @@ import FormContactUs from './FormContactUs'
 import ContactSocialMedia from '@/components/ContactSocialMedia/ContactSocialMedia'
 export default function page() {
   return (
-    <div className='mx-auto max-w-7xl w-full my-5'>
+    <div className='mx-auto max-w-7xl w-full my-6'>
       <Breadcrums />
-
-      <div className='mt-4'>
+      <div className='mt-6'>
         <h1 className='text-2xl mb-2 block font-medium'>
           ارتباط  با ما
         </h1>

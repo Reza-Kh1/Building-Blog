@@ -5,8 +5,7 @@ import AccordionFaqs from "./AccordionFaqs";
 
 export default function page() {
   return (
-    <div className="faqs-page w-full my-5">
-      <div></div>
+    <div className="faqs-page w-full my-6">
       <div className="w-full mb-5 max-w-7xl mx-auto">
         <Breadcrums />
       </div>

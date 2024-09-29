@@ -1,14 +1,11 @@
-"use client";
 import Breadcrums from "@/components/Breadcrums/Breadcrums";
-import React, { useState } from "react";
-import { SwiperSlide, Swiper } from "swiper/react";
-import { FreeMode, Navigation, Thumbs } from "swiper/modules";
+import React from "react";
 import ImgTag from "@/components/ImgTag/ImgTag";
-import { FaChevronLeft, FaHome } from "react-icons/fa";
-import { FcDepartment } from "react-icons/fc";
 import Image from "next/image";
-import { FaCheck, FaPlay } from "react-icons/fa6";
+import { FaCheck } from "react-icons/fa6";
 import Link from "next/link";
+import SwiperGallery from "@/components/SwiperGallery/SwiperGallery";
+import CartProjects from "@/components/CartProjects/CartProjects";
 const dataBanner = [
   {
     src: "/icon-paint.png",
@@ -49,8 +46,9 @@ const dataTrustUs = [
   "پشتیبانی بی نظیر پس از اتمام پروژه",
   "مشاوره درست و متناسب با شرایط شما",
 ];
+const imagesSrc = ["/5.jpg", "/6.jpg", "/7.jpg", "/8.jpg"]
+const dataProject = [{ src: "/6.jpg", url: "#", title: "پروژه برج امید", address: "تهران ، الهیه" }]
 export default function page() {
-  const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
   return (
     <div className="w-full my-10">
       <div className="max-w-7xl mx-auto w-full my-10">
@@ -71,55 +69,7 @@ export default function page() {
             </p>
           </div>
           <div className="w-1/2">
-            {/* 
-            <Swiper
-              style={{
-                '--swiper-navigation-color': '#fff',
-                '--swiper-pagination-color': '#fff',
-              }}
-              loop={true}
-              spaceBetween={10}
-              navigation={true}
-              thumbs={{ swiper: thumbsSwiper }}
-              modules={[FreeMode, Navigation, Thumbs]}
-              className="mySwiper2"
-            >
-              <SwiperSlide>
-                <ImgTag width={350} height={250} alt={"test"} src="/5.jpg" />
-              </SwiperSlide>
-              <SwiperSlide>
-                <ImgTag width={350} height={250} alt={"test"} src="/6.jpg" />
-              </SwiperSlide>
-              <SwiperSlide>
-                <ImgTag width={350} height={250} alt={"test"} src="/7.jpg" />
-              </SwiperSlide>
-              <SwiperSlide>
-                <ImgTag width={350} height={250} alt={"test"} src="/8.jpg" />
-              </SwiperSlide>
-            </Swiper>
-            <Swiper
-              onSwiper={setThumbsSwiper}
-              loop={true}
-              spaceBetween={10}
-              slidesPerView={4}
-              freeMode={true}
-              watchSlidesProgress={true}
-              modules={[FreeMode, Navigation, Thumbs]}
-              className="mySwiper"
-            >
-              <SwiperSlide>
-                <ImgTag width={250} height={250} alt={"test"} src="/5.jpg" />
-              </SwiperSlide>
-              <SwiperSlide>
-                <ImgTag width={250} height={250} alt={"test"} src="/6.jpg" />
-              </SwiperSlide>
-              <SwiperSlide>
-                <ImgTag width={250} height={250} alt={"test"} src="/7.jpg" />
-              </SwiperSlide>
-              <SwiperSlide>
-                <ImgTag width={250} height={250} alt={"test"} src="/8.jpg" />
-              </SwiperSlide>
-            </Swiper> */}
+            <SwiperGallery imagesSrc={imagesSrc} />
           </div>
         </div>
       </div>
@@ -146,29 +96,7 @@ export default function page() {
       <div className="max-w-7xl mx-auto w-full my-5 ">
         <h3 className="text-xl font-semibold mb-3">برخی از پروژه های ما</h3>
         <div className="grid grid-cols-3 gap-5">
-          <div>
-            <Link href={"#"} className="relative group">
-              <ImgTag
-                fiureClass="relative w-full overflow-hidden rounded-md"
-                alt={"نمونه پروژه"}
-                src={"/6.jpg"}
-                width={500}
-                height={350}
-                classPlus="hover-project"
-              />
-              <i className="p-3 group-hover:opacity-100 transition-all opacity-0 hover:bg-gray-50 rounded-full bg-gray-200/80 absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                <FaPlay />
-              </i>
-            </Link>
-            <div className="flex flex-col gap-2 mt-3">
-              <div>
-                <Link href={"#"} className="inline-block">
-                  <span className="hover:text-blue-400">پروژه برج امید</span>
-                </Link>
-              </div>
-              <span className="text-sm text-gray-700">تهران ، الهیه</span>
-            </div>
-          </div>
+          <CartProjects data={dataProject} />
         </div>
       </div>
       <div className="w-full my-10 py-5 bg-blue-400 shadow-md flex items-center gap-2 justify-center relative">

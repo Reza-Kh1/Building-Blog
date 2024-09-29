@@ -23,9 +23,15 @@ type MenuComType = {
     url: string
     child?: MenuComType
 }[]
-
+type CartProjectsType = {
+    url: string;
+    src: string;
+    title: string;
+    address: string
+}[]
 export type {
     CardPostType,
     PaginationType,
-    MenuComType
+    MenuComType,
+    CartProjectsType
 }

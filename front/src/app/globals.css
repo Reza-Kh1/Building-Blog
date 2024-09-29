@@ -62,7 +62,13 @@ a {
   scale: 1;
   transition: all ease-in 0.5s;
 }
+
 .hover-project:hover {
   scale: 1.5;
   transition: all ease-in 5s;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  color: black !important;
 }

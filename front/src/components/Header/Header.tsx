@@ -55,6 +55,10 @@ const menuTitle = [
   {
     name: "درباره ما",
     url: "/about-us",
+  },
+  {
+    name: "گرفتن قیمت آنلاین",
+    url: "/request-project",
   }
 ];
 export default function Header() {

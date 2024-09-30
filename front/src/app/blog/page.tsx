@@ -13,12 +13,12 @@ export default function page() {
       <div className="max-w-7xl w-full mx-auto my-6">
         <Breadcrums />
         <div className="flex w-full items-center mt-6 justify-between">
-          <h1>وبلاگ مصالح ساختمانی</h1>
+          <h1>وبلاگ ساختمان یار</h1>
           <div className="w-1/6">
             <OrderSearch />
           </div>
         </div>
-        <div>
+        <div className="my-5">
           <Cards />
         </div>
         <div>

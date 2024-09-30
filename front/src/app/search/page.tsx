@@ -1,13 +1,13 @@
 import { fetchApi } from "@/action/fetchApi";
 import NotFound from "@/app/not-found";
 import { CardPostType } from "@/app/type";
-import CardPost from "@/components/CardPost/CardPost";
 import React, { Suspense } from "react";
 import FilterSearch from "./FilterSearch";
 import Link from "next/link";
 import CustomButton from "@/components/CustomButton/CustomButton";
 import { FaHome } from "react-icons/fa";
 import Pagination from "@/components/Pagination/Pagination";
+import Cards from "@/components/Cards/Cards";
 type pageType = {
   searchParams: QueryType
 };
@@ -41,11 +41,11 @@ export default async function page({ searchParams }: pageType) {
           </span>
         </span>
       </div>
-      <div className="grid grid-cols-4 gap-3">
-        <CardPost props={data} />
+      <div className="flex flex-col w-full gap-3 my-6">
+        <Cards props={data} />
       </div>
       {data.rows?.length ? (
-        <div className="paginate mt-9">\
+        <div className="paginate mt-9">
           <Suspense fallback={<div>loading...</div>}>
             <Pagination pagination={data.paginate} />
           </Suspense>

@@ -7,8 +7,8 @@ type ImageType = {
   src: any;
   alt: string | null;
   className?: string;
-  width: number;
-  height: number;
+  width?: number;
+  height?: number;
   classPlus?: string;
   fiureClass?: string;
 };
@@ -29,7 +29,6 @@ export default function ImgTag({
         width={width}
         height={height}
         loading="lazy"
-        // layout='responsive'
         // placeholder="blur"
         // blurDataURL="data:image/gif;base64,..."
         onLoad={() => setLoad(false)}

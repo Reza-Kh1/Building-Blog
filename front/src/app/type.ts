@@ -23,7 +23,7 @@ type MenuComType = {
     url: string
     child?: MenuComType
 }[]
-type CartProjectsType = {
+type CardProjectsType = {
     url: string;
     src: string;
     title: string;
@@ -33,5 +33,5 @@ export type {
     CardPostType,
     PaginationType,
     MenuComType,
-    CartProjectsType
+    CardProjectsType
 }

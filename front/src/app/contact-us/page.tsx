@@ -26,7 +26,7 @@ export default function page() {
           <ImgTag src={"/contact-us.jpg"} alt={"contact-us"} height={400} width={400} />
         </figure>
       </div>
-      <div className='my-12 flex gap-3'>
+      <div className='my-12 flex gap-3 mt-20'>
         <ContactSocialMedia />
       </div>
     </div>

@@ -19,6 +19,7 @@ export default function SearchBox() {
   const [timerLoading, setTimerLoading] = useState<NodeJS.Timeout | null>(null);
   const [data, setData] = useState<CardPostType>();
   const [loading, setLoading] = useState<boolean>(false);
+  const [isSearch, setIsSearch] = useState<boolean>(false)
   const paramasPath: string = usePathname()
   const paramsQuery = useSearchParams()
   useEffect(() => {
@@ -49,6 +50,7 @@ export default function SearchBox() {
     }
     setLoading(false);
     setTimer(newTimer);
+    setIsSearch(false)
   };
   const searchHandler = async (searchValue: string) => {
     if (!searchValue) return;
@@ -63,6 +65,7 @@ export default function SearchBox() {
       })
       .finally(() => {
         setLoading(false);
+        setIsSearch(true)
       });
   };
   return (
@@ -113,21 +116,29 @@ export default function SearchBox() {
         </div>
       </div>
       <div
-        className={`-z-20 h-screen opacity-0 absolute w-full top-52 left-0 flex justify-center transition-all ${data?.count && isShow ? "z-20 opacity-100 top-48" : "invisible"
+        className={`-z-20 h-screen opacity-0 absolute w-full top-52 left-0 flex justify-center transition-all ${valSearch && isShow ? "z-20 opacity-100 top-48" : "invisible"
           }`}
       >
         <div className="max-w-7xl h-3/4 overflow-y-auto w-full bg-gradient-to-tr from-blue-300/60 backdrop-blur-md to-gray-100/60 shadow-md p-4 rounded-lg">
-          <div className="grid grid-cols-3 gap-3">
-            <CardPost props={data} />
-          </div>
-          <Link className="mt-4 block" href={`/search?search=${valSearch}`}>
-            <CustomButton
-              name="مشاهده همه پست ها"
-              type="button"
-              iconClass="text-lg"
-              iconEnd={<MdManageSearch />}
-            />
-          </Link>
+          {!isSearch ? null : isSearch && data?.count ?
+            <>
+              <div className="grid grid-cols-3 gap-3">
+                <CardPost props={data} />
+              </div>
+              <Link className="mt-4 block" href={`/search?search=${valSearch}`}>
+                <CustomButton
+                  name="مشاهده همه پست ها"
+                  type="button"
+                  iconClass="text-lg"
+                  iconEnd={<MdManageSearch />}
+                />
+              </Link>
+            </>
+            :
+            <span className="text-xl text-gray-700">
+              هیچ پستی با کلمه جستجوی شما یافت نشد !!!
+            </span>
+          }
         </div>
       </div>
     </>

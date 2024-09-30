@@ -8,11 +8,11 @@ import { FaAngleDoubleDown, FaAngleLeft } from "react-icons/fa";
 import DarkMode from "../DarkMode/DarkMode";
 import SearchBox from "../SearchBox/SearchBox";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+import NavlinkHeader from "./NavlinkHeader";
 const menuTitle = [
   {
-    name: "خانه",
-    url: "/",
+    name: "پروژه های ما",
+    url: "/project-us",
   },
   {
     name: "وبلاگ",
@@ -55,13 +55,10 @@ const menuTitle = [
     url: "/contact-us",
   },
   {
-    name: "سوالات متدوال",
-    url: "/faqs",
+    name: "نظرات مشتریان",
+    url: "/customer-reviews",
   },
-  {
-    name: "درباره ما",
-    url: "/about-us",
-  },
+
   {
     name: "گرفتن قیمت آنلاین",
     url: "/request-project",
@@ -71,7 +68,6 @@ export default function HeaderSticky() {
   const [scroll, setScroll] = useState<Number>(0);
   const [visible, setVisible] = useState<boolean>(true);
   const [scrollTop, setScrollTop] = useState<boolean>(false);
-  const query = usePathname();
   const MenuComponents = ({ props }: { props: MenuComType }) => {
     if (!props.length) return;
     return props.map((i, index) => (
@@ -122,11 +118,10 @@ export default function HeaderSticky() {
   return (
     <>
       <div
-        className={`header-sticky shadow-md shadow-[#dbdbdb] dark:shadow-[#6c6c6c] bg-slate-100 dark:bg-gray-800 ${
-          visible
-            ? "header-show bg-slate-100/40 dark:!bg-gray-800/80"
-            : "header-hidden"
-        } `}
+        className={`header-sticky shadow-md shadow-[#dbdbdb] dark:shadow-[#6c6c6c] bg-slate-100 dark:bg-slate-700 ${visible
+          ? "header-show bg-slate-100/40 dark:!bg-gray-800/80"
+          : "header-hidden"
+          } `}
       >
         <div className="max-w-7xl w-full py-3 flex mx-auto">
           <div className="w-full flex justify-between">
@@ -143,14 +138,7 @@ export default function HeaderSticky() {
                     key={index}
                     className="flex items-center gap-2 group relative"
                   >
-                    <Link
-                      href={i.url}
-                      className={`group-hover:text-blue-400 hover:scale-105 py-3 transition-all scale-1 flex items-center ${
-                        i.url === query ? "text-blue-400" : ""
-                      }`}
-                    >
-                      {i.name}
-                    </Link>
+                    <NavlinkHeader title={i.name} url={i.url} className="group-hover:text-blue-400 hover:scale-105 py-3 transition-all scale-1 flex items-center" />
                     {i.child ? (
                       <>
                         <ul>
@@ -191,9 +179,8 @@ export default function HeaderSticky() {
             behavior: "smooth",
           })
         }
-        className={`cursor-pointer fixed z-50 right-5 rounded-full shadow-md bg-slate-500/70 text-white p-3 transition-all ${
-          scrollTop ? "bottom-5" : "-bottom-12"
-        }`}
+        className={`cursor-pointer fixed z-50 right-5 rounded-full shadow-md bg-slate-500/70 text-white p-3 transition-all ${scrollTop ? "bottom-5" : "-bottom-12"
+          }`}
       >
         <i>
           <IoIosArrowUp />

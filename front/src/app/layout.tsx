@@ -29,10 +29,12 @@ export default function RootLayout({
         <React.StrictMode>
           <AppRouterCacheProvider options={{ key: "css" }}>
             <LayoutProvider>
-              <Header />
-              {children}
-              <Calling />
-              <Footer />
+              <div className="bg-white dark:bg-slate-700 dark:text-gray-200">
+                <Header />
+                {children}
+                <Calling />
+                <Footer />
+              </div>
             </LayoutProvider>
           </AppRouterCacheProvider>
         </React.StrictMode>

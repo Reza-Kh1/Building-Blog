@@ -7,11 +7,10 @@ import ScollComment from './ScollComment'
 import FormComments from '@/components/FormComments/FormComments'
 import Comments from '@/components/Comments/Comments'
 export default function page() {
-
     return (
         <div className=''>
             <div className='w-full mx-auto relative'>
-                <ImgTag width={750} height={450} alt={"test single"} src={"https://building-blog.storage.iran.liara.space/1718433007077-Screenshot 2024-06-11 091827.png"} />
+                <ImgTag width={1450} height={450} alt={"test single"} src={"https://building-blog.storage.iran.liara.space/1718433007077-Screenshot 2024-06-11 091827.png"} />
                 <div
                     className='bg-gray-50 py-7 rounded-md w-3/4 shadow-lg text-center absolute bottom-20 left-1/2 transform -translate-x-1/2 translate-y-full'>
                     <h1 className='text-xl'>موضوع پست</h1>

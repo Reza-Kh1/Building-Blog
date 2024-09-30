@@ -2,8 +2,8 @@ import Link from 'next/link'
 import React from 'react'
 import ImgTag from '../ImgTag/ImgTag'
 import { FaPlay } from 'react-icons/fa'
-import { CartProjectsType } from '@/app/type'
-export default function CartProjects({ data }: { data: CartProjectsType }) {
+import { CardProjectsType } from '@/app/type'
+export default function CardProjects({ data }: { data: CardProjectsType }) {
     return (
         data.map((i, index) => (
             <div key={index}>

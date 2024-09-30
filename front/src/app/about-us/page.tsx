@@ -3,9 +3,9 @@ import React from "react";
 import ImgTag from "@/components/ImgTag/ImgTag";
 import Image from "next/image";
 import { FaCheck } from "react-icons/fa6";
-import Link from "next/link";
 import SwiperGallery from "@/components/SwiperGallery/SwiperGallery";
-import CartProjects from "@/components/CartProjects/CartProjects";
+import CardProjects from "@/components/CardProjects/CardProjects";
+import BannerCallUs from "./BannerCallUs";
 const dataBanner = [
   {
     src: "/icon-paint.png",
@@ -96,16 +96,10 @@ export default function page() {
       <div className="max-w-7xl mx-auto w-full my-5 ">
         <h3 className="text-xl font-semibold mb-3">برخی از پروژه های ما</h3>
         <div className="grid grid-cols-3 gap-5">
-          <CartProjects data={dataProject} />
+          <CardProjects data={dataProject} />
         </div>
       </div>
-      <div className="w-full my-10 py-5 bg-blue-400 shadow-md flex items-center gap-2 justify-center relative">
-        <span className="text-white">
-          آیا میخواهید خانه رویایی خود را با ما بسازید ؟
-        </span>
-        <Link href={"#"} className="text-white font-semibold">اینجا کلیک کنید</Link>
-        <span className="w-full absolute h-1 bg-blue-500/70 left-0 bottom-0"></span>
-      </div>
+      <BannerCallUs />
       <div className="max-w-7xl mx-auto w-full flex gap-3 items-center">
         <div className="w-1/2">
           <h3 className="text-xl mb-3 font-semibold">

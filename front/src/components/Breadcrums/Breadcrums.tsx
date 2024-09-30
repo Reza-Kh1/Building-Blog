@@ -47,6 +47,16 @@ export default function Breadcrums() {
                 name: "گرفتن قیمت آنلاین", url: "/request-project"
             }
         }
+        if (i === "project-us") {
+            return {
+                name: "پروژه های ما", url: "/project-us"
+            }
+        }
+        if (i === "customer-reviews") {
+            return {
+                name: "نظرات مشتریان", url: "/customer-reviews"
+            }
+        }
         return {
             name: i,
         }
@@ -63,7 +73,8 @@ export default function Breadcrums() {
                         </span>
                     }
                     {newArry.length - 1 === index ? null :
-                        <FaChevronLeft />
+                       "/"
+                       // <FaChevronLeft />
                     }
                 </React.StrictMode>
             ))}

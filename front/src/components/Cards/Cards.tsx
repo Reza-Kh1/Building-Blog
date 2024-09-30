@@ -17,8 +17,8 @@ const test = {
   updatedAt: "2024-06-21T15:12:12.498Z",
 };
 export default function Cards({ props }: { props: CardPostType }) {
-  if (!props?.count || !props?.rows?.length || !props?.paginate?.allPage) return
-  return props.rows.map((i, index) => (
+  if (!props?.length) return
+  return props.map((i, index) => (
     <Link
       href={`/post/${i.slug}`} key={index}
       className="card-box w-full group max-w-7xl flex gap-5 hover:bg-[#f1f9ff] hover:shadow-lg p-3 rounded-md transition-all"

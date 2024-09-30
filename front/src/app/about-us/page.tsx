@@ -46,8 +46,15 @@ const dataTrustUs = [
   "پشتیبانی بی نظیر پس از اتمام پروژه",
   "مشاوره درست و متناسب با شرایط شما",
 ];
-const imagesSrc = ["/5.jpg", "/6.jpg", "/7.jpg", "/8.jpg"]
-const dataProject = [{ src: "/6.jpg", url: "#", title: "پروژه برج امید", address: "تهران ، الهیه" }]
+const imagesSrc = ["/5.jpg", "/6.jpg", "/7.jpg", "/8.jpg", "/5.jpg", "/5.jpg"];
+const dataProject = [
+  {
+    src: "/6.jpg",
+    url: "#",
+    title: "پروژه برج امید",
+    address: "تهران ، الهیه",
+  },
+];
 export default function page() {
   return (
     <div className="w-full my-6">

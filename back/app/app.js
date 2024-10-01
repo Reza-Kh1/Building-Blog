@@ -10,6 +10,9 @@ const postRoute = require("../routes/postRoute.js");
 const commentRoute = require("../routes/commentRoute.js");
 const detailPost = require("../routes/detailPostRoute.js");
 const imagePost = require("../routes/imageRoute.js");
+const pageInfo = require("../routes/pageInfoRoute.js");
+const onlinePrice = require("../routes/onlinePriceRoute.js");
+const worker = require("../routes/workerRoute.js");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 
@@ -35,6 +38,9 @@ app.use(process.env.API_VERSION + "post", postRoute);
 app.use(process.env.API_VERSION + "comment", commentRoute);
 app.use(process.env.API_VERSION + "detail", detailPost);
 app.use(process.env.API_VERSION + "image", imagePost);
+app.use(process.env.API_VERSION + "page", pageInfo);
+app.use(process.env.API_VERSION + "onlineprice", onlinePrice);
+app.use(process.env.API_VERSION + "worker", worker);
 
 app.use(globalHandler);
 app.use(notFound);

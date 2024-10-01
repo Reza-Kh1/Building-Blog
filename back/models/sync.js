@@ -7,7 +7,7 @@ const detailPostModel = require("./detailPostModel");
 const pageInfoModel = require("./pageInfoModel")
 const projectModel = require("./projectModel")
 const workerModel = require("./workerModel")
-const onlinePrice = require("./onlinePriceModel")
+const onlinePriceModel = require("./onlinePriceModel")
 const messageModel = require("./messageModel")
 const mediaModel = require("./mediaModel")
 ////////  The Relationship of Categorys
@@ -99,7 +99,7 @@ module.exports = {
   pageInfoModel,
   projectModel,
   workerModel,
-  onlinePrice,
+  onlinePriceModel,
   messageModel,
   mediaModel
 };

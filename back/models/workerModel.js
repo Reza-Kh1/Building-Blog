@@ -1,27 +1,32 @@
 const { DataTypes } = require("sequelize");
 const { dataBase } = require("../config/db");
 
-const workerModel = dataBase.define("worker", {
+const workerModel = dataBase.define(
+  "worker",
+  {
     name: {
-        type: DataTypes.STRING,
-        allowNull: false
+      type: DataTypes.STRING,
+      allowNull: false,
     },
     phone: {
-        type: DataTypes.STRING,
-        allowNull: false
+      type: DataTypes.STRING,
+      allowNull: false,
     },
     socialMedia: { type: DataTypes.JSONB },
     address: {
-        type: DataTypes.TEXT
+      type: DataTypes.TEXT,
     },
     description: {
-        type: DataTypes.TEXT,
+      type: DataTypes.TEXT,
     },
     image: {
-        type: DataTypes.STRING,
-    }
-}, {
+      type: DataTypes.STRING,
+    },
+  },
+  {
     tableName: "worker",
-    timestamps: true
-})
-module.exports = workerModel
+    timestamps: true,
+    indexes: [{ unique: true, fields: ["name", "phone"] }],
+  }
+);
+module.exports = workerModel;

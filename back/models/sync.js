@@ -4,6 +4,12 @@ const categoryModel = require("./categoryModel");
 const postModel = require("./postModel");
 const commentModel = require("./commentModel");
 const detailPostModel = require("./detailPostModel");
+const pageInfoModel = require("./pageInfoModel")
+const projectModel = require("./projectModel")
+const workerModel = require("./workerModel")
+const onlinePrice = require("./onlinePriceModel")
+const messageModel = require("./messageModel")
+const mediaModel = require("./mediaModel")
 ////////  The Relationship of Categorys
 userModel.hasMany(categoryModel, {
   foreignKey: "userId",
@@ -90,4 +96,10 @@ module.exports = {
   categoryModel,
   postModel,
   detailPostModel,
+  pageInfoModel,
+  projectModel,
+  workerModel,
+  onlinePrice,
+  messageModel,
+  mediaModel
 };

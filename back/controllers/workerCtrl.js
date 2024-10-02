@@ -2,19 +2,19 @@ const asyncHandler = require("express-async-handler");
 const { customError } = require("../middlewares/globalError");
 const workerModel = require("../models/workerModel");
 const pagination = require("../utils/pagination");
+const { Op } = require("sequelize");
 const limit = process.env.LIMIT;
-
 const getWorker = asyncHandler(async (req, res) => {
   const { id } = req.params;
   try {
-    const data = await workerModel.findByPk({ id });
-    res.send({ ...data })
+    const data = await workerModel.findByPk(id);
+    res.send({ data });
   } catch (err) {
     throw customError(err, 400);
   }
 });
 const getAllWorker = asyncHandler(async (req, res) => {
-  let { search, page, order } = req.params;
+  let { search, page, order } = req.query;
   page = page || 1;
   let filter = {};
   let orderFilter = [];
@@ -38,12 +38,12 @@ const getAllWorker = asyncHandler(async (req, res) => {
       offset: (page - 1) * limit,
       limit: limit,
       order: [orderFilter],
-      attributes: { exclude: ["socialMedia", "address", "description"] },
+      attributes: { exclude: ["socialMedia", "address", "description","updatedAt"] },
     });
     const paginate = pagination(data.count, page, limit);
     res.send({ ...data, paginate });
   } catch (err) {
-    throw customError(err, 400);
+    throw customError(err, err.statusCode || 400);
   }
 });
 const createWorker = asyncHandler(async (req, res) => {
@@ -57,16 +57,16 @@ const createWorker = asyncHandler(async (req, res) => {
       description,
       image,
     });
-    res.send({ success: true })
+    res.send({ success: true });
   } catch (err) {
-    throw customError(err, 400);
+    throw customError(err, err.statusCode || 400);
   }
 });
 const updateWorker = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const { name, phone, socialMedia, address, description, image } = req.body;
   try {
-    const data = await workerModel.findByPk({ id });
+    const data = await workerModel.findByPk(id);
     if (!data) throw customError("همچین آیتمی وجود ندارد", 404);
     if (name) {
       data.name = name;
@@ -87,20 +87,20 @@ const updateWorker = asyncHandler(async (req, res) => {
       data.image = image;
     }
     await data.save();
-    res.send({ success: true })
+    res.send({ success: true });
   } catch (err) {
-    throw customError(err);
+    throw customError(err, err.statusCode || 400);
   }
 });
 const deleteWorker = asyncHandler(async (req, res) => {
   const { id } = req.params;
   try {
-    const data = await workerModel.findByPk({ id });
+    const data = await workerModel.findByPk(id);
     if (!data) throw customError("همچین آیتمی وجود ندارد", 404);
     await data.destroy();
-    res.send({ success: true })
+    res.send({ success: true });
   } catch (err) {
-    throw customError(err);
+    throw customError(err, err.statusCode || 400);
   }
 });
 module.exports = {
@@ -108,5 +108,5 @@ module.exports = {
   getAllWorker,
   createWorker,
   updateWorker,
-  deleteWorker
+  deleteWorker,
 };

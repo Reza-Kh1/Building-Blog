@@ -1,6 +1,7 @@
 
-///////// Page Information
-1_Get Page Info Api ===> localhost:5000/api-v1/page/test
+---------------------------------------------- Page Information ----------------------------------------------
+1_Get Page Info Api (All) ===> localhost:5000/api-v1/page/test
+Method ===> GET
 result ===>
 {
     "data": {
@@ -12,7 +13,8 @@ result ===>
     }
 }
 
-2_Create & Update Page Info Api ===> localhost:5000/api-v1/page/test
+2_Create & Update Page Info Api (Author/Admin) ===> localhost:5000/api-v1/page/test
+Method ===> POST
 Body ===>
 {
     "page": "test", as string
@@ -25,3 +27,356 @@ result ===>
     "success": true
 }
 
+---------------------------------------------- Online Price ----------------------------------------------
+1_Create Online Price Api (All) ===> localhost:5000/api-v1/onlineprice
+Method ===> POST
+Body ===>
+{
+    "name": "ali",
+    "phone": "09390199977",
+    "price": "250000",
+    "description": "من نمیدونم چی مینویسم",
+    "subject": "nist",
+    "images": ["srs","srs"],
+    "size": "120000"
+}
+Result===>
+{
+    "success": true
+}
+
+2_Get All Online Price Api(Author/Admin) ===> localhost:5000/api-v1/onlineprice?page=1&order=createdAt-DESC&status=false
+Method ===> GET
+Params ===> page=1&order=createdAt-DESC&status=false
+Result===>
+{
+    "count": 9,
+    "rows": [
+        {
+            "name": "ali",
+            "phone": "09390199977",
+            "subject": "nist",
+            "status": false,
+            "createdAt": "2024-10-02T16:06:52.660Z",
+            "id": 10
+        },
+        {
+            "name": "ali",
+            "phone": "09390199977",
+            "subject": "nist",
+            "status": false,
+            "createdAt": "2024-10-02T15:51:56.895Z",
+            "id": 9
+        }
+    ],
+    "paginate": {
+        "allPage": 5,
+        "nextPage": 2
+    }
+}
+
+3_Get All Online Price Api(Author/Admin) ===> localhost:5000/api-v1/onlineprice/1
+Method ===> GET
+Result===>
+{
+    "data": {
+        "id": 2,
+        "name": "ali",
+        "phone": "09390199977",
+        "price": "250000",
+        "description": "من نمیدونم چی مینویسم",
+        "subject": "کناف",
+        "images": [
+            "srs",
+            "srs"
+        ],
+        "size": "120000",
+        "status": false,
+        "createdAt": "2024-10-02T15:49:26.493Z",
+        "updatedAt": "2024-10-02T15:49:26.493Z"
+    }
+}
+
+4_Update All Online Price Api(Author/Admin) ===> localhost:5000/api-v1/onlineprice/1
+Method ===> PUT
+Result===>
+{
+    "success": true
+}
+
+5_Delete All Online Price Api(Author/Admin) ===> localhost:5000/api-v1/onlineprice/1
+Method ===> DELETE
+Result===>
+{
+    "success": true
+}
+
+---------------------------------------------- Worker ----------------------------------------------
+
+1_Create Worker Api(Author/Admin) ===> localhost:5000/api-v1/worker
+Method ===> POST
+body ===>
+{
+    "name": "ali",
+    "phone": "0912",
+    "socialMedia": {
+        "instagram":"asd",
+        "telegram":"asd",
+        "whatsapp":"asd"
+    },
+    "address": "address",
+    "description": "description",
+    "image": "src"
+}
+Result===>
+{
+    "success": true
+}
+
+2_Update Worker Api(Author/Admin) ===> localhost:5000/api-v1/worker/1
+Method ===> PUT
+body ===>
+{
+    "name": "ali",
+    "phone": "0912",
+    "socialMedia": {
+        "instagram":"asd",
+        "telegram":"asd",
+        "whatsapp":"asd"
+    },
+    "address": "address",
+    "description": "description",
+    "image": "src"
+}
+Result===>
+{
+    "success": true
+}
+
+3_Get All Worker Api ===> localhost:5000/api-v1/worker?page=1&order=createdAt-ASC&search=ali
+Method ===> GET
+Result===>
+{
+    "count": 1,
+    "rows": [
+        {
+            "id": 2,
+            "name": "ali",
+            "phone": "0912",
+            "image": "src",
+            "createdAt": "2024-10-02T18:10:31.201Z",
+            "updatedAt": "2024-10-02T18:10:31.201Z"
+        }
+    ],
+    "paginate": {
+        "allPage": 1
+    }
+}
+
+4_Get Worker Api ===> localhost:5000/api-v1/worker/1
+Method ===> GET
+Result===>
+{
+    "data": {
+        "id": 1,
+        "name": "ali",
+        "phone": "0912",
+        "socialMedia": {
+            "telegram": "asd",
+            "whatsapp": "asd",
+            "instagram": "asd"
+        },
+        "address": "address",
+        "description": "description",
+        "image": "src",
+        "createdAt": "2024-10-02T18:16:25.463Z",
+        "updatedAt": "2024-10-02T18:16:25.463Z"
+    }
+}
+
+5_Delete Worker Api ===> localhost:5000/api-v1/worker/2
+Method ===> DELETE
+Result===>
+{
+    "success": true
+}
+
+---------------------------------------------- Message ----------------------------------------------
+
+1_Get All Message Api ===> localhost:5000/api-v1/message?page=1&status=false&order=createdAt-ASC
+Method ===> GET
+Result===>
+{
+    "count": 2,
+    "rows": [
+        {
+            "id": 2,
+            "name": "reza",
+            "phone": "0912",
+            "status": false,
+            "subject": "assa",
+            "text": "text",
+            "createdAt": "2024-10-02T19:02:02.787Z",
+            "updatedAt": "2024-10-02T19:02:02.787Z"
+        }
+    ],
+    "pager": {
+        "allPage": 1
+    }
+}
+
+2_Create All Message Api ===> localhost:5000/api-v1/message
+Method ===> POST
+Body ===>
+{
+    "name": "reza",
+    "phone": "0912",
+    "subject": "assa",
+    "text": "text"
+}
+Result===>
+{
+    "success": true
+}
+
+3_Update All Message Api ===> localhost:5000/api-v1/message/1
+Method ===> PUT
+Body ===>
+{
+    "name": "reza",
+    "phone": "0912",
+    "subject": "assa",
+    "text": "text"
+}
+Result===>
+{
+    "success": true
+}
+
+4_Delete All Message Api ===> localhost:5000/api-v1/message/1
+Method ===> DELETE
+Result===>
+{
+    "success": true
+}
+
+---------------------------------------------- Project ----------------------------------------------
+
+1_Get All Project Api ===> localhost:5000/api-v1/project?page=1&order=createdAt-ASC&search=
+Method ===> GET
+Result===>
+{
+    "count": 3,
+    "rows": [
+        {
+            "id": 2,
+            "name": "havig",
+            "address": "tehran",
+            "thumbnail": "src",
+            "createdAt": "2024-10-02T19:25:11.818Z",
+            "updatedAt": "2024-10-02T19:27:08.608Z",
+            "worker": null
+        }
+    ],
+    "paginate": {
+        "allPage": 2,
+        "nextPage": 2
+    }
+}
+
+2_Get Single Project Api ===> localhost:5000/api-v1/project/1
+Method ===> GET
+Result===>
+{
+    "data": {
+        "id": 1,
+        "name": "milad2",
+        "address": "tehran",
+        "thumbnail": "src",
+        "gallery": [
+            "src",
+            "src"
+        ],
+        "video": "src",
+        "description": "asdqwdqwdwdq",
+        "createdAt": "2024-10-02T20:15:30.833Z",
+        "updatedAt": "2024-10-02T20:15:30.833Z",
+        "workerId": 1,
+        "worker": {
+            "id": 1,
+            "name": "ali",
+            "phone": "0913882",
+            "socialMedia": {
+                "telegram": "asd",
+                "whatsapp": "asd",
+                "instagram": "asd"
+            },
+            "address": "address",
+            "description": "description",
+            "image": "src",
+            "projects": [
+                {
+                    "gallery": [
+                        "src",
+                        "src"
+                    ],
+                    "video": "src",
+                    "description": "asdqwdqwdwdq",
+                    "createdAt": "2024-10-02T20:24:40.758Z",
+                    "updatedAt": "2024-10-02T20:24:40.758Z",
+                    "workerId": 1
+                }
+            ]
+        }
+    }
+}
+
+3_Create All Project Api ===> localhost:5000/api-v1/project
+Method ===> POST
+Result===>
+{
+    "success": true
+}
+
+Body ===>
+{
+    "name": "milad43",
+    "address": "tehran",
+    "thumbnail": "src",
+    "gallery": [
+        "src",
+        "src"
+    ],
+    "video": "src",
+    "description": "asdqwdqwdwdq",
+    "type": "src",
+    "workerId":1
+}
+
+4_Update All Project Api ===> localhost:5000/api-v1/project/1
+Method ===> PUT
+Result===>
+{
+    "success": true
+}
+Body ===>
+{
+    "name": "milad43",
+    "address": "tehran",
+    "thumbnail": "src",
+    "gallery": [
+        "src",
+        "src"
+    ],
+    "video": "src",
+    "description": "asdqwdqwdwdq",
+    "type": "src",
+    "workerId":1
+}
+
+5_Delete All Project Api ===> localhost:5000/api-v1/project/1
+Method ===> DELETE
+Result===>
+{
+    "success": true
+}

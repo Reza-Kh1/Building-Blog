@@ -8,10 +8,10 @@ const {
   getWorker,
   updateWorker,
 } = require("../controllers/workerCtrl");
-app.route("/").get(getAllWorker).post(isAuthor, createWorker);
+app.route("/").get(getAllWorker).post(isAuthor,createWorker);
 app
   .route("/:id")
   .get(getWorker)
   .put(isAuthor, updateWorker)
-  .delete(deleteWorker);
+  .delete(isAuthor, deleteWorker);
 module.exports = app;

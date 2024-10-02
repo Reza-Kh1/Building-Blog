@@ -7,10 +7,18 @@ const workerModel = dataBase.define(
     name: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: {
+        args: true,
+        msg: "نام قبلا در سیستم ثبت شده است",
+      },
     },
     phone: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: {
+        args: true,
+        msg: "شماره قبلا در سیستم ثبت شده است",
+      },
     },
     socialMedia: { type: DataTypes.JSONB },
     address: {

@@ -5,39 +5,28 @@ const getPageIfo = asyncHandler(async (req, res) => {
   const { id } = req.params;
   try {
     const data = await pageInfoModel.findOne({ where: { page: id } });
-    return { ...data };
+    if (!data) throw customError("همچین ایتمی موجود نیست", 404)
+    res.send({data })
   } catch (err) {
-    throw customError(err, 400);
-  }
-});
-const createPageInfo = asyncHandler(async (req, res) => {
-  const { page, text } = req.body;
-  try {
-    await pageInfoModel.create({ page, text });
-    return { success: true };
-  } catch (err) {
-    throw customError(err, 400);
+    throw customError(err, err.statusCode || 400);
   }
 });
 const updatePageInfo = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const { page, text } = req.body;
   try {
-    const data = await pageInfoModel.findByPk({ page: id });
-    if (page) {
-      data.page = page;
+    const [data, created] = await pageInfoModel.findOrCreate({ where: { page: id }, defaults: { page: page, text: text } });
+    if (!created) {
+      if (page) data.page = page;
+      if (text) data.text = text;
+      await data.save();
     }
-    if (text) {
-      data.text = text;
-    }
-    await data.save();
-    return { success: true };
+    res.send({ success: true })
   } catch (err) {
-    throw customError(err, 400);
+    throw customError(err);
   }
 });
 module.exports = {
   getPageIfo,
-  createPageInfo,
   updatePageInfo,
 };

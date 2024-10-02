@@ -3,8 +3,10 @@ const {
   getOnlinePrice,
   createOnlinePrice,
   deleteOnlinePrice,
+  updateOnlinePrice,
 } = require("../controllers/onlinePriceCtrl");
+const isAuthor = require("../utils/isAuthor")
 const app = express.Router();
-app.route("/").get(getOnlinePrice).post(createOnlinePrice);
-app.route("/:id").get(getOnlinePrice).delete(deleteOnlinePrice);
+app.route("/").get(isAuthor, getOnlinePrice).post(createOnlinePrice);
+app.route("/:id").get(isAuthor, getOnlinePrice).delete(isAuthor, deleteOnlinePrice).put(isAuthor, updateOnlinePrice)
 module.exports = app;

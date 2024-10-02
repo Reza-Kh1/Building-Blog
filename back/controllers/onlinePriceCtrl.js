@@ -31,7 +31,7 @@ const getOnlinePrice = asyncHandler(async (req, res) => {
         limit: limit,
       });
       const paginate = pagination(data.count, page, limit);
-      return { ...data, paginate };
+      res.send({ ...data, paginate})
     }
   } catch (err) {
     throw customError(err, 400);
@@ -51,7 +51,7 @@ const createOnlinePrice = asyncHandler(async (req, res) => {
       size,
       status,
     });
-    return { success: true };
+    res.send({ success: true })
   } catch (err) {
     throw customError(err, 400);
   }
@@ -64,7 +64,16 @@ const deleteOnlinePrice = asyncHandler(async (req, res) => {
       throw customError("همچین آیتمی موجود نیست!", 404);
     }
     await data.destroy();
-    return { success: true };
+    res.send({ success: true })
+  } catch (err) {
+    throw customError(err, 400);
+  }
+});
+const updateOnlinePrice = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  try {
+    await onlinePriceModel.update({ status: true }, { where: { id } })
+    res.send({ success: true })
   } catch (err) {
     throw customError(err, 400);
   }
@@ -73,4 +82,5 @@ module.exports = {
   getOnlinePrice,
   createOnlinePrice,
   deleteOnlinePrice,
+  updateOnlinePrice
 };

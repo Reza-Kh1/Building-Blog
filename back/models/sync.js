@@ -87,7 +87,17 @@ commentModel.belongsTo(postModel, {
   onDelete: "CASCADE",
   onUpdate: "CASCADE",
 });
-
+//////// The Relationship of Projects
+workerModel.hasMany(projectModel, {
+  foreignKey: "worker",
+  onDelete: "RESTRICT",
+  onUpdate: "RESTRICT",
+})
+commentModel.belongsTo(postModel, {
+  foreignKey: "worker",
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
+});
 // dataBase.sync({ force: true });
 dataBase.sync();
 module.exports = {

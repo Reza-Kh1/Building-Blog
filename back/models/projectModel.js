@@ -10,11 +10,17 @@ const projectModel = dataBase.define("project", {
         type: DataTypes.STRING,
         allowNull: false
     },
+    thumbnail: {
+        type: DataTypes.STRING
+    },
     gallery: {
         type: DataTypes.ARRAY(DataTypes.STRING),
     },
     video: {
-        type: DataTypes.ARRAY(DataTypes.STRING),
+        type: DataTypes.STRING,
+    },
+    description: {
+        type: DataTypes.TEXT,
     }
 }, {
     timestamps: true,

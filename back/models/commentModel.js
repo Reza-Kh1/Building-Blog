@@ -1,4 +1,4 @@
-const { DataTypes, Model } = require("sequelize");
+const { DataTypes } = require("sequelize");
 const { dataBase } = require("../config/db");
 
 const reviewModel = dataBase.define(

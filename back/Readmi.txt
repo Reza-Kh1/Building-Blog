@@ -1,0 +1,27 @@
+
+///////// Page Information
+1_Get Page Info Api ===> localhost:5000/api-v1/page/test
+result ===>
+{
+    "data": {
+        "id": 1,
+        "page": "test",
+        "text": {
+            "begaee": false
+        }
+    }
+}
+
+2_Create & Update Page Info Api ===> localhost:5000/api-v1/page/test
+Body ===>
+{
+    "page": "test", as string
+    "text": {
+        "begaee": false
+    } as json
+}
+result ===>
+{
+    "success": true
+}
+

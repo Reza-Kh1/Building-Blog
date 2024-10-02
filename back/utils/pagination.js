@@ -1,4 +1,3 @@
-
 const pagination = (count, page, limit) => {
     const allPage = Math.ceil(count / limit);
     const nextPage = Number(page) + 1;

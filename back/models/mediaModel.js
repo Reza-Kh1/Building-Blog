@@ -3,13 +3,14 @@ const { dataBase } = require("../config/db");
 
 const imageModel = dataBase.define("media", {
     url: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        allowNull: false
     },
     thumbnail: {
         type: DataTypes.STRING
     },
     type: {
-        type: DataTypes.ENUM("image", "video")
+        type: DataTypes.ENUM("image", "video"),
     },
     status: {
         type: DataTypes.BOOLEAN,

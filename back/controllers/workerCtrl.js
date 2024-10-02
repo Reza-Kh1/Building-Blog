@@ -8,7 +8,7 @@ const getWorker = asyncHandler(async (req, res) => {
   const { id } = req.params;
   try {
     const data = await workerModel.findByPk({ id });
-    return { ...data };
+    res.send({ ...data })
   } catch (err) {
     throw customError(err, 400);
   }
@@ -57,7 +57,7 @@ const createWorker = asyncHandler(async (req, res) => {
       description,
       image,
     });
-    return { success: true };
+    res.send({ success: true })
   } catch (err) {
     throw customError(err, 400);
   }
@@ -87,7 +87,7 @@ const updateWorker = asyncHandler(async (req, res) => {
       data.image = image;
     }
     await data.save();
-    return { success: true };
+    res.send({ success: true })
   } catch (err) {
     throw customError(err);
   }
@@ -98,7 +98,7 @@ const deleteWorker = asyncHandler(async (req, res) => {
     const data = await workerModel.findByPk({ id });
     if (!data) throw customError("همچین آیتمی وجود ندارد", 404);
     await data.destroy();
-    return { success: true };
+    res.send({ success: true })
   } catch (err) {
     throw customError(err);
   }

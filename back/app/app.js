@@ -15,7 +15,9 @@ const onlinePrice = require("../routes/onlinePriceRoute.js");
 const worker = require("../routes/workerRoute.js");
 const path = require("path");
 const cookieParser = require("cookie-parser");
-
+const message = require("../routes/messageRoute.js")
+const project = require("../routes/projectRoute.js")
+const media = require("../routes/mediaRoute.js")
 //////////////// setting security api
 dotenv.config();
 const app = express();
@@ -41,6 +43,9 @@ app.use(process.env.API_VERSION + "image", imagePost);
 app.use(process.env.API_VERSION + "page", pageInfo);
 app.use(process.env.API_VERSION + "onlineprice", onlinePrice);
 app.use(process.env.API_VERSION + "worker", worker);
+app.use(process.env.API_VERSION + "message", message);
+app.use(process.env.API_VERSION + "project", project);
+app.use(process.env.API_VERSION + "media", media);
 
 app.use(globalHandler);
 app.use(notFound);

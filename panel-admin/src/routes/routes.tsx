@@ -11,6 +11,11 @@ import Setting from "../pages/Setting/Setting";
 import SinglePost from "../pages/SinglePost/SinglePost";
 import Users from "../pages/Users/Users";
 import ForgetPassword from "../pages/ForgetPassword/ForgetPassword";
+import OnlinePrice from "../pages/OnlinePrice/OnlinePrice";
+import Worker from "../pages/Worker/Worker";
+import Projects from "../pages/Projects/Projects";
+import PageInfo from "../pages/PageInfo/PageInfo";
+import Message from "../pages/Message/Message";
 
 export default [
   { path: "/", element: <Auth /> },
@@ -20,6 +25,11 @@ export default [
     element: <Home />,
     children: [
       { path: "users", element: <Users /> },
+      { path: "online-price", element: <OnlinePrice /> },
+      { path: "worker", element: <Worker /> },
+      { path: "projects", element: <Projects /> },
+      { path: "page-info", element: <PageInfo /> },
+      { path: "message", element: <Message /> },
       { path: "dashboard", element: <Dashboard /> },
       { path: "reviews", element: <Reviews /> },
       { path: "categorys", element: <Categorys /> },

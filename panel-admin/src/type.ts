@@ -1,4 +1,4 @@
-export type CategortType = {
+type CategortType = {
   id: string;
   name: string;
   slug: string;
@@ -8,17 +8,17 @@ export type CategortType = {
   };
   parentCategoryId: string | null;
 };
-export type UserArrayType = {
+type UserArrayType = {
   count: number;
   rows: UserType[];
   pagination: PaginationType;
 };
-export type PaginationType = {
+type PaginationType = {
   allPage: number;
   nextPage?: number;
   prevPage?: number;
 };
-export type UserType = {
+type UserType = {
   id: string;
   name?: string;
   email: string;
@@ -27,7 +27,7 @@ export type UserType = {
   password?: string;
   createdAt: Date;
 };
-export type FormPostType = {
+type FormPostType = {
   title: string;
   slug: string;
   description: string;
@@ -35,18 +35,18 @@ export type FormPostType = {
   categoryId: string;
   titleDetail: string;
 };
-export type FormDetailType = {
+type FormDetailType = {
   text: string;
   title: string;
   keyward: string[];
   id: string;
 };
-export type AllPostType = {
+type AllPostType = {
   count: number;
   rows: PostType[];
   paginate: PaginationType;
 };
-export type PostType = {
+type PostType = {
   id: number;
   title: string;
   image: null;
@@ -63,7 +63,7 @@ export type PostType = {
     name: string;
   };
 };
-export type SinglePostType = {
+type SinglePostType = {
   id: string;
   title: string;
   image: string;
@@ -86,12 +86,12 @@ export type SinglePostType = {
     slug: string;
   };
 };
-export type AllReviewType = {
+type AllReviewType = {
   count: number;
   rows: ReviewType[];
   paginate: PaginationType;
 };
-export type ReviewType = {
+type ReviewType = {
   id: number;
   name: string | null;
   text: string | null;
@@ -105,3 +105,22 @@ export type ReviewType = {
     slug?: string;
   };
 };
+type LinkSidebarType = {
+  icon: React.ReactNode
+  url: string
+  name: string
+}
+export type {
+  ReviewType,
+  CategortType,
+  UserArrayType,
+  PaginationType,
+  UserType,
+  FormPostType,
+  FormDetailType,
+  AllPostType,
+  PostType,
+  SinglePostType,
+  AllReviewType,
+  LinkSidebarType
+}

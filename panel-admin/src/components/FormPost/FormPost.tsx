@@ -22,7 +22,6 @@ import { RiImageEditFill } from "react-icons/ri";
 import UploadImage from "../../components/UploadImage/UploadImage";
 import ShowImage from "../../components/ShowImage/ShowImage";
 import { FaImage, FaTrash } from "react-icons/fa6";
-import MyEditor from "../../components/Editor/Editor";
 import { MdEditNote, MdPostAdd } from "react-icons/md";
 import axios from "axios";
 import { toast } from "react-toastify";

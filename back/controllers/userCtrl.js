@@ -140,7 +140,7 @@ const loginUser = errorHandler(async (req, res) => {
   try {
     const checkUser = await userModel.findOne({ where: { email } });
     if (!checkUser)
-      throw customError("کاربری با این شماره تلفن ثبت نام نکرده است!", 404);
+      throw customError("کاربری با این ایمیل ثبت نام نکرده است!", 404);
     await comaprePassword(password, checkUser.password);
     const token = createToken(deletePass(checkUser));
     if (checkUser.role !== "USER") {

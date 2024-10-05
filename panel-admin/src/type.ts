@@ -115,7 +115,7 @@ type AllonlinePriceType = {
   rows: onlinePriceType[];
   paginate: PaginationType;
 };
-type onlinePriceType = {
+type OnlinePriceType = {
   name: string;
   phone: string;
   subject: string;
@@ -136,6 +136,6 @@ export type {
   SinglePostType,
   AllReviewType,
   LinkSidebarType,
-  onlinePriceType,
+  OnlinePriceType,
   AllonlinePriceType,
 };

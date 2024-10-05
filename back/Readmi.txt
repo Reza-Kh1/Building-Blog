@@ -75,7 +75,7 @@ Result===>
     }
 }
 
-3_Get All Online Price Api(Author/Admin) ===> localhost:5000/api-v1/onlineprice/1
+3_Get Single Online Price Api(Author/Admin) ===> localhost:5000/api-v1/onlineprice/1
 Method ===> GET
 Result===>
 {

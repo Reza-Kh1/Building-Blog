@@ -106,10 +106,23 @@ type ReviewType = {
   };
 };
 type LinkSidebarType = {
-  icon: React.ReactNode
-  url: string
-  name: string
-}
+  icon: React.ReactNode;
+  url: string;
+  name: string;
+};
+type AllonlinePriceType = {
+  count: number;
+  rows: onlinePriceType[];
+  paginate: PaginationType;
+};
+type onlinePriceType = {
+  name: string;
+  phone: string;
+  subject: string;
+  status: boolean;
+  createdAt: Date;
+  id: number;
+};
 export type {
   ReviewType,
   CategortType,
@@ -122,5 +135,7 @@ export type {
   PostType,
   SinglePostType,
   AllReviewType,
-  LinkSidebarType
-}
+  LinkSidebarType,
+  onlinePriceType,
+  AllonlinePriceType,
+};

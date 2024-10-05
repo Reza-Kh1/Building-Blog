@@ -15,7 +15,7 @@ const getOnlinePrice = asyncHandler(async (req, res) => {
     orderFilter.push(length1);
     orderFilter.push(length2);
   } else {
-    orderFilter.push(["createdAt", "ASC"]);
+    orderFilter.push(["createdAt", "DESC"]);
   }
   if (status) {
     statusFilter = status;

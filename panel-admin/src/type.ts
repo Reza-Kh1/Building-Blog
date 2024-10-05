@@ -112,16 +112,36 @@ type LinkSidebarType = {
 };
 type AllonlinePriceType = {
   count: number;
-  rows: onlinePriceType[];
+  rows: OnlinePriceType[];
   paginate: PaginationType;
 };
 type OnlinePriceType = {
+  id: number;
   name: string;
   phone: string;
+  price: string;
+  description: string;
   subject: string;
+  images: string[];
+  size: string;
   status: boolean;
   createdAt: Date;
+  updatedAt: Date;
+};
+type AllMessageType = {
+  count: number;
+  rows: MessageType[];
+  pager: PaginationType;
+};
+type MessageType = {
   id: number;
+  name: string;
+  phone: string;
+  status: boolean;
+  subject: string;
+  text: string;
+  createdAt: Date;
+  updatedAt: Date;
 };
 export type {
   ReviewType,
@@ -138,4 +158,6 @@ export type {
   LinkSidebarType,
   OnlinePriceType,
   AllonlinePriceType,
+  AllMessageType,
+  MessageType,
 };

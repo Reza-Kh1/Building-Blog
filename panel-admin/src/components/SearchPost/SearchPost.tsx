@@ -7,10 +7,10 @@ type SearchFormType = {
   status?: string;
   order?: string;
 };
-export default function SearchPost() {
+export default function SearchPost({ onlinePrice }: { onlinePrice?: boolean }) {
   const { register, setValue, handleSubmit, watch } = useForm<SearchFormType>({
     defaultValues: {
-      status: "s",
+      status: onlinePrice ? "false" : "s",
       order: "createdAt-DESC",
     },
   });
@@ -25,13 +25,16 @@ export default function SearchPost() {
   const orderValue = watch("order");
   return (
     <form className="w-full grid my-4 grid-cols-4 gap-3 items-center justify-center">
-      <TextField
-        autoComplete="off"
-        className="shadow-md"
-        label={"جستجو..."}
-        fullWidth
-        {...register("search")}
-      />
+      {!onlinePrice && (
+        <TextField
+          autoComplete="off"
+          className="shadow-md"
+          label={"جستجو..."}
+          fullWidth
+          {...register("search")}
+        />
+      )}
+
       <TextField
         fullWidth
         autoComplete="off"
@@ -42,12 +45,21 @@ export default function SearchPost() {
         value={roleValue}
         onChange={(e) => setValue("status", e.target.value)}
       >
-        <MenuItem value={"s"}>نمایش همه</MenuItem>
-        {dataStatus?.map((i, index) => (
-          <MenuItem key={index} value={i.value}>
-            {i.name}
-          </MenuItem>
-        ))}
+        {!onlinePrice && <MenuItem value={"s"}>نمایش همه</MenuItem>}
+        {onlinePrice
+          ? [
+              { name: "دیده نشده", value: "false" },
+              { name: "دیده شده", value: "true" },
+            ].map((i, index) => (
+              <MenuItem key={index} value={i.value}>
+                {i.name}
+              </MenuItem>
+            ))
+          : dataStatus?.map((i, index) => (
+              <MenuItem key={index} value={i.value}>
+                {i.name}
+              </MenuItem>
+            ))}
       </TextField>
       <TextField
         fullWidth
@@ -65,13 +77,16 @@ export default function SearchPost() {
           </MenuItem>
         ))}
       </TextField>
-      <Button
-        variant="contained"
-        onClick={handleSubmit(searchUser)}
-        color="success"
-      >
-        جستجو
-      </Button>
+      <div>
+        <Button
+          className="w-1/2"
+          variant="contained"
+          onClick={handleSubmit(searchUser)}
+          color="success"
+        >
+          جستجو
+        </Button>
+      </div>
     </form>
   );
 }

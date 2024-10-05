@@ -78,8 +78,7 @@ Result===>
 3_Get Single Online Price Api(Author/Admin) ===> localhost:5000/api-v1/onlineprice/1
 Method ===> GET
 Result===>
-{
-    "data": {
+{data:{
         "id": 2,
         "name": "ali",
         "phone": "09390199977",
@@ -94,17 +93,16 @@ Result===>
         "status": false,
         "createdAt": "2024-10-02T15:49:26.493Z",
         "updatedAt": "2024-10-02T15:49:26.493Z"
-    }
-}
+}}
 
-4_Update All Online Price Api(Author/Admin) ===> localhost:5000/api-v1/onlineprice/1
+4_Update Online Price Api(Author/Admin) ===> localhost:5000/api-v1/onlineprice/1
 Method ===> PUT
 Result===>
 {
     "success": true
 }
 
-5_Delete All Online Price Api(Author/Admin) ===> localhost:5000/api-v1/onlineprice/1
+5_Delete Online Price Api(Author/Admin) ===> localhost:5000/api-v1/onlineprice/1
 Method ===> DELETE
 Result===>
 {
@@ -225,7 +223,7 @@ Result===>
     }
 }
 
-2_Create All Message Api ===> localhost:5000/api-v1/message
+2_Create Message Api ===> localhost:5000/api-v1/message
 Method ===> POST
 Body ===>
 {
@@ -239,7 +237,7 @@ Result===>
     "success": true
 }
 
-3_Update All Message Api ===> localhost:5000/api-v1/message/1
+3_Update Message Api ===> localhost:5000/api-v1/message/1
 Method ===> PUT
 Body ===>
 {
@@ -253,7 +251,7 @@ Result===>
     "success": true
 }
 
-4_Delete All Message Api ===> localhost:5000/api-v1/message/1
+4_Delete Message Api ===> localhost:5000/api-v1/message/1
 Method ===> DELETE
 Result===>
 {
@@ -331,7 +329,7 @@ Result===>
     }
 }
 
-3_Create All Project Api ===> localhost:5000/api-v1/project
+3_Create Project Api ===> localhost:5000/api-v1/project
 Method ===> POST
 Result===>
 {
@@ -353,7 +351,7 @@ Body ===>
     "workerId":1
 }
 
-4_Update All Project Api ===> localhost:5000/api-v1/project/1
+4_Update Project Api ===> localhost:5000/api-v1/project/1
 Method ===> PUT
 Result===>
 {
@@ -374,7 +372,7 @@ Body ===>
     "workerId":1
 }
 
-5_Delete All Project Api ===> localhost:5000/api-v1/project/1
+5_Delete Project Api ===> localhost:5000/api-v1/project/1
 Method ===> DELETE
 Result===>
 {

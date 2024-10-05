@@ -2,13 +2,11 @@ const asyncHandler = require("express-async-handler");
 const { customError } = require("../middlewares/globalError");
 const { messageModel } = require("../models/sync");
 const pagination = require("../utils/pagination");
-const limit = process.env.LIMIT_COMMENT;
+const limit = process.env.LIMIT || 2;
 const createMessage = asyncHandler(async (req, res) => {
   const { name, phone, subject, text } = req.body;
   try {
     const data = await messageModel.create({ name, phone, subject, text });
-    console.log(data);
-
     res.send({ success: true });
   } catch (err) {
     throw customError(err, err.statusCode || 400);

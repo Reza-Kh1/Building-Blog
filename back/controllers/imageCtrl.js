@@ -5,6 +5,7 @@ const {
   DeleteObjectCommand,
   ListObjectsV2Command,
 } = require("@aws-sdk/client-s3");
+const { mediaModel } = require("../models/sync");
 const client = new S3Client({
   region: "default",
   endpoint: process.env.LIARA_ENDPOINT,
@@ -13,11 +14,19 @@ const client = new S3Client({
     secretAccessKey: process.env.LIARA_SECRET_KEY,
   },
 });
-
 const uploadImage = asyncHandler(async (req, res) => {
-  if (req.file == undefined) throw customError("هیچ عکسی انتخاب نشده", 401);
+  if (!req.files.length) throw customError("هیچ عکسی انتخاب نشده", 401);
   try {
-    return res.send({ url: req.file.location });
+    const getUrl = req.files.map((i) => {
+      const position = {
+        status: true,
+        url: i.location,
+        type: i.mimetype.search("image") ? "image" : "video",
+      }
+      return position
+    })
+    await mediaModel.bulkCreate(getUrl)
+    return res.send({ url: getUrl });
   } catch (error) {
     throw customError(error.message, 400);
   }

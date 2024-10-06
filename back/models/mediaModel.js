@@ -6,9 +6,6 @@ const imageModel = dataBase.define("media", {
         type: DataTypes.STRING,
         allowNull: false
     },
-    thumbnail: {
-        type: DataTypes.STRING
-    },
     type: {
         type: DataTypes.ENUM("image", "video"),
     },

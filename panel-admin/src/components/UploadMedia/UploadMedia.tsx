@@ -17,8 +17,7 @@ export default function UploadMedia() {
             for (let file of newFile) {
                 formData.append("media", file);
             }
-            formData.append("status", "true")
-            const { data } = await axios.post("image", formData, {
+            const { data } = await axios.post("media", formData, {
                 onUploadProgress: (event) => {
                     if (event.lengthComputable && event.total) {
                         const percentComplete = Math.round((event.loaded * 100) / event.total);
@@ -30,7 +29,8 @@ export default function UploadMedia() {
         },
         onSuccess: () => {
             toast.success("عکس با موفقیت افزوده شد");
-            query.invalidateQueries({ queryKey: ["allImage"] });
+            query.invalidateQueries({ queryKey: ['mediaDB'] });
+            query.invalidateQueries({ queryKey: ['mediaDBaaS'] });
             setLoading(false);
         },
         onError: (err) => {

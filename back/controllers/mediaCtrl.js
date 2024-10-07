@@ -17,13 +17,51 @@ const client = new S3Client({
     secretAccessKey: process.env.LIARA_SECRET_KEY,
   },
 });
-const createMedia = asyncHandler(async (req, res) => {
-  const { url, thumbnail, type, status } = req.body;
+const uploadMediaAdmin = asyncHandler(async (req, res) => {
+  if (!req.files.length) throw customError("هیچ عکسی انتخاب نشده", 401);
+  const getUrl = req.files.map((i) => {
+    const fileType = i.mimetype;
+    let type;
+    if (fileType.startsWith("image/")) {
+      type = "image";
+    } else if (fileType.startsWith("video/")) {
+      type = "video";
+    }
+    const position = {
+      status: true,
+      url: i.location,
+      type: type,
+    }
+    return position
+  })
   try {
-    await mediaModel.create({ url, thumbnail, type, status });
-    res.send({ success: true });
-  } catch (err) {
-    throw customError(err);
+    await mediaModel.bulkCreate(getUrl)
+    return res.send({ url: getUrl });
+  } catch (error) {
+    await getUrl.map(async (i) => {
+      await client.send(new DeleteObjectCommand({
+        Bucket: process.env.LIARA_BUCKET_NAME,
+        Key: i.url.split("/").slice(-1)[0]
+      }));
+    })
+    throw customError(error.message, 400);
+  }
+});
+const uploadMediaUser = asyncHandler(async (req, res) => {
+  if (!req.files.length) throw customError("هیچ عکسی انتخاب نشده", 401);
+  try {
+    const getUrl = req.files.map((i) => {
+      const position = {
+        status: false,
+        url: i.location,
+        type: i.mimetype.search("image") ? "image" : "video",
+      }
+      return position
+    })
+    await mediaModel.bulkCreate(getUrl)
+    return res.send({ url: getUrl });
+  } catch (error) {
+    throw customError(error.message, 400);
   }
 });
 const deleteMedia = asyncHandler(async (req, res) => {
@@ -45,9 +83,16 @@ const deleteMedia = asyncHandler(async (req, res) => {
   }
 });
 const getAllMedia = asyncHandler(async (req, res) => {
-  let { page, order, status } = req.query;
-  page = page || 1;
+  let { next, order, status, type } = req.query;
+  const filterSearch = {}
+  page = next || 1;
   let orderFilter = [];
+  if (status !== undefined && status) {
+    filterSearch.status = status
+  }
+  if (type !== undefined && type) {
+    filterSearch.type = type
+  }
   if (order) {
     const length1 = order.split("-")[0];
     const length2 = order.split("-")[1];
@@ -58,16 +103,30 @@ const getAllMedia = asyncHandler(async (req, res) => {
   }
   try {
     const data = await mediaModel.findAndCountAll({
-      where: { status: status || false },
+      where: filterSearch,
       offset: (page - 1) * limit,
       limit: limit,
       order: [orderFilter],
       attributes: { exclude: ["createdAt", "updatedAt"] },
     });
     const paginate = pagination(data.count, page, limit);
-    res.send({ ...data, paginate });
+    res.send({ ...data, next: paginate?.nextPage });
   } catch (err) {
     throw customError(err);
+  }
+});
+const deleteDBaaS = asyncHandler(async (req, res) => {
+  const { url } = req.query;
+  const key = url.split("/").slice(-1)[0];
+  const params = {
+    Bucket: process.env.LIARA_BUCKET_NAME,
+    Key: key,
+  };
+  try {
+    await client.send(new DeleteObjectCommand(params));
+    res.send({ success: true });
+  } catch (error) {
+    throw customError(error.message, 400);
   }
 });
 const getDBaaS = asyncHandler(async (req, res) => {
@@ -89,8 +148,10 @@ const getDBaaS = asyncHandler(async (req, res) => {
   }
 });
 module.exports = {
-  createMedia,
+  uploadMediaAdmin,
   deleteMedia,
   getAllMedia,
   getDBaaS,
+  uploadMediaUser,
+  deleteDBaaS
 };

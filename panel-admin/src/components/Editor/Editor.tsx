@@ -12,7 +12,7 @@ import {
   IconButton,
   TextField,
 } from "@mui/material";
-import ShowImage from "../ShowImage/ShowImage";
+import ShowImage from "../ShowDBaaS/ShowDBaaS";
 import { IoClose } from "react-icons/io5";
 import UploadImage from "../UploadImage/UploadImage";
 import { classImg } from "../../data/selectData";

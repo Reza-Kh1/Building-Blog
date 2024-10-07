@@ -4,6 +4,7 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 import axios from "axios";
+import { TbPhotoCirclePlus } from "react-icons/tb";
 import { toast } from "react-toastify";
 import { FaEye, FaTrash, FaUpload } from "react-icons/fa6";
 import {
@@ -14,7 +15,9 @@ import {
   IconButton,
 } from "@mui/material";
 import { useState } from "react";
-import { fetchImage } from "../../services/Image";
+import { fetchImageDBaas } from "../../services/media";
+import { BsDatabaseFillAdd } from "react-icons/bs";
+import { IoEyeOff } from "react-icons/io5";
 type AllImageType = {
   urls: string[];
   next: string | null;
@@ -23,26 +26,29 @@ type ShowImageType = {
   setUrl?: (value: string) => void;
   setClose?: (value: boolean) => void;
 };
-export default function ShowImage({ setUrl, setClose }: ShowImageType) {
+export default function ShowDBaaS({ setUrl, setClose }: ShowImageType) {
   const [open, setOpen] = useState<boolean>(false);
+  const [isFetching, setIsFetching] = useState<boolean>(false);
   const query = useQueryClient();
   const [viewImage, setViewImage] = useState<string>();
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteQuery<AllImageType>({
-      queryKey: ["allImage"],
-      queryFn: fetchImage,
+      queryKey: ["mediaDBaaS"],
+      queryFn: fetchImageDBaas,
       getNextPageParam: (lastPage) => lastPage.next || undefined,
       staleTime: 1000 * 60 * 60 * 24,
       gcTime: 1000 * 60 * 60 * 24,
       initialPageParam: "",
+      enabled: isFetching
     });
   const deleteImage = useMutation({
     mutationFn: (i: string) => {
-      return axios.delete(`image?url=${i}`);
+      return axios.delete(`media?url=${i}`);
     },
     onSuccess: () => {
       toast.success("عکس با موفقیت حذف شد");
-      query.invalidateQueries({ queryKey: ["allImage"] });
+      query.invalidateQueries({ queryKey: ['mediaDB'] });
+      query.invalidateQueries({ queryKey: ['mediaDBaaS'] });
     },
     onError: () => {
       toast.warning("عکس حذف نشد");
@@ -50,9 +56,17 @@ export default function ShowImage({ setUrl, setClose }: ShowImageType) {
   });
   return (
     <>
-      <div>
-        <div className="grid grid-cols-5 gap-5">
-          {data?.pages?.map((item) => {
+      <div className="w-full mt-5 border-t-2 pt-5 border-dashed">
+        <Button onClick={() => setIsFetching((prev) => !prev)} variant="contained" color="secondary" endIcon={!isFetching ? < BsDatabaseFillAdd /> : <IoEyeOff />}>
+          دیتابیس ابری
+        </Button>
+        <div className={`grid grid-cols-5 gap-5 ${isFetching ? "mt-5" : ""}`}>
+          {isFetching && data?.pages?.map((item, index) => {
+            if (item.urls === undefined) {
+              return <span key={index} className="bg-blue-300  text-white p-2 rounded-md shadow-md">
+                هیچ اطلاعاتی یافت نشد !
+              </span>
+            }
             return item?.urls?.map((i, index) => (
               <figure key={index} className="relative h-52 group">
                 <img
@@ -98,18 +112,19 @@ export default function ShowImage({ setUrl, setClose }: ShowImageType) {
             ));
           })}
         </div>
-        {hasNextPage && (
+        {hasNextPage && isFetching && (
           <Button
             onClick={() => fetchNextPage()}
             color="success"
             className="!mt-5"
-            variant="outlined"
+            variant="contained"
             disabled={isFetchingNextPage}
+            endIcon={<TbPhotoCirclePlus />}
           >
-            {isFetchingNextPage ? "در حال بارگزاری..." : "بارگزاری بیشتر"}
+            {isFetchingNextPage ? "در حال بارگزاری..." : "نمایش بیشتر"}
           </Button>
         )}
-      </div>
+      </div >
       <Dialog
         fullWidth={true}
         maxWidth={"sm"}

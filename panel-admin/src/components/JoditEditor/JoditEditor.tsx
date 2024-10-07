@@ -1,6 +1,6 @@
 import { useMemo, useRef, useState } from 'react'
 import JoditEditor, { Jodit } from 'jodit-react';
-import ShowImage from '../ShowImage/ShowImage';
+import ShowImage from '../ShowDBaaS/ShowDBaaS';
 import { Autocomplete, Chip, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, TextField } from '@mui/material';
 import { IoClose } from 'react-icons/io5';
 import { FaTrash } from 'react-icons/fa6';

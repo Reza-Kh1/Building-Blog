@@ -143,6 +143,12 @@ type MessageType = {
   createdAt: Date;
   updatedAt: Date;
 };
+type MediaType = {
+  url: string,
+  id: number,
+  status: boolean,
+  type: "video" | "image"
+}
 export type {
   ReviewType,
   CategortType,
@@ -159,5 +165,5 @@ export type {
   OnlinePriceType,
   AllonlinePriceType,
   AllMessageType,
-  MessageType,
+  MessageType, MediaType
 };

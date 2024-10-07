@@ -20,7 +20,7 @@ import { useEffect, useState } from "react";
 import { fetchCategory } from "../../services/category";
 import { RiImageEditFill } from "react-icons/ri";
 import UploadImage from "../../components/UploadImage/UploadImage";
-import ShowImage from "../../components/ShowImage/ShowImage";
+import ShowImage from "../ShowDBaaS/ShowDBaaS";
 import { FaImage, FaTrash } from "react-icons/fa6";
 import { MdEditNote, MdPostAdd } from "react-icons/md";
 import axios from "axios";

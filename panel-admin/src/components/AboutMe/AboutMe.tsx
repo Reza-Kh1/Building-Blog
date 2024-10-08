@@ -1,4 +1,12 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, TextField, } from "@mui/material";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+  TextField,
+} from "@mui/material";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaPenToSquare, FaPlus } from "react-icons/fa6";
@@ -11,8 +19,8 @@ type ImgArryType = {
 };
 export default function AboutMe() {
   const { register, handleSubmit } = useForm();
-  const [open, setOpen] = useState<boolean>(false)
-  const [editImage, setEditImage] = useState<ImgArryType>()
+  const [open, setOpen] = useState<boolean>(false);
+  const [editImage, setEditImage] = useState<ImgArryType>();
   const [textArry, setTextArry] = useState([{ id: 1, text: "" }]);
   const [imgArry, setImgArry] = useState<ImgArryType[]>([]);
   const addBtn = () => {
@@ -28,9 +36,9 @@ export default function AboutMe() {
     setTextArry(newFilter);
   };
   const editImageHandler = (img: ImgArryType) => {
-    setOpen(true)
-    setEditImage({ url: img.url, alt: img.alt })
-  }
+    setOpen(true);
+    setEditImage({ url: img.url, alt: img.alt });
+  };
   const deleteImageHandler = (url: string) => {
     const newDetail = imgArry.filter((i) => {
       return i.url !== url;
@@ -49,7 +57,7 @@ export default function AboutMe() {
     console.log(body);
   };
   return (
-    <div>
+    <div className="w-full p-2">
       <span className="mb-4 block font-semibold">بخش اول :</span>
       <div className="flex gap-7 mb-5">
         <div className="flex flex-col w-1/2 gap-5">
@@ -71,15 +79,15 @@ export default function AboutMe() {
           />
         </div>
         <div className="w-1/2">
-          <SelectMedia addMedia={(alt, img) => setImgArry([...imgArry, { url: img.url, alt }])} />
+          <SelectMedia
+            addMedia={(alt, img) =>
+              setImgArry([...imgArry, { url: img.url, alt }])
+            }
+          />
           <div className="grid grid-cols-3 mt-5 gap-3">
             {imgArry.map((i, index) => (
               <div key={index} className="relative group">
-                <img
-                  src={i.url}
-                  alt={i.alt}
-                  className="shadow-md rounded-md"
-                />
+                <img src={i.url} alt={i.alt} className="shadow-md rounded-md w-full h-48 object-cover" />
                 <i
                   onClick={() => deleteImageHandler(i.url)}
                   className="absolute group-hover:opacity-100 opacity-0 top-1 text-xl right-1 bg-gray-800/70 p-1 rounded-full cursor-pointer text-white shadow-md"
@@ -167,19 +175,27 @@ export default function AboutMe() {
         ذخیره کردن اطلاعات
       </Button>
       <Dialog
+        fullWidth
+        maxWidth="sm"
         open={open}
         onClose={() => setOpen(false)}
         PaperProps={{
-          component: 'form',
+          component: "form",
           onSubmit: (event: React.FormEvent<HTMLFormElement>) => {
             event.preventDefault();
             const formData = new FormData(event.currentTarget);
             const formJson = Object.fromEntries((formData as any).entries());
             const alt = formJson.alt;
-            const image = formJson.image;
-            console.log(alt, image);
-
-            setOpen(false)
+            const src = formJson.image;
+            const newArry = imgArry.map((i) => {
+              if (i.url === editImage?.url) {
+                i.alt = alt;
+                i.url = src;
+              }
+              return i;
+            });
+            setImgArry(newArry);
+            setOpen(false);
           },
         }}
       >
@@ -187,9 +203,10 @@ export default function AboutMe() {
         <DialogContent>
           <TextField
             margin="dense"
+            defaultValue={editImage?.url}
             id="image"
             name="image"
-            label="آدرس عکس جدید"
+            label="آدرس عکس"
             type="text"
             fullWidth
             variant="standard"
@@ -212,8 +229,22 @@ export default function AboutMe() {
         </DialogContent>
         <DialogActions>
           <div className="flex justify-between items-center w-full">
-            <Button type="submit" color="success" variant="contained" endIcon={<FaPenToSquare />}>ذخیره</Button>
-            <Button onClick={() => setOpen(false)}>بستن</Button>
+            <Button
+              type="submit"
+              color="success"
+              variant="contained"
+              endIcon={<FaPenToSquare />}
+            >
+              ذخیره
+            </Button>
+            <Button
+              color="error"
+              variant="contained"
+              endIcon={<MdClose />}
+              onClick={() => setOpen(false)}
+            >
+              بستن
+            </Button>
           </div>
         </DialogActions>
       </Dialog>

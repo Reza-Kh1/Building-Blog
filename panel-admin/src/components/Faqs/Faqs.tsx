@@ -58,7 +58,7 @@ export default function Faqs() {
     console.log(form, accordion);
   };
   return (
-    <div className="w-full">
+    <div className="w-full p-2">
       <div className="flex flex-col gap-3">
         <TextField
           fullWidth

@@ -1,37 +1,20 @@
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  IconButton,
-  Slide,
-  TextField,
-} from "@mui/material";
-import { TransitionProps } from "@mui/material/transitions";
-import { forwardRef, useState } from "react";
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, TextField, } from "@mui/material";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { FaPlus } from "react-icons/fa6";
-import { MdClose } from "react-icons/md";
+import { FaPenToSquare, FaPlus } from "react-icons/fa6";
+import { MdClose, MdPending } from "react-icons/md";
 import { MdDataSaverOn } from "react-icons/md";
-const Transition = forwardRef(function Transition(
-  props: TransitionProps & {
-    children: React.ReactElement<any, any>;
-  },
-  ref: React.Ref<unknown>
-) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
+import SelectMedia from "../SelectMedia/SelectMedia";
 type ImgArryType = {
   url: string;
   alt: string;
 };
 export default function AboutMe() {
-  const [open, setOpen] = useState<boolean>(false);
   const { register, handleSubmit } = useForm();
+  const [open, setOpen] = useState<boolean>(false)
+  const [editImage, setEditImage] = useState<ImgArryType>()
   const [textArry, setTextArry] = useState([{ id: 1, text: "" }]);
   const [imgArry, setImgArry] = useState<ImgArryType[]>([]);
-  const [imageDetail, setImageDetail] = useState<ImgArryType>();
   const addBtn = () => {
     const number = Math.floor(Math.random() * 1000);
     const newArry = {
@@ -44,16 +27,13 @@ export default function AboutMe() {
     const newFilter = textArry.filter((number) => number.id !== id);
     setTextArry(newFilter);
   };
-  const addImage = () => {
-    const newArry = {
-      alt: imageDetail.alt,
-      url: imageDetail.url,
-    };
-    setImgArry((prev) => [...prev, newArry]);
-  };
+  const editImageHandler = (img: ImgArryType) => {
+    setOpen(true)
+    setEditImage({ url: img.url, alt: img.alt })
+  }
   const deleteImageHandler = (url: string) => {
     const newDetail = imgArry.filter((i) => {
-      i.url !== url;
+      return i.url !== url;
     });
     setImgArry(newDetail);
   };
@@ -91,13 +71,13 @@ export default function AboutMe() {
           />
         </div>
         <div className="w-1/2">
-          <Button onClick={() => setOpen(true)}>انتخاب تصاویر</Button>
+          <SelectMedia addMedia={(alt, img) => setImgArry([...imgArry, { url: img.url, alt }])} />
           <div className="grid grid-cols-3 mt-5 gap-3">
             {imgArry.map((i, index) => (
               <div key={index} className="relative group">
                 <img
-                  src="/notfound.webp"
-                  alt=""
+                  src={i.url}
+                  alt={i.alt}
                   className="shadow-md rounded-md"
                 />
                 <i
@@ -106,6 +86,15 @@ export default function AboutMe() {
                 >
                   <MdClose />
                 </i>
+                <i
+                  onClick={() => editImageHandler(i)}
+                  className="absolute group-hover:opacity-100 opacity-0 top-1 text-xl left-1 bg-gray-800/70 p-1 rounded-full cursor-pointer text-white shadow-md"
+                >
+                  <MdPending />
+                </i>
+                <span className="text-sm absolute left-0 bottom-0 w-full bg-black/70 text-gray-50 group-hover:opacity-100 opacity-0 transition-all rounded-md p-2">
+                  {i.alt}
+                </span>
               </div>
             ))}
           </div>
@@ -179,46 +168,52 @@ export default function AboutMe() {
       </Button>
       <Dialog
         open={open}
-        TransitionComponent={Transition}
-        keepMounted
-        fullWidth
-        maxWidth="md"
         onClose={() => setOpen(false)}
-        aria-describedby="alert-dialog-slide-description"
+        PaperProps={{
+          component: 'form',
+          onSubmit: (event: React.FormEvent<HTMLFormElement>) => {
+            event.preventDefault();
+            const formData = new FormData(event.currentTarget);
+            const formJson = Object.fromEntries((formData as any).entries());
+            const alt = formJson.alt;
+            const image = formJson.image;
+            console.log(alt, image);
+
+            setOpen(false)
+          },
+        }}
       >
-        <DialogTitle>{"Use Google's location service?"}</DialogTitle>
+        <DialogTitle>ویرایش عکس</DialogTitle>
         <DialogContent>
-          <div className="p-2 w-full">
-            <TextField
-              fullWidth
-              autoComplete="off"
-              className="shadow-md"
-              label={"عنوان تصویر"}
-              value={imageDetail?.alt}
-              onChange={({ target }) =>
-                setImageDetail({ ...imageDetail, alt: target.value })
-              }
-            />
-          </div>
+          <TextField
+            margin="dense"
+            id="image"
+            name="image"
+            label="آدرس عکس جدید"
+            type="text"
+            fullWidth
+            variant="standard"
+            autoComplete="false"
+            autoSave="false"
+          />
+          <TextField
+            autoFocus
+            defaultValue={editImage?.alt}
+            margin="dense"
+            id="alt"
+            autoComplete="false"
+            autoSave="false"
+            name="alt"
+            label="ویرایش عنوان"
+            type="text"
+            fullWidth
+            variant="standard"
+          />
         </DialogContent>
         <DialogActions>
-          <div className="flex w-full items-center justify-between">
-            <Button
-              onClick={addImage}
-              variant="contained"
-              color="success"
-              endIcon={<MdDataSaverOn />}
-            >
-              ذخیره
-            </Button>
-            <Button
-              onClick={() => setOpen(false)}
-              variant="contained"
-              color="error"
-              endIcon={<MdClose />}
-            >
-              بستن
-            </Button>
+          <div className="flex justify-between items-center w-full">
+            <Button type="submit" color="success" variant="contained" endIcon={<FaPenToSquare />}>ذخیره</Button>
+            <Button onClick={() => setOpen(false)}>بستن</Button>
           </div>
         </DialogActions>
       </Dialog>

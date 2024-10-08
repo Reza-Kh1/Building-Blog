@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import { Button, ButtonGroup, IconButton } from '@mui/material';
 import { MediaType } from '../../type';
 import { TbPhotoCirclePlus } from "react-icons/tb";
+import { IoIosImages } from 'react-icons/io';
 type AllMediaType = {
     count: number
     rows: MediaType[]
@@ -17,8 +18,10 @@ type SearchFilterType = {
     status: string;
     type: "image" | "video" | "";
 }
-
-export default function MediaBox() {
+type MediaBoxType = {
+    setUrlImg?: (value: MediaType) => void
+}
+export default function MediaBox({ setUrlImg }: MediaBoxType) {
     const [searchQuery, setSearchQuery] = useState<SearchFilterType>({ order: "createdAt-DESC", type: "", status: "true" })
     const [search, setSearch] = useState<SearchFilterType>({ order: "createdAt-DESC", type: "", status: "true" })
     const query = useQueryClient();
@@ -86,7 +89,7 @@ export default function MediaBox() {
                     </ButtonGroup>
                 </div>
                 <div className='w-1/6'>
-                    <Button variant='contained' disabled={isPending || isFetchingNextPage} fullWidth onClick={() => setSearchQuery(search)} endIcon={<FaSearchengin />} color={"success"} >{isPending ? "در حال جستجو..." : "جستجو"}</Button>
+                    <Button variant='contained' disabled={isPending || isFetchingNextPage} fullWidth onClick={() => setSearchQuery(search)} endIcon={<FaSearchengin />} color={"primary"} >{isPending ? "در حال جستجو..." : "جستجو"}</Button>
                 </div>
             </div>
             <div className="grid grid-cols-5 gap-5">
@@ -120,32 +123,20 @@ export default function MediaBox() {
                                     <FaTrash size={20} color="red" />
                                 </IconButton>
                             </span>
-                            {/* {setUrl ? (
+                            {setUrlImg ? (
                                 <span
                                     className="absolute bottom-2 cursor-pointer right-2"
                                     onClick={() => {
-                                        if (setClose) {
-                                            setClose(false);
-                                        }
-                                        navigator.clipboard.writeText(i)
+                                        navigator.clipboard.writeText(i.url)
                                         toast.success("آدرس کپی شد")
-                                        setUrl(i);
+                                        setUrlImg(i);
                                     }}
                                 >
-                                    <IconButton className="!bg-[#000000de]">
-                                        <FaUpload size={20} color="white" />
+                                    <IconButton className="!bg-black/60">
+                                        <IoIosImages size={20} color="white" />
                                     </IconButton>
                                 </span>
-                            ) : null} */}
-                            {/* <span
-                                className="absolute transform bg-[#000000d4] p-3 rounded-full -translate-x-1/2 -translate-y-1/2 top-1/2 group-hover:inline hidden cursor-pointer left-1/2"
-                                onClick={() => {
-                                    setViewImage(i);
-                                    setOpen(true);
-                                }}
-                            >
-                                <FaEye size={35} color="white" />
-                            </span> */}
+                            ) : null}
                         </figure>
                     ));
                 })}

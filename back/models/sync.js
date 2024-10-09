@@ -98,8 +98,8 @@ projectModel.belongsTo(workerModel, {
   onDelete: "RESTRICT",
   onUpdate: "RESTRICT",
 });
-// dataBase.sync({ force: true });
-dataBase.sync();
+dataBase.sync({ force: true });
+// dataBase.sync();
 module.exports = {
   userModel,
   commentModel,

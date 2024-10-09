@@ -139,7 +139,7 @@ export default function AboutMe() {
             {i.id === 1 ? null : (
               <IconButton
                 onClick={() => deleteBtn(i.id)}
-                className="text-xl !bg-red-700 !shadow-md hover:!text-gray-700 hover:!bg-gray-400 transition-all p-3 !text-white"
+                className="text-xl !bg-red-700 !shadow-md hover:!text-red-700 hover:!bg-gray-300 transition-all p-3 !text-white"
               >
                 <i>
                   <MdClose />

@@ -10,7 +10,10 @@ const projectModel = dataBase.define("project", {
         type: DataTypes.STRING,
         allowNull: false
     },
-    thumbnail: {
+    workCategory: {
+        type: DataTypes.ARRAY(DataTypes.STRING),
+    },
+    image: {
         type: DataTypes.STRING
     },
     gallery: {
@@ -19,11 +22,18 @@ const projectModel = dataBase.define("project", {
     video: {
         type: DataTypes.STRING,
     },
+    alt: {
+        type: DataTypes.STRING,
+    },
+    slug: {
+        type: DataTypes.STRING,
+    },
     description: {
         type: DataTypes.TEXT,
     }
 }, {
     timestamps: true,
-    tableName: "project"
+    tableName: "project",
+    indexes: [{ unique: false, fields: ["workCategory", "slug", "name", "address", "description"] }]
 })
 module.exports = projectModel

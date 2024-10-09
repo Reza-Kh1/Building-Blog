@@ -30,11 +30,17 @@ const workerModel = dataBase.define(
     image: {
       type: DataTypes.STRING,
     },
+    alt: {
+      type: DataTypes.STRING,
+    },
+    workCategory: {
+      type: DataTypes.STRING,
+    }
   },
   {
     tableName: "worker",
     timestamps: true,
-    indexes: [{ unique: true, fields: ["name", "phone"] }],
+    indexes: [{ unique: true, fields: ["name", "phone","workCategory"] }],
   }
 );
 module.exports = workerModel;

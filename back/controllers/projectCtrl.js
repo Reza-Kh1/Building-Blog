@@ -10,23 +10,24 @@ const createProject = asyncHandler(async (req, res) => {
   const {
     name,
     address,
-    thumbnail,
+    image,
     gallery,
     video,
     description,
     type,
-    workerId,
+    workerId, workCategory, slug, alt
   } = req.body;
   try {
     await projectModel.create({
       name,
       address,
-      thumbnail,
+      image,
       gallery,
       video,
       description,
       type,
       workerId,
+      workCategory, slug, alt
     });
     res.send({ success: true });
   } catch (err) {
@@ -45,31 +46,22 @@ const deleteProject = asyncHandler(async (req, res) => {
   }
 });
 const updateProject = asyncHandler(async (req, res) => {
-  const { name, address, thumbnail, gallery, video, description, workerId } =
+  const { name, address, image, gallery, video, description, workerId, slug, alt, workCategory } =
     req.body;
   const { id } = req.params;
   try {
     const data = await projectModel.findByPk(id);
     if (!data) return customError("آیتم مورد نظر یافت نشد");
-    if (name) {
-      data.name = name;
-    }
-    if (address) {
-      data.address = address;
-    }
-    if (thumbnail) {
-      data.thumbnail = thumbnail;
-    }
-    if (gallery) {
-      data.gallery = gallery;
-    }
-    if (video) {
-      data.video = video;
-    }
-    if (description) {
-      data.description = description;
-    }
+    if (name) data.name = name;
+    if (address) data.address = address;
+    if (image) data.image = image;
+    if (gallery) data.gallery = gallery;
+    if (video) data.video = video;
+    if (description) data.description = description;
     if (workerId) data.workerId = workerId;
+    if (slug) data.slug = slug;
+    if (alt) data.alt = alt;
+    if (workCategory) data.workCategory = workCategory;
     await data.save();
     res.send({ success: true });
   } catch (err) {
@@ -93,7 +85,7 @@ const getProject = asyncHandler(async (req, res) => {
                 id: { [Op.ne]: id },
               },
               order: [["createdAt", "DESC"]],
-              attributes: { exclude: ["id", "name", "address", "thumbnail"] },
+              attributes: { exclude: ["id", "name", "address", "image"] },
             },
           ],
         },
@@ -105,23 +97,36 @@ const getProject = asyncHandler(async (req, res) => {
   }
 });
 const getAllProject = asyncHandler(async (req, res) => {
-  let { search, page, order } = req.query;
+  let { search, page, order, workCategory } = req.query;
   page = page || 1;
   let filter = {};
   let orderFilter = [];
+  // if (order) {
+  //   const length1 = order.split("-")[0];
+  //   const length2 = order.split("-")[1];
+  //   orderFilter.push(length1);
+  //   orderFilter.push(length2);
+  // } else {
+  //   orderFilter.push(["createdAt", "DESC"]);
+  // }
   if (order) {
-    const length1 = order.split("-")[0];
-    const length2 = order.split("-")[1];
-    orderFilter.push(length1);
-    orderFilter.push(length2);
+    const [column, direction] = order.split("-"); // استخراج نام ستون و جهت مرتب‌سازی
+    orderFilter.push([column, direction]);
   } else {
-    orderFilter.push(["createdAt", "DESC"]);
+    orderFilter.push(["createdAt", "DESC"]); // ترتیب پیش‌فرض
   }
-  if (search) {
-    filter[Op.or] = [
-      { name: { [Op.iLike]: `%${search}%` } },
-      { address: { [Op.iLike]: `%${search}%` } },
-    ];
+  if (workCategory || search) {
+    filter[Op.or] = [];
+    if (workCategory) {
+      filter[Op.or].push({ workCategory: { [Op.contains]: [workCategory] } });
+    }
+    if (search) {
+      filter[Op.or].push(
+        { name: { [Op.iLike]: `%${search}%` } },
+        { address: { [Op.iLike]: `%${search}%` } },
+        { description: { [Op.iLike]: `%${search}%` } }
+      );
+    }
   }
   try {
     const data = await projectModel.findAndCountAll({

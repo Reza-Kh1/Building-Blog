@@ -33,14 +33,11 @@ const workerModel = dataBase.define(
     alt: {
       type: DataTypes.STRING,
     },
-    workCategory: {
-      type: DataTypes.STRING,
-    }
   },
   {
     tableName: "worker",
     timestamps: true,
-    indexes: [{ unique: true, fields: ["name", "phone","workCategory"] }],
+    indexes: [{ unique: true, fields: ["name", "phone"] }],
   }
 );
 module.exports = workerModel;

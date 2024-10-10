@@ -4,28 +4,26 @@ const { dataBase } = require("../config/db");
 const projectModel = dataBase.define("project", {
     name: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: {
+            args: true,
+            msg: "نام قبلا در سیستم ثبت شده است",
+        },
     },
     address: {
         type: DataTypes.STRING,
         allowNull: false
     },
-    workCategory: {
-        type: DataTypes.ARRAY(DataTypes.STRING),
-    },
     image: {
         type: DataTypes.STRING
     },
     gallery: {
-        type: DataTypes.ARRAY(DataTypes.STRING),
+        type: DataTypes.ARRAY(DataTypes.JSONB),
     },
     video: {
         type: DataTypes.STRING,
     },
     alt: {
-        type: DataTypes.STRING,
-    },
-    slug: {
         type: DataTypes.STRING,
     },
     description: {
@@ -34,6 +32,6 @@ const projectModel = dataBase.define("project", {
 }, {
     timestamps: true,
     tableName: "project",
-    indexes: [{ unique: false, fields: ["workCategory", "slug", "name", "address", "description"] }]
+    indexes: [{ unique: false, fields: ["address", "description"] }, { unique: true, fields: ["name"] }]
 })
 module.exports = projectModel

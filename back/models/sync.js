@@ -10,17 +10,8 @@ const workerModel = require("./workerModel")
 const onlinePriceModel = require("./onlinePriceModel")
 const messageModel = require("./messageModel")
 const mediaModel = require("./mediaModel")
+const tagsModel = require("./tagsModel")
 ////////  The Relationship of Categorys
-userModel.hasMany(categoryModel, {
-  foreignKey: "userId",
-  onUpdate: "SET NULL",
-  onDelete: "SET NULL",
-});
-categoryModel.belongsTo(userModel, {
-  foreignKey: "userId",
-  onUpdate: "SET NULL",
-  onDelete: "SET NULL",
-});
 categoryModel.hasMany(categoryModel, {
   as: "subCategory",
   foreignKey: "parentCategoryId",
@@ -37,12 +28,12 @@ categoryModel.belongsTo(categoryModel, {
 userModel.hasMany(postModel, {
   foreignKey: "userId",
   onDelete: "SET NULL",
-  onUpdate: "SET NULL",
+  onUpdate: "CASCADE",
 });
 postModel.belongsTo(userModel, {
   foreignKey: "userId",
   onDelete: "SET NULL",
-  onUpdate: "SET NULL",
+  onUpdate: "CASCADE",
 });
 categoryModel.hasMany(postModel, {
   foreignKey: "categoryId",
@@ -98,8 +89,51 @@ projectModel.belongsTo(workerModel, {
   onDelete: "RESTRICT",
   onUpdate: "RESTRICT",
 });
-dataBase.sync({ force: true });
-// dataBase.sync();
+//////// The Relationship of Tags
+tagsModel.belongsToMany(workerModel, {
+  foreignKey: "workerId",
+  otherKey: "tagId",
+  through: "worker_tags",
+  onDelete: "RESTRICT",
+  onUpdate: "RESTRICT",
+})
+workerModel.belongsToMany(tagsModel, {
+  foreignKey: "tagId",
+  otherKey: "workerId",
+  through: "worker_tags",
+  onDelete: "RESTRICT",
+  onUpdate: "RESTRICT",
+})
+tagsModel.belongsToMany(projectModel, {
+  foreignKey: "projectId",
+  otherKey: "tagId",
+  through: "project_tags",
+  onDelete: "RESTRICT",
+  onUpdate: "RESTRICT",
+})
+projectModel.belongsToMany(workerModel, {
+  foreignKey: "tagId",
+  otherKey:"projectId",
+  through: "project_tags",
+  onDelete: "RESTRICT",
+  onUpdate: "RESTRICT",
+})
+tagsModel.belongsToMany(postModel, {
+  foreignKey: "postId",
+  through: "post_tags",
+  otherKey:"tagId",
+  onDelete: "RESTRICT",
+  onUpdate: "RESTRICT",
+})
+postModel.belongsToMany(tagsModel, {
+  foreignKey: "tagId",
+  through: "post_tags",
+  otherKey:"postId",
+  onDelete: "RESTRICT",
+  onUpdate: "RESTRICT",
+})
+// dataBase.sync({ force: true });
+dataBase.sync();
 module.exports = {
   userModel,
   commentModel,
@@ -111,5 +145,6 @@ module.exports = {
   workerModel,
   onlinePriceModel,
   messageModel,
-  mediaModel
+  mediaModel,
+  tagsModel
 };

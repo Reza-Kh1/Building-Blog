@@ -5,11 +5,9 @@ const createCategory = errorHandler(async (req, res) => {
   const { name, slug, categoryId } = req.body;
   if (!name || !slug) throw customError("فیلد های لازیم را پر کنید");
   try {
-    const userId = res.userInfo.id;
     await categoryModel.create({
       name,
       slug,
-      userId,
       parentCategoryId: categoryId,
     });
     res.send({ success: true });

@@ -16,10 +16,11 @@ const createProject = asyncHandler(async (req, res) => {
     video,
     description,
     workerId,
-    alt
+    alt,
+    tags,
   } = req.body;
   try {
-    await projectModel.create({
+    const data = await projectModel.create({
       name,
       address,
       image,
@@ -27,8 +28,9 @@ const createProject = asyncHandler(async (req, res) => {
       video,
       description,
       workerId,
-      alt
+      alt,
     });
+    await data.addTags(tags);
     res.send({ success: true });
   } catch (err) {
     throw customError(err, err.statusCode || 400);
@@ -38,7 +40,8 @@ const deleteProject = asyncHandler(async (req, res) => {
   const { id } = req.params;
   try {
     const data = await projectModel.findByPk(id);
-    if (!data) return customError("آیتم مورد نظر یافت نشد");
+    if (!data) throw customError("آیتم مورد نظر یافت نشد");
+    await data.setTags([]);
     await data.destroy();
     res.send({ success: true });
   } catch (err) {
@@ -46,12 +49,22 @@ const deleteProject = asyncHandler(async (req, res) => {
   }
 });
 const updateProject = asyncHandler(async (req, res) => {
-  const { name, address, image, gallery, video, description, workerId, slug, alt } =
-    req.body;
+  const {
+    name,
+    address,
+    image,
+    gallery,
+    video,
+    description,
+    workerId,
+    slug,
+    alt,
+    tags,
+  } = req.body;
   const { id } = req.params;
   try {
     const data = await projectModel.findByPk(id);
-    if (!data) return customError("آیتم مورد نظر یافت نشد");
+    if (!data) throw customError("آیتم مورد نظر یافت نشد");
     if (name) data.name = name;
     if (address) data.address = address;
     if (image) data.image = image;
@@ -62,6 +75,7 @@ const updateProject = asyncHandler(async (req, res) => {
     if (slug) data.slug = slug;
     if (alt) data.alt = alt;
     await data.save();
+    if (tags) await data.setTags(tags);
     res.send({ success: true });
   } catch (err) {
     throw customError(err, err.statusCode || 400);
@@ -70,37 +84,38 @@ const updateProject = asyncHandler(async (req, res) => {
 const getProject = asyncHandler(async (req, res) => {
   const { name } = req.params;
   try {
-    // const data = await projectModel.findOne({
-    //   where: { id },
-    //   include: [
-    //     {
-    //       model: workerModel,
-    //       attributes: { exclude: ["createdAt", "updatedAt"] },
-    //       include: [
-    //         {
-    //           model: projectModel,
-    //           limit: limitShowProject,
-    //           where: {
-    //             id: { [Op.ne]: id },
-    //           },
-    //           order: [["createdAt", "DESC"]],
-    //           attributes: { exclude: ["id", "name", "address", "image"] },
-    //         },
-    //       ],
-    //     },
-    //   ],
-    // });    
-    // const data = await tagsModel.create({ name })
     const data = await projectModel.findOne({
-      where: { name }, include: [{ model: workerModel }, { model: workerModel },
-      { model: tagsModel, through: { attributes: [] } },]
-    })
-
-    // await data.addTags([4]);
+      where: { name: name },
+      include: [
+        {
+          model: workerModel,
+          attributes: {
+            exclude: [
+              "createdAt",
+              "updatedAt",
+              "id",
+              "address",
+              "description",
+              "socialMedia",
+            ],
+          },
+          include: [
+            {
+              model: projectModel,
+              limit: limitShowProject,
+              where: {
+                name: { [Op.ne]: name },
+              },
+              order: [["createdAt", "DESC"]],
+              attributes: { exclude: ["id", "name", "address", "image"] },
+            },
+          ],
+        },
+        { model: tagsModel, attributes: ["name"], through: "projectTags" },
+      ],
+    });
     res.send({ data });
   } catch (err) {
-    console.log(err);
-
     throw customError(err, err.statusCode || 400);
   }
 });
@@ -140,9 +155,12 @@ const getAllProject = asyncHandler(async (req, res) => {
       limit: limit,
       order: [orderFilter],
       attributes: { exclude: ["gallery", "video", "description"] },
-      include: [{
-        model: workerModel, attributes: ["name"]
-      }]
+      include: [
+        {
+          model: workerModel,
+          attributes: ["name"],
+        },
+      ],
     });
     const paginate = pagination(data.count, page, limit);
     res.send({ ...data, paginate });

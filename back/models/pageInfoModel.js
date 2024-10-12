@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 const { dataBase } = require("../config/db");
 const pageInfoModel = dataBase.define(
-  "pageInfo",
+  "PageInfo",
   {
     page: {
       type: DataTypes.STRING,
@@ -14,7 +14,7 @@ const pageInfoModel = dataBase.define(
     text: { type: DataTypes.JSONB },
   },
   {
-    tableName: "pageInfo",
+    tableName: "PageInfo",
     timestamps: false,
     indexes: [{ unique: true, fields: ["page"] }],
   }

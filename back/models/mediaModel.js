@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 const { dataBase } = require("../config/db");
 
-const imageModel = dataBase.define("media", {
+const imageModel = dataBase.define("Media", {
     url: {
         type: DataTypes.STRING,
         allowNull: false
@@ -14,7 +14,7 @@ const imageModel = dataBase.define("media", {
         defaultValue: false
     }
 }, {
-    tableName: "media",
+    tableName: "Media",
     timestamps: true,
     indexes: [
         { unique: false, fields: ["status", "type"] }

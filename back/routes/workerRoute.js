@@ -7,11 +7,14 @@ const {
   getAllWorker,
   getWorker,
   updateWorker,
+  getAllWorkerName,
 } = require("../controllers/workerCtrl");
-app.route("/").get(getAllWorker).post(isAuthor,createWorker);
+app.route("/").get(getAllWorker).post(isAuthor, createWorker);
+app.route("/name-worker").get(isAuthor, getAllWorkerName);
 app
   .route("/:id")
   .get(getWorker)
   .put(isAuthor, updateWorker)
   .delete(isAuthor, deleteWorker);
+
 module.exports = app;

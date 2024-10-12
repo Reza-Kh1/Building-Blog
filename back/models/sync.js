@@ -4,13 +4,13 @@ const categoryModel = require("./categoryModel");
 const postModel = require("./postModel");
 const commentModel = require("./commentModel");
 const detailPostModel = require("./detailPostModel");
-const pageInfoModel = require("./pageInfoModel")
-const projectModel = require("./projectModel")
-const workerModel = require("./workerModel")
-const onlinePriceModel = require("./onlinePriceModel")
-const messageModel = require("./messageModel")
-const mediaModel = require("./mediaModel")
-const tagsModel = require("./tagsModel")
+const pageInfoModel = require("./pageInfoModel");
+const projectModel = require("./projectModel");
+const workerModel = require("./workerModel");
+const onlinePriceModel = require("./onlinePriceModel");
+const messageModel = require("./messageModel");
+const mediaModel = require("./mediaModel");
+const tagsModel = require("./tagsModel");
 ////////  The Relationship of Categorys
 categoryModel.hasMany(categoryModel, {
   as: "subCategory",
@@ -83,7 +83,7 @@ workerModel.hasMany(projectModel, {
   foreignKey: "workerId",
   onDelete: "RESTRICT",
   onUpdate: "RESTRICT",
-})
+});
 projectModel.belongsTo(workerModel, {
   foreignKey: "workerId",
   onDelete: "RESTRICT",
@@ -91,49 +91,44 @@ projectModel.belongsTo(workerModel, {
 });
 //////// The Relationship of Tags
 tagsModel.belongsToMany(workerModel, {
-  foreignKey: "workerId",
-  otherKey: "tagId",
-  through: "worker_tags",
+  timestamps: false,
+  through: "workerTags",
   onDelete: "RESTRICT",
   onUpdate: "RESTRICT",
-})
+});
 workerModel.belongsToMany(tagsModel, {
-  foreignKey: "tagId",
-  otherKey: "workerId",
-  through: "worker_tags",
+  timestamps: false,
+  through: "workerTags",
   onDelete: "RESTRICT",
   onUpdate: "RESTRICT",
-})
+});
 tagsModel.belongsToMany(projectModel, {
-  foreignKey: "projectId",
-  otherKey: "tagId",
-  through: "project_tags",
+  timestamps: false,
+  through: "projectTags",
   onDelete: "RESTRICT",
   onUpdate: "RESTRICT",
-})
-projectModel.belongsToMany(workerModel, {
-  foreignKey: "tagId",
-  otherKey:"projectId",
-  through: "project_tags",
+});
+projectModel.belongsToMany(tagsModel, {
+  timestamps: false,
+  through: "projectTags",
   onDelete: "RESTRICT",
   onUpdate: "RESTRICT",
-})
+});
 tagsModel.belongsToMany(postModel, {
-  foreignKey: "postId",
-  through: "post_tags",
-  otherKey:"tagId",
+  timestamps: false,
+  through: "postTags",
   onDelete: "RESTRICT",
   onUpdate: "RESTRICT",
-})
+});
 postModel.belongsToMany(tagsModel, {
-  foreignKey: "tagId",
-  through: "post_tags",
-  otherKey:"postId",
+  timestamps: false,
+  through: "postTags",
   onDelete: "RESTRICT",
   onUpdate: "RESTRICT",
-})
+});
+dataBase.sync({ alter: true });
 // dataBase.sync({ force: true });
-dataBase.sync();
+// dataBase.sync();
 module.exports = {
   userModel,
   commentModel,
@@ -146,5 +141,5 @@ module.exports = {
   onlinePriceModel,
   messageModel,
   mediaModel,
-  tagsModel
+  tagsModel,
 };

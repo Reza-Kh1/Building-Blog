@@ -6,13 +6,15 @@ const {
   userModel,
   commentModel,
   categoryModel,
+  tagsModel,
 } = require("../models/sync");
-const { Op } = require("sequelize");
+const { Op, Transaction } = require("sequelize");
 const { dataBase } = require("../config/db");
 const pagination = require("../utils/pagination");
 const limit = process.env.LIMIT;
 const createPost = asyncHandler(async (req, res) => {
-  const { title, image, slug, description, status, categoryId } = req.body;
+  const { title, image, slug, description, status, categoryId, tags } =
+    req.body;
   if (!title || !slug || !description)
     throw customError("تمام فیلدهای لازم را پر کنید", 401);
   const userId = res.userInfo.id;
@@ -26,6 +28,7 @@ const createPost = asyncHandler(async (req, res) => {
       userId,
       categoryId,
     });
+    await dataId.addTags(tags);
     res.send({ id: dataId.id });
   } catch (err) {
     throw customError(err.message, 401);
@@ -36,7 +39,7 @@ const getAllPost = asyncHandler(async (req, res, status, isAdmin) => {
   page = page || 1;
   let filter = {};
   let orderFilter = [];
-  let include = []
+  let include = [];
   if (order) {
     const length1 = order.split("-")[0];
     const length2 = order.split("-")[1];
@@ -61,11 +64,9 @@ const getAllPost = asyncHandler(async (req, res, status, isAdmin) => {
     include = [
       { model: categoryModel, attributes: ["slug", "name"] },
       { model: userModel, attributes: ["name"] },
-    ]
+    ];
   } else {
-    include = [
-      { model: categoryModel, attributes: ["slug", "name"] },
-    ]
+    include = [{ model: categoryModel, attributes: ["slug", "name"] }];
   }
   try {
     const data = await postModel.findAndCountAll({
@@ -74,7 +75,7 @@ const getAllPost = asyncHandler(async (req, res, status, isAdmin) => {
       limit: limit,
       order: [orderFilter],
       attributes: { exclude: ["userId", "createdAt", "categoryId"] },
-      include: include
+      include: include,
     });
     const paginate = pagination(data.count, page, limit);
     res.send({ ...data, paginate });
@@ -92,9 +93,23 @@ const getSinglePost = asyncHandler(async (req, res) => {
     const data = await postModel.findOne({
       where: { slug: id },
       include: [
-        { model: detailPostModel, attributes: { exclude: ["id", "postId"] }, required: false },
+        {
+          model: detailPostModel,
+          attributes: { exclude: ["id", "postId"] },
+          required: false,
+        },
         { model: userModel, attributes: ["name"], required: false },
-        { model: categoryModel, attributes: ["name", "slug", "id"], required: false },
+        {
+          model: tagsModel,
+          through: "postTags",
+          attributes: ["name"],
+          required: false,
+        },
+        {
+          model: categoryModel,
+          attributes: ["name", "slug", "id"],
+          required: false,
+        },
         {
           model: commentModel,
           where: { parentId: null, status: true },
@@ -126,12 +141,21 @@ const getSinglePost = asyncHandler(async (req, res) => {
   }
 });
 const updatePost = asyncHandler(async (req, res) => {
-  const { title, image, slug, description, totalComments, status, categoryId } =
-    req.body;
+  const {
+    title,
+    image,
+    slug,
+    description,
+    totalComments,
+    status,
+    categoryId,
+    tags,
+  } = req.body;
   const { id } = req.params;
   try {
     const updatePost = await postModel.findByPk(id);
     if (!updatePost) return res.status(404).send("همچین پستی وجود ندارد");
+    if (tags) await updatePost.setTags(tags);
     if (title) {
       updatePost.title = title;
     }
@@ -164,6 +188,7 @@ const deletePost = asyncHandler(async (req, res) => {
   try {
     const idDetail = await postModel.findByPk(id);
     if (!idDetail) throw customError("پست مورد نظر حذف نشد");
+    await idDetail.setTags([], { Transaction: t });
     await idDetail.destroy({ transaction: t });
     await detailPostModel.destroy(
       { where: { id: idDetail.id } },

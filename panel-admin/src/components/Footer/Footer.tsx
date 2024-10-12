@@ -72,6 +72,14 @@ export default function Footer() {
         </div>
         <div className="w-1/2">
           <span className="mb-5 block font-semibold">لوگو وبسایت :</span>
+          <SelectMedia
+            addMedia={(alt, img) => {
+              setLogo({
+                alt,
+                url: img.url,
+              });
+            }}
+          />
           {logo?.url && (
             <figure className="relative group w-1/3">
               <img
@@ -90,14 +98,6 @@ export default function Footer() {
               </span>
             </figure>
           )}
-          <SelectMedia
-            addMedia={(alt, img) => {
-              setLogo({
-                alt,
-                url: img.url,
-              });
-            }}
-          />
         </div>
       </div>
       <div className="w-full">

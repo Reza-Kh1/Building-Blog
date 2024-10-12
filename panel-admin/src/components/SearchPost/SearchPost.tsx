@@ -34,7 +34,6 @@ export default function SearchPost({ onlinePrice }: { onlinePrice?: boolean }) {
           {...register("search")}
         />
       )}
-
       <TextField
         fullWidth
         autoComplete="off"

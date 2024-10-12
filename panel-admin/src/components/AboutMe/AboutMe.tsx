@@ -10,9 +10,10 @@ import {
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaPenToSquare, FaPlus } from "react-icons/fa6";
-import { MdClose, MdPending } from "react-icons/md";
+import { MdClose } from "react-icons/md";
 import { MdDataSaverOn } from "react-icons/md";
 import SelectMedia from "../SelectMedia/SelectMedia";
+import ImageComponent from "../ImageComponent/ImageComponent";
 type ImgArryType = {
   url: string;
   alt: string;
@@ -86,24 +87,12 @@ export default function AboutMe() {
           />
           <div className="grid grid-cols-3 mt-5 gap-3">
             {imgArry.map((i, index) => (
-              <div key={index} className="relative group">
-                <img src={i.url} alt={i.alt} className="shadow-md rounded-md w-full h-48 object-cover" />
-                <i
-                  onClick={() => deleteImageHandler(i.url)}
-                  className="absolute group-hover:opacity-100 opacity-0 top-1 text-xl right-1 bg-gray-800/70 p-1 rounded-full cursor-pointer text-white shadow-md"
-                >
-                  <MdClose />
-                </i>
-                <i
-                  onClick={() => editImageHandler(i)}
-                  className="absolute group-hover:opacity-100 opacity-0 top-1 text-xl left-1 bg-gray-800/70 p-1 rounded-full cursor-pointer text-white shadow-md"
-                >
-                  <MdPending />
-                </i>
-                <span className="text-sm absolute left-0 bottom-0 w-full bg-black/70 text-gray-50 group-hover:opacity-100 opacity-0 transition-all rounded-md p-2">
-                  {i.alt}
-                </span>
-              </div>
+              <ImageComponent
+                key={index}
+                img={i}
+                deleteHandler={(data) => deleteImageHandler(data.url)}
+                editHandler={(data) => editImageHandler(data)}
+              />
             ))}
           </div>
         </div>

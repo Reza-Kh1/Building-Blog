@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 const { dataBase } = require("../config/db");
 
-const onlinePriceModel = dataBase.define("onlinePrice", {
+const onlinePriceModel = dataBase.define("OnlinePrice", {
     name: {
         type: DataTypes.STRING,
         allowNull: false
@@ -20,7 +20,7 @@ const onlinePriceModel = dataBase.define("onlinePrice", {
         defaultValue: false
     }
 }, {
-    tableName: "onlinePric",
+    tableName: "OnlinePrice",
     timestamps: true,
     indexes: [{ unique: false, fields: ["status"] }]
 })

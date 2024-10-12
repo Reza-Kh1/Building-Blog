@@ -1,6 +1,6 @@
 import { Button } from "@mui/material";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { FaCheck, FaPlus } from "react-icons/fa6";
+import { FaCheck } from "react-icons/fa6";
 import { Link, useLocation } from "react-router-dom";
 import { fetchPost } from "../../services/post";
 import { useEffect, useState } from "react";
@@ -9,6 +9,7 @@ import Pagination from "../../components/Pagination/Pagination";
 import queryString from "query-string";
 import { MdClose } from "react-icons/md";
 import SearchPost from "../../components/SearchPost/SearchPost";
+import { LuCopyPlus } from "react-icons/lu";
 export default function Posts() {
   const [searchQuery, setSearchQuery] = useState<any>();
   const { search } = useLocation();
@@ -26,9 +27,9 @@ export default function Posts() {
   }, [search]);
   return (
     <div>
-      <Link to={"create-post"}>
-        <Button color="info" variant="contained" endIcon={<FaPlus />}>
-          ساخت پست
+      <Link to={"create-post"} className="w-full">
+        <Button color="info" variant="contained" fullWidth startIcon={<LuCopyPlus />} endIcon={<LuCopyPlus />}>
+          ایجاد پست
         </Button>
       </Link>
       <SearchPost />
@@ -36,54 +37,56 @@ export default function Posts() {
         {data?.pages[0].count} پست
       </h1>
       <div className="flex flex-col gap-3 mt-3">
-        {data?.pages[0].rows.length
-          ? data.pages[0].rows.map((i, index) => (
-              <Link
-                to={i.slug}
-                key={index}
-                className="bg-gray-200 p-2 shadow-md flex rounded-md"
-              >
-                <div className="w-5/6 flex ">
-                  <div className="grid grid-cols-2 w-4/6">
-                    <span className="cutline cutline-2">نام : {i.title}</span>
-                    <span className="cutline cutline-2">اسلاگ : {i.slug}</span>
-                    <span className="cutline cutline-2">
-                      دسته : {i.Category?.name}
-                    </span>
-                    <span className="cutline cutline-3">
-                      توضیحات : {i.description}
-                    </span>
-                  </div>
-                  <div className="grid grid-cols-1 justify-stretch gap-2 w-2/6">
-                    <span>
-                      آپدیت : {new Date(i.updatedAt).toLocaleDateString("fa")}
-                    </span>
-                    <span>تعداد کامنت ها : {i.totalComments || 0}</span>
-                    <span className="cutline cutline-2">
-                      نویسنده : {i.User.name}
-                    </span>
-                    <div>
-                      <Button
-                        color={i.status ? "success" : "error"}
-                        endIcon={i.status ? <FaCheck /> : <MdClose />}
-                        className="!cursor-default"
-                        variant="outlined"
-                      >
-                        {i.status ? "منتشر شده" : "منتشر نشده"}
-                      </Button>
-                    </div>
+        {data?.pages[0].rows.length ? (
+          data.pages[0].rows.map((i, index) => (
+            <Link
+              to={i.slug}
+              key={index}
+              className="bg-gray-200 p-2 shadow-md flex rounded-md"
+            >
+              <div className="w-5/6 flex ">
+                <div className="grid grid-cols-2 w-4/6">
+                  <span className="cutline cutline-2">نام : {i.title}</span>
+                  <span className="cutline cutline-2">اسلاگ : {i.slug}</span>
+                  <span className="cutline cutline-2">
+                    دسته : {i.Category?.name}
+                  </span>
+                  <span className="cutline cutline-3">
+                    توضیحات : {i.description}
+                  </span>
+                </div>
+                <div className="grid grid-cols-1 justify-stretch gap-2 w-2/6">
+                  <span>
+                    آپدیت : {new Date(i.updatedAt).toLocaleDateString("fa")}
+                  </span>
+                  <span>تعداد کامنت ها : {i.totalComments || 0}</span>
+                  <span className="cutline cutline-2">
+                    نویسنده : {i.User.name}
+                  </span>
+                  <div>
+                    <Button
+                      color={i.status ? "success" : "error"}
+                      endIcon={i.status ? <FaCheck /> : <MdClose />}
+                      className="!cursor-default"
+                      variant="outlined"
+                    >
+                      {i.status ? "منتشر شده" : "منتشر نشده"}
+                    </Button>
                   </div>
                 </div>
-                <figure className="w-1/6 h-40">
-                  <img
-                    className="w-full rounded-md object-cover shadow-md h-full"
-                    src={i.image || "/notfound.webp"}
-                    alt="test"
-                  />
-                </figure>
-              </Link>
-            ))
-          : null}
+              </div>
+              <figure className="w-1/6 h-40">
+                <img
+                  className="w-full rounded-md object-cover shadow-md h-full"
+                  src={i.image || "/notfound.webp"}
+                  alt="test"
+                />
+              </figure>
+            </Link>
+          ))
+        ) : (
+          <span>هیچ پستی ایجاد نشده است!</span>
+        )}
       </div>
       <Pagination pager={data?.pages[0].paginate} />
     </div>

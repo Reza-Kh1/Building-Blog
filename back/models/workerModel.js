@@ -2,7 +2,7 @@ const { DataTypes } = require("sequelize");
 const { dataBase } = require("../config/db");
 
 const workerModel = dataBase.define(
-  "worker",
+  "Worker",
   {
     name: {
       type: DataTypes.STRING,
@@ -35,7 +35,7 @@ const workerModel = dataBase.define(
     },
   },
   {
-    tableName: "worker",
+    tableName: "Worker",
     timestamps: true,
     indexes: [{ unique: true, fields: ["name", "phone"] }],
   }

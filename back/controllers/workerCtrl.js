@@ -3,11 +3,19 @@ const { customError } = require("../middlewares/globalError");
 const workerModel = require("../models/workerModel");
 const pagination = require("../utils/pagination");
 const { Op } = require("sequelize");
+const tagsModel = require("../models/tagsModel");
 const limit = process.env.LIMIT;
-const getWorker = asyncHandler(async (req, res) => {
+const getWorker = asyncHandler(async (req, res) => {  
   const { id } = req.params;
   try {
-    const data = await workerModel.findByPk(id);
+    const data = await workerModel.findOne({
+      where: { name: id },
+      include: {
+        model: tagsModel,
+        through: "workerTags",
+        attributes: ["name"],
+      },
+    });
     res.send({ data });
   } catch (err) {
     throw customError(err, 400);
@@ -38,7 +46,9 @@ const getAllWorker = asyncHandler(async (req, res) => {
       offset: (page - 1) * limit,
       limit: limit,
       order: [orderFilter],
-      attributes: { exclude: ["socialMedia", "address", "description","updatedAt"] },
+      attributes: {
+        exclude: ["socialMedia", "address", "description", "updatedAt"],
+      },
     });
     const paginate = pagination(data.count, page, limit);
     res.send({ ...data, paginate });
@@ -47,9 +57,10 @@ const getAllWorker = asyncHandler(async (req, res) => {
   }
 });
 const createWorker = asyncHandler(async (req, res) => {
-  const { name, phone, socialMedia, address, description, image } = req.body;
+  const { name, phone, socialMedia, address, description, image, tags } =
+    req.body;
   try {
-    await workerModel.create({
+    const data = await workerModel.create({
       name,
       phone,
       socialMedia,
@@ -57,6 +68,7 @@ const createWorker = asyncHandler(async (req, res) => {
       description,
       image,
     });
+    await data.addTags(tags);
     res.send({ success: true });
   } catch (err) {
     throw customError(err, err.statusCode || 400);
@@ -64,7 +76,8 @@ const createWorker = asyncHandler(async (req, res) => {
 });
 const updateWorker = asyncHandler(async (req, res) => {
   const { id } = req.params;
-  const { name, phone, socialMedia, address, description, image } = req.body;
+  const { name, phone, socialMedia, address, description, image, tags } =
+    req.body;
   try {
     const data = await workerModel.findByPk(id);
     if (!data) throw customError("همچین آیتمی وجود ندارد", 404);
@@ -87,6 +100,7 @@ const updateWorker = asyncHandler(async (req, res) => {
       data.image = image;
     }
     await data.save();
+    if (tags) await data.setTags(tags);
     res.send({ success: true });
   } catch (err) {
     throw customError(err, err.statusCode || 400);
@@ -97,8 +111,17 @@ const deleteWorker = asyncHandler(async (req, res) => {
   try {
     const data = await workerModel.findByPk(id);
     if (!data) throw customError("همچین آیتمی وجود ندارد", 404);
+    await data.setTags([]);
     await data.destroy();
     res.send({ success: true });
+  } catch (err) {
+    throw customError(err, err.statusCode || 400);
+  }
+});
+const getAllWorkerName = asyncHandler(async (req, res) => {  
+  try {
+    const data = await workerModel.findAll({ attributes: ["name", "id"] });
+    res.send({ data });
   } catch (err) {
     throw customError(err, err.statusCode || 400);
   }
@@ -109,4 +132,5 @@ module.exports = {
   createWorker,
   updateWorker,
   deleteWorker,
+  getAllWorkerName,
 };

@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 const { dataBase } = require("../config/db");
 
-const projectModel = dataBase.define("project", {
+const projectModel = dataBase.define("Project", {
     name: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -31,7 +31,7 @@ const projectModel = dataBase.define("project", {
     }
 }, {
     timestamps: true,
-    tableName: "project",
+    tableName: "Project",
     indexes: [{ unique: false, fields: ["address", "description"] }, { unique: true, fields: ["name"] }]
 })
 module.exports = projectModel

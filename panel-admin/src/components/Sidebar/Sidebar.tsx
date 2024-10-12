@@ -20,6 +20,7 @@ import { toast } from "react-toastify";
 import { useState } from "react";
 import PendingApi from "../PendingApi/PendingApi";
 import { LinkSidebarType } from "../../type";
+import { IoMdPricetags } from "react-icons/io";
 const dataLink = [
   { name: "داشبورد", url: "/home/dashboard", icon: <BiSolidDashboard /> },
   { name: "صفحات سایت", url: "/home/page-info", icon: <FaPaintbrush /> },
@@ -31,6 +32,7 @@ const dataLink = [
   { name: "پیام ها", url: "/home/message?status=false&order=createdAt-DESC", icon: <BiSolidMessageRoundedError /> },
   { name: "تعیین قیمت", url: "/home/online-price?status=false&order=createdAt-DESC", icon: <FaSearchDollar /> },
   { name: "دسته بندی", url: "/home/categorys", icon: <MdOutlineCategory /> },
+  { name: "تگ ها", url: "/home/tags", icon: <IoMdPricetags /> },
   { name: "رسانه ها", url: "/home/image", icon: <MdImage /> },
   { name: "تنظیمات", url: "/home/setting", icon: <MdSettings /> },
 ]

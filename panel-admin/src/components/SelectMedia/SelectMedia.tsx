@@ -76,13 +76,19 @@ export default function SelectMedia({ addMedia }: SelectMediaType) {
                 <UploadMedia />
               </div>
               <figure className="w-3/12">
-                {urlMedia && (
+                {urlMedia ? urlMedia.url.search(/(jpg|jpeg|png|gif|webp)$/i) !== -1 ? (
                   <img
                     className="rounded-md shadow-md object-cover h-48 w-full"
                     src={urlMedia.url}
                     alt="test"
                   />
-                )}
+                ) : (
+                  <video
+                    src={urlMedia.url}
+                    controls
+                    className="shadow-md rounded-md w-full h-48 object-cover"
+                  />
+                ) : null}
               </figure>
             </div>
           </div>

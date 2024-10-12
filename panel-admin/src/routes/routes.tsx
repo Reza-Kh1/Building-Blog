@@ -17,6 +17,7 @@ import Projects from "../pages/Projects/Projects";
 import PageInfo from "../pages/PageInfo/PageInfo";
 import Message from "../pages/Message/Message";
 import CreateProject from "../components/CreateProject/CreateProject";
+import Tags from "../pages/Tags/Tags";
 
 export default [
   { path: "/", element: <Auth /> },
@@ -36,6 +37,7 @@ export default [
       { path: "reviews", element: <Reviews /> },
       { path: "categorys", element: <Categorys /> },
       { path: "image", element: <Images /> },
+      { path: "tags", element: <Tags /> },
       { path: "setting", element: <Setting /> },
       { path: "posts", element: <Posts /> },
       { path: "posts/create-post", element: <CreatePost /> },

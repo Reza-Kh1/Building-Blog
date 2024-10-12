@@ -1,6 +1,5 @@
 import { Button } from "@mui/material";
 import { PiStackPlusFill } from "react-icons/pi";
-import { BiSolidBookmarkPlus, BiSolidLayerPlus } from "react-icons/bi";
 import { Link } from "react-router-dom";
 export default function Projects() {
   return (

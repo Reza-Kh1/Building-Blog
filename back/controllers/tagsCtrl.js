@@ -13,7 +13,7 @@ const createTag = asyncHandler(async (req, res) => {
 const getAllTags = asyncHandler(async (req, res) => {
   try {
     const data = await tagsModel.findAndCountAll();
-    res.send({ data });
+    res.send({ ...data });
   } catch (err) {
     throw customError(err);
   }

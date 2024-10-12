@@ -28,6 +28,10 @@ const projectModel = dataBase.define("Project", {
     },
     description: {
         type: DataTypes.TEXT,
+    },
+    status: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
     }
 }, {
     timestamps: true,

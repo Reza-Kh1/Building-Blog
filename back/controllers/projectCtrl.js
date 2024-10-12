@@ -17,7 +17,7 @@ const createProject = asyncHandler(async (req, res) => {
     description,
     workerId,
     alt,
-    tags,
+    tags, status
   } = req.body;
   try {
     const data = await projectModel.create({
@@ -28,7 +28,7 @@ const createProject = asyncHandler(async (req, res) => {
       video,
       description,
       workerId,
-      alt,
+      alt, status: status | false
     });
     await data.addTags(tags);
     res.send({ success: true });
@@ -57,7 +57,7 @@ const updateProject = asyncHandler(async (req, res) => {
     video,
     description,
     workerId,
-    slug,
+    status,
     alt,
     tags,
   } = req.body;
@@ -72,7 +72,7 @@ const updateProject = asyncHandler(async (req, res) => {
     if (video) data.video = video;
     if (description) data.description = description;
     if (workerId) data.workerId = workerId;
-    if (slug) data.slug = slug;
+    if (status) data.status = status;
     if (alt) data.alt = alt;
     await data.save();
     if (tags) await data.setTags(tags);
@@ -120,32 +120,31 @@ const getProject = asyncHandler(async (req, res) => {
   }
 });
 const getAllProject = asyncHandler(async (req, res) => {
-  let { search, page, order } = req.query;
+  let { search, page, order, status } = req.query;
   page = page || 1;
   let filter = {};
   let orderFilter = [];
-  // if (order) {
-  //   const length1 = order.split("-")[0];
-  //   const length2 = order.split("-")[1];
-  //   orderFilter.push(length1);
-  //   orderFilter.push(length2);
-  // } else {
-  //   orderFilter.push(["createdAt", "DESC"]);
-  // }
   if (order) {
-    const [column, direction] = order.split("-"); // استخراج نام ستون و جهت مرتب‌سازی
+    const [column, direction] = order.split("-");
     orderFilter.push([column, direction]);
   } else {
-    orderFilter.push(["createdAt", "DESC"]); // ترتیب پیش‌فرض
+    orderFilter.push(["createdAt", "DESC"]);
   }
-
-  if (search) {
+  if (search || status) {
     filter[Op.or] = [];
-    filter[Op.or].push(
-      { name: { [Op.iLike]: `%${search}%` } },
-      { address: { [Op.iLike]: `%${search}%` } },
-      { description: { [Op.iLike]: `%${search}%` } }
-    );
+    if (status) {
+      filter[Op.or].push(
+        { status: status },
+      );
+    }
+    if (search) {
+      filter[Op.or].push(
+        { name: { [Op.iLike]: `%${search}%` } },
+        { address: { [Op.iLike]: `%${search}%` } },
+        { description: { [Op.iLike]: `%${search}%` } }
+      );
+    }
+
   }
 
   try {

@@ -133,12 +133,14 @@ export default function Categorys() {
     return (
       <form className="flex gap-3 mb-3 mt-5">
         <TextField
+          autoComplete="off"
           fullWidth
           className="shadow-md"
           {...register("name", { required: true })}
           label={"نام دسته را وارد کنید"}
         />
         <TextField
+          autoComplete="off"
           fullWidth
           className="shadow-md"
           {...register("slug", { required: true })}

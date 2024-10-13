@@ -297,6 +297,7 @@ export default function FormPost({ dataPost }: { dataPost?: SinglePostType }) {
                 }
                 renderInput={(params) => (
                   <TextField
+                    autoComplete="off"
                     {...params}
                     label="کلمات کلیدی"
                     placeholder="اینتر بزنید..."
@@ -305,7 +306,7 @@ export default function FormPost({ dataPost }: { dataPost?: SinglePostType }) {
               />
             </div>
             <div>
-              <JoditForm setEditor={setEditorText} editor={editorText}/>
+              <JoditForm setEditor={setEditorText} editor={editorText} />
               {/* <MyEditor setEditor={setEditorText} editor={editorText} /> */}
             </div>
             <div className="mt-5">

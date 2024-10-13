@@ -221,6 +221,7 @@ const Editor = ({ setEditor, editor }: EditorType) => {
                 }
                 renderInput={(params) => (
                   <TextField
+                    autoComplete="off"
                     {...params}
                     label="کلاس های عکس"
                     placeholder="اینتر بزنید..."

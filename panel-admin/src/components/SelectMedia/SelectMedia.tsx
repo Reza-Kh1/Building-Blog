@@ -76,7 +76,7 @@ export default function SelectMedia({ addMedia }: SelectMediaType) {
                 <UploadMedia />
               </div>
               <figure className="w-3/12">
-                {urlMedia ? urlMedia.url.search(/(jpg|jpeg|png|gif|webp)$/i) !== -1 ? (
+                {urlMedia ? urlMedia.url.search(/(jpg|jpeg|png|gif|webp|jfif)$/i) !== -1 ? (
                   <img
                     className="rounded-md shadow-md object-cover h-48 w-full"
                     src={urlMedia.url}

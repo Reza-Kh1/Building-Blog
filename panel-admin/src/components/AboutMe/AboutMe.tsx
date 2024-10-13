@@ -208,7 +208,6 @@ export default function AboutMe() {
             margin="dense"
             id="alt"
             autoComplete="false"
-            autoSave="false"
             name="alt"
             label="ویرایش عنوان"
             type="text"

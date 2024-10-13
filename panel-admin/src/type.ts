@@ -154,9 +154,39 @@ type DataMediaType = {
   alt: string;
 };
 type TagType = {
-  id: number
-  name: string
-}
+  id: number;
+  name: string;
+};
+type WorkerType = {
+  id: number;
+  name: string;
+  phone: string;
+  socialMedia: {
+    link: string;
+    type: string;
+    id: number;
+    text: string;
+  }[];
+  address: string;
+  description: string;
+  image: string;
+  alt: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+  Tags: 
+    {
+      name: string;
+      workerTags: {
+        TagId: number;
+        WorkerId: number;
+      };
+    }[]
+};
+type AllWorkerType = {
+  count: number;
+  rows: WorkerType[];
+  paginate: PaginationType;
+};
 export type {
   ReviewType,
   CategortType,
@@ -177,4 +207,6 @@ export type {
   MediaType,
   DataMediaType,
   TagType,
+  WorkerType,
+  AllWorkerType,
 };

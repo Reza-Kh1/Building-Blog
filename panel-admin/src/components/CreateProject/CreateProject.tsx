@@ -4,18 +4,12 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  FormControl,
   FormControlLabel,
-  InputLabel,
-  MenuItem,
-  Select,
   Switch,
   TextField,
 } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { MdClose, MdDataSaverOn } from "react-icons/md";
-import { fetchWorkerName } from "../../services/worker";
-import { useQuery } from "@tanstack/react-query";
 import SelectMedia from "../SelectMedia/SelectMedia";
 import { useState } from "react";
 import { DataMediaType, TagType } from "../../type";
@@ -24,24 +18,23 @@ import { FaPenToSquare } from "react-icons/fa6";
 import TagAutocomplete from "../TagAutocomplete/TagAutocomplete";
 import WorkerSelector from "../WorkerSelector/WorkerSelector";
 type ProjectFormType = {
-  workerId: number,
-  status: boolean,
-  name: string
-  description: string
-  address: string
-}
+  status: boolean;
+  name: string;
+  description: string;
+  address: string;
+};
 export default function CreateProject() {
   const { register, setValue, handleSubmit, watch } = useForm<ProjectFormType>({
     defaultValues: {
-      workerId: 0,
       status: false,
     },
   });
-  const [videoProject, setVideoProject] = useState<DataMediaType | null>(null)
+  const [videoProject, setVideoProject] = useState<DataMediaType | null>(null);
   const [image, setImage] = useState<DataMediaType | null>(null);
   const [open, setOpen] = useState<boolean>(false);
   const [editImg, setEditImg] = useState<DataMediaType | null>(null);
-  const [tagsProject, setTagsProject] = useState<TagType[]>([])
+  const [tagsProject, setTagsProject] = useState<TagType[]>([]);
+  const [workerId, setWorkerId] = useState<number>(0);
   const [galleryProject, setGalleryProject] = useState<DataMediaType[] | []>(
     []
   );
@@ -53,15 +46,17 @@ export default function CreateProject() {
       video: videoProject,
       alt: image?.alt,
       ...form,
-      tags: tagsProject
-    }
+      tags: tagsProject,
+      workerId,
+    };
     console.log(body);
   };
-  const nameWorker = watch("workerId");
   const statusProject = watch("status");
   return (
     <>
-      <h1 className="bg-blue-500 shadow-md p-2 rounded-md mb-5 text-gray-50">ایجاد پروژه</h1>
+      <h1 className="bg-blue-500 shadow-md p-2 rounded-md mb-5 text-gray-50">
+        ایجاد پروژه
+      </h1>
       <form
         name="off"
         className="flex flex-col gap-3"
@@ -69,28 +64,15 @@ export default function CreateProject() {
       >
         <div className="flex gap-3 items-center">
           <TextField
-            fullWidth
             autoComplete="off"
             autoSave="off"
-            className="shadow-md"
+            className="shadow-md w-2/3"
             label={"نام"}
             {...register("name", { required: true })}
           />
-          <WorkerSelector name="workerId" setWorker={(name) => setValue("workerId", name)} worker={"workerId"} />
-          {/* <FormControl fullWidth className="shadow-md">
-            <InputLabel id="demo-simple-select-label">نام متخصص</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              label="نام متخصص"
-              value={nameWorker}
-              onChange={(e) => setValue("workerId", e.target.value as number)}
-            >
-              <MenuItem value={0}>انتخاب کنید</MenuItem>
-              <MenuItem value={20}>Twenty</MenuItem>
-              <MenuItem value={30}>Thirty</MenuItem>
-            </Select>
-          </FormControl> */}
+          <div className="w-1/3">
+            <WorkerSelector setWorker={setWorkerId} worker={workerId} />
+          </div>
         </div>
         <div className="grid grid-cols-2 gap-3 items-start">
           <TextField
@@ -122,9 +104,7 @@ export default function CreateProject() {
             multiline
             rows={6}
             autoComplete="off"
-            autoSave="off"
             className="shadow-md w-1/2"
-
             label={"آدرس"}
             {...register("address", { required: true })}
           />
@@ -135,7 +115,9 @@ export default function CreateProject() {
             <div className="flex flex-col gap-3">
               <span>ویدئو پروژه</span>
               <SelectMedia
-                addMedia={(alt, image) => setVideoProject({ alt, url: image.url })}
+                addMedia={(alt, image) =>
+                  setVideoProject({ alt, url: image.url })
+                }
               />
             </div>
             <div className="">
@@ -236,7 +218,6 @@ export default function CreateProject() {
             fullWidth
             variant="standard"
             autoComplete="false"
-            autoSave="false"
           />
           <TextField
             autoFocus
@@ -244,7 +225,6 @@ export default function CreateProject() {
             margin="dense"
             id="alt"
             autoComplete="false"
-            autoSave="false"
             name="alt"
             label="ویرایش عنوان"
             type="text"

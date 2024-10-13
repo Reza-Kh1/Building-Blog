@@ -18,6 +18,7 @@ import PageInfo from "../pages/PageInfo/PageInfo";
 import Message from "../pages/Message/Message";
 import CreateProject from "../components/CreateProject/CreateProject";
 import Tags from "../pages/Tags/Tags";
+import CreateWorker from "../components/CreateWorker/CreateWorker";
 
 export default [
   { path: "/", element: <Auth /> },
@@ -29,6 +30,7 @@ export default [
       { path: "users", element: <Users /> },
       { path: "online-price", element: <OnlinePrice /> },
       { path: "worker", element: <Worker /> },
+      { path: "worker/create-worker", element: <CreateWorker /> },
       { path: "projects", element: <Projects /> },
       { path: "projects/create-project", element: <CreateProject /> },
       { path: "page-info", element: <PageInfo /> },

@@ -153,6 +153,10 @@ type DataMediaType = {
   url: string;
   alt: string;
 };
+type TagType = {
+  id: number
+  name: string
+}
 export type {
   ReviewType,
   CategortType,
@@ -172,4 +176,5 @@ export type {
   MessageType,
   MediaType,
   DataMediaType,
+  TagType,
 };

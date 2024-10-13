@@ -1,5 +1,4 @@
 import {
-  Autocomplete,
   Button,
   Dialog,
   DialogActions,
@@ -19,36 +18,35 @@ import { fetchWorkerName } from "../../services/worker";
 import { useQuery } from "@tanstack/react-query";
 import SelectMedia from "../SelectMedia/SelectMedia";
 import { useState } from "react";
-import { DataMediaType } from "../../type";
+import { DataMediaType, TagType } from "../../type";
 import ImageComponent from "../ImageComponent/ImageComponent";
 import { FaPenToSquare } from "react-icons/fa6";
-import { fetchTags } from "../../services/tag";
-
+import TagAutocomplete from "../TagAutocomplete/TagAutocomplete";
+import WorkerSelector from "../WorkerSelector/WorkerSelector";
+type ProjectFormType = {
+  workerId: number,
+  status: boolean,
+  name: string
+  description: string
+  address: string
+}
 export default function CreateProject() {
-  const { register, setValue, handleSubmit, watch } = useForm<any>({
+  const { register, setValue, handleSubmit, watch } = useForm<ProjectFormType>({
     defaultValues: {
       workerId: 0,
       status: false,
     },
   });
-  const { data: workerName, isPending: workerPending } = useQuery({
-    queryKey: ["workerName"],
-    queryFn: fetchWorkerName,
-  });
-  const { data: tagsName, isPending: tagsPending } = useQuery({
-    queryKey: ["tagsName"],
-    queryFn: fetchTags,
-  });
   const [videoProject, setVideoProject] = useState<DataMediaType | null>(null)
   const [image, setImage] = useState<DataMediaType | null>(null);
   const [open, setOpen] = useState<boolean>(false);
   const [editImg, setEditImg] = useState<DataMediaType | null>(null);
-  const [tagsProject, setTagsProject] = useState<{ title: string, id: number }[]>([])
+  const [tagsProject, setTagsProject] = useState<TagType[]>([])
   const [galleryProject, setGalleryProject] = useState<DataMediaType[] | []>(
     []
   );
 
-  const submitHandler = (form) => {
+  const submitHandler = (form: ProjectFormType) => {
     const body = {
       image: image?.url,
       gallery: galleryProject,
@@ -78,20 +76,21 @@ export default function CreateProject() {
             label={"نام"}
             {...register("name", { required: true })}
           />
-          <FormControl fullWidth className="shadow-md">
+          <WorkerSelector name="workerId" setWorker={(name) => setValue("workerId", name)} worker={"workerId"} />
+          {/* <FormControl fullWidth className="shadow-md">
             <InputLabel id="demo-simple-select-label">نام متخصص</InputLabel>
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               label="نام متخصص"
               value={nameWorker}
-              onChange={(e) => setValue("workerId", e.target.value)}
+              onChange={(e) => setValue("workerId", e.target.value as number)}
             >
               <MenuItem value={0}>انتخاب کنید</MenuItem>
               <MenuItem value={20}>Twenty</MenuItem>
               <MenuItem value={30}>Thirty</MenuItem>
             </Select>
-          </FormControl>
+          </FormControl> */}
         </div>
         <div className="grid grid-cols-2 gap-3 items-start">
           <TextField
@@ -129,28 +128,7 @@ export default function CreateProject() {
             label={"آدرس"}
             {...register("address", { required: true })}
           />
-          <Autocomplete
-            multiple
-            className="shadow-md w-1/2"
-            id="tags-outlined"
-            options={[
-              { title: "red", id: 11 },
-              { title: "blue", id: 12 },
-              { title: "yellow", id: 13 },
-              { title: "green", id: 14 },
-            ]}
-            getOptionLabel={(option) => option.title}
-            isOptionEqualToValue={(option, value) => option.id === value.id}
-            value={tagsProject}
-            filterSelectedOptions
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                label="تگ های پروژه"
-              />
-            )}
-            onChange={(_, newValue) => setTagsProject(newValue)}
-          />
+          <TagAutocomplete setTags={setTagsProject} tags={tagsProject} />
         </div>
         <div className="flex gap-3 ">
           <div className="flex flex-col w-1/3 gap-3">

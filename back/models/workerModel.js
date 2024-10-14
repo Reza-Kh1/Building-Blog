@@ -30,9 +30,6 @@ const workerModel = dataBase.define(
     image: {
       type: DataTypes.STRING,
     },
-    alt: {
-      type: DataTypes.STRING,
-    },
   },
   {
     tableName: "Worker",

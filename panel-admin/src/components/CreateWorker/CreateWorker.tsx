@@ -5,10 +5,16 @@ import { BiLogoInternetExplorer } from 'react-icons/bi'
 import { FaInstagram, FaLinkedin, FaPen, FaPenToSquare, FaPhone, FaTelegram, FaTrash, FaUser, FaWhatsapp } from 'react-icons/fa6'
 import { IoLogoTwitter } from 'react-icons/io5'
 import { MdClose, MdDataSaverOn } from 'react-icons/md'
-import { Link } from 'react-router-dom'
+import { Link, useLocation, useParams } from 'react-router-dom'
 import SelectMedia from '../SelectMedia/SelectMedia'
-import { DataMediaType, TagType } from '../../type'
+import { DataMediaType, TagType, WorkerType } from '../../type'
 import TagAutocomplete from '../TagAutocomplete/TagAutocomplete'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import axios from 'axios'
+import { toast } from 'react-toastify'
+import PendingApi from '../PendingApi/PendingApi'
+import { fetchSingleWorker } from '../../services/worker'
+import queryString from 'query-string'
 const dataSocialMedia = [
     {
         name: "Whatsapp",
@@ -77,25 +83,46 @@ export default function CreateWorker() {
     const [socialMedia, setSocialMedia] = useState<SocialMediaType[]>([])
     const [image, setImage] = useState<DataMediaType | null>(null)
     const [idEdit, setIdEdit] = useState<number | null>(null)
-    const { register, handleSubmit, watch, setValue, getValues } = useForm<FormType>({
+    const { search } = useLocation()
+    const test: { worker?: string } = queryString.parse(search)
+    const queryClient = useQueryClient();
+    const { register, watch, setValue, getValues } = useForm<FormType>({
         defaultValues: {
             selectMedia: "",
             editSelectMedia: ""
         }
     })
-    const submitAction = () => {
-        const body = {
-            name: getValues("name"),
-            phone: getValues("phone"),
-            socialMedia: socialMedia,
-            address: getValues("address"),
-            description: getValues("description"),
-            image: image?.url,
-            tags: tagWorker
-        }
-        console.log(body);
-
-    }
+    const { isPending, mutate: submitAction } = useMutation({
+        mutationFn: () => {
+            const body = {
+                name: getValues("name"),
+                phone: getValues("phone"),
+                socialMedia: socialMedia,
+                address: getValues("address"),
+                description: getValues("description"),
+                image: image?.url,
+                tags: tagWorker
+            }
+            console.log(body);
+            
+            return axios.post('worker', body);
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["AllWorker"] });
+            toast.success("متخصص با موفقیت ایجاد شد");
+        },
+        onError: (err: any) => {
+            toast.warning(err?.response?.data?.message || "با خطا مواجه شدیم");
+            console.log(err);
+        },
+    });
+    const { data } = useQuery<WorkerType>({
+        queryKey: ["workerSingle", test.worker],
+        staleTime: 1000 * 60 * 60 * 24,
+        gcTime: 1000 * 60 * 60 * 24,
+        queryFn: () => fetchSingleWorker(test?.worker),
+        enabled: test?.worker ? true : false
+    });
     const editSocialHandler = () => {
         if (!idEdit) return
         const newArry = socialMedia.map((item) => {
@@ -176,15 +203,21 @@ export default function CreateWorker() {
     }
     return (
         <>
+            {isPending && <PendingApi />}
             <div className='w-full'>
                 <h1 className="w-full p-2 rounded-md shadow-md bg-blue-400 text-gray-50">
-                    افزودن متخصص
+                    {data ? "ویرایش متخصص" : "افزودن متخصص"}
                 </h1>
-                <form className='my-3 flex flex-col gap-3' onSubmit={handleSubmit(submitAction)}>
+                <form className='my-3 flex flex-col gap-3' onSubmit={() => submitAction()}>
+{
+    console.log(data)
+    
+}
                     <div className='grid gap-3 items-start grid-cols-2'>
                         <TextField
                             fullWidth
                             autoComplete="off"
+                            defaultValue={data?.name}
                             label={"نام"}
                             {...register("name", { required: true })}
                             helperText="نام نباید قبلا ثبت شده باشد!"
@@ -286,12 +319,11 @@ export default function CreateWorker() {
                         <TagAutocomplete setTags={setTagWorker} tags={tagWorker} />
                     </div>
                     <div className='w-1/5'>
-                        <Button color='success' variant='contained' onClick={submitAction} fullWidth endIcon={<MdDataSaverOn />}>
+                        <Button color='success' variant='contained' onClick={() => submitAction()} fullWidth endIcon={<MdDataSaverOn />}>
                             ذخیره
                         </Button>
                     </div>
                 </form>
-
             </div >
             <Dialog
                 fullWidth

@@ -26,7 +26,7 @@ export default function TagAutocomplete({ tags, setTags }: TagsBoxType) {
       id="tags-outlined"
       options={data?.rows}
       getOptionLabel={(option) => option.name}
-      isOptionEqualToValue={(option, value) => option.id === value.id}
+      isOptionEqualToValue={(option, value) => option.name === value.name}
       value={tags}
       filterSelectedOptions
       renderInput={(params) => (

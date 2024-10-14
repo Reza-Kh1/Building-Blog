@@ -5,7 +5,7 @@ const pagination = require("../utils/pagination");
 const { Op } = require("sequelize");
 const tagsModel = require("../models/tagsModel");
 const limit = process.env.LIMIT;
-const getWorker = asyncHandler(async (req, res) => {  
+const getWorker = asyncHandler(async (req, res) => {
   const { id } = req.params;
   try {
     const data = await workerModel.findOne({
@@ -68,10 +68,11 @@ const createWorker = asyncHandler(async (req, res) => {
       description,
       image,
     });
-    await data.addTags(tags);
+    const newTags = tags?.map(i => i.id)
+    await data.addTags(newTags);
     res.send({ success: true });
   } catch (err) {
-    throw customError(err, err.statusCode || 400);
+    throw customError(err.message, err.statusCode || 400);
   }
 });
 const updateWorker = asyncHandler(async (req, res) => {
@@ -100,7 +101,10 @@ const updateWorker = asyncHandler(async (req, res) => {
       data.image = image;
     }
     await data.save();
-    if (tags) await data.setTags(tags);
+    if (tags) {
+      const newTags = tags?.map(i => i.id)
+      await data.setTags(newTags)
+    };
     res.send({ success: true });
   } catch (err) {
     throw customError(err, err.statusCode || 400);
@@ -118,7 +122,7 @@ const deleteWorker = asyncHandler(async (req, res) => {
     throw customError(err, err.statusCode || 400);
   }
 });
-const getAllWorkerName = asyncHandler(async (req, res) => {  
+const getAllWorkerName = asyncHandler(async (req, res) => {
   try {
     const data = await workerModel.findAll({ attributes: ["name", "id"] });
     res.send({ data });

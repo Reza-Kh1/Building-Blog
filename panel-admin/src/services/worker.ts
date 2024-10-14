@@ -8,4 +8,9 @@ const fetchWorkerName = async () => {
   const { data } = await axios.get("worker/name-worker");
   return data;
 };
-export { fetchWorkerName, fetchWorker };
+const fetchSingleWorker = async (name?: string) => {
+  const url = name?.replace(/-/g, " ")
+  const { data } = await axios.get(`worker/${url}`);
+  return data?.data;
+};
+export { fetchWorkerName, fetchWorker, fetchSingleWorker };

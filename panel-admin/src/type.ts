@@ -176,7 +176,7 @@ type WorkerType = {
   Tags: 
     {
       name: string;
-      workerTags: {
+      workerTags?: {
         TagId: number;
         WorkerId: number;
       };

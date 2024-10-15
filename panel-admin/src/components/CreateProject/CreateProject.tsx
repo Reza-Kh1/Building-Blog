@@ -12,7 +12,7 @@ import { useForm } from "react-hook-form";
 import { MdClose, MdDataSaverOn } from "react-icons/md";
 import SelectMedia from "../SelectMedia/SelectMedia";
 import { useState } from "react";
-import { DataMediaType, TagType } from "../../type";
+import { DataMediaType } from "../../type";
 import ImageComponent from "../ImageComponent/ImageComponent";
 import { FaPenToSquare } from "react-icons/fa6";
 import TagAutocomplete from "../TagAutocomplete/TagAutocomplete";
@@ -33,7 +33,7 @@ export default function CreateProject() {
   const [image, setImage] = useState<DataMediaType | null>(null);
   const [open, setOpen] = useState<boolean>(false);
   const [editImg, setEditImg] = useState<DataMediaType | null>(null);
-  const [tagsProject, setTagsProject] = useState<TagType[]>([]);
+  const [tagsProject, setTagsProject] = useState<{ name: string }[]>([]);
   const [workerId, setWorkerId] = useState<number>(0);
   const [galleryProject, setGalleryProject] = useState<DataMediaType[] | []>(
     []
@@ -108,7 +108,9 @@ export default function CreateProject() {
             label={"آدرس"}
             {...register("address", { required: true })}
           />
-          <TagAutocomplete setTags={setTagsProject} tags={tagsProject} />
+          <div className="w-1/2">
+            <TagAutocomplete name="افزودن تگ" setTags={setTagsProject} tags={tagsProject} />
+          </div>
         </div>
         <div className="flex gap-3 ">
           <div className="flex flex-col w-1/3 gap-3">

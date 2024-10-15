@@ -1,18 +1,19 @@
 import { Autocomplete, Button, TextField } from "@mui/material";
-import { TagType } from "../../type";
 import { useQuery } from "@tanstack/react-query";
 import { fetchTags } from "../../services/tag";
 import { Link } from "react-router-dom";
 import { FaShare } from "react-icons/fa6";
 type TagsBoxType = {
-  tags: TagType[];
-  setTags: (value: TagType[]) => void;
+  tags: { name: string }[];
+  name: string
+  setTags: (value: { name: string }[]) => void;
 };
 type TagsType = {
   count: number;
-  rows: TagType[];
+  rows: { name: string }[];
+
 };
-export default function TagAutocomplete({ tags, setTags }: TagsBoxType) {
+export default function TagAutocomplete({ tags, setTags, name }: TagsBoxType) {
   const { data } = useQuery<TagsType>({
     queryKey: ["tagsName"],
     staleTime: 1000 * 60 * 60 * 24,
@@ -22,7 +23,7 @@ export default function TagAutocomplete({ tags, setTags }: TagsBoxType) {
   return data?.rows?.length ? (
     <Autocomplete
       multiple
-      className="shadow-md w-1/2"
+      className="shadow-md"
       id="tags-outlined"
       options={data?.rows}
       getOptionLabel={(option) => option.name}
@@ -30,7 +31,7 @@ export default function TagAutocomplete({ tags, setTags }: TagsBoxType) {
       value={tags}
       filterSelectedOptions
       renderInput={(params) => (
-        <TextField autoComplete="off" {...params} label="تگ های پروژه" />
+        <TextField autoComplete="off" {...params} label={name} />
       )}
       onChange={(_, newValue) => setTags(newValue)}
     />

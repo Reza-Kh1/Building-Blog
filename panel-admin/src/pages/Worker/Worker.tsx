@@ -9,6 +9,7 @@ import { AllWorkerType } from "../../type";
 import Pagination from "../../components/Pagination/Pagination";
 import { FaShare } from "react-icons/fa6";
 import SearchPost from "../../components/SearchPost/SearchPost";
+import SearchBox from "../../components/SearchBox/SearchBox";
 
 export default function Worker() {
   const [searchQuery, setSearchQuery] = useState<any>();
@@ -39,17 +40,18 @@ export default function Worker() {
         </Button>
       </Link>
       <div>
-        <SearchPost />
+        <SearchBox />
+        {/* <SearchPost /> */}
       </div>
       {data?.pages[0].rows.length ?
         <div className="grid grid-cols-4 gap-3 my-3 items-center justify-between">
           {data?.pages[0].rows.map((i, index) => (
             <div key={index} className="group shadow-md relative gap-3 p-3 border rounded-md bg-slate-200 hover:bg-gray-200 flex">
               <figure>
-                <img src={i.image} onError={({ currentTarget }) => {
+                <img src={i.image || "/notfound.webp"} onError={({ currentTarget }) => {
                   currentTarget.onerror = null;
                   currentTarget.src = "/notfound.webp";
-                }} className="w-16 rounded-full p-1 bg-slate-100 border h-16 object-cover" alt={i.name} />
+                }} className="w-24 rounded-full p-1 bg-slate-100 border h-24 object-cover" alt={i.name} />
               </figure>
               <div className="flex flex-col justify-evenly">
                 <span className="text-slate-700">{i.name}</span>

@@ -1,13 +1,13 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { BiLogoInternetExplorer } from 'react-icons/bi'
+import { BiLogoInternetExplorer, BiMessageSquareEdit } from 'react-icons/bi'
 import { FaInstagram, FaLinkedin, FaPen, FaPenToSquare, FaPhone, FaTelegram, FaTrash, FaUser, FaWhatsapp } from 'react-icons/fa6'
 import { IoLogoTwitter } from 'react-icons/io5'
 import { MdClose, MdDataSaverOn } from 'react-icons/md'
-import { Link, useLocation, useParams } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import SelectMedia from '../SelectMedia/SelectMedia'
-import { DataMediaType, TagType, WorkerType } from '../../type'
+import { DataMediaType, WorkerType } from '../../type'
 import TagAutocomplete from '../TagAutocomplete/TagAutocomplete'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
@@ -78,7 +78,7 @@ type FormType = {
     textSocial: string
 }
 export default function CreateWorker() {
-    const [tagWorker, setTagWorker] = useState<TagType[]>([])
+    const [tagWorker, setTagWorker] = useState<{ name: string }[]>([])
     const [open, setOpen] = useState<boolean>(false)
     const [socialMedia, setSocialMedia] = useState<SocialMediaType[]>([])
     const [image, setImage] = useState<DataMediaType | null>(null)
@@ -103,13 +103,33 @@ export default function CreateWorker() {
                 image: image?.url,
                 tags: tagWorker
             }
-            console.log(body);
-            
             return axios.post('worker', body);
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["AllWorker"] });
             toast.success("متخصص با موفقیت ایجاد شد");
+        },
+        onError: (err: any) => {
+            toast.warning(err?.response?.data?.message || "با خطا مواجه شدیم");
+            console.log(err);
+        },
+    });
+    const { isPending: isUpdate, mutate: submitUpdate } = useMutation({
+        mutationFn: () => {
+            const body = {
+                name: getValues("name"),
+                phone: getValues("phone"),
+                socialMedia: socialMedia,
+                address: getValues("address"),
+                description: getValues("description"),
+                image: image?.url,
+                tags: tagWorker
+            }
+            return axios.put(`worker/${data?.id}`, body);
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["workerSingle", test.worker] });
+            toast.info("با موفقیت ویرایش شد");
         },
         onError: (err: any) => {
             toast.warning(err?.response?.data?.message || "با خطا مواجه شدیم");
@@ -125,8 +145,8 @@ export default function CreateWorker() {
     });
     const editSocialHandler = () => {
         if (!idEdit) return
-        const newArry = socialMedia.map((item) => {
-            if (item.id === idEdit) {
+        const newArry = socialMedia?.map((item) => {
+            if (item?.id === idEdit) {
                 item.text = getValues("editTextSocial")
                 item.link = getValues("editLinkSocial")
                 item.type = getValues("editSelectMedia")
@@ -134,7 +154,7 @@ export default function CreateWorker() {
             return item
         })
         setOpen(false)
-        setSocialMedia(newArry)
+        setSocialMedia(newArry || [])        
     }
     const createSocialMedia = () => {
         const body = {
@@ -201,18 +221,26 @@ export default function CreateWorker() {
             </div>
         )
     }
+    useEffect(() => {
+        if (data) {
+            setValue("address", data.address)
+            setValue("description", data.description)
+            setValue("name", data.name)
+            setValue("phone", data.phone)
+            setSocialMedia(data.socialMedia)
+            setTagWorker(data.Tags)
+            setImage({ url: data.image, alt: "logo profile" })
+        }
+    }, [data])
+    if (search && !data) return
     return (
         <>
-            {isPending && <PendingApi />}
+            {isPending || isUpdate && <PendingApi />}
             <div className='w-full'>
                 <h1 className="w-full p-2 rounded-md shadow-md bg-blue-400 text-gray-50">
                     {data ? "ویرایش متخصص" : "افزودن متخصص"}
                 </h1>
                 <form className='my-3 flex flex-col gap-3' onSubmit={() => submitAction()}>
-{
-    console.log(data)
-    
-}
                     <div className='grid gap-3 items-start grid-cols-2'>
                         <TextField
                             fullWidth
@@ -271,7 +299,7 @@ export default function CreateWorker() {
                             </Button>
                         </div>
                         <div className='grid gap-3 mt-5 grid-cols-4'>
-                            {socialMedia.map((i, index) => (
+                            {socialMedia?.map((i, index) => (
                                 <div key={index} className='border bg-slate-100 shadow-md p-2 rounded-md'>
                                     <div className='flex items-center my-4 justify-center gap-3'>
                                         <i>
@@ -300,7 +328,7 @@ export default function CreateWorker() {
                         {
                             image ?
                                 <figure className='group relative inline-block mt-3'>
-                                    <img className='rounded-full w-36 p-1 h-36 object-cover shadow-md' src={image.url} alt="" />
+                                    <img className='rounded-full w-36 p-1 h-36 object-cover shadow-md' src={image.url || "/notfound.webp"} alt="" />
                                     <i
                                         onClick={() => setImage(null)}
                                         className="absolute group-hover:opacity-100 opacity-0 top-1/2 transform translate-x-1/2 -translate-y-1/2 text-2xl right-1/2 bg-red-500/70 p-1 rounded-full cursor-pointer text-white shadow-md"
@@ -316,12 +344,18 @@ export default function CreateWorker() {
                         }
                     </div>
                     <div>
-                        <TagAutocomplete setTags={setTagWorker} tags={tagWorker} />
+                        <TagAutocomplete name='افزودن تگ' setTags={setTagWorker} tags={tagWorker} />
                     </div>
                     <div className='w-1/5'>
-                        <Button color='success' variant='contained' onClick={() => submitAction()} fullWidth endIcon={<MdDataSaverOn />}>
-                            ذخیره
-                        </Button>
+                        {search && data ?
+                            <Button color='success' disabled={isUpdate} variant='contained' onClick={() => submitUpdate()} fullWidth endIcon={<BiMessageSquareEdit />}>
+                                ویرایش
+                            </Button>
+                            :
+                            <Button color='primary' disabled={isPending} variant='contained' onClick={() => submitAction()} fullWidth endIcon={<MdDataSaverOn />}>
+                                ذخیره
+                            </Button>
+                        }
                     </div>
                 </form>
             </div >

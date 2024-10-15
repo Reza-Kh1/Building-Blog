@@ -12,8 +12,9 @@ const getWorker = asyncHandler(async (req, res) => {
       where: { name: id },
       include: {
         model: tagsModel,
-        through: "workerTags",
-        attributes: ["name"],
+        through: {
+          attributes: []
+        }
       },
     });
     res.send({ data });
@@ -22,10 +23,11 @@ const getWorker = asyncHandler(async (req, res) => {
   }
 });
 const getAllWorker = asyncHandler(async (req, res) => {
-  let { search, page, order } = req.query;
+  let { search, page, order, tags } = req.query;
   page = page || 1;
   let filter = {};
   let orderFilter = [];
+  let tagsArray = []
   if (order) {
     const length1 = order.split("-")[0];
     const length2 = order.split("-")[1];
@@ -40,6 +42,7 @@ const getAllWorker = asyncHandler(async (req, res) => {
       { phone: { [Op.iLike]: `%${search}%` } },
     ];
   }
+  if (tags) tagsArray = tags.split("-");
   try {
     const data = await workerModel.findAndCountAll({
       where: filter,
@@ -49,10 +52,24 @@ const getAllWorker = asyncHandler(async (req, res) => {
       attributes: {
         exclude: ["socialMedia", "address", "description", "updatedAt"],
       },
+      include: [{
+        model: tagsModel,
+        attributes: [],
+        through: {
+          attributes: [],
+        },
+        where: {
+          name: {
+            [Op.in]: tagsArray
+          }
+        },
+        required: tagsArray.length ? true : false
+      }]
     });
     const paginate = pagination(data.count, page, limit);
     res.send({ ...data, paginate });
   } catch (err) {
+    console.log(err);
     throw customError(err, err.statusCode || 400);
   }
 });

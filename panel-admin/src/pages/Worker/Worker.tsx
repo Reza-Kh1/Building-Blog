@@ -8,7 +8,6 @@ import queryString from "query-string";
 import { AllWorkerType } from "../../type";
 import Pagination from "../../components/Pagination/Pagination";
 import { FaShare } from "react-icons/fa6";
-import SearchPost from "../../components/SearchPost/SearchPost";
 import SearchBox from "../../components/SearchBox/SearchBox";
 
 export default function Worker() {

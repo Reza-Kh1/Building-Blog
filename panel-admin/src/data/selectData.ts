@@ -8,12 +8,12 @@ export const dataOrder = [
   { value: "createdAt-ASC", name: "قدیمی ترین" },
 ];
 export const dataStatus = [
-  { value: "", name: "همه" },
+  { value: "all", name: "همه" },
   { value: "true", name: "منتشر شده" },
   { value: "false", name: "منتشر نشده" },
 ];
 export const dataCheck = [
-  { value: "", name: "همه" },
+  { value: "all", name: "همه" },
   { value: "false", name: "تایید نشده" },
   { value: "true", name: "تایید شده" },
 ];

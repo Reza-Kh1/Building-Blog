@@ -2,11 +2,7 @@ import {
   Autocomplete,
   Button,
   Chip,
-  Dialog,
-  DialogActions,
-  DialogContent,
   FormControlLabel,
-  IconButton,
   MenuItem,
   Switch,
   TextField,
@@ -15,18 +11,18 @@ import { SiReaddotcv } from "react-icons/si";
 import { LuFileEdit } from "react-icons/lu";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
-import { CategortType, FormPostType, SinglePostType } from "../../type";
+import { CategortType, DataMediaType, FormPostType, SinglePostType } from "../../type";
 import { useEffect, useState } from "react";
 import { fetchCategory } from "../../services/category";
-import { RiImageEditFill } from "react-icons/ri";
-import UploadImage from "../../components/UploadImage/UploadImage";
-import ShowImage from "../ShowDBaaS/ShowDBaaS";
-import { FaImage, FaTrash } from "react-icons/fa6";
+import { FaShare } from "react-icons/fa6";
 import { MdEditNote, MdPostAdd } from "react-icons/md";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import JoditForm from "../JoditEditor/JoditEditor";
+import TagAutocomplete from "../TagAutocomplete/TagAutocomplete";
+import SelectMedia from "../SelectMedia/SelectMedia";
+import ImageComponent from "../ImageComponent/ImageComponent";
 export default function FormPost({ dataPost }: { dataPost?: SinglePostType }) {
   const { register, handleSubmit, watch, setValue, getValues } =
     useForm<FormPostType>({
@@ -36,12 +32,12 @@ export default function FormPost({ dataPost }: { dataPost?: SinglePostType }) {
       },
     });
   const { pathname } = useLocation();
+  const [tagPost, setTagPost] = useState<{ name: string }[]>([])
   const slug = pathname.split("/home/posts/")[1];
   const categoryValue = watch("categoryId");
   const statusValue = watch("status");
   const queryClient = useQueryClient();
-  const [open, setOpen] = useState<boolean>(false);
-  const [imageUrl, setImageUrl] = useState<string>("");
+  const [imagePost, setImagePost] = useState<DataMediaType | null>(null);
   const [keyword, setKeyword] = useState<string[]>([]);
   const [editorText, setEditorText] = useState<string>("");
   const [postId, setPostId] = useState<string>("");
@@ -55,8 +51,9 @@ export default function FormPost({ dataPost }: { dataPost?: SinglePostType }) {
   const { isPending: isPendingPost1, mutate: createPost } = useMutation({
     mutationFn: (form: FormPostType) => {
       const body = {
-        image: imageUrl,
+        image: imagePost?.url,
         ...form,
+        tags: tagPost || []
       };
       return axios.post("post", body);
     },
@@ -65,16 +62,17 @@ export default function FormPost({ dataPost }: { dataPost?: SinglePostType }) {
       queryClient.invalidateQueries({ queryKey: ["AllPost"] });
       toast.success("پست با موفقیت ثبت شد");
     },
-    onError: (err) => {
-      toast.warning("با خطا مواجه شدیم");
+    onError: (err: any) => {
+      toast.warning(err?.response?.data?.message || "با خطا مواجه شدیم");
       console.log(err);
     },
   });
   const { isPending: isPendingPost2, mutate: updatePost } = useMutation({
     mutationFn: (form: FormPostType) => {
       const body = {
-        image: imageUrl,
+        image: imagePost?.url,
         ...form,
+        tags: tagPost || []
       };
       return axios.put(`post/${postId}`, body);
     },
@@ -83,8 +81,8 @@ export default function FormPost({ dataPost }: { dataPost?: SinglePostType }) {
       queryClient.invalidateQueries({ queryKey: ["AllPost"] });
       toast.success("پست با موفقیت آپدیت شد");
     },
-    onError: (err) => {
-      toast.warning("با خطا مواجه شدیم");
+    onError: (err: any) => {
+      toast.warning(err?.response?.data?.message || "با خطا مواجه شدیم");
       console.log(err);
     },
   });
@@ -103,8 +101,8 @@ export default function FormPost({ dataPost }: { dataPost?: SinglePostType }) {
         queryClient.invalidateQueries({ queryKey: ["siglePost", slug] });
         setIsUpdateDetail(true);
       },
-      onError: (err) => {
-        toast.warning("با خطا مواجه شدیم");
+      onError: (err: any) => {
+        toast.warning(err?.response?.data?.message || "با خطا مواجه شدیم");
         console.log(err);
       },
     }
@@ -123,8 +121,8 @@ export default function FormPost({ dataPost }: { dataPost?: SinglePostType }) {
         queryClient.invalidateQueries({ queryKey: ["siglePost", slug] });
         toast.success("اطلاعات با موفقیت آپدیت شد");
       },
-      onError: (err) => {
-        toast.warning("با خطا مواجه شدیم");
+      onError: (err: any) => {
+        toast.warning(err?.response?.data?.message || "با خطا مواجه شدیم");
         console.log(err);
       },
     }
@@ -133,9 +131,9 @@ export default function FormPost({ dataPost }: { dataPost?: SinglePostType }) {
     if (!dataPost) return;
     setValue("title", dataPost.title);
     setValue("description", dataPost.description);
-    setValue("slug", dataPost.slug);
-    setImageUrl(dataPost.image);
+    setImagePost(dataPost.image ? { url: dataPost.image, alt: dataPost.title } : null);
     setPostId(dataPost.id);
+    setTagPost(dataPost.Tags)
     if (
       dataPost?.DetailPost?.title ||
       dataPost?.DetailPost?.text ||
@@ -154,24 +152,20 @@ export default function FormPost({ dataPost }: { dataPost?: SinglePostType }) {
     <>
       <div>
         <form>
-          <div className="grid grid-cols-[37%_37%_20%] gap-2 mt-3">
+          <div className="grid grid-cols-[37%_37%_20%] gap-2 mt-3 items-center">
             <TextField
               autoComplete="off"
               label={"نام پست"}
               fullWidth
               {...register("title", { required: true })}
+              helperText="نام تکراری وارد نکنید!"
             />
-            <TextField
-              autoComplete="off"
-              label={"اسلاگ"}
-              fullWidth
-              {...register("slug", { required: true })}
-              helperText={"توجه داشته باشید که اسلاگ تکراری وارد نکنید!"}
-            />
+            <TagAutocomplete setTags={setTagPost} tags={tagPost} name="تگ های مربوط به پست" />
             {dataCategory?.length ? (
               <TextField
                 autoComplete="off"
                 select
+                className="shadow-md"
                 label="دسته پست"
                 id="evaluationField"
                 value={categoryValue || "s"}
@@ -184,10 +178,16 @@ export default function FormPost({ dataPost }: { dataPost?: SinglePostType }) {
                   </MenuItem>
                 ))}
               </TextField>
-            ) : null}
+            ) :
+              <Link to={"/home/categorys"}>
+                <Button endIcon={<FaShare />} variant="outlined">
+                  هیچ دسته ای در دیتابیس ذخیره نشده لطفا دسته ایجاد کنید!
+                </Button>
+              </Link>
+            }
           </div>
           <div className="flex mt-3  gap-3">
-            <div className="w-3/5">
+            <div className="w-1/2">
               <TextField
                 fullWidth
                 autoComplete="off"
@@ -198,34 +198,13 @@ export default function FormPost({ dataPost }: { dataPost?: SinglePostType }) {
                 {...register("description", { required: true })}
               />
             </div>
-            <div className="w-2/5 flex flex-col gap-3  items-center">
-              {imageUrl ? (
-                <>
-                  <img
-                    className="w-3/4 object-contain h-full rounded-md shadow-md"
-                    src={imageUrl}
-                    alt=""
-                  />
-                  <div className="flex justify-evenly w-full">
-                    <IconButton color="primary" onClick={() => setOpen(true)}>
-                      <RiImageEditFill />
-                    </IconButton>
-                    <IconButton color="error" onClick={() => setImageUrl("")}>
-                      <FaTrash />
-                    </IconButton>
-                  </div>
-                </>
-              ) : (
-                <>
-                  <i
-                    onClick={() => setOpen(true)}
-                    className="w-full h-full bg-gray-50 border-black border-2 border-dashed rounded-md  flex justify-center items-center cursor-pointer"
-                  >
-                    <FaImage className="text-gray-500 text-3xl" />
-                  </i>
-                  <span>آپلود عکس</span>
-                </>
-              )}
+            <div className="w-1/2 flex gap-3 items-start">
+              <div className="w-1/3">
+                <SelectMedia addMedia={(alt, img) => setImagePost({ url: img.url, alt })} />
+              </div>
+              <div className="w-2/3 text-center">
+                <ImageComponent deleteHandler={() => setImagePost(null)} img={imagePost} />
+              </div>
             </div>
           </div>
           <div className="mt-4 flex justify-between">
@@ -335,32 +314,6 @@ export default function FormPost({ dataPost }: { dataPost?: SinglePostType }) {
           </form>
         )}
       </div>
-      <Dialog
-        fullWidth={true}
-        maxWidth={"lg"}
-        open={open}
-        onClose={() => setOpen(false)}
-      >
-        <DialogContent>
-          <ShowImage setClose={setOpen} setUrl={setImageUrl} />
-        </DialogContent>
-        <DialogActions>
-          <div className="w-full items-end flex justify-between">
-            <div className="w-1/5 flex justify-center items-center flex-col gap-3">
-              <UploadImage setUpload={setImageUrl} setClose={setOpen} />
-              <span>آپلود عکس</span>
-            </div>
-            <Button
-              className="!w-2/12 shadow-md"
-              variant="contained"
-              color="primary"
-              onClick={() => setOpen(false)}
-            >
-              بستن
-            </Button>
-          </div>
-        </DialogActions>
-      </Dialog>
     </>
   );
 }

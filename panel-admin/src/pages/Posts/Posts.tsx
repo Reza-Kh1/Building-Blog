@@ -40,7 +40,7 @@ export default function Posts() {
         {data?.pages[0].rows.length ? (
           data.pages[0].rows.map((i, index) => (
             <Link
-              to={i.slug}
+              to={i.title.replace(/ /g, "-")}
               key={index}
               className="bg-gray-200 p-2 shadow-md flex rounded-md"
             >

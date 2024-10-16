@@ -11,12 +11,20 @@ import {
 import { useForm } from "react-hook-form";
 import { MdClose, MdDataSaverOn } from "react-icons/md";
 import SelectMedia from "../SelectMedia/SelectMedia";
-import { useState } from "react";
-import { DataMediaType } from "../../type";
+import { useEffect, useState } from "react";
+import { DataMediaType, ProjectType } from "../../type";
 import ImageComponent from "../ImageComponent/ImageComponent";
 import { FaPenToSquare } from "react-icons/fa6";
 import TagAutocomplete from "../TagAutocomplete/TagAutocomplete";
 import WorkerSelector from "../WorkerSelector/WorkerSelector";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
+import { toast } from "react-toastify";
+import PendingApi from "../PendingApi/PendingApi";
+import { fetchSingleProject } from "../../services/project";
+import queryString from "query-string";
+import { useLocation } from "react-router-dom";
+import { BiMessageSquareEdit } from "react-icons/bi";
 type ProjectFormType = {
   status: boolean;
   name: string;
@@ -24,43 +32,106 @@ type ProjectFormType = {
   address: string;
 };
 export default function CreateProject() {
-  const { register, setValue, handleSubmit, watch } = useForm<ProjectFormType>({
+  const { register, setValue, getValues, watch } = useForm<ProjectFormType>({
     defaultValues: {
       status: false,
     },
   });
+  const queryClient = useQueryClient();
   const [videoProject, setVideoProject] = useState<DataMediaType | null>(null);
   const [image, setImage] = useState<DataMediaType | null>(null);
   const [open, setOpen] = useState<boolean>(false);
   const [editImg, setEditImg] = useState<DataMediaType | null>(null);
   const [tagsProject, setTagsProject] = useState<{ name: string }[]>([]);
   const [workerId, setWorkerId] = useState<number>(0);
-  const [galleryProject, setGalleryProject] = useState<DataMediaType[] | []>(
-    []
-  );
-
-  const submitHandler = (form: ProjectFormType) => {
-    const body = {
-      image: image?.url,
-      gallery: galleryProject,
-      video: videoProject,
-      alt: image?.alt,
-      ...form,
-      tags: tagsProject,
-      workerId,
-    };
-    console.log(body);
-  };
+  const [galleryProject, setGalleryProject] = useState<DataMediaType[] | []>([]);
+  const { search } = useLocation()
+  const test: { name?: string } = queryString.parse(search)
+  const { data } = useQuery<ProjectType>({
+    queryKey: ["projectSingle", test.name],
+    staleTime: 1000 * 60 * 60 * 24,
+    gcTime: 1000 * 60 * 60 * 24,
+    queryFn: () => fetchSingleProject(test?.name),
+    enabled: test?.name ? true : false
+  });
+  const { isPending: pendingCreate, mutate: createHandler } = useMutation({
+    mutationFn: () => {
+      const body = {
+        image: image?.url || null,
+        gallery: galleryProject,
+        video: videoProject?.url || null,
+        alt: image?.alt || null,
+        tags: tagsProject || [],
+        workerId,
+        name: getValues("name") || null,
+        description: getValues("description"),
+        address: getValues("address") || null,
+        status: getValues("status")
+      };
+      return axios.post('project', body);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["AllProject"] });
+      toast.success("پروژه با موفقیت ایجاد شد");
+    },
+    onError: (err: any) => {
+      toast.warning(err?.response?.data?.message || "با خطا مواجه شدیم");
+      console.log(err);
+    },
+  });
+  const { isPending: pendingUpdate, mutate: updateHandler } = useMutation({
+    mutationFn: () => {
+      const body = {
+        image: image?.url || null,
+        gallery: galleryProject,
+        video: videoProject?.url || null,
+        alt: image?.alt || null,
+        tags: tagsProject || [],
+        workerId,
+        name: getValues("name") || null,
+        description: getValues("description"),
+        address: getValues("address") || null,
+        status: getValues("status")
+      };
+      return axios.put(`project/${data?.id}`, body);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["AllProject"] });
+      queryClient.invalidateQueries({ queryKey: ["projectSingle", test.name] });
+      toast.success("پروژه با موفقیت ویرایش شد");
+    },
+    onError: (err: any) => {
+      toast.warning(err?.response?.data?.message || "با خطا مواجه شدیم");
+      console.log(err);
+    },
+  });
+  const syncData = () => {
+    setValue("address", data?.address || "")
+    setValue("status", data?.status ? true : false)
+    setValue("name", data?.name || "")
+    setValue("description", data?.description || "")
+    setTagsProject(data?.Tags || [])
+    setWorkerId(data?.workerId || 0)
+    setImage(data?.image ? { url: data?.image, alt: data?.alt } : null)
+    setGalleryProject(data?.gallery || [])
+    setVideoProject(data?.video ? { url: data?.video, alt: "" } : null)
+  }
+  useEffect(() => {
+    if (search && data) {
+      syncData()
+    }
+  }, [data])
   const statusProject = watch("status");
+  if (search && !data) return
   return (
     <>
+      {pendingCreate || pendingUpdate && <PendingApi />}
       <h1 className="bg-blue-500 shadow-md p-2 rounded-md mb-5 text-gray-50">
         ایجاد پروژه
       </h1>
       <form
         name="off"
         className="flex flex-col gap-3"
-        onSubmit={handleSubmit(submitHandler)}
       >
         <div className="flex gap-3 items-center">
           <TextField
@@ -163,14 +234,15 @@ export default function CreateProject() {
           </div>
         </div>
         <div className="flex justify-between items-center">
-          <Button
-            type="submit"
-            endIcon={<MdDataSaverOn />}
-            color="success"
-            variant="contained"
-          >
-            ذخیره کردن اطلاعات
-          </Button>
+          {search && data ?
+            <Button color='success' disabled={pendingUpdate} variant='contained' onClick={() => updateHandler()} className="w-1/5" endIcon={<BiMessageSquareEdit />}>
+              ویرایش
+            </Button>
+            :
+            <Button color='primary' disabled={pendingCreate} variant='contained' onClick={() => createHandler()} className="w-1/5" endIcon={<MdDataSaverOn />}>
+              ذخیره
+            </Button>
+          }
           <FormControlLabel
             control={
               <Switch

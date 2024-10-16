@@ -8,27 +8,27 @@ const {
   categoryModel,
   tagsModel,
 } = require("../models/sync");
-const { Op, Transaction } = require("sequelize");
+const { Op } = require("sequelize");
 const { dataBase } = require("../config/db");
 const pagination = require("../utils/pagination");
 const limit = process.env.LIMIT;
 const createPost = asyncHandler(async (req, res) => {
-  const { title, image, slug, description, status, categoryId, tags } =
+  const { title, image, description, status, categoryId, tags } =
     req.body;
-  if (!title || !slug || !description)
+  if (!title || !description)
     throw customError("تمام فیلدهای لازم را پر کنید", 401);
   const userId = res.userInfo.id;
   try {
     const dataId = await postModel.create({
       title,
       image,
-      slug,
       description,
       status,
       userId,
       categoryId,
     });
-    await dataId.addTags(tags);
+    const newTags = tags?.map(i => i?.id)
+    await dataId.addTags(newTags);
     res.send({ id: dataId.id });
   } catch (err) {
     throw customError(err.message, 401);
@@ -91,7 +91,7 @@ const getSinglePost = asyncHandler(async (req, res) => {
   const { id } = req.params;
   try {
     const data = await postModel.findOne({
-      where: { slug: id },
+      where: { title: id },
       include: [
         {
           model: detailPostModel,
@@ -101,8 +101,9 @@ const getSinglePost = asyncHandler(async (req, res) => {
         { model: userModel, attributes: ["name"], required: false },
         {
           model: tagsModel,
-          through: "postTags",
-          attributes: ["name"],
+          through: {
+            attributes: []
+          },
           required: false,
         },
         {
@@ -144,9 +145,7 @@ const updatePost = asyncHandler(async (req, res) => {
   const {
     title,
     image,
-    slug,
     description,
-    totalComments,
     status,
     categoryId,
     tags,
@@ -159,18 +158,11 @@ const updatePost = asyncHandler(async (req, res) => {
     if (title) {
       updatePost.title = title;
     }
-    if (image) {
-      updatePost.image = image;
-    }
-    if (slug) {
-      updatePost.slug = slug;
-    }
-    if (description) {
-      updatePost.description = description;
-    }
-    if (totalComments) {
-      updatePost.totalComments = totalComments;
-    }
+    updatePost.image = image;
+    updatePost.description = description;
+    // if (totalComments) {
+    //   updatePost.totalComments = totalComments;
+    // }
     updatePost.status = status || false;
     if (categoryId) {
       updatePost.categoryId = categoryId;

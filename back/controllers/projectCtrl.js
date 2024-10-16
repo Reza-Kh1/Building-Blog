@@ -30,7 +30,10 @@ const createProject = asyncHandler(async (req, res) => {
       workerId,
       alt, status: status | false
     });
-    await data.addTags(tags);
+    if (tags) {
+      const newTag = tags.map((i) => i.id)
+      await data.addTags(newTag);
+    }
     res.send({ success: true });
   } catch (err) {
     throw customError(err, err.statusCode || 400);
@@ -66,16 +69,21 @@ const updateProject = asyncHandler(async (req, res) => {
     const data = await projectModel.findByPk(id);
     if (!data) throw customError("آیتم مورد نظر یافت نشد");
     if (name) data.name = name;
-    if (address) data.address = address;
-    if (image) data.image = image;
-    if (gallery) data.gallery = gallery;
-    if (video) data.video = video;
-    if (description) data.description = description;
     if (workerId) data.workerId = workerId;
-    if (status) data.status = status;
-    if (alt) data.alt = alt;
+    if (address) data.address = address;
+    data.image = image;
+    data.gallery = gallery;
+    data.video = video;
+    data.description = description;
+    data.status = status;
+    data.alt = alt;
     await data.save();
-    if (tags) await data.setTags(tags);
+    if (tags.length) {
+      const newTag = tags?.map((i) => i?.id)
+      await data.setTags(newTag);
+    } else {
+      await data.setTags([]);
+    }
     res.send({ success: true });
   } catch (err) {
     throw customError(err, err.statusCode || 400);
@@ -93,7 +101,6 @@ const getProject = asyncHandler(async (req, res) => {
             exclude: [
               "createdAt",
               "updatedAt",
-              "id",
               "address",
               "description",
               "socialMedia",
@@ -111,7 +118,11 @@ const getProject = asyncHandler(async (req, res) => {
             },
           ],
         },
-        { model: tagsModel, attributes: ["name"], through: "projectTags" },
+        {
+          model: tagsModel, through: {
+            attributes: []
+          }
+        },
       ],
     });
     res.send({ data });
@@ -120,9 +131,10 @@ const getProject = asyncHandler(async (req, res) => {
   }
 });
 const getAllProject = asyncHandler(async (req, res) => {
-  let { search, page, order, status } = req.query;
+  let { search, page, order, status, tags } = req.query;
   page = page || 1;
   let filter = {};
+  let tagsArray = []
   let orderFilter = [];
   if (order) {
     const [column, direction] = order.split("-");
@@ -146,7 +158,7 @@ const getAllProject = asyncHandler(async (req, res) => {
     }
 
   }
-
+  if (tags) tagsArray = tags.split("-");
   try {
     const data = await projectModel.findAndCountAll({
       where: filter,
@@ -158,7 +170,19 @@ const getAllProject = asyncHandler(async (req, res) => {
         {
           model: workerModel,
           attributes: ["name"],
-        },
+        }, {
+          model: tagsModel,
+          attributes: [],
+          through: {
+            attributes: [],
+          },
+          where: {
+            name: {
+              [Op.in]: tagsArray
+            }
+          },
+          required: tagsArray.length ? true : false
+        }
       ],
     });
     const paginate = pagination(data.count, page, limit);

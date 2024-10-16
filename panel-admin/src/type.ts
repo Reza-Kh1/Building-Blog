@@ -29,7 +29,6 @@ type UserType = {
 };
 type FormPostType = {
   title: string;
-  slug: string;
   description: string;
   status: boolean;
   categoryId: string;
@@ -85,6 +84,10 @@ type SinglePostType = {
     id: string;
     slug: string;
   };
+  Tags: {
+    id: number
+    name: string
+  }[]
 };
 type AllReviewType = {
   count: number;
@@ -173,20 +176,44 @@ type WorkerType = {
   alt: string | null;
   createdAt: Date;
   updatedAt: Date;
-  Tags: 
-    {
-      name: string;
-      workerTags?: {
-        TagId: number;
-        WorkerId: number;
-      };
-    }[]
+  Tags:
+  {
+    name: string;
+  }[]
 };
 type AllWorkerType = {
   count: number;
   rows: WorkerType[];
   paginate: PaginationType;
 };
+
+type ProjectType = {
+  id: number,
+  name: string,
+  address: string,
+  image: string,
+  gallery: {
+    alt: string,
+    url: string
+  }[]
+  video: string,
+  alt: string,
+  description: string,
+  status: boolean,
+  createdAt: Date,
+  updatedAt: Date,
+  workerId: number,
+  Worker: {
+    name: string,
+    id: number
+  },
+  Tags: { name: string, id: number }[]
+}
+type AllProjectType = {
+  count: number
+  rows: ProjectType[]
+  paginate: PaginationType
+}
 export type {
   ReviewType,
   CategortType,
@@ -209,4 +236,6 @@ export type {
   TagType,
   WorkerType,
   AllWorkerType,
+  AllProjectType,
+  ProjectType
 };

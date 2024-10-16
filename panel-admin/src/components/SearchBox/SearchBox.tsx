@@ -5,6 +5,7 @@ import { dataOrder, dataStatus, dataCheck } from "../../data/selectData";
 import TagAutocomplete from "../TagAutocomplete/TagAutocomplete";
 import { useEffect, useState } from "react";
 import queryString from "query-string";
+import { GrSearchAdvanced } from "react-icons/gr";
 type SearchFormType = {
     search?: string;
     status?: string;
@@ -18,13 +19,13 @@ export default function SearchBox({ checker, status }: SearchBoxType) {
     const [tags, setTags] = useState<{ name: string }[]>([])
     const { register, setValue, handleSubmit, watch } = useForm<SearchFormType>({
         defaultValues: {
-            status: "false",
+            status: "all",
             order: "createdAt-DESC",
         },
     });
     const navigate = useNavigate();
     const { search } = useLocation()
-    const searchUser = (form: SearchFormType) => {
+    const searchUser = ({ status, ...other }: SearchFormType) => {
         let newTags = ""
         for (const key in tags) {
             if (Number(key) + 1 === tags.length) {
@@ -34,15 +35,16 @@ export default function SearchBox({ checker, status }: SearchBoxType) {
             }
         }
         const body = {
-            ...form,
-            tags: newTags
-        }
+            ...other,
+            tags: newTags,
+        } as any
+        if (status !== "all") body.status = status
         const url = "?" + new URLSearchParams(body);
         navigate(url);
     };
     const setQueryInput = (form: any) => {
         if (form?.search) setValue("search", form?.search)
-        if (form?.status) setValue("status", form?.status)
+        if (form?.status) setValue("status", form?.status || "all")
         if (form?.order) setValue("order", form?.order)
         if (form?.tags) {
             const tagArry = form?.tags.split("-").map((i: any) => i = { name: i })
@@ -107,6 +109,7 @@ export default function SearchBox({ checker, status }: SearchBoxType) {
                     className="w-1/2 !bg-gradient-to-tr to-slate-500 from-blue-500"
                     variant="contained"
                     onClick={handleSubmit(searchUser)}
+                    endIcon={<GrSearchAdvanced />}
                 >
                     جستجو
                 </Button>

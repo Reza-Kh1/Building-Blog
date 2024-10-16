@@ -108,20 +108,16 @@ const updateWorker = asyncHandler(async (req, res) => {
     if (socialMedia) {
       data.socialMedia = socialMedia;
     }
-    if (address) {
-      data.address = address;
-    }
-    if (description) {
-      data.description = description;
-    }
-    if (image) {
-      data.image = image;
-    }
+    data.address = address;
+    data.description = description;
+    data.image = image;
     await data.save();
-    if (tags) {
-      const newTags = tags?.map(i => i.id)
+    if (tags.length) {
+      const newTags = tags?.map(i => i?.id)
       await data.setTags(newTags)
-    };
+    } else {
+      await data.setTags([])
+    }
     res.send({ success: true });
   } catch (err) {
     throw customError(err, err.statusCode || 400);

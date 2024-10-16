@@ -38,23 +38,23 @@ export default function SelectMedia({ addMedia }: SelectMediaType) {
     setOpen(false);
   };
   return (
-    <div className="w-full">
-      <Button
-        onClick={() => setOpen(true)}
-        color="primary"
-        variant="contained"
-        endIcon={<IoMdImages />}
-      >
-        انتخاب تصویر یا ویدئو
-      </Button>
+    <>
+      <div className="w-full">
+        <Button
+        onClick={()=>setOpen(true)}
+          color="primary"
+          variant="contained"
+          endIcon={<IoMdImages />}
+        >
+          انتخاب تصویر یا ویدئو
+        </Button>
+      </div>
       <Dialog
-        fullWidth
+        fullWidth={true}
         maxWidth={"lg"}
         open={open}
         TransitionComponent={Transition}
-        keepMounted
         onClose={() => setOpen(false)}
-        aria-describedby="alert-dialog-slide-description"
       >
         <DialogContent>
           <div>
@@ -117,6 +117,6 @@ export default function SelectMedia({ addMedia }: SelectMediaType) {
           </div>
         </DialogActions>
       </Dialog>
-    </div>
+    </>
   );
 }

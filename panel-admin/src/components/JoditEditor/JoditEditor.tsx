@@ -16,6 +16,7 @@ import { FaTrash } from "react-icons/fa6";
 import UploadImage from "../UploadImage/UploadImage";
 import { classImg } from "../../data/selectData";
 import { toast } from "react-toastify";
+import SelectMedia from "../SelectMedia/SelectMedia";
 type EditorType = {
   setEditor: (value: string) => void;
   editor: string;
@@ -69,7 +70,8 @@ export default function JoditForm({ setEditor, editor }: EditorType) {
         </DialogContent>
         <DialogActions>
           <div className="w-full items-center gap-3 flex justify-between">
-            <div className="w-1/5">
+            <SelectMedia addMedia={() => { }} />
+            {/* <div className="w-1/5">
               {imageUrl ? (
                 <div className="relative">
                   <img
@@ -88,7 +90,7 @@ export default function JoditForm({ setEditor, editor }: EditorType) {
               ) : (
                 <UploadImage setUpload={setImageUrl} />
               )}
-            </div>
+            </div> */}
             <div className="grid grid-cols-2 w-full gap-3">
               <Autocomplete
                 multiple

@@ -6,18 +6,14 @@ const postModel = dataBase.define(
   {
     title: {
       type: DataTypes.STRING,
-      allowNull: false,
-    },
-    image: {
-      type: DataTypes.STRING,
-    },
-    slug: {
-      type: DataTypes.STRING,
       unique: {
         args: true,
         msg: "این اسلاگ قبلا ثبت شده !",
       },
       allowNull: false,
+    },
+    image: {
+      type: DataTypes.STRING,
     },
     description: {
       type: DataTypes.STRING,
@@ -35,8 +31,8 @@ const postModel = dataBase.define(
     tableName: "Post",
     timestamps: true,
     indexes: [
-      { unique: true, fields: ["slug"] },
-      { unique: false, fields: ["status", "description", "title"] },
+      { unique: true, fields: ["title"] },
+      { unique: false, fields: ["status", "description"] },
     ],
   }
 );

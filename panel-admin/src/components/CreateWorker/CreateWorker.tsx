@@ -92,6 +92,13 @@ export default function CreateWorker() {
             editSelectMedia: ""
         }
     })
+    const { data } = useQuery<WorkerType>({
+        queryKey: ["workerSingle", test.worker],
+        staleTime: 1000 * 60 * 60 * 24,
+        gcTime: 1000 * 60 * 60 * 24,
+        queryFn: () => fetchSingleWorker(test?.worker),
+        enabled: test?.worker ? true : false
+    });
     const { isPending, mutate: submitAction } = useMutation({
         mutationFn: () => {
             const body = {
@@ -120,11 +127,11 @@ export default function CreateWorker() {
                 name: getValues("name"),
                 phone: getValues("phone"),
                 socialMedia: socialMedia,
-                address: getValues("address"),
-                description: getValues("description"),
-                image: image?.url,
+                address: getValues("address") || null,
+                description: getValues("description") || null,
+                image: image?.url || null,
                 tags: tagWorker
-            }
+            }            
             return axios.put(`worker/${data?.id}`, body);
         },
         onSuccess: () => {
@@ -135,13 +142,6 @@ export default function CreateWorker() {
             toast.warning(err?.response?.data?.message || "با خطا مواجه شدیم");
             console.log(err);
         },
-    });
-    const { data } = useQuery<WorkerType>({
-        queryKey: ["workerSingle", test.worker],
-        staleTime: 1000 * 60 * 60 * 24,
-        gcTime: 1000 * 60 * 60 * 24,
-        queryFn: () => fetchSingleWorker(test?.worker),
-        enabled: test?.worker ? true : false
     });
     const editSocialHandler = () => {
         if (!idEdit) return
@@ -154,7 +154,7 @@ export default function CreateWorker() {
             return item
         })
         setOpen(false)
-        setSocialMedia(newArry || [])        
+        setSocialMedia(newArry || [])
     }
     const createSocialMedia = () => {
         const body = {

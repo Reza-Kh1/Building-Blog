@@ -36,6 +36,7 @@ import { SiSubtitleedit } from "react-icons/si";
 import { FaCalendarAlt } from "react-icons/fa";
 import SearchPost from "../../components/SearchPost/SearchPost";
 import { fetchMessage } from "../../services/message";
+import DontData from "../../components/DontData/DontData";
 const Transition = forwardRef(function Transition(
   props: TransitionProps & {
     children: React.ReactElement<any, any>;
@@ -61,7 +62,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     border: 0,
   },
 }));
-
 export default function Message() {
   const [searchQuery, setSearchQuery] = useState<any>();
   const [open, setOpen] = useState<boolean>(false);
@@ -113,11 +113,9 @@ export default function Message() {
   return (
     <div className="w-full">
       <SearchPost onlinePrice />
-      <h1 className="w-full p-2 rounded-md shadow-md bg-blue-400 text-gray-50">
-        {data?.pages[0].count
-          ? data?.pages[0].count + " درخواست"
-          : "هیچ درخواستی ثبت نشده است!"}
-      </h1>
+      <DontData text={data?.pages[0].count
+        ? data?.pages[0].count + " درخواست"
+        : "درخواستی یافت نشد!"} />
       {data?.pages[0].rows.length ? (
         <div className="mt-3">
           <TableContainer component={Paper}>
@@ -134,7 +132,7 @@ export default function Message() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {data.pages[0].rows?.map((row,index) => (
+                {data.pages[0].rows?.map((row, index) => (
                   <StyledTableRow key={index}>
                     <StyledTableCell align="center">{row.name}</StyledTableCell>
                     <StyledTableCell align="center">

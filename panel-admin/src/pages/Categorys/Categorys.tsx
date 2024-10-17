@@ -25,6 +25,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchCategory } from "../../services/category";
 import { toast } from "react-toastify";
 import PendingApi from "../../components/PendingApi/PendingApi";
+import DontData from "../../components/DontData/DontData";
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -274,7 +275,9 @@ export default function Categorys() {
                 </TableBody>
               </Table>
             </TableContainer>
-          ) : null}
+          ) : 
+          <DontData text="دسته ای یافت نشد!"/>
+          }
         </div>
       </div>
       <Dialog

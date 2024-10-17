@@ -8,12 +8,13 @@ const {
   updateCategory,
   getAllAdminCategory,
 } = require("../controllers/categoryCtrl");
+const isAuthor = require("../utils/isAuthor");
 const app = express();
-app.route("/").get(getAllCategory).post(isAdmin, createCategory);
-app.get("/admin", getAllAdminCategory);
+app.route("/").get(getAllCategory).post(isAuthor, createCategory);
+app.get("/admin", isAuthor, getAllAdminCategory);
 app
   .route("/:id")
   .get(getCategoryPosts)
-  .put(isAdmin, updateCategory)
-  .delete(isAdmin, deleteCategory);
+  .put(isAuthor, updateCategory)
+  .delete(isAuthor, deleteCategory);
 module.exports = app;

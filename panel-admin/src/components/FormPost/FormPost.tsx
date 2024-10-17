@@ -18,11 +18,13 @@ import { FaShare } from "react-icons/fa6";
 import { MdEditNote, MdPostAdd } from "react-icons/md";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import JoditForm from "../JoditEditor/JoditEditor";
 import TagAutocomplete from "../TagAutocomplete/TagAutocomplete";
 import SelectMedia from "../SelectMedia/SelectMedia";
 import ImageComponent from "../ImageComponent/ImageComponent";
+import DeleteButton from "../DeleteButton/DeleteButton";
+import PendingApi from "../PendingApi/PendingApi";
 export default function FormPost({ dataPost }: { dataPost?: SinglePostType }) {
   const { register, handleSubmit, watch, setValue, getValues } =
     useForm<FormPostType>({
@@ -42,6 +44,7 @@ export default function FormPost({ dataPost }: { dataPost?: SinglePostType }) {
   const [editorText, setEditorText] = useState<string>("");
   const [postId, setPostId] = useState<string>("");
   const [isUpdateDetail, setIsUpdateDetail] = useState<boolean>(false);
+  const navigate = useNavigate()
   const { data: dataCategory } = useQuery<CategortType[]>({
     initialData: () => queryClient.getQueryData(["getCategory"]),
     queryKey: ["getCategory"],
@@ -86,46 +89,62 @@ export default function FormPost({ dataPost }: { dataPost?: SinglePostType }) {
       console.log(err);
     },
   });
-  const { isPending: isPendingDetail1, mutate: createDetailPost } = useMutation(
-    {
-      mutationFn: () => {
-        const body = {
-          keyword,
-          title: getValues("titleDetail"),
-          text: editorText,
-        };
-        return axios.post(`detail/${postId}`, body);
-      },
-      onSuccess: () => {
-        toast.success("اطلاعات با موفقیت دخیره شد");
-        queryClient.invalidateQueries({ queryKey: ["siglePost", slug] });
-        setIsUpdateDetail(true);
-      },
-      onError: (err: any) => {
-        toast.warning(err?.response?.data?.message || "با خطا مواجه شدیم");
-        console.log(err);
-      },
-    }
+  const { isPending: isPendingDetail1, mutate: createDetailPost } = useMutation({
+    mutationFn: () => {
+      const body = {
+        keyword,
+        title: getValues("titleDetail"),
+        text: editorText,
+      };
+      return axios.post(`detail/${postId}`, body);
+    },
+    onSuccess: () => {
+      toast.success("اطلاعات با موفقیت دخیره شد");
+      queryClient.invalidateQueries({ queryKey: ["siglePost", slug] });
+      setIsUpdateDetail(true);
+    },
+    onError: (err: any) => {
+      toast.warning(err?.response?.data?.message || "با خطا مواجه شدیم");
+      console.log(err);
+    },
+  }
   );
-  const { isPending: isPendingDetail2, mutate: updateDetailPost } = useMutation(
-    {
-      mutationFn: () => {
-        const body = {
-          keyword,
-          title: getValues("titleDetail"),
-          text: editorText,
-        };
-        return axios.put(`detail/${postId}`, body);
-      },
-      onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ["siglePost", slug] });
-        toast.success("اطلاعات با موفقیت آپدیت شد");
-      },
-      onError: (err: any) => {
-        toast.warning(err?.response?.data?.message || "با خطا مواجه شدیم");
-        console.log(err);
-      },
-    }
+  const { isPending: isPendingDetail2, mutate: updateDetailPost } = useMutation({
+    mutationFn: () => {
+      const body = {
+        keyword,
+        title: getValues("titleDetail"),
+        text: editorText,
+      };
+      return axios.put(`detail/${postId}`, body);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["siglePost", slug] });
+      toast.success("اطلاعات با موفقیت آپدیت شد");
+    },
+    onError: (err: any) => {
+      toast.warning(err?.response?.data?.message || "با خطا مواجه شدیم");
+      console.log(err);
+    },
+  }
+  );
+  const { isPending: pendingDelete, mutate: deletePost } = useMutation({
+    mutationFn: () => {
+      if (!postId) {
+        throw new Error("آیدی پست یافت نشد!")
+      }
+      return axios.delete(`post/${postId}`);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["AllPost", slug] });
+      navigate("/home/posts")
+      toast.success("اطلاعات با موفقیت آپدیت شد");
+    },
+    onError: (err: any) => {
+      toast.warning(err?.response?.data?.message || "با خطا مواجه شدیم");
+      console.log(err);
+    },
+  }
   );
   const syncData = () => {
     if (!dataPost) return;
@@ -148,172 +167,178 @@ export default function FormPost({ dataPost }: { dataPost?: SinglePostType }) {
   useEffect(() => {
     syncData();
   }, [dataPost]);
+  let truePending = false
+  if (isPendingPost1 ||
+    isPendingPost2 ||
+    isPendingDetail1 ||
+    isPendingDetail2 ||
+    pendingDelete) truePending = true
   return (
-    <>
-      <div>
-        <form>
-          <div className="grid grid-cols-[37%_37%_20%] gap-2 mt-3 items-center">
+    <div>
+      {truePending && <PendingApi />}
+      <form>
+        <div className="grid grid-cols-[37%_37%_20%] gap-2 mt-3 items-center">
+          <TextField
+            autoComplete="off"
+            label={"نام پست"}
+            fullWidth
+            {...register("title", { required: true })}
+            helperText="نام تکراری وارد نکنید!"
+          />
+          <TagAutocomplete setTags={setTagPost} tags={tagPost} name="تگ های مربوط به پست" />
+          {dataCategory?.length ? (
             <TextField
               autoComplete="off"
-              label={"نام پست"}
+              select
+              className="shadow-md"
+              label="دسته پست"
+              id="evaluationField"
+              value={categoryValue || "s"}
+              onChange={({ target }) => setValue("categoryId", target.value)}
+            >
+              <MenuItem value={"s"}>انتخاب کنید</MenuItem>
+              {dataCategory?.map((i) => (
+                <MenuItem key={i.id} value={i.id}>
+                  {i.name}
+                </MenuItem>
+              ))}
+            </TextField>
+          ) :
+            <Link to={"/home/categorys"}>
+              <Button endIcon={<FaShare />} variant="outlined">
+                هیچ دسته ای در دیتابیس ذخیره نشده لطفا دسته ایجاد کنید!
+              </Button>
+            </Link>
+          }
+        </div>
+        <div className="flex mt-3  gap-3">
+          <div className="w-1/2">
+            <TextField
               fullWidth
-              {...register("title", { required: true })}
-              helperText="نام تکراری وارد نکنید!"
+              autoComplete="off"
+              className="shadow-md"
+              label={"توضیحات"}
+              rows={6}
+              multiline
+              {...register("description", { required: true })}
             />
-            <TagAutocomplete setTags={setTagPost} tags={tagPost} name="تگ های مربوط به پست" />
-            {dataCategory?.length ? (
-              <TextField
-                autoComplete="off"
-                select
-                className="shadow-md"
-                label="دسته پست"
-                id="evaluationField"
-                value={categoryValue || "s"}
-                onChange={({ target }) => setValue("categoryId", target.value)}
-              >
-                <MenuItem value={"s"}>انتخاب کنید</MenuItem>
-                {dataCategory?.map((i) => (
-                  <MenuItem key={i.id} value={i.id}>
-                    {i.name}
-                  </MenuItem>
-                ))}
-              </TextField>
-            ) :
-              <Link to={"/home/categorys"}>
-                <Button endIcon={<FaShare />} variant="outlined">
-                  هیچ دسته ای در دیتابیس ذخیره نشده لطفا دسته ایجاد کنید!
-                </Button>
-              </Link>
-            }
           </div>
-          <div className="flex mt-3  gap-3">
-            <div className="w-1/2">
-              <TextField
-                fullWidth
-                autoComplete="off"
-                className="shadow-md"
-                label={"توضیحات"}
-                rows={6}
-                multiline
-                {...register("description", { required: true })}
+          <div className="w-1/2 flex gap-3 items-start">
+            <div className="w-1/3">
+              <SelectMedia addMedia={(alt, img) => setImagePost({ url: img.url, alt })} />
+            </div>
+            <div className="w-2/3 text-center">
+              <ImageComponent deleteHandler={() => setImagePost(null)} img={imagePost} />
+            </div>
+          </div>
+        </div>
+        <div className="mt-4 flex justify-between">
+          {postId ? (
+            <Button
+              onClick={handleSubmit((data) => updatePost(data))}
+              color="primary"
+              variant="contained"
+              endIcon={<MdEditNote />}
+              disabled={isPendingPost2}
+            >
+              ویرایش اطلاعات
+            </Button>
+          ) : (
+            <Button
+              onClick={handleSubmit((data) => createPost(data))}
+              color="success"
+              variant="contained"
+              disabled={isPendingPost1}
+              endIcon={<SiReaddotcv />}
+            >
+              ذخیره اطلاعات
+            </Button>
+          )}
+          <FormControlLabel
+            control={
+              <Switch
+                color="secondary"
+                //   value={statusValue}
+                checked={statusValue ? true : false}
+                onChange={() => setValue("status", !getValues("status"))}
               />
-            </div>
-            <div className="w-1/2 flex gap-3 items-start">
-              <div className="w-1/3">
-                <SelectMedia addMedia={(alt, img) => setImagePost({ url: img.url, alt })} />
-              </div>
-              <div className="w-2/3 text-center">
-                <ImageComponent deleteHandler={() => setImagePost(null)} img={imagePost} />
-              </div>
-            </div>
+            }
+            label="انتشار پست"
+          />
+        </div>
+      </form>
+      {postId && (
+        <form>
+          <TextField
+            className="shadow-md !w-1/3 !mt-5"
+            autoComplete="off"
+            label={"سربرگ صفحه"}
+            fullWidth
+            {...register("titleDetail")}
+          />
+          <div className="my-3">
+            <Autocomplete
+              multiple
+              className="shadow-md"
+              id="tags-filled"
+              options={[].map((option) => option)}
+              defaultValue={[]}
+              freeSolo
+              onChange={(_, newValue) => setKeyword(newValue)}
+              value={keyword}
+              renderTags={(value: readonly string[], getTagProps) =>
+                value.map((option: string, index: number) => {
+                  const { key, ...tagProps } = getTagProps({ index });
+                  return (
+                    <Chip
+                      variant="outlined"
+                      label={option}
+                      key={key}
+                      {...tagProps}
+                    />
+                  );
+                })
+              }
+              renderInput={(params) => (
+                <TextField
+                  autoComplete="off"
+                  {...params}
+                  label="کلمات کلیدی"
+                  placeholder="اینتر بزنید..."
+                />
+              )}
+            />
           </div>
-          <div className="mt-4 flex justify-between">
-            {postId ? (
+          <div>
+            <JoditForm setEditor={setEditorText} editor={editorText} />
+            {/* <MyEditor setEditor={setEditorText} editor={editorText} /> */}
+          </div>
+          <div className="mt-5 flex justify-between">
+            {isUpdateDetail ? (
               <Button
-                onClick={handleSubmit((data) => updatePost(data))}
+                disabled={isPendingDetail2}
+                onClick={() => updateDetailPost()}
                 color="primary"
+                endIcon={<LuFileEdit />}
                 variant="contained"
-                endIcon={<MdEditNote />}
-                disabled={isPendingPost2}
               >
-                ویرایش اطلاعات
+                ویرایش اطلاعات پست
               </Button>
             ) : (
               <Button
-                onClick={handleSubmit((data) => createPost(data))}
+                disabled={isPendingDetail1}
+                onClick={() => createDetailPost()}
                 color="success"
+                endIcon={<MdPostAdd />}
                 variant="contained"
-                disabled={isPendingPost1}
-                endIcon={<SiReaddotcv />}
               >
-                ذخیره اطلاعات
+                ذخیره اطلاعات پست
               </Button>
             )}
-            <FormControlLabel
-              control={
-                <Switch
-                  color="secondary"
-                  //   value={statusValue}
-                  checked={statusValue ? true : false}
-                  onChange={() => setValue("status", !getValues("status"))}
-                />
-              }
-              label="انتشار پست"
-            />
+            <DeleteButton deletePost={deletePost} pendingDelete={pendingDelete} text="حذف پست" />
           </div>
         </form>
-        {postId && (
-          <form>
-            <TextField
-              className="shadow-md !w-1/3 !mt-5"
-              autoComplete="off"
-              label={"سربرگ صفحه"}
-              fullWidth
-              {...register("titleDetail")}
-            />
-            <div className="my-3">
-              <Autocomplete
-                multiple
-                className="shadow-md"
-                id="tags-filled"
-                options={[].map((option) => option)}
-                defaultValue={[]}
-                freeSolo
-                onChange={(_, newValue) => setKeyword(newValue)}
-                value={keyword}
-                renderTags={(value: readonly string[], getTagProps) =>
-                  value.map((option: string, index: number) => {
-                    const { key, ...tagProps } = getTagProps({ index });
-                    return (
-                      <Chip
-                        variant="outlined"
-                        label={option}
-                        key={key}
-                        {...tagProps}
-                      />
-                    );
-                  })
-                }
-                renderInput={(params) => (
-                  <TextField
-                    autoComplete="off"
-                    {...params}
-                    label="کلمات کلیدی"
-                    placeholder="اینتر بزنید..."
-                  />
-                )}
-              />
-            </div>
-            <div>
-              <JoditForm setEditor={setEditorText} editor={editorText} />
-              {/* <MyEditor setEditor={setEditorText} editor={editorText} /> */}
-            </div>
-            <div className="mt-5">
-              {isUpdateDetail ? (
-                <Button
-                  disabled={isPendingDetail2}
-                  onClick={() => updateDetailPost()}
-                  color="primary"
-                  endIcon={<LuFileEdit />}
-                  variant="contained"
-                >
-                  ویرایش اطلاعات پست
-                </Button>
-              ) : (
-                <Button
-                  disabled={isPendingDetail1}
-                  onClick={() => createDetailPost()}
-                  color="success"
-                  endIcon={<MdPostAdd />}
-                  variant="contained"
-                >
-                  ذخیره اطلاعات پست
-                </Button>
-              )}
-            </div>
-          </form>
-        )}
-      </div>
-    </>
+      )}
+    </div>
   );
 }

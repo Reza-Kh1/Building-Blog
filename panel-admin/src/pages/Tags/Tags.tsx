@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import PendingApi from "../../components/PendingApi/PendingApi";
 import { MdClose } from "react-icons/md";
 import { TagType } from "../../type";
+import DontData from "../../components/DontData/DontData";
 type TagsType = {
     count: number
     rows: TagType[]
@@ -139,7 +140,7 @@ export default function Tags() {
                             </div>
                         )
                         :
-                        <span>هیچ تگی ایجاد نشده است!</span>
+                     <DontData  text="تگ یافت نشد!"/>
                     }
                 </div>
             </div >

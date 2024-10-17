@@ -5,7 +5,8 @@ const {
   deleteTag,
   updateTag,
 } = require("../controllers/tagsCtrl");
+const isAuthor = require("../utils/isAuthor");
 const app = express.Router();
-app.route("/").get(getAllTags).post(createTag);
-app.route("/:id").delete(deleteTag).put(updateTag);
+app.route("/").get(getAllTags).post(isAuthor,createTag);
+app.route("/:id").delete(isAuthor,deleteTag).put(isAuthor,updateTag);
 module.exports = app;

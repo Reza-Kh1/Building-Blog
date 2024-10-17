@@ -38,6 +38,7 @@ import { toast } from "react-toastify";
 import { SiSubtitleedit } from "react-icons/si";
 import { FaCalendarAlt } from "react-icons/fa";
 import SearchPost from "../../components/SearchPost/SearchPost";
+import DontData from "../../components/DontData/DontData";
 const Transition = forwardRef(function Transition(
   props: TransitionProps & {
     children: React.ReactElement<any, any>;
@@ -130,12 +131,10 @@ export default function OnlinePrice() {
   return (
     <div className="w-full">
       {isLoading ? <PendingApi /> : null}
-      <SearchPost onlinePrice/>
-      <h1 className="w-full p-2 rounded-md shadow-md bg-blue-400 text-gray-50">
-        {data?.pages[0].count
-          ? data?.pages[0].count + " درخواست"
-          : "هیچ درخواستی ثبت نشده است!"}
-      </h1>
+      <SearchPost onlinePrice />
+      <DontData text={data?.pages[0].count
+        ? data?.pages[0].count + " درخواست"
+        : "هیچ درخواستی ثبت نشده است!"} />
       {data?.pages[0].rows.length ? (
         <div className="mt-3">
           <TableContainer component={Paper}>
@@ -151,7 +150,7 @@ export default function OnlinePrice() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {data.pages[0].rows?.map((row,index) => (
+                {data.pages[0].rows?.map((row, index) => (
                   <StyledTableRow key={index}>
                     <StyledTableCell align="center">{row.name}</StyledTableCell>
                     <StyledTableCell align="center">

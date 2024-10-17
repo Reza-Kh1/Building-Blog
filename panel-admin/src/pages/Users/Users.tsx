@@ -33,6 +33,7 @@ import { useLocation } from "react-router-dom";
 import queryString from "query-string";
 import SearchUser from "../../components/SearchUser/SearchUser";
 import { dataRole } from "../../data/selectData";
+import DontData from "../../components/DontData/DontData";
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -288,9 +289,7 @@ export default function Users() {
           <Pagination pager={data?.pages[0].pagination} />
         </div>
           :
-          <div>
-            هیچ کاربری ثبت نشده !!!
-          </div>
+        <DontData text="کاربری یافت نشد!"/>
         }
       </div>
       <Dialog

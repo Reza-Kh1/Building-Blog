@@ -7,10 +7,13 @@ const { Op } = require("sequelize");
 const limit = process.env.LIMIT_COMMENT;
 const createComment = asyncHandler(async (req, res) => {
   let { name, text, email, phone, replies, postId, status } = req.body;
+  const cookie = req.cookies?.user;
+  let tokenUser
+  if (cookie) {
+    tokenUser = token.verify(cookie, process.env.TOKEN_SECURITY);
+  }
   try {
-    const cookie = req.cookies?.user;
-    const tokenUser = token.verify(cookie, process.env.TOKEN_SECURITY);
-    if (tokenUser.role !== "USER") {
+    if (tokenUser?.role !== "USER") {
       const post = await postModel.findByPk(postId);
       post.totalComments = Number(post.totalComments) + 1;
       post.save();
@@ -32,6 +35,8 @@ const createComment = asyncHandler(async (req, res) => {
     });
     res.send({ success: true });
   } catch (err) {
+    console.log("ok");
+
     throw customError(err.message, 401);
   }
 });
@@ -126,7 +131,7 @@ const getAllComment = asyncHandler(async (req, res) => {
       limit,
       offset: (page - 1) * limit,
       order: [orderFilter],
-      include: [{ model: postModel, attributes: ["slug", "id"] }],
+      include: [{ model: postModel, attributes: ["id"] }],
       attributes: { exclude: ["postId"] },
     });
     const paginate = pagination(allComment.count, page, limit);

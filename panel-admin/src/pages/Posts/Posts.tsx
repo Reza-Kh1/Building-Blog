@@ -8,8 +8,9 @@ import { AllPostType } from "../../type";
 import Pagination from "../../components/Pagination/Pagination";
 import queryString from "query-string";
 import { MdClose } from "react-icons/md";
-import SearchPost from "../../components/SearchPost/SearchPost";
 import { LuCopyPlus } from "react-icons/lu";
+import SearchBox from "../../components/SearchBox/SearchBox";
+import DontData from "../../components/DontData/DontData";
 export default function Posts() {
   const [searchQuery, setSearchQuery] = useState<any>();
   const { search } = useLocation();
@@ -32,10 +33,12 @@ export default function Posts() {
           ایجاد پست
         </Button>
       </Link>
-      <SearchPost />
-      <h1 className="w-full p-2 rounded-md shadow-md bg-blue-400 text-gray-50">
-        {data?.pages[0].count} پست
-      </h1>
+      <SearchBox status />
+      {data?.pages[0].count ?
+        <h1 className="w-full p-2 rounded-md shadow-md bg-blue-400 text-gray-50">
+          {data?.pages[0].count} پست
+        </h1> : null
+      }
       <div className="flex flex-col gap-3 mt-3">
         {data?.pages[0].rows.length ? (
           data.pages[0].rows.map((i, index) => (
@@ -47,7 +50,6 @@ export default function Posts() {
               <div className="w-5/6 flex ">
                 <div className="grid grid-cols-2 w-4/6">
                   <span className="cutline cutline-2">نام : {i.title}</span>
-                  <span className="cutline cutline-2">اسلاگ : {i.slug}</span>
                   <span className="cutline cutline-2">
                     دسته : {i.Category?.name}
                   </span>
@@ -85,7 +87,7 @@ export default function Posts() {
             </Link>
           ))
         ) : (
-          <span>هیچ پستی ایجاد نشده است!</span>
+          <DontData text="پستی یافت نشد!" />
         )}
       </div>
       <Pagination pager={data?.pages[0].paginate} />

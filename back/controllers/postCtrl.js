@@ -35,11 +35,13 @@ const createPost = asyncHandler(async (req, res) => {
   }
 });
 const getAllPost = asyncHandler(async (req, res, status, isAdmin) => {
-  let { search, page, order } = req.query;
+  let { search, page, order, tags } = req.query;
   page = page || 1;
   let filter = {};
   let orderFilter = [];
+  let tagsArray = []
   let include = [];
+  if (tags) tagsArray = tags.split("-");
   if (order) {
     const length1 = order.split("-")[0];
     const length2 = order.split("-")[1];
@@ -64,9 +66,40 @@ const getAllPost = asyncHandler(async (req, res, status, isAdmin) => {
     include = [
       { model: categoryModel, attributes: ["slug", "name"] },
       { model: userModel, attributes: ["name"] },
+      {
+        model: tagsModel,
+        attributes: [],
+        through: {
+          attributes: [],
+        },
+        where: {
+          name: {
+            [Op.in]: tagsArray
+          }
+        },
+        required: tagsArray.length ? true : false
+      }
     ];
   } else {
-    include = [{ model: categoryModel, attributes: ["slug", "name"] }];
+    if (tagsArray) {
+      include = [
+        { model: categoryModel, attributes: ["slug", "name"] },
+        {
+          model: tagsModel,
+          attributes: [],
+          through: {
+            attributes: [],
+          },
+          where: {
+            name: {
+              [Op.in]: tagsArray
+            }
+          },
+          required: tagsArray.length ? true : false
+        }];
+    } else {
+      include = [{ model: categoryModel, attributes: ["slug", "name"] }];
+    }
   }
   try {
     const data = await postModel.findAndCountAll({
@@ -74,12 +107,12 @@ const getAllPost = asyncHandler(async (req, res, status, isAdmin) => {
       offset: (page - 1) * limit,
       limit: limit,
       order: [orderFilter],
-      attributes: { exclude: ["userId", "createdAt", "categoryId"] },
+      attributes: { exclude: ["userId", "categoryId"] },
       include: include,
     });
     const paginate = pagination(data.count, page, limit);
     res.send({ ...data, paginate });
-  } catch (err) {
+  } catch (err) {    
     throw customError(err.message, 401);
   }
 });
@@ -154,7 +187,8 @@ const updatePost = asyncHandler(async (req, res) => {
   try {
     const updatePost = await postModel.findByPk(id);
     if (!updatePost) return res.status(404).send("همچین پستی وجود ندارد");
-    if (tags) await updatePost.setTags(tags);
+    const newTags = tags.map((i) => i.id)
+    await updatePost.setTags(newTags);
     if (title) {
       updatePost.title = title;
     }

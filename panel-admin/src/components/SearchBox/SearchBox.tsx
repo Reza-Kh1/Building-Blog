@@ -14,8 +14,9 @@ type SearchFormType = {
 type SearchBoxType = {
     checker?: boolean
     status?: boolean
+    notTag?: boolean
 }
-export default function SearchBox({ checker, status }: SearchBoxType) {
+export default function SearchBox({ checker, status, notTag }: SearchBoxType) {
     const [tags, setTags] = useState<{ name: string }[]>([])
     const { register, setValue, handleSubmit, watch } = useForm<SearchFormType>({
         defaultValues: {
@@ -61,7 +62,9 @@ export default function SearchBox({ checker, status }: SearchBoxType) {
     const orderValue = watch("order");
     return (
         <form className="w-full grid my-4 grid-cols-4 gap-3 items-center justify-center">
-            <TagAutocomplete name="انتخاب دسته" setTags={setTags} tags={tags} />
+            {!notTag &&
+                <TagAutocomplete name="انتخاب دسته" setTags={setTags} tags={tags} />
+            }
             <TextField
                 autoComplete="off"
                 className="shadow-md"

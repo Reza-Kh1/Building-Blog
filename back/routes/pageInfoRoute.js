@@ -5,5 +5,5 @@ const {
 const express = require("express");
 const isAuthor = require("../utils/isAuthor");
 const app = express.Router();
-app.route("/:id").get(getPageIfo).post(isAuthor, updatePageInfo);
+app.route("/:id").get(isAuthor,getPageIfo).post(isAuthor, updatePageInfo);
 module.exports = app;

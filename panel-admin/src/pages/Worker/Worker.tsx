@@ -9,6 +9,7 @@ import { AllWorkerType } from "../../type";
 import Pagination from "../../components/Pagination/Pagination";
 import { FaShare } from "react-icons/fa6";
 import SearchBox from "../../components/SearchBox/SearchBox";
+import DontData from "../../components/DontData/DontData";
 
 export default function Worker() {
   const [searchQuery, setSearchQuery] = useState<any>();
@@ -63,9 +64,7 @@ export default function Worker() {
             </div>
           ))}
         </div>
-        : <span className="block p-2 shadow-md bg-slate-200">
-          هیچ اطلاعاتی برای نمایش وجود ندارد!
-        </span>}
+        : <DontData text="متخصصی یافت نشد!"/>}
       <Pagination pager={data?.pages[0].paginate} />
     </div>
   );

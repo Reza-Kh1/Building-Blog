@@ -33,6 +33,8 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 import queryString from "query-string";
 import SearchReviews from "../../components/SearchReviews/SearchReviews";
+import DontData from "../../components/DontData/DontData";
+import SearchBox from "../../components/SearchBox/SearchBox";
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -156,7 +158,7 @@ export default function Reviews() {
     },
     onSuccess: () => {
       query.invalidateQueries({ queryKey: ["AllReview"] });
-      toast.success("کامنت لغو شد");
+      toast.success("کامنت رد شد");
     },
     onError: (err) => {
       console.log(err);
@@ -178,7 +180,6 @@ export default function Reviews() {
     setOpen(false);
     setReview(null);
   };
-
   useEffect(() => {
     const query = queryString.parse(search);
     setSearchQuery(query);
@@ -186,7 +187,8 @@ export default function Reviews() {
   return (
     <>
       <div className="w-full">
-        <SearchReviews />
+        {/* <SearchReviews /> */}
+        <SearchBox notTag checker/>
         {data?.pages[0].rows.length ? (
           <>
             <TableContainer component={Paper}>
@@ -251,7 +253,7 @@ export default function Reviews() {
                               size="small"
                               disabled={isPendingMinus}
                             >
-                              لغو
+                              رد
                             </Button>
                           ) : (
                             <Button
@@ -301,7 +303,7 @@ export default function Reviews() {
             <Pagination pager={data?.pages[0].paginate} />
           </>
         ) : (
-          <h1>هیچ کامنتی یافت نشد!</h1>
+         <DontData text="کامنتی یافت نشد !"/>
         )}
       </div>
       <Dialog

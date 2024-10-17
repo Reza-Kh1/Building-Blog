@@ -8,6 +8,7 @@ import { Button, ButtonGroup, IconButton } from '@mui/material';
 import { MediaType } from '../../type';
 import { TbPhotoCirclePlus } from "react-icons/tb";
 import { IoIosImages } from 'react-icons/io';
+import DontData from '../DontData/DontData';
 type AllMediaType = {
     count: number
     rows: MediaType[]
@@ -95,9 +96,7 @@ export default function MediaBox({ setUrlImg }: MediaBoxType) {
             <div className="grid grid-cols-5 gap-5">
                 {data?.pages?.map((item, index) => {
                     if (!item.count) {
-                        return <span key={index} className="bg-blue-300  text-white p-2 rounded-md shadow-md">
-                            هیچ اطلاعاتی یافت نشد !
-                        </span>
+                        return <DontData key={index} text='اطلاعاتی یافت نشد!'/>
                     }
                     return item?.rows?.map((i, index) => (
                         <figure key={index} className="relative h-52 group">

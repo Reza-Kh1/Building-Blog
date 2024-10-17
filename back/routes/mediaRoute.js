@@ -3,7 +3,7 @@ const { uploadMediaUser, getAllMedia, deleteMedia, getDBaaS, uploadMediaAdmin, d
 const upload = require("../middlewares/upload")
 const isAuthor = require("../utils/isAuthor")
 const app = express.Router()
-app.route("/").post(isAuthor, upload, uploadMediaAdmin).get(getAllMedia).delete(deleteDBaaS)
+app.route("/").post(isAuthor, upload, uploadMediaAdmin).get(isAuthor, getAllMedia).delete(isAuthor, deleteDBaaS)
 app.route("/user").post(upload, uploadMediaUser)
-app.route("/:id").delete(deleteMedia).get(getDBaaS)
+app.route("/:id").delete(isAuthor, deleteMedia).get(isAuthor, getDBaaS)
 module.exports = app

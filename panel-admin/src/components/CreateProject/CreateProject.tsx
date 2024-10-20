@@ -23,8 +23,9 @@ import { toast } from "react-toastify";
 import PendingApi from "../PendingApi/PendingApi";
 import { fetchSingleProject } from "../../services/project";
 import queryString from "query-string";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { BiMessageSquareEdit } from "react-icons/bi";
+import DeleteButton from "../DeleteButton/DeleteButton";
 type ProjectFormType = {
   status: boolean;
   name: string;
@@ -44,15 +45,18 @@ export default function CreateProject() {
   const [editImg, setEditImg] = useState<DataMediaType | null>(null);
   const [tagsProject, setTagsProject] = useState<{ name: string }[]>([]);
   const [workerId, setWorkerId] = useState<number>(0);
-  const [galleryProject, setGalleryProject] = useState<DataMediaType[] | []>([]);
-  const { search } = useLocation()
-  const test: { name?: string } = queryString.parse(search)
+  const navigate = useNavigate();
+  const [galleryProject, setGalleryProject] = useState<DataMediaType[] | []>(
+    []
+  );
+  const { search } = useLocation();
+  const test: { name?: string } = queryString.parse(search);
   const { data } = useQuery<ProjectType>({
     queryKey: ["projectSingle", test.name],
     staleTime: 1000 * 60 * 60 * 24,
     gcTime: 1000 * 60 * 60 * 24,
     queryFn: () => fetchSingleProject(test?.name),
-    enabled: test?.name ? true : false
+    enabled: test?.name ? true : false,
   });
   const { isPending: pendingCreate, mutate: createHandler } = useMutation({
     mutationFn: () => {
@@ -66,12 +70,13 @@ export default function CreateProject() {
         name: getValues("name") || null,
         description: getValues("description"),
         address: getValues("address") || null,
-        status: getValues("status")
+        status: getValues("status"),
       };
-      return axios.post('project', body);
+      return axios.post("project", body);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["AllProject"] });
+      navigate("/home/projects?page=1&order=createdAt-DESC&search=&tags=");
       toast.success("پروژه با موفقیت ایجاد شد");
     },
     onError: (err: any) => {
@@ -91,7 +96,7 @@ export default function CreateProject() {
         name: getValues("name") || null,
         description: getValues("description"),
         address: getValues("address") || null,
-        status: getValues("status")
+        status: getValues("status"),
       };
       return axios.put(`project/${data?.id}`, body);
     },
@@ -105,40 +110,57 @@ export default function CreateProject() {
       console.log(err);
     },
   });
+  const { isPending: pendingDelete, mutate: deleteHandler } = useMutation({
+    mutationFn: () => {
+      return axios.delete(`project/${data?.id}`);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["AllProject"] });
+      queryClient.invalidateQueries({ queryKey: ["projectSingle", test.name] });
+      navigate("/home/projects?page=1&order=createdAt-DESC&search=&tags=");
+      toast.success("پروژه با موفقیت ویرایش شد");
+    },
+    onError: (err: any) => {
+      toast.warning(err?.response?.data?.message || "با خطا مواجه شدیم");
+      console.log(err);
+    },
+  });
   const syncData = () => {
-    setValue("address", data?.address || "")
-    setValue("status", data?.status ? true : false)
-    setValue("name", data?.name || "")
-    setValue("description", data?.description || "")
-    setTagsProject(data?.Tags || [])
-    setWorkerId(data?.workerId || 0)
-    setImage(data?.image ? { url: data?.image, alt: data?.alt } : null)
-    setGalleryProject(data?.gallery || [])
-    setVideoProject(data?.video ? { url: data?.video, alt: "" } : null)
-  }
+    setValue("address", data?.address || "");
+    setValue("status", data?.status ? true : false);
+    setValue("name", data?.name || "");
+    setValue("description", data?.description || "");
+    setTagsProject(data?.Tags || []);
+    setWorkerId(data?.workerId || 0);
+    setImage(data?.image ? { url: data?.image, alt: data?.alt } : null);
+    setGalleryProject(data?.gallery || []);
+    setVideoProject(data?.video ? { url: data?.video, alt: "" } : null);
+  };
   useEffect(() => {
     if (search && data) {
-      syncData()
+      syncData();
     }
-  }, [data])
+  }, [data]);
   const statusProject = watch("status");
-  if (search && !data) return
+  if (search && !data) return;
+  let isPending = false;
+  if (pendingCreate || pendingUpdate || pendingDelete) {
+    isPending = true;
+  }
   return (
     <>
-      {pendingCreate || pendingUpdate && <PendingApi />}
+      {isPending && <PendingApi />}
       <h1 className="bg-blue-500 shadow-md p-2 rounded-md mb-5 text-gray-50">
         ایجاد پروژه
       </h1>
-      <form
-        name="off"
-        className="flex flex-col gap-3"
-      >
+      <form name="off" className="flex flex-col gap-3">
         <div className="flex gap-3 items-center">
           <TextField
             autoComplete="off"
             autoSave="off"
-            className="shadow-md w-2/3"
+            className=" w-2/3"
             label={"نام"}
+            helperText={"نام تکراری وارد نکنید!"}
             {...register("name", { required: true })}
           />
           <div className="w-1/3">
@@ -180,7 +202,11 @@ export default function CreateProject() {
             {...register("address", { required: true })}
           />
           <div className="w-1/2">
-            <TagAutocomplete name="افزودن تگ" setTags={setTagsProject} tags={tagsProject} />
+            <TagAutocomplete
+              name="افزودن تگ"
+              setTags={setTagsProject}
+              tags={tagsProject}
+            />
           </div>
         </div>
         <div className="flex gap-3 ">
@@ -234,15 +260,38 @@ export default function CreateProject() {
           </div>
         </div>
         <div className="flex justify-between items-center">
-          {search && data ?
-            <Button color='success' disabled={pendingUpdate} variant='contained' onClick={() => updateHandler()} className="w-1/5" endIcon={<BiMessageSquareEdit />}>
-              ویرایش
-            </Button>
-            :
-            <Button color='primary' disabled={pendingCreate} variant='contained' onClick={() => createHandler()} className="w-1/5" endIcon={<MdDataSaverOn />}>
+          {search && data ? (
+            <>
+              <div className="flex gap-3 w-1/3">
+                <Button
+                  color="success"
+                  disabled={pendingUpdate}
+                  variant="contained"
+                  onClick={() => updateHandler()}
+                  className="w-1/5"
+                  endIcon={<BiMessageSquareEdit />}
+                >
+                  ویرایش
+                </Button>
+                <DeleteButton
+                  deletePost={deleteHandler}
+                  pendingDelete={pendingDelete}
+                  text="حذف پروژه"
+                />
+              </div>
+            </>
+          ) : (
+            <Button
+              color="primary"
+              disabled={!workerId || pendingCreate}
+              variant="contained"
+              onClick={() => createHandler()}
+              className="w-1/5"
+              endIcon={<MdDataSaverOn />}
+            >
               ذخیره
             </Button>
-          }
+          )}
           <FormControlLabel
             control={
               <Switch

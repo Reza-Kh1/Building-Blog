@@ -37,8 +37,8 @@ import PendingApi from "../../components/PendingApi/PendingApi";
 import { toast } from "react-toastify";
 import { SiSubtitleedit } from "react-icons/si";
 import { FaCalendarAlt } from "react-icons/fa";
-import SearchPost from "../../components/SearchPost/SearchPost";
 import DontData from "../../components/DontData/DontData";
+import SearchBox from "../../components/SearchBox/SearchBox";
 const Transition = forwardRef(function Transition(
   props: TransitionProps & {
     children: React.ReactElement<any, any>;
@@ -131,10 +131,14 @@ export default function OnlinePrice() {
   return (
     <div className="w-full">
       {isLoading ? <PendingApi /> : null}
-      <SearchPost onlinePrice />
-      <DontData text={data?.pages[0].count
-        ? data?.pages[0].count + " درخواست"
-        : "هیچ درخواستی ثبت نشده است!"} />
+      <SearchBox checker notTag notSearch/>
+      <DontData
+        text={
+          data?.pages[0].count
+            ? data?.pages[0].count + " درخواست"
+            : "هیچ درخواستی ثبت نشده است!"
+        }
+      />
       {data?.pages[0].rows.length ? (
         <div className="mt-3">
           <TableContainer component={Paper}>
@@ -263,11 +267,11 @@ export default function OnlinePrice() {
             <Button
               disabled={isDelete || isUpdate}
               variant="contained"
-              color="warning"
+              color={singleData?.status ? "warning" : "primary"}
               onClick={() => checkPrice()}
               endIcon={<FaCheck />}
             >
-              مشاهده شد
+              {singleData?.status ? "لغو تایید" : "تایید شود" }
             </Button>
             <Button
               disabled={isDelete || isUpdate}

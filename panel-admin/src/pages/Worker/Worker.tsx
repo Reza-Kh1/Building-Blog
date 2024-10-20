@@ -41,7 +41,6 @@ export default function Worker() {
       </Link>
       <div>
         <SearchBox />
-        {/* <SearchPost /> */}
       </div>
       {data?.pages[0].rows.length ?
         <div className="grid grid-cols-4 gap-3 my-3 items-center justify-between">

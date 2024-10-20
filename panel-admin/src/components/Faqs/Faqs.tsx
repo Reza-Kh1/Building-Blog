@@ -8,18 +8,43 @@ import {
   TextField,
 } from "@mui/material";
 import { MdClose } from "react-icons/md";
-import { useForm } from "react-hook-form";
 import { FaPlus } from "react-icons/fa6";
 import { IoIosArrowDown } from "react-icons/io";
 import { MdDataSaverOn } from "react-icons/md";
 import { IoTrashBinSharp } from "react-icons/io5";
-import { useState } from "react";
-
+import { useEffect, useState } from "react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { fetchPageInfo } from "../../services/pageInfo";
+import axios from "axios";
+import { toast } from "react-toastify";
+import PendingApi from "../PendingApi/PendingApi";
+type DataType = {
+  id: number;
+  page: string;
+  text: {
+    description: string;
+    title: string;
+    accordion: {
+      name: string;
+      id: number;
+      arry: { name: string; text: string; id: number }[];
+    }[];
+  };
+};
 export default function Faqs() {
-  const { register, handleSubmit } = useForm();
+  const [dataText, setDataText] = useState({
+    title: "",
+    description: "",
+  });
   const [accordion, setAccrodion] = useState([
     { name: "", id: 1, arry: [{ name: "", text: "", id: 1 }] },
   ]);
+  const queryClient = useQueryClient();
+  const { data } = useQuery<DataType | null>({
+    queryKey: ["faqs"],
+    queryFn: () => fetchPageInfo("faqs"),
+    staleTime: 1000 * 60 * 60 * 24,
+  });
   const deleteAccordion = (id: number) => {
     const newAc = accordion.map((i) => {
       const test = i.arry.filter((filter) => filter.id !== id);
@@ -53,19 +78,56 @@ export default function Faqs() {
   const dropAccordion = (id: number) => {
     const newAc = accordion.filter((filter) => filter.id !== id);
     setAccrodion(newAc);
+  };  
+  const { isPending, mutate: saveHandler } = useMutation({
+    mutationFn: () => {
+      const body = {
+        page: "faqs",
+        text: {
+          ...dataText,
+          accordion,
+        },
+      };
+      return axios.post("page/faqs", body);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["faqs"] });
+      toast.success("اطلاعات با موفقیت آپدیت شد");
+    },
+    onError: (err: any) => {
+      toast.warning(err?.response?.data?.message || "با خطا مواجه شدیم");
+      console.log(err);
+    },
+  });
+  const syncData = () => {
+    setDataText({
+      description: data?.text?.description || "",
+      title: data?.text?.title || "",
+    });
+    setAccrodion(
+      data?.text.accordion || [
+        { name: "", id: 1, arry: [{ name: "", text: "", id: 1 }] },
+      ]
+    );
   };
-  const submitHandler = (form: any) => {
-    console.log(form, accordion);
-  };
+  useEffect(() => {
+    if (data) {
+      syncData();
+    }
+  }, [data]);  
   return (
     <div className="w-full p-2">
+      {isPending && <PendingApi />}
       <div className="flex flex-col gap-3">
         <TextField
           fullWidth
           autoComplete="off"
           className="shadow-md"
           label={"متن همراه عنوان"}
-          {...register("title")}
+          value={dataText.title}
+          onChange={({ target }) =>
+            setDataText({ ...dataText, title: target.value })
+          }
         />
         <TextField
           fullWidth
@@ -74,7 +136,10 @@ export default function Faqs() {
           label={"توضیحات بخش درباره ما"}
           rows={6}
           multiline
-          {...register("description")}
+          value={dataText.description}
+          onChange={({ target }) =>
+            setDataText({ ...dataText, description: target.value })
+          }
         />
       </div>
       <span className="my-5 block font-semibold">سوالات متداول :</span>
@@ -208,11 +273,12 @@ export default function Faqs() {
         </div>
         <div>
           <Button
-            onClick={handleSubmit((data) => submitHandler(data))}
+            onClick={() => saveHandler()}
             className="mt-5"
             endIcon={<MdDataSaverOn />}
             color="success"
             variant="contained"
+            disabled={isPending}
           >
             ذخیره کردن اطلاعات
           </Button>

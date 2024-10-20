@@ -11,6 +11,7 @@ import { FaCheck, FaPlay } from "react-icons/fa6";
 import { FaCalendarAlt } from "react-icons/fa";
 import { MdClose } from "react-icons/md";
 import SearchBox from "../../components/SearchBox/SearchBox";
+import DontData from "../../components/DontData/DontData";
 export default function Projects() {
   const [searchQuery, setSearchQuery] = useState<any>();
   const { search } = useLocation();
@@ -37,27 +38,34 @@ export default function Projects() {
           variant="contained"
         >
           ایجاد پروژه
-        </Button> 
+        </Button>
       </Link>
       <div>
         <SearchBox status />
       </div>
-      <div className="w-full my-3 grid grid-cols-3 gap-3">
+      {
+        data?.pages[0].rows.length ? 
+        <div className="w-full my-3 grid grid-cols-3 gap-3">
         {data?.pages[0].rows.map((i, index) => (
           <div key={index} className="shadow-md p-2 rounded-md">
             <figure className="relative group overflow-hidden">
-              <img src={i.image || "/notfound.webp"} onError={({ currentTarget }) => {
-                currentTarget.onerror = null;
-                currentTarget.src = "/notfound.webp";
-              }} alt={i.alt} className="object-cover w-full h-64 rounded-md" />
-              <Link to={"create-project?name=" + i.name.replace(/ /g, "-")} className="absolute opacity-0 text-white bg-black/30 group-hover:opacity-100 transition-customer backdrop-blur-md p-5 shadow-md text-2xl rounded-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+              <img
+                src={i.image || "/notfound.webp"}
+                onError={({ currentTarget }) => {
+                  currentTarget.onerror = null;
+                  currentTarget.src = "/notfound.webp";
+                }}
+                alt={i.alt}
+                className="object-cover w-full h-64 rounded-md"
+              />
+              <Link
+                to={"create-project?name=" + i.name.replace(/ /g, "-")}
+                className="absolute opacity-0 text-white bg-black/30 group-hover:opacity-100 transition-customer backdrop-blur-md p-5 shadow-md text-2xl rounded-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+              >
                 <FaPlay />
               </Link>
               <div className="-bottom-[100%] text-sm transition-customer box-shadow-customer absolute rounded-md w-full text-center bg-black/70 text-white py-2 group-hover:bottom-[0%]">
-                <span>
-                  عنوان عکس :
-                  {i.alt}
-                </span>
+                <span>عنوان عکس :{i.alt}</span>
                 <p>آدرس :{i.address}</p>
               </div>
               <div className="left-2 text-sm flex items-center gap-3 bg-black/50 px-3 py-1 text-white rounded-md top-2 absolute">
@@ -71,16 +79,22 @@ export default function Projects() {
             </figure>
             <div className="flex justify-between px-2 mt-3 items-center">
               <span className="font-semibold">{i.Worker.name}</span>
-              {i.status ?
-                <Button endIcon={<FaCheck />} color="success" size="small">منتشر شده</Button>
-                :
-                <Button endIcon={<MdClose />} color="error" size="small">منتشر نشده</Button>
-              }
+              {i.status ? (
+                <Button endIcon={<FaCheck />} color="success" size="small">
+                  منتشر شده
+                </Button>
+              ) : (
+                <Button endIcon={<MdClose />} color="error" size="small">
+                  منتشر نشده
+                </Button>
+              )}
             </div>
             <p className="px-1 text-justify text-gray-700">{i.name}</p>
           </div>
         ))}
       </div>
+        : <DontData text="هیچ پروژه ای ثبت نشده !"/>
+      }
       <div>
         <Pagination pager={data?.pages[0].paginate} />
       </div>

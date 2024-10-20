@@ -32,7 +32,6 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import queryString from "query-string";
-import SearchReviews from "../../components/SearchReviews/SearchReviews";
 import DontData from "../../components/DontData/DontData";
 import SearchBox from "../../components/SearchBox/SearchBox";
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -187,7 +186,6 @@ export default function Reviews() {
   return (
     <>
       <div className="w-full">
-        {/* <SearchReviews /> */}
         <SearchBox notTag checker/>
         {data?.pages[0].rows.length ? (
           <>

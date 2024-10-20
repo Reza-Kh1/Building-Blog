@@ -13,7 +13,7 @@ export default function ImageComponent({
   if (!img) return;
   return (
     <div className="relative group">
-      {img.url.search(/(jpg|jpeg|png|gif|webp|jfif)$/i) !== -1 ? (
+      {img?.url?.search(/(jpg|jpeg|png|gif|webp|jfif)$/i) !== -1 ? (
         <img
           src={img.url}
           alt={img.alt}

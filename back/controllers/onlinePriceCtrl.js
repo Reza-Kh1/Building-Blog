@@ -8,7 +8,7 @@ const getOnlinePrice = asyncHandler(async (req, res) => {
   let { order, status, page } = req.query;
   if (!page) page = 1;
   let orderFilter = [];
-  let statusFilter = false;
+  let statusFilter = {};
   if (order) {
     const length1 = order.split("-")[0];
     const length2 = order.split("-")[1];
@@ -17,8 +17,8 @@ const getOnlinePrice = asyncHandler(async (req, res) => {
   } else {
     orderFilter.push(["createdAt", "DESC"]);
   }
-  if (status) {
-    statusFilter = status;
+  if (status !== undefined) {
+    statusFilter.status = status;
   }
   try {
     if (id) {
@@ -26,7 +26,7 @@ const getOnlinePrice = asyncHandler(async (req, res) => {
       res.send({ data });
     } else {
       const data = await onlinePriceModel.findAndCountAll({
-        where: { status: statusFilter },
+        where: statusFilter,
         attributes: ["name", "phone", "subject", "status", "createdAt", "id"],
         offset: (page - 1) * limit,
         limit: limit,
@@ -74,7 +74,9 @@ const deleteOnlinePrice = asyncHandler(async (req, res) => {
 const updateOnlinePrice = asyncHandler(async (req, res) => {
   const { id } = req.params;
   try {
-    await onlinePriceModel.update({ status: true }, { where: { id } });
+    const data = await onlinePriceModel.findByPk(id);
+    data.status = !data.status;
+    await data.save();
     res.send({ success: true });
   } catch (err) {
     throw customError(err, err.statusCode || 400);

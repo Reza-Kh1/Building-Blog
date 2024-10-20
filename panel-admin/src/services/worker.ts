@@ -4,7 +4,7 @@ const fetchWorker = async (search: any) => {
   const { data } = await axios.get(`worker?${url}`);
   return data;
 };
-const fetchWorkerName = async () => {
+const fetchWorkerName = async () => {  
   const { data } = await axios.get("worker/name-worker");
   return data;
 };

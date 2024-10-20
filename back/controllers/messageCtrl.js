@@ -14,7 +14,7 @@ const createMessage = asyncHandler(async (req, res) => {
 });
 const getMessage = asyncHandler(async (req, res) => {
   let { page, status, order } = req.query;
-  status = status || false;
+  statusFilter = {};
   page = page || 1;
   let orderFilter = [];
   if (order) {
@@ -25,9 +25,12 @@ const getMessage = asyncHandler(async (req, res) => {
   } else {
     orderFilter.push(["createdAt", "DESC"]);
   }
+  if (status !== undefined) {
+    statusFilter.status = status;
+  }
   try {
     const data = await messageModel.findAndCountAll({
-      where: { status: status },
+      where: statusFilter,
       limit: limit,
       offset: (page - 1) * limit,
       order: [orderFilter],
@@ -52,7 +55,9 @@ const deleteMessage = asyncHandler(async (req, res) => {
 const updateMessage = asyncHandler(async (req, res) => {
   const { id } = req.params;
   try {
-    await messageModel.update({ status: true }, { where: { id } });
+    const data = await messageModel.findByPk(id);
+    data.status = !data.status;
+    await data.save();
     res.send({ success: true });
   } catch (err) {
     throw customError(err, err.statusCode || 400);

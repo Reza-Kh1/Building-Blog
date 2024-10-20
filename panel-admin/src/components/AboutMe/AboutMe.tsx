@@ -7,23 +7,50 @@ import {
   IconButton,
   TextField,
 } from "@mui/material";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useEffect, useState } from "react";
 import { FaPenToSquare, FaPlus } from "react-icons/fa6";
 import { MdClose } from "react-icons/md";
 import { MdDataSaverOn } from "react-icons/md";
 import SelectMedia from "../SelectMedia/SelectMedia";
 import ImageComponent from "../ImageComponent/ImageComponent";
+import { fetchPageInfo } from "../../services/pageInfo";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { toast } from "react-toastify";
+import axios from "axios";
+import PendingApi from "../PendingApi/PendingApi";
 type ImgArryType = {
   url: string;
   alt: string;
 };
+type DataType = {
+  id: number;
+  page: string;
+  text: {
+    imgArry: ImgArryType[];
+    title1: string;
+    text1: string;
+    title2: string;
+    text2: string;
+    textArry: { id: number; text: string }[];
+  };
+};
 export default function AboutMe() {
-  const { register, handleSubmit } = useForm();
+  const [dataText, setDataText] = useState({
+    title1: "",
+    text1: "",
+    title2: "",
+    text2: "",
+  });
   const [open, setOpen] = useState<boolean>(false);
   const [editImage, setEditImage] = useState<ImgArryType>();
   const [textArry, setTextArry] = useState([{ id: 1, text: "" }]);
   const [imgArry, setImgArry] = useState<ImgArryType[]>([]);
+  const queryClient = useQueryClient();
+  const { data } = useQuery<DataType | null>({
+    queryKey: ["aboutMe"],
+    queryFn: () => fetchPageInfo("aboutMe"),
+    staleTime: 1000 * 60 * 60 * 24,
+  });
   const addBtn = () => {
     const number = Math.floor(Math.random() * 1000);
     const newArry = {
@@ -46,19 +73,48 @@ export default function AboutMe() {
     });
     setImgArry(newDetail);
   };
-  const submitHandler = (form: any) => {
-    console.log(form);
-    const body = {
-      title1: form.title1,
-      text1: form.text1,
-      title2: form.title2,
-      text2: form.text2,
-      textArry: textArry,
-    };
-    console.log(body);
+  const { isPending, mutate: saveHandler } = useMutation({
+    mutationFn: () => {
+      const body = {
+        page: "aboutMe",
+        text: {
+          imgArry,
+          title1: dataText.title1,
+          text1: dataText.text1,
+          title2: dataText.title2,
+          text2: dataText.text2,
+          textArry: textArry,
+        },
+      };
+      return axios.post("page/aboutMe", body);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["aboutMe"] });
+      toast.success("اطلاعات با موفقیت آپدیت شد");
+    },
+    onError: (err: any) => {
+      toast.warning(err?.response?.data?.message || "با خطا مواجه شدیم");
+      console.log(err);
+    },
+  });
+  const syncData = () => {
+    setImgArry(data?.text?.imgArry || []);
+    setDataText({
+      text1: data?.text?.text1 || "",
+      text2: data?.text?.text2 || "",
+      title1: data?.text?.title1 || "",
+      title2: data?.text?.title2 || "",
+    });
+    setTextArry(data?.text.textArry || [{ id: 1, text: "" }]);
   };
+  useEffect(() => {
+    if (data) {
+      syncData();
+    }
+  }, [data]);
   return (
     <div className="w-full p-2">
+      {isPending && <PendingApi />}
       <span className="mb-4 block font-semibold">بخش اول :</span>
       <div className="flex gap-7 mb-5">
         <div className="flex flex-col w-1/2 gap-5">
@@ -67,7 +123,10 @@ export default function AboutMe() {
             autoComplete="off"
             className="shadow-md"
             label={"عنوان بخش اول"}
-            {...register("title1")}
+            value={dataText.title1}
+            onChange={({ target }) =>
+              setDataText({ ...dataText, title1: target.value })
+            }
           />
           <TextField
             fullWidth
@@ -75,8 +134,11 @@ export default function AboutMe() {
             className="shadow-md"
             label={"توضیحات بخش اول"}
             rows={6}
+            value={dataText.text1}
+            onChange={({ target }) =>
+              setDataText({ ...dataText, text1: target.value })
+            }
             multiline
-            {...register("text1")}
           />
         </div>
         <div className="w-1/2">
@@ -101,17 +163,23 @@ export default function AboutMe() {
       <div className="flex gap-6">
         <TextField
           fullWidth
+          value={dataText.title2}
           autoComplete="off"
           className="shadow-md"
           label={"عنوان بخش دوم"}
-          {...register("title2")}
+          onChange={({ target }) =>
+            setDataText({ ...dataText, title2: target.value })
+          }
         />
         <TextField
           fullWidth
+          value={dataText.text2}
           autoComplete="off"
           className="shadow-md"
           label={"متن همراه عنوان"}
-          {...register("text2")}
+          onChange={({ target }) =>
+            setDataText({ ...dataText, text2: target.value })
+          }
         />
       </div>
       <div className="flex flex-col gap-4 items-center my-5">
@@ -155,8 +223,9 @@ export default function AboutMe() {
         ))}
       </div>
       <Button
-        onClick={handleSubmit((data) => submitHandler(data))}
+        onClick={() => saveHandler()}
         className=""
+        disabled={isPending}
         endIcon={<MdDataSaverOn />}
         color="success"
         variant="contained"

@@ -34,9 +34,9 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { SiSubtitleedit } from "react-icons/si";
 import { FaCalendarAlt } from "react-icons/fa";
-import SearchPost from "../../components/SearchPost/SearchPost";
 import { fetchMessage } from "../../services/message";
 import DontData from "../../components/DontData/DontData";
+import SearchBox from "../../components/SearchBox/SearchBox";
 const Transition = forwardRef(function Transition(
   props: TransitionProps & {
     children: React.ReactElement<any, any>;
@@ -112,10 +112,14 @@ export default function Message() {
   }, [search]);
   return (
     <div className="w-full">
-      <SearchPost onlinePrice />
-      <DontData text={data?.pages[0].count
-        ? data?.pages[0].count + " درخواست"
-        : "درخواستی یافت نشد!"} />
+      <SearchBox checker notSearch notTag />
+      <DontData
+        text={
+          data?.pages[0].count
+            ? data?.pages[0].count + " درخواست"
+            : "درخواستی یافت نشد!"
+        }
+      />
       {data?.pages[0].rows.length ? (
         <div className="mt-3">
           <TableContainer component={Paper}>
@@ -233,13 +237,13 @@ export default function Message() {
         <DialogActions>
           <div className="flex items-center justify-between w-full">
             <Button
-              disabled={isDelete || isUpdate || singleData?.status}
+              disabled={isDelete || isUpdate}
               variant="contained"
-              color="warning"
+              color={singleData?.status ? "warning" : "primary"}
               onClick={() => checkMessage()}
               endIcon={<FaCheck />}
             >
-              مشاهده شد
+              {singleData?.status ? "لغو تایید" : "تایید شود"}
             </Button>
             <Button
               disabled={isDelete || isUpdate}

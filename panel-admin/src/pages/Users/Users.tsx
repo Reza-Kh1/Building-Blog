@@ -31,9 +31,9 @@ import PendingApi from "../../components/PendingApi/PendingApi";
 import Pagination from "../../components/Pagination/Pagination";
 import { useLocation } from "react-router-dom";
 import queryString from "query-string";
-import SearchUser from "../../components/SearchUser/SearchUser";
 import { dataRole } from "../../data/selectData";
 import DontData from "../../components/DontData/DontData";
+import SearchBox from "../../components/SearchBox/SearchBox";
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -64,15 +64,14 @@ export default function Users() {
   const [searchQuery, setSearchQuery] = useState<any>("");
   const query = useQueryClient();
   const { search } = useLocation();
-  const { data } =
-    useInfiniteQuery<UserArrayType>({
-      queryKey: ["getUsers", searchQuery],
-      queryFn: () => fetchUser(searchQuery),
-      staleTime: 1000 * 60 * 60 * 24,
-      gcTime: 1000 * 60 * 60 * 24,
-      getNextPageParam: (lastPage) => lastPage.pagination.nextPage || undefined,
-      initialPageParam: "",
-    });
+  const { data } = useInfiniteQuery<UserArrayType>({
+    queryKey: ["getUsers", searchQuery],
+    queryFn: () => fetchUser(searchQuery),
+    staleTime: 1000 * 60 * 60 * 24,
+    gcTime: 1000 * 60 * 60 * 24,
+    getNextPageParam: (lastPage) => lastPage.pagination.nextPage || undefined,
+    initialPageParam: "",
+  });
   const { isPending: updatePending, mutate: updateUser } = useMutation({
     mutationFn: (form: UserType) => {
       return axios.put(`user/${dataUser?.data.id}`, form);
@@ -222,75 +221,88 @@ export default function Users() {
             </Button>
           </div>
         </div>
-        <SearchUser />
-        <h1 className="w-full bg-blue-400 shadow-md rounded-md text-gray-50 p-2 mb-3">{data?.pages[0].count} کاربر</h1>
-        {data?.pages[0]?.rows.length ? <div>
-          <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 700 }} aria-label="customized table">
-              <TableHead>
-                <TableRow>
-                  <StyledTableCell align="center">نام</StyledTableCell>
-                  <StyledTableCell align="center">شماره تلفن</StyledTableCell>
-                  <StyledTableCell align="center">ایمیل</StyledTableCell>
-                  <StyledTableCell align="center">سطح کاربری</StyledTableCell>
-                  <StyledTableCell align="center">تاریخ عضویت</StyledTableCell>
-                  <StyledTableCell align="center">عملیات</StyledTableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {data?.pages[0]?.rows.map((i, index) => (
-                  <StyledTableRow key={index}>
-                    <StyledTableCell align="center">{i?.name}</StyledTableCell>
-                    <StyledTableCell align="center">{i?.phone}</StyledTableCell>
-                    <StyledTableCell align="center">{i?.email}</StyledTableCell>
+        <SearchBox isUser notTag />
+        {data?.pages[0].count ? (
+          <h1 className="w-full bg-blue-400 shadow-md rounded-md text-gray-50 p-2 mb-3">
+            {data?.pages[0].count} کاربر
+          </h1>
+        ) : null}
+        {data?.pages[0]?.rows.length ? (
+          <div>
+            <TableContainer component={Paper}>
+              <Table sx={{ minWidth: 700 }} aria-label="customized table">
+                <TableHead>
+                  <TableRow>
+                    <StyledTableCell align="center">نام</StyledTableCell>
+                    <StyledTableCell align="center">شماره تلفن</StyledTableCell>
+                    <StyledTableCell align="center">ایمیل</StyledTableCell>
+                    <StyledTableCell align="center">سطح کاربری</StyledTableCell>
                     <StyledTableCell align="center">
-                      {i?.role === "ADMIN"
-                        ? "ادمین"
-                        : i?.role === "AUTHOR"
+                      تاریخ عضویت
+                    </StyledTableCell>
+                    <StyledTableCell align="center">عملیات</StyledTableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {data?.pages[0]?.rows.map((i, index) => (
+                    <StyledTableRow key={index}>
+                      <StyledTableCell align="center">
+                        {i?.name}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {i?.phone}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {i?.email}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {i?.role === "ADMIN"
+                          ? "ادمین"
+                          : i?.role === "AUTHOR"
                           ? "نویسنده"
                           : "کاربر"}
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      {new Date(i?.createdAt).toLocaleDateString("fa")}
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      <div className="flex justify-evenly">
-                        <Button
-                          onClick={() => {
-                            setDataUser({
-                              data: i,
-                              position: false,
-                            }),
-                              setOpen(true);
-                          }}
-                          color="error"
-                          variant="outlined"
-                          endIcon={<FaTrash size={15} />}
-                          disabled={deletePending}
-                        >
-                          حذف
-                        </Button>
-                        <Button
-                          onClick={() => openUpdate(i)}
-                          color="success"
-                          variant="outlined"
-                          endIcon={<FaPen size={15} />}
-                          disabled={updatePending}
-                        >
-                          ویرایش
-                        </Button>
-                      </div>
-                    </StyledTableCell>
-                  </StyledTableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <Pagination pager={data?.pages[0].pagination} />
-        </div>
-          :
-        <DontData text="کاربری یافت نشد!"/>
-        }
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {new Date(i?.createdAt).toLocaleDateString("fa")}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        <div className="flex justify-evenly">
+                          <Button
+                            onClick={() => {
+                              setDataUser({
+                                data: i,
+                                position: false,
+                              }),
+                                setOpen(true);
+                            }}
+                            color="error"
+                            variant="outlined"
+                            endIcon={<FaTrash size={15} />}
+                            disabled={i.role === "ADMIN" || deletePending}
+                          >
+                            حذف
+                          </Button>
+                          <Button
+                            onClick={() => openUpdate(i)}
+                            color="success"
+                            variant="outlined"
+                            endIcon={<FaPen size={15} />}
+                            disabled={updatePending}
+                          >
+                            ویرایش
+                          </Button>
+                        </div>
+                      </StyledTableCell>
+                    </StyledTableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+            <Pagination pager={data?.pages[0].pagination} />
+          </div>
+        ) : (
+          <DontData text="کاربری یافت نشد!" />
+        )}
       </div>
       <Dialog
         fullWidth={true}
@@ -327,8 +339,8 @@ export default function Users() {
                       {dataUser?.data?.role === "ADMIN"
                         ? "ادمین"
                         : dataUser?.data?.role === "AUTHOR"
-                          ? "نویسنده"
-                          : "کاربر"}
+                        ? "نویسنده"
+                        : "کاربر"}
                     </StyledTableCell>
                   </StyledTableRow>
                 </TableBody>

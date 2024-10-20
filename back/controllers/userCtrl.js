@@ -53,14 +53,14 @@ const getAllUser = errorHandler(async (req, res) => {
   let filter = {};
   let orderFilter = [];
   if (order) {
-    const length1 = order.split("-")[0]
-    const length2 = order.split("-")[1]
-    orderFilter.push(length1)
-    orderFilter.push(length2)
+    const length1 = order.split("-")[0];
+    const length2 = order.split("-")[1];
+    orderFilter.push(length1);
+    orderFilter.push(length2);
   } else {
-    orderFilter.push(["createdAt", "DESC"])
+    orderFilter.push(["createdAt", "DESC"]);
   }
-  if (role) {
+  if (role !== undefined && role !== "all") {
     filter.role = role;
   }
   if (search) {
@@ -68,7 +68,7 @@ const getAllUser = errorHandler(async (req, res) => {
       { phone: { [Op.iLike]: `%${search}%` } },
       { name: { [Op.iLike]: `%${search}%` } },
       { email: { [Op.iLike]: `%${search}%` } },
-    ]
+    ];
   }
   try {
     const data = await userModel.findAndCountAll({
@@ -130,7 +130,12 @@ const updateUser = errorHandler(async (req, res) => {
       update.role = role;
     }
     await update.save();
-    res.send({ success: true });
+    res.send({
+      success: true,
+      name: update.name,
+      role: update.role,
+      id: update.id,
+    });
   } catch (err) {
     throw customError(err.message, 404);
   }

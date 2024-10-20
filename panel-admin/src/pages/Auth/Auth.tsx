@@ -23,7 +23,12 @@ export default function Auth() {
       return axios.post(url, form);
     },
     onSuccess: ({ data }) => {
+      if (data.role === "USER") {
+        toast.info("شما اجازه ورود ندارید!");
+        return;
+      }
       const body = {
+        id: data.id,
         name: data.name,
         role: data.role,
       };
@@ -71,24 +76,18 @@ export default function Auth() {
           <h1 className="text-center">ورود به پنل ادمین</h1>
           {isLogin && (
             <TextField
-              autoSave="false"
-              autoComplete="off"
               type="text"
               label={"نام خود را وارد کنید"}
               {...register("name", { required: isLogin })}
             />
           )}
           <TextField
-            autoSave="false"
-            autoComplete="off"
             type="text"
             label={"ایمیل خود را وارد کنید"}
             {...register("email", { required: true })}
           />
           {isLogin && (
             <TextField
-              autoSave="false"
-              autoComplete="off"
               type="text"
               label={"شماره تلفن خود را وارد کنید"}
               {...register("phone", { required: isLogin })}
@@ -109,8 +108,6 @@ export default function Auth() {
           <div className="w-full">
             <TextField
               fullWidth
-              autoSave="false"
-              autoComplete="off"
               type="password"
               label={"پسورد خود را وارد کنید"}
               {...register("password", { required: true })}

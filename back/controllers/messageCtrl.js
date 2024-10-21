@@ -6,7 +6,7 @@ const limit = process.env.LIMIT || 2;
 const createMessage = asyncHandler(async (req, res) => {
   const { name, phone, subject, text } = req.body;
   try {
-    const data = await messageModel.create({ name, phone, subject, text });
+    await messageModel.create({ name, phone, subject, text });
     res.send({ success: true });
   } catch (err) {
     throw customError(err, err.statusCode || 400);
@@ -35,8 +35,8 @@ const getMessage = asyncHandler(async (req, res) => {
       offset: (page - 1) * limit,
       order: [orderFilter],
     });
-    const pager = pagination(data.count, page, limit);
-    res.send({ ...data, pager });
+    const paginate = pagination(data.count, page, limit);
+    res.send({ ...data, paginate });
   } catch (err) {
     throw customError(err, err.statusCode || 400);
   }

@@ -418,8 +418,9 @@ export default function CreateWorker() {
             {image ? (
               <figure className="group relative inline-block mt-3">
                 <img
-                  className="rounded-full w-36 p-1 h-36 object-cover shadow-md"
+                  className="rounded-full w-36 p-1 h-36 object-cover shadow-md transition duration-500 hover:opacity-75"
                   src={image.url || "/notfound.webp"}
+                  
                   alt=""
                 />
                 <i

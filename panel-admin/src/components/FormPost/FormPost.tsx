@@ -80,7 +80,8 @@ export default function FormPost({ dataPost }: { dataPost?: SinglePostType }) {
       return axios.put(`post/${postId}`, body);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["siglePost", slug] });
+      const newUrl = "/home/posts/" + getValues("title").replace(/ /g, "-");
+      window.history.pushState({}, '', newUrl);
       queryClient.invalidateQueries({ queryKey: ["AllPost"] });
       toast.success("پست با موفقیت آپدیت شد");
     },
@@ -311,7 +312,6 @@ export default function FormPost({ dataPost }: { dataPost?: SinglePostType }) {
           </div>
           <div>
             <JoditForm setEditor={setEditorText} editor={editorText} />
-            {/* <MyEditor setEditor={setEditorText} editor={editorText} /> */}
           </div>
           <div className="mt-5 flex justify-between">
             {isUpdateDetail ? (

@@ -73,7 +73,7 @@ export default function Message() {
     queryFn: () => fetchMessage(searchQuery),
     staleTime: 1000 * 60 * 60 * 24,
     gcTime: 1000 * 60 * 60 * 24,
-    getNextPageParam: (lastPage) => lastPage.pager.nextPage || undefined,
+    getNextPageParam: (lastPage) => lastPage.paginate.nextPage || undefined,
     initialPageParam: "",
   });
   const { isPending: isUpdate, mutate: checkMessage } = useMutation({
@@ -177,7 +177,7 @@ export default function Message() {
           </TableContainer>
         </div>
       ) : null}
-      <Pagination pager={data?.pages[0].pager} />
+      <Pagination pager={data?.pages[0].paginate} />
       <Dialog
         maxWidth="md"
         fullWidth

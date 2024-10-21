@@ -26,7 +26,7 @@ export const fetchApi = async ({
             "Content-Type": "application/json",
             Authorization: `Bearer ${token || null}`,
         },
-        cache: cache || "default",
+        // cache: cache || "default",
     };
     if (next) {
         options.next = { revalidate: next };

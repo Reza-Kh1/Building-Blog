@@ -186,7 +186,7 @@ export default function Reviews() {
   return (
     <>
       <div className="w-full">
-        <SearchBox notTag checker/>
+        <SearchBox notTag checker />
         {data?.pages[0].rows.length ? (
           <>
             <TableContainer component={Paper}>
@@ -219,8 +219,8 @@ export default function Reviews() {
                         <p className="text-sm cutline cutline-3">{i.text}</p>
                       </StyledTableCell>
                       <StyledTableCell align="center">
-                        <Tooltip title={i.Post?.slug} placement="top" arrow>
-                          <Link to={`/home/posts/${i?.Post?.slug}`}>
+                        <Tooltip title={i.Post?.title} placement="top" arrow>
+                          <Link to={`/home/posts/${i?.Post?.title}`}>
                             <Button
                               color="primary"
                               variant="outlined"
@@ -301,7 +301,7 @@ export default function Reviews() {
             <Pagination pager={data?.pages[0].paginate} />
           </>
         ) : (
-         <DontData text="کامنتی یافت نشد !"/>
+          <DontData text="کامنتی یافت نشد !" />
         )}
       </div>
       <Dialog

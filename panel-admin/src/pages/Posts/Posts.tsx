@@ -81,6 +81,10 @@ export default function Posts() {
                 <img
                   className="w-full rounded-md object-cover shadow-md h-full"
                   src={i.image || "/notfound.webp"}
+                  onError={({ currentTarget }) => {
+                    currentTarget.onerror = null;
+                    currentTarget.src = "/notfound.webp";
+                  }}
                   alt="test"
                 />
               </figure>

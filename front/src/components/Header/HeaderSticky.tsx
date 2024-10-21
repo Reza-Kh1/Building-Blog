@@ -2,7 +2,7 @@
 import React, { Suspense, useEffect, useState } from "react";
 import "./style.css";
 import { IoIosArrowUp } from "react-icons/io";
-import { MenuComType } from "@/app/type";
+import { CategoryType } from "@/app/type";
 import Link from "next/link";
 import { FaAngleDoubleDown, FaAngleLeft } from "react-icons/fa";
 import DarkMode from "../DarkMode/DarkMode";
@@ -17,38 +17,6 @@ const menuTitle = [
   {
     name: "وبلاگ",
     url: "/blog",
-    child: [
-      {
-        name: "پروژه",
-        url: "#",
-      },
-      {
-        name: "تست",
-        url: "#",
-      },
-      {
-        name: "چک",
-        url: "#",
-      },
-      {
-        name: "بازبینی",
-        url: "#",
-        child: [
-          {
-            name: "عمران",
-            url: "#",
-          },
-          {
-            name: "کناف",
-            url: "#",
-          },
-        ],
-      },
-      {
-        name: "توسعه",
-        url: "#",
-      },
-    ],
   },
   {
     name: "تماس با ما",
@@ -64,28 +32,28 @@ const menuTitle = [
     url: "/request-project",
   },
 ];
-export default function HeaderSticky() {
+export default function HeaderSticky({ category }: { category: CategoryType[] }) {
   const [scroll, setScroll] = useState<Number>(0);
   const [visible, setVisible] = useState<boolean>(true);
   const [scrollTop, setScrollTop] = useState<boolean>(false);
-  const MenuComponents = ({ props }: { props: MenuComType }) => {
+  const MenuComponents = ({ props }: { props: CategoryType[] }) => {
     if (!props.length) return;
     return props.map((i, index) => (
       <li key={index}>
         <Link
           className="flex w-full justify-between items-center py-2 px-3"
-          href={i.url}
+          href={i.slug}
         >
           {i.name}
-          {i.child?.length ? (
+          {i.subCategory?.length ? (
             <i>
               <FaAngleLeft />
             </i>
           ) : null}
         </Link>
-        {i.child?.length ? (
+        {i.subCategory?.length ? (
           <ul>
-            <MenuComponents props={i.child} />
+            <MenuComponents props={i.subCategory} />
           </ul>
         ) : null}
       </li>
@@ -139,10 +107,10 @@ export default function HeaderSticky() {
                     className="flex items-center gap-2 group relative"
                   >
                     <NavlinkHeader title={i.name} url={i.url} className="group-hover:text-blue-400 hover:scale-105 py-3 transition-all scale-1 flex items-center" />
-                    {i.child ? (
+                    {i.name === "وبلاگ" ? (
                       <>
                         <ul>
-                          <MenuComponents props={i.child} />
+                          <MenuComponents props={category} />
                         </ul>
                         <i>
                           <FaAngleDoubleDown

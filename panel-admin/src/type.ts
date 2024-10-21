@@ -105,7 +105,7 @@ type ReviewType = {
   createdAt: Date;
   Post?: {
     id: string;
-    slug?: string;
+    title?: string;
   };
 };
 type LinkSidebarType = {
@@ -134,7 +134,7 @@ type OnlinePriceType = {
 type AllMessageType = {
   count: number;
   rows: MessageType[];
-  pager: PaginationType;
+  paginate: PaginationType;
 };
 type MessageType = {
   id: number;

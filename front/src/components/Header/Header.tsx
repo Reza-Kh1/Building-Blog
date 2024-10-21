@@ -1,10 +1,14 @@
 import React, { Suspense } from "react";
 import IconSocialMedia from "../IconSocialMedia/IconSocialMedia";
-import Link from "next/link";
 import HeaderSticky from "./HeaderSticky";
 import NavlinkHeader from "./NavlinkHeader";
-
-export default function Header() {
+import { fetchApi } from "@/action/fetchApi";
+import { CategoryType } from "@/app/type";
+const getData = () => {
+  return fetchApi({ url: "category", next: 60 * 60 * 24 * 7, method: "GET" })
+}
+export default async function Header() {
+  const data: CategoryType[] = await getData()
   return (
     <>
       <div className="bg-slate-100 dark:bg-slate-700 transition-all pt-8">
@@ -31,7 +35,7 @@ export default function Header() {
         </div>
       </div >
       <Suspense fallback={<div>Loading...</div>}>
-        <HeaderSticky />
+        <HeaderSticky category={data} />
       </Suspense>
     </>
   );

@@ -11,23 +11,22 @@ const test = {
   title: "as",
   image:
     "https://building-blog.storage.iran.liara.space/1718433007077-Screenshot 2024-06-11 091827.png",
-  slug: "as",
   description: "as",
   totalComments: null,
   updatedAt: "2024-06-21T15:12:12.498Z",
 };
-export default function Cards({ props }: { props: CardPostType }) {
+export default function Cards({ props }: { props: CardPostType[] }) {
   if (!props?.length) return
   return props.map((i, index) => (
     <Link
-      href={`/post/${i.slug}`} key={index}
+      href={`/post/${i.title.replace(/ /g,"-")}`} key={index}
       className="card-box w-full group max-w-7xl flex gap-5 hover:bg-[#f1f9ff] hover:shadow-lg p-3 rounded-md transition-all"
     >
       <div className="w-1/3">
-        <ImgTag alt={test.title} height={300} src={test.image} width={7750} />
+        <ImgTag alt={i.title || test.title} height={200} src={i.image || test.image} width={450} />
       </div>
       <div className="w-2/3 flex justify-between flex-col py-2">
-        <span className="text-sm">{i.Category.name}</span>
+        <span className="text-sm">{i?.Category?.name}</span>
         <h4 className="text-lg">{i.title}</h4>
         <div className="flex gap-5">
           <i>

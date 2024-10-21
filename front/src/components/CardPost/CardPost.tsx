@@ -3,13 +3,13 @@ import Link from 'next/link'
 import React from 'react'
 import { FaArrowLeft, FaCalendarDay, FaComments, FaPhotoVideo } from 'react-icons/fa'
 
-export default function CardPost({ props }: { props?: CardPostType }) {
-    if (!props?.count || !props?.rows?.length || !props?.paginate?.allPage) return
-    return props.rows.map((i, index) => (
-        <Link href={`/post/${i.slug}`} key={index}>
+export default function CardPost({ props }: { props?: CardPostType[] }) {
+    if (!props?.length) return
+    return props.map((i, index) => (
+        <Link href={`/post/${i.title}`} key={index}>
             <div className="shadow-md group hover:shadow-slate-600 transition-all w-full relative rounded-lg bg-cover bg-center min-h-80 bg-no-repeat" style={{ backgroundImage: `linear-gradient(rgba(0, 0, 0, .8), rgba(0, 0, 0, .4)), url('https://building-blog.storage.iran.liara.space/1718433007077-Screenshot 2024-06-11 091827.png')` }}>
                 <div className="z-10 absolute flex flex-col justify-evenly h-full p-3">
-                    <span className="text-xs text-gray-300">{i.Category.name}</span>
+                    <span className="text-xs text-gray-300">{i?.Category?.name}</span>
                     <h4 className="text-xl font-semibold text-gray-50">{i.title}</h4>
                     <div className="flex text-gray-400 text-sm items-center gap-3 justify-start">
                         <div>

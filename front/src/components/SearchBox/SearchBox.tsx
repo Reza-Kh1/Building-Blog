@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import Link from "next/link";
 import { FaSearch } from "react-icons/fa";
 import CustomButton from "../CustomButton/CustomButton";
-import { CardPostType } from "@/app/type";
+import { AllCardPostType } from "@/app/type";
 import CardPost from "../CardPost/CardPost";
 import { usePathname, useSearchParams } from "next/navigation";
 export default function SearchBox() {
@@ -17,7 +17,7 @@ export default function SearchBox() {
   const [valSearch, setValSearch] = useState<string>("");
   const [timer, setTimer] = useState<NodeJS.Timeout | null>(null);
   const [timerLoading, setTimerLoading] = useState<NodeJS.Timeout | null>(null);
-  const [data, setData] = useState<CardPostType>();
+  const [data, setData] = useState<AllCardPostType>();
   const [loading, setLoading] = useState<boolean>(false);
   const [isSearch, setIsSearch] = useState<boolean>(false)
   const paramasPath: string = usePathname()
@@ -123,7 +123,7 @@ export default function SearchBox() {
           {!isSearch ? null : isSearch && data?.count ?
             <>
               <div className="grid grid-cols-3 gap-3">
-                <CardPost props={data} />
+                <CardPost props={data.rows} />
               </div>
               <Link className="mt-4 block" href={`/search?search=${valSearch}`}>
                 <CustomButton

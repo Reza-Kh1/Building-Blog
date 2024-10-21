@@ -115,8 +115,8 @@ export default function Footer() {
             multiline
           />
         </div>
-        <div className="w-1/2">
-          <span className="mb-5 block font-semibold">لوگو وبسایت :</span>
+        <div className="w-1/2 flex flex-col gap-5 justify-between h-full">
+          <span className="block font-semibold">لوگو وبسایت :</span>
           <SelectMedia
             addMedia={(alt, img) => {
               setLogo({
@@ -130,7 +130,11 @@ export default function Footer() {
               <img
                 src={logo?.url}
                 alt={logo?.alt}
-                className="shadow-md h-24 object-cover rounded-md mb-5 w-full"
+                className="shadow-md h-32 object-cover rounded-md w-full"
+                onError={({ currentTarget }) => {
+                  currentTarget.onerror = null;
+                  currentTarget.src = "/notfound.webp";
+                }}
               />
               <i
                 onClick={() => setLogo(null)}

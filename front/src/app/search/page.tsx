@@ -1,6 +1,6 @@
 import { fetchApi } from "@/action/fetchApi";
 import NotFound from "@/app/not-found";
-import { CardPostType } from "@/app/type";
+import { AllCardPostType } from "@/app/type";
 import React, { Suspense } from "react";
 import FilterSearch from "./FilterSearch";
 import Link from "next/link";
@@ -25,7 +25,7 @@ const getData = async (query: QueryType) => {
 };
 export default async function page({ searchParams }: pageType) {
   if (!searchParams) return NotFound();
-  const data: CardPostType = await getData(searchParams);
+  const data: AllCardPostType = await getData(searchParams);
   return (
     <div className="search-page max-w-7xl my-5 mx-auto px-2">
       <div className="navbar-search mb-4">
@@ -42,7 +42,7 @@ export default async function page({ searchParams }: pageType) {
         </span>
       </div>
       <div className="flex flex-col w-full gap-3 my-6">
-        <Cards props={data} />
+        <Cards props={data.rows} />
       </div>
       {data.rows?.length ? (
         <div className="paginate mt-9">

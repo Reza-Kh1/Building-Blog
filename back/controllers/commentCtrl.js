@@ -131,7 +131,7 @@ const getAllComment = asyncHandler(async (req, res) => {
       limit,
       offset: (page - 1) * limit,
       order: [orderFilter],
-      include: [{ model: postModel, attributes: ["id"] }],
+      include: [{ model: postModel, attributes: ["title","id"] }],
       attributes: { exclude: ["postId"] },
     });
     const paginate = pagination(allComment.count, page, limit);

@@ -2,7 +2,7 @@
 import React from 'react'
 import { FaComments } from 'react-icons/fa'
 
-export default function ScollComment() {
+export default function ScollComment({ totalComments }: { totalComments: number }) {
     const scrollToComments = () => {
         const element = document.getElementById("comments");
         if (element) {
@@ -11,7 +11,7 @@ export default function ScollComment() {
     };
     return (
         <span onClick={scrollToComments} className='flex gap-2 items-center cursor-pointer hover:text-blue-400 transition-all'>
-            654
+            {totalComments}
             <FaComments />
         </span>
     )

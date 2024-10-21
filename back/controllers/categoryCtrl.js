@@ -1,6 +1,8 @@
 const errorHandler = require("express-async-handler");
 const { categoryModel, postModel } = require("../models/sync");
 const { customError } = require("../middlewares/globalError");
+const pagination = require("../utils/pagination")
+const limit = process.env.LIMIT || 2;
 const createCategory = errorHandler(async (req, res) => {
   const { name, slug, categoryId } = req.body;
   if (!name || !slug) throw customError("فیلد های لازیم را پر کنید");
@@ -63,24 +65,18 @@ const getAllCategory = errorHandler(async (req, res) => {
 });
 const getCategoryPosts = errorHandler(async (req, res) => {
   const { id } = req.params;
+  let { page } = req.query
+  page = page || 1
   try {
-    const data = await categoryModel.findOne({
-      where: { slug: id },
-      include: [
-        {
-          model: postModel,
-          separate: true,
-          attributes: {
-            exclude: ["status", "createdAt", "userId", "categoryId"],
-          },
-          where: { status: true },
-        },
-      ],
-      attributes: {
-        exclude: ["parentCategoryId", "createdAt", "userId"],
-      },
-    });
-    res.send(data);
+    const category = await categoryModel.findOne({ where: { slug: id }, attributes: ["id", "name"] })
+    const data = await postModel.findAndCountAll({
+      where: { categoryId: category?.id, status: true },
+      attributes: { exclude: ["createdAt", "userId", "categoryId", "id", "status"] },
+      limit: limit,
+      offset: (page - 1) * limit,
+    })
+    const paginate = pagination(data.count, page, limit);
+    res.send({ ...data, category, paginate });
   } catch (err) {
     throw customError(err.message, 401);
   }

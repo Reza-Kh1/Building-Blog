@@ -17,6 +17,10 @@ export default function ImageComponent({
         <img
           src={img.url}
           alt={img.alt}
+          onError={({ currentTarget }) => {
+            currentTarget.onerror = null;
+            currentTarget.src = "/notfound.webp";
+          }}
           className="shadow-md rounded-md w-full h-48 object-cover"
         />
       ) : (

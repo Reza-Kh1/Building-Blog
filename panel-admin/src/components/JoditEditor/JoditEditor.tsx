@@ -1,22 +1,20 @@
 import { useMemo, useRef, useState } from "react";
 import JoditEditor, { Jodit } from "jodit-react";
-import ShowImage from "../ShowDBaaS/ShowDBaaS";
 import {
   Autocomplete,
+  Button,
   Chip,
   Dialog,
-  DialogActions,
   DialogContent,
   DialogTitle,
   IconButton,
   TextField,
 } from "@mui/material";
 import { IoClose } from "react-icons/io5";
-import { FaTrash } from "react-icons/fa6";
-import UploadImage from "../UploadImage/UploadImage";
 import { classImg } from "../../data/selectData";
 import { toast } from "react-toastify";
 import SelectMedia from "../SelectMedia/SelectMedia";
+import { FaRegCopy } from "react-icons/fa6";
 type EditorType = {
   setEditor: (value: string) => void;
   editor: string;
@@ -24,7 +22,6 @@ type EditorType = {
 export default function JoditForm({ setEditor, editor }: EditorType) {
   const editorRef = useRef<null>(null);
   const [open, setOpen] = useState<boolean>(false);
-  const [imageUrl, setImageUrl] = useState<string>("");
   const [imgClass, setImgClass] = useState<string[]>([]);
   const config = useMemo(
     () => ({
@@ -57,6 +54,7 @@ export default function JoditForm({ setEditor, editor }: EditorType) {
       <Dialog
         fullWidth={true}
         maxWidth={"lg"}
+
         open={open}
         onClose={() => setOpen(false)}
       >
@@ -66,35 +64,13 @@ export default function JoditForm({ setEditor, editor }: EditorType) {
           </IconButton>
         </DialogTitle>
         <DialogContent>
-          <ShowImage setUrl={setImageUrl} />
-        </DialogContent>
-        <DialogActions>
-          <div className="w-full items-center gap-3 flex justify-between">
+          <div className="w-full p-5 flex flex-col gap-16">
             <SelectMedia addMedia={() => { }} />
-            {/* <div className="w-1/5">
-              {imageUrl ? (
-                <div className="relative">
-                  <img
-                    src={imageUrl}
-                    alt=""
-                    className="object-contain rounded-md shadow-md"
-                  />
-                  <IconButton
-                    className="!absolute bottom-0 left-1/2 transform -translate-x-1/2"
-                    color="error"
-                    onClick={() => setImageUrl("")}
-                  >
-                    <FaTrash size={18} />
-                  </IconButton>
-                </div>
-              ) : (
-                <UploadImage setUpload={setImageUrl} />
-              )}
-            </div> */}
-            <div className="grid grid-cols-2 w-full gap-3">
+            <div className="w-full">
               <Autocomplete
                 multiple
-                className="shadow-md"
+                fullWidth
+                className="shadow-md mb-5"
                 id="tags-filled"
                 options={classImg.map((option) => option)}
                 defaultValue={[]}
@@ -122,20 +98,21 @@ export default function JoditForm({ setEditor, editor }: EditorType) {
                   />
                 )}
               />
-
-              <button
-                className="bg-blue-400 text-white rounded-lg w-1/2 shadow-lg"
+              <Button
+                color="primary"
+                variant="contained"
+                className="text-white"
+                endIcon={<FaRegCopy />}
                 onClick={() => {
                   const gog = imgClass.toString();
                   navigator.clipboard.writeText(gog.replace(/,/g, " "));
                   toast.success("کلاس عکس کپی شد");
-                }}
-              >
+                }}>
                 کپی کلاس ها
-              </button>
+              </Button>
             </div>
           </div>
-        </DialogActions>
+        </DialogContent>
       </Dialog>
     </>
   );

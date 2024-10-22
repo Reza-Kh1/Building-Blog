@@ -1,9 +1,10 @@
 "use client";
 import CustomButton from "@/components/CustomButton/CustomButton";
 import { Autocomplete, InputAdornment, TextField } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import { FaUpload } from "react-icons/fa6";
 import { TbReceipt2 } from "react-icons/tb";
+import axios from "axios";
 const options = [
   "لوله کشی گاز",
   "کناف",
@@ -26,6 +27,28 @@ const options = [
   "مشاوره",
 ];
 export default function FormRequest() {
+  const [progress, setProgress] = useState<number>(0);
+  const [loading, setLoading] = useState<boolean>(false);
+  const UploadMedia = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    setLoading(true);
+    const newFile = event.target.files;
+    if (!newFile?.length) return;
+    const formData = new FormData();
+    Array.from(newFile).forEach((file) => {
+      formData.append("media", file);
+    });
+    const { data } = await axios.post("media", formData, {
+      onUploadProgress: (event) => {
+        if (event.lengthComputable && event.total) {
+          const percentComplete = Math.round(
+            (event.loaded * 100) / event.total
+          );
+          setProgress(percentComplete);
+        }
+      },
+    });
+    return data;
+  };
   const submitHandler = (form: FormData) => {
     const body = {
       name: form.get("name"),
@@ -36,6 +59,7 @@ export default function FormRequest() {
       text: form.get("text"),
       src: [],
     };
+    console.log(body);
   };
   return (
     <form action={submitHandler} className="flex flex-col gap-3">
@@ -118,6 +142,7 @@ export default function FormRequest() {
             className="w-1/3 h-32 cursor-pointer bg-blue-200/80 block rounded-md shadow-md relative"
           >
             <input
+              onChange={UploadMedia}
               type="file"
               multiple
               placeholder="upload"
@@ -131,13 +156,12 @@ export default function FormRequest() {
         </div>
         <div className="w-1/2"></div>
       </div>
-      <div className="w-1/3">
-        <CustomButton
-          name="درخواست قیمت"
-          iconEnd={<TbReceipt2 size={20} />}
-          type="submit"
-        />
-      </div>
+      <CustomButton
+        className="w-2/12"
+        name="درخواست قیمت"
+        iconEnd={<TbReceipt2 size={20} />}
+        type="submit"
+      />
     </form>
   );
 }

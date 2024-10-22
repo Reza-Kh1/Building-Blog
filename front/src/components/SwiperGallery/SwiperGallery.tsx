@@ -3,9 +3,15 @@ import React, { CSSProperties, useState } from "react";
 import { SwiperSlide, Swiper } from "swiper/react";
 import ImgTag from "../ImgTag/ImgTag";
 import { FreeMode, Navigation, Thumbs } from "swiper/modules";
+import { ImageType } from "@/app/type";
 
-export default function SwiperGallery({ imagesSrc }: { imagesSrc: string[] }) {
+export default function SwiperGallery({
+  imagesSrc,
+}: {
+  imagesSrc?: ImageType[];
+}) {  
   const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
+  if (!imagesSrc?.length) return;
   return (
     <>
       <Swiper
@@ -24,7 +30,7 @@ export default function SwiperGallery({ imagesSrc }: { imagesSrc: string[] }) {
       >
         {imagesSrc.map((i, index) => (
           <SwiperSlide key={index}>
-            <ImgTag width={350} height={250} alt={"گالری"} src={i} />
+            <ImgTag width={350} height={250} alt={i.alt} src={i.url} />
           </SwiperSlide>
         ))}
       </Swiper>
@@ -40,7 +46,7 @@ export default function SwiperGallery({ imagesSrc }: { imagesSrc: string[] }) {
       >
         {imagesSrc.map((i, index) => (
           <SwiperSlide key={index} className="cursor-pointer">
-            <ImgTag width={250} height={250} alt={"test"} src={i} />
+            <ImgTag width={250} height={250} alt={i.alt} src={i.url} />
           </SwiperSlide>
         ))}
       </Swiper>

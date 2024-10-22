@@ -6,6 +6,8 @@ import { FaCheck } from "react-icons/fa6";
 import SwiperGallery from "@/components/SwiperGallery/SwiperGallery";
 import CardProjects from "@/components/CardProjects/CardProjects";
 import BannerCallUs from "./BannerCallUs";
+import { fetchApi } from "@/action/fetchApi";
+import { AboutUsType } from "../type";
 const dataBanner = [
   {
     src: "/icon-paint.png",
@@ -55,7 +57,11 @@ const dataProject = [
     address: "تهران ، الهیه",
   },
 ];
-export default function page() {
+const getData = () => {
+  return fetchApi({ url: "page/aboutMe" });
+};
+export default async function page() {
+  const { data }: AboutUsType = await getData();
   return (
     <div className="w-full my-6">
       <div className="max-w-7xl mx-auto w-full my-6">
@@ -69,14 +75,11 @@ export default function page() {
       <div className="max-w-7xl mx-auto w-full my-10">
         <div className="flex gap-3">
           <div className="w-1/2">
-            <h2 className="text-xl">ما کی هستیم ؟</h2>
-            <p className="leading-7 text-gray-500">
-              ما یک تیم متخصص و با تجربه در زمینه ساخت و ساز هستیم که با هدف
-              ارائه خدمات با کیفیت و نوآورانه به مشتریان خود فعالیت می‌کنیم.
-            </p>
+            <h2 className="text-xl">{data?.text?.title1}</h2>
+            <p className="leading-7 text-gray-500">{data?.text?.text1}</p>
           </div>
           <div className="w-1/2">
-            <SwiperGallery imagesSrc={imagesSrc} />
+            <SwiperGallery imagesSrc={data?.text?.imgArry} />
           </div>
         </div>
       </div>
@@ -109,22 +112,20 @@ export default function page() {
       <BannerCallUs />
       <div className="max-w-7xl mx-auto w-full flex gap-3 items-center">
         <div className="w-1/2">
-          <h3 className="text-xl mb-3 font-semibold">
-            پروژه خود را به دست حرفه ای ها بسپارید !
-          </h3>
-          <h4 className="text-sm text-gray-600 mb-3">
-            6 نکته ای که باعث میشود به ما اعتماد کنید
-          </h4>
-          <ul className="flex flex-col gap-2">
-            {dataTrustUs.map((i, index) => (
-              <li key={index} className="flex items-center gap-3">
-                <i>
-                  <FaCheck />
-                </i>
-                <span>{i}</span>
-              </li>
-            ))}
-          </ul>
+          <h3 className="text-xl mb-3 font-semibold">{data?.text?.title2}</h3>
+          <h4 className="text-sm text-gray-600 mb-3">{data?.text?.text2}</h4>
+          {data?.text?.textArry.length ? (
+            <ul className="flex flex-col gap-2">
+              {data?.text?.textArry.map((i, index) => (
+                <li key={index} className="flex items-center gap-3">
+                  <i>
+                    <FaCheck />
+                  </i>
+                  <span>{i.text}</span>
+                </li>
+              ))}
+            </ul>
+          ) : null}
         </div>
         <div className="w-1/2">
           <ImgTag

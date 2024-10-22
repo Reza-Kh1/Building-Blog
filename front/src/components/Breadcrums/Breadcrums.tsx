@@ -47,9 +47,9 @@ export default function Breadcrums() {
                 name: "گرفتن قیمت آنلاین", url: "/request-project"
             }
         }
-        if (i === "project-us") {
+        if (i === "project") {
             return {
-                name: "پروژه های ما", url: "/project-us"
+                name: "پروژه های ما", url: "/project"
             }
         }
         if (i === "customer-reviews") {

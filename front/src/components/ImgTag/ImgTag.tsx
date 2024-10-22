@@ -22,7 +22,6 @@ export default function ImgTag({
   fiureClass,
 }: ImageType) {
   const [load, setLoad] = useState<boolean>(true);
-  const [srcError, setSrcError] = useState<any>();
   return (
     <figure className={fiureClass || "w-full relative"}>
       <Image
@@ -32,14 +31,17 @@ export default function ImgTag({
         // placeholder="blur"
         // blurDataURL="data:image/gif;base64,..."
         onLoad={() => setLoad(false)}
-        src={srcError || src || ""}
+        src={src || ""}
         alt={alt || ""}
         className={
           className ||
           `${classPlus} rounded-md shadow-md  table mx-auto` ||
           "rounded-md shadow-md w-full table mx-auto object-fill"
         }
-        onError={() => setSrcError(ImageError)}
+        onError={({ currentTarget }: any) => {
+          currentTarget.onerror = null;
+          currentTarget.src = ImageError;
+        }}
       />
       {load && <LoadingImg />}
     </figure>

@@ -11,19 +11,23 @@ import { fetchApi } from "@/action/fetchApi";
 import { Metadata } from "next";
 import { PostType } from "@/app/type";
 import Script from "next/script";
-import parse from "html-react-parser"
+import parse from "html-react-parser";
 const getData = (slug: string) => {
-  return fetchApi({ url: `post/${slug.replace(/-/g, " ")}`, next: 10 })
-}
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  return fetchApi({ url: `post/${slug.replace(/-/g, " ")}`, next: 10 });
+};
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}): Promise<Metadata> {
   const data: PostType = await getData(params.slug);
   return {
-    title: data.DetailPost.title,
+    title: data?.DetailPost?.title,
     description: data?.description,
     keywords: data?.DetailPost?.keyword,
     openGraph: {
       url: process.env.NEXTAUTH_URL + "/post/" + data?.title.replace(/ /g, "-"),
-      title: data?.DetailPost.title,
+      title: data?.DetailPost?.title,
       description: data?.description,
       images: [
         {
@@ -38,7 +42,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   };
 }
 export default async function page({ params }: { params: { slug: string } }) {
-  const data: PostType = await getData(params.slug)
+  const data: PostType = await getData(params.slug);
   const jsonld = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
@@ -52,7 +56,9 @@ export default async function page({ params }: { params: { slug: string } }) {
     datePublished: data?.updatedAt || "تاریخ انتشار",
     articleBody: data?.DetailPost?.text || "متن مقاله",
     keywords: data?.DetailPost?.keyword?.join(", ") || "کلمات کلیدی",
-    url: `${process.env.NEXTAUTH_URL}/blog/${data?.title.replace(/ /g, "-")}` || "آدرس مقاله",
+    url:
+      `${process.env.NEXTAUTH_URL}/blog/${data?.title.replace(/ /g, "-")}` ||
+      "آدرس مقاله",
   };
   return (
     <>
@@ -66,32 +72,32 @@ export default async function page({ params }: { params: { slug: string } }) {
           <ImgTag
             width={1450}
             height={450}
-            alt={data.title}
-            src={data.image}
+            alt={data?.title}
+            src={data?.image}
           />
           <div className="bg-gray-50 py-7 rounded-md w-3/4 shadow-lg text-center absolute bottom-20 left-1/2 transform -translate-x-1/2 translate-y-full">
-            <h1 className="text-xl">{data.title}</h1>
+            <h1 className="text-xl">{data?.title}</h1>
             <div className="flex text-gray-400 text-sm items-center justify-center gap-4 mt-7">
               <span>
                 <FaPhotoVideo />
               </span>
               <span className="border-r border-dashed border-black h-6 w-1"></span>
-              <ScollComment totalComments={data.totalComments} />
+              <ScollComment totalComments={data?.totalComments} />
               <span className="border-r border-dashed border-black h-6 w-1"></span>
               <span className="flex gap-2 items-center">
-                {data.User.name}
+                {data?.User?.name}
                 <IoPerson />
               </span>
               <span className="border-r border-dashed border-black h-6 w-1"></span>
               <span className="flex gap-2 items-center">
-                {new Date(data.updatedAt).toLocaleDateString("fa")}
+                {new Date(data?.updatedAt).toLocaleDateString("fa")}
                 <FaCalendarDays />
               </span>
             </div>
           </div>
         </div>
         <div className="mt-24 max-w-3xl mx-auto text-justify leading-8">
-          {parse(data.DetailPost.text)}
+          {data?.DetailPost?.text && parse(data?.DetailPost?.text)}
         </div>
         <div className="my-8">
           <BannerCallUs />
@@ -102,7 +108,7 @@ export default async function page({ params }: { params: { slug: string } }) {
             <FormComments postId={data.id} />
           </div>
         </div>
-      </div></>
-
+      </div>
+    </>
   );
 }

@@ -16,8 +16,8 @@ export default function CardProjects({ data }: { data: CardProjectsType }) {
                         height={350}
                         classPlus="hover-project"
                     />
-                    <i className="p-3 group-hover:opacity-100 transition-all opacity-0 hover:bg-gray-50 rounded-full bg-gray-200/80 absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                        <FaPlay />
+                    <i className="p-5 text-white group-hover:opacity-100 transition-all opacity-0 rounded-full backdrop-blur-md absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                        <FaPlay className='text-xl'/>
                     </i>
                 </Link>
                 <div className="flex flex-col gap-2 mt-3">

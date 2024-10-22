@@ -12,7 +12,7 @@ import NavlinkHeader from "./NavlinkHeader";
 const menuTitle = [
   {
     name: "پروژه های ما",
-    url: "/project-us",
+    url: "/project",
   },
   {
     name: "وبلاگ",

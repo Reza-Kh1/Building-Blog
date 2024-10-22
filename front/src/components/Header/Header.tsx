@@ -5,7 +5,7 @@ import NavlinkHeader from "./NavlinkHeader";
 import { fetchApi } from "@/action/fetchApi";
 import { CategoryType } from "@/app/type";
 const getData = () => {
-  return fetchApi({ url: "category", next: 60 * 60 * 24 * 7, method: "GET" })
+  return fetchApi({ url: "category", method: "GET" })
 }
 export default async function Header() {
   const data: CategoryType[] = await getData()

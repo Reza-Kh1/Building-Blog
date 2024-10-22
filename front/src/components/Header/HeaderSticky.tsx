@@ -42,7 +42,7 @@ export default function HeaderSticky({ category }: { category: CategoryType[] })
       <li key={index}>
         <Link
           className="flex w-full justify-between items-center py-2 px-3"
-          href={i.slug}
+          href={"blog/" + i.slug}
         >
           {i.name}
           {i.subCategory?.length ? (

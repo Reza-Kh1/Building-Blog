@@ -13,7 +13,7 @@ const createComment = asyncHandler(async (req, res) => {
     tokenUser = token.verify(cookie, process.env.TOKEN_SECURITY);
   }
   try {
-    if (tokenUser?.role !== "USER") {
+    if (tokenUser && tokenUser?.role !== "USER") {
       const post = await postModel.findByPk(postId);
       post.totalComments = Number(post.totalComments) + 1;
       post.save();
@@ -24,19 +24,19 @@ const createComment = asyncHandler(async (req, res) => {
       email = tokenUser.email;
       phone = tokenUser.phone;
     }
+    const position = tokenUser ? tokenUser.role : "USER"
     await commentModel.create({
       name,
       text,
       email,
       phone,
+      position: position,
       parentId: replies,
       postId,
       status,
     });
     res.send({ success: true });
   } catch (err) {
-    console.log("ok");
-
     throw customError(err.message, 401);
   }
 });
@@ -83,7 +83,6 @@ const updateComment = asyncHandler(async (req, res) => {
   try {
     if (status) {
       const post = await postModel.findByPk(postId);
-      console.log(post);
       post.totalComments = Number(post.totalComments) + 1;
       post.save();
     }
@@ -131,7 +130,7 @@ const getAllComment = asyncHandler(async (req, res) => {
       limit,
       offset: (page - 1) * limit,
       order: [orderFilter],
-      include: [{ model: postModel, attributes: ["title","id"] }],
+      include: [{ model: postModel, attributes: ["title", "id"] }],
       attributes: { exclude: ["postId"] },
     });
     const paginate = pagination(allComment.count, page, limit);

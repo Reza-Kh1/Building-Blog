@@ -5,6 +5,9 @@ import { FiPhoneCall } from "react-icons/fi";
 import Link from "next/link";
 import IconSocialMedia from "../IconSocialMedia/IconSocialMedia";
 import { FaAngleLeft } from "react-icons/fa";
+const getData = () => {
+  return fetchApi({ url: "page/footer" })
+}
 const menuTitle = [
   "خانه",
   "ارتباط با ما",
@@ -14,7 +17,10 @@ const menuTitle = [
   "گالری",
 ];
 import "./style.css";
-export default function Footer() {
+import { fetchApi } from "@/action/fetchApi";
+import { Footertype } from "@/app/type";
+export default async function Footer() {
+  const { data }: Footertype = await getData()
   return (
     <div>
       <span className="w-full bg-slate-700"></span>
@@ -23,28 +29,30 @@ export default function Footer() {
           <div className="w-3/5">
             <div className="border-b border-b-slate-700 mb-5 pb-5 flex items-stretch gap-5 text-slate-400">
               <figure className="flex">
-                <Image alt="logo" src={"/logo.png"} width={200} height={100} loading="lazy"/>
+                <Image alt={data?.text?.logoUrl?.alt || "logo"} src={data?.text?.logoUrl?.url || "/logo.png"} width={200} height={100} loading="lazy" />
               </figure>
               <span className="border border-slate-500"></span>
               <p className="text-justify">
-                ساختمان یار با هدف ارتقاء صنعت ساخت و ساز، ارائه خدمات جامع و حرفه‌ای در زمینه‌های مختلف ساختمانی را در دستور کار خود قرار داده است. از مشاوره و طراحی تا اجرا و نظارت، ما در کنار شما هستیم تا پروژه‌های ساختمانی شما به بهترین نحو ممکن به ثمر برسند.
+                {data?.text?.text}
               </p>
             </div>
             <div className="grid grid-cols-3 gap-3">
               <ul className="flex flex-col gap-2 text-slate-400">
-                {menuTitle.map((i, index) => (
-                  <li key={index} className="flex hover:pr-1 transition-all">
-                    <Link
-                      href="#"
-                      className="hover:text-slate-100 transition-all scale-1 flex items-center"
-                    >
-                      <i>
-                        <FaAngleLeft />
-                      </i>
-                      <span className="mr-1 transition-shadow">{i}</span>
-                    </Link>
-                  </li>
-                ))}
+                {data?.text?.menuLink.length && data.text.menuLink.map((i, index) => {
+                  return i.map((item) => (
+                    <li key={index} className="flex hover:pr-1 transition-all">
+                      <Link
+                        href={item.link}
+                        className="hover:text-slate-100 transition-all scale-1 flex items-center"
+                      >
+                        <i>
+                          <FaAngleLeft />
+                        </i>
+                        <span className="mr-1 transition-shadow">{item.name}</span>
+                      </Link>
+                    </li>
+                  ))
+                })}
               </ul>
               <ul className="flex flex-col gap-2 text-slate-400">
                 {menuTitle.map((i, index) => (
@@ -128,7 +136,7 @@ export default function Footer() {
                 }
               </ul>
               <div className="text-2xl">
-              <IconSocialMedia />
+                <IconSocialMedia />
               </div>
             </div>
             <div className="w-1/3 text-slate-500 mx-auto text-center">

@@ -19,7 +19,7 @@ type QueryType = {
 const getData = async (query: QueryType) => {
   const newQuery = new URLSearchParams(query).toString()
   let url = "post?" + newQuery
-  const data = await fetchApi({ url, cache: "force-cache", method: "GET" });
+  const data = await fetchApi({ url, method: "GET" });
   if (data.error) return NotFound();
   return data;
 };
@@ -58,7 +58,7 @@ export default async function page({ searchParams }: pageType) {
           </span>
           <div>
             <Link href="/" className="inline-block">
-              <CustomButton name="بازگشت به خانه" type="button" iconEnd={<FaHome />} />
+              <CustomButton disable={false} name="بازگشت به خانه" type="button" iconEnd={<FaHome />} />
             </Link>
           </div>
         </div>

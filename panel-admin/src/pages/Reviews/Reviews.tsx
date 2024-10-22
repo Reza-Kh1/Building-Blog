@@ -11,8 +11,10 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
+  FormControlLabel,
   IconButton,
   Paper,
+  Switch,
   Table,
   TableBody,
   TableCell,
@@ -27,13 +29,14 @@ import {
 import { AllReviewType, ReviewType } from "../../type";
 import { FaCheck, FaEye, FaPen, FaTrash } from "react-icons/fa6";
 import { Link, useLocation } from "react-router-dom";
-import { MdClose } from "react-icons/md";
+import { MdClose, MdDataSaverOn } from "react-icons/md";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import queryString from "query-string";
 import DontData from "../../components/DontData/DontData";
 import SearchBox from "../../components/SearchBox/SearchBox";
+import PendingApi from "../../components/PendingApi/PendingApi";
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -62,6 +65,7 @@ export default function Reviews() {
   const [searchQuery, setSearchQuery] = useState<any>();
   const [open, setOpen] = useState<boolean>(false);
   const { handleSubmit, register, setValue } = useForm<FormReviewType>();
+  const [isUpdate, setIsUpdate] = useState<boolean>(false)
   const query = useQueryClient();
   const { search } = useLocation();
   const [review, setReview] = useState<{
@@ -76,34 +80,28 @@ export default function Reviews() {
     getNextPageParam: (lastPage) => lastPage.paginate.nextPage || undefined,
     initialPageParam: "",
   });
-  const checkReplie = (val1: any, val2: any) => {
-    delete val1.replie;
-    delete val2.Post;
-    delete val2.status;
-    delete val2.parentId;
-    delete val2.id;
-    delete val2.createdAt;
-    const sortedEntries1 = Object.entries(val1).sort();
-    const sortedEntries2 = Object.entries(val2).sort();
-    return JSON.stringify(sortedEntries1) === JSON.stringify(sortedEntries2);
-  };
   const { isPending: isPendingUpdate, mutate: reviewUpdate } = useMutation({
-    mutationFn: (form: FormReviewType) => {
-      if (form.replie) {
-        const body = {
-          replies: form.replie,
-          postId: review?.data.Post?.id,
-        };
-        return axios.put(`comment/${review?.data.id}`, body);
+    mutationFn: async ({ replie, ...other }: FormReviewType) => {
+      try {
+        if (replie) {
+          const body = {
+            text: replie,
+            replies: review?.data.id,
+            postId: review?.data.Post?.id,
+          };
+          await axios.post(`comment`, body);
+        }
+        if (isUpdate) {
+          const body = {
+            ...other,
+            status: true,
+            postId: review?.data.Post?.id,
+          }
+          await axios.put(`comment/${review?.data.id}`, body);
+        }
+      } catch (err: any) {
+        throw new Error(err)
       }
-      if (checkReplie(form, review?.data)) {
-        //  const body = {...form,status:true,postId:}
-
-        return axios.put(`comment/${review?.data.id}`, form);
-      } else {
-        return axios.put(`comment/${review?.data.id}`, form);
-      }
-      // return axios.put(`comment/${review?.data.id}`, form);
     },
     onSuccess: () => {
       closeHandler();
@@ -132,10 +130,13 @@ export default function Reviews() {
   });
   const { isPending: isPendingCheck, mutate: reviewCheck } = useMutation({
     mutationFn: (form: ReviewType) => {
+
       const body = {
         postId: form.Post?.id,
         status: true,
       };
+      console.log(body);
+
       return axios.put(`comment/${form?.id}`, body);
     },
     onSuccess: () => {
@@ -177,7 +178,8 @@ export default function Reviews() {
   };
   const closeHandler = () => {
     setOpen(false);
-    setReview(null);
+    setIsUpdate(false)
+    // setReview(null);
   };
   useEffect(() => {
     const query = queryString.parse(search);
@@ -186,6 +188,7 @@ export default function Reviews() {
   return (
     <>
       <div className="w-full">
+        {isPendingDelete || isPendingCheck || isPendingMinus && <PendingApi />}
         <SearchBox notTag checker />
         {data?.pages[0].rows.length ? (
           <>
@@ -194,6 +197,7 @@ export default function Reviews() {
                 <TableHead>
                   <TableRow>
                     <StyledTableCell align="center">نام</StyledTableCell>
+                    <StyledTableCell align="center">موقعیت</StyledTableCell>
                     <StyledTableCell align="center">
                       شماره تلفن / ایمیل
                     </StyledTableCell>
@@ -209,6 +213,9 @@ export default function Reviews() {
                     <StyledTableRow key={index}>
                       <StyledTableCell align="center">
                         <p className="text-sm cutline cutline-2">{i?.name}</p>
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        <p className="text-sm cutline cutline-2">{i?.position}</p>
                       </StyledTableCell>
                       <StyledTableCell align="center">
                         <p className="text-sm cutline cutline-2">
@@ -254,6 +261,7 @@ export default function Reviews() {
                               رد
                             </Button>
                           ) : (
+
                             <Button
                               onClick={() => reviewCheck(i)}
                               color="success"
@@ -311,7 +319,7 @@ export default function Reviews() {
         onClose={closeHandler}
       >
         <DialogContent>
-          {!review?.position ? (
+          {review ? !review?.position ? (
             <TableContainer component={Paper}>
               <Table aria-label="customized table">
                 <TableHead>
@@ -356,6 +364,7 @@ export default function Reviews() {
               <form className="w-1/2">
                 <div className="grid grid-cols-3 gap-2 mb-3">
                   <TextField
+                    disabled={!isUpdate}
                     className="shadow-md"
                     autoComplete="off"
                     label={"اسم کاربر"}
@@ -363,6 +372,7 @@ export default function Reviews() {
                     {...register("name")}
                   />
                   <TextField
+                    disabled={!isUpdate}
                     className="shadow-md"
                     autoComplete="off"
                     label={"ایمیل"}
@@ -370,6 +380,7 @@ export default function Reviews() {
                     {...register("email")}
                   />
                   <TextField
+                    disabled={!isUpdate}
                     className="shadow-md"
                     autoComplete="off"
                     label={"شماره تلفن"}
@@ -378,6 +389,7 @@ export default function Reviews() {
                   />
                 </div>
                 <TextField
+                  disabled={!isUpdate}
                   className="shadow-md"
                   autoComplete="off"
                   label={"متن کامنت"}
@@ -388,30 +400,37 @@ export default function Reviews() {
                 />
               </form>
             </div>
-          )}
+          ) : null}
         </DialogContent>
         <DialogActions>
           <div className="w-full flex justify-between">
             {review?.position ? (
-              <Button
-                variant="text"
-                color="success"
-                onClick={handleSubmit((data) => reviewUpdate(data))}
-                disabled={isPendingUpdate}
-              >
-                ذخیره
-              </Button>
+              <>
+                <Button
+                  variant="contained"
+                  endIcon={<MdDataSaverOn />}
+                  className="w-2/12"
+                  color="success"
+                  onClick={handleSubmit((data) => reviewUpdate(data))}
+                  disabled={isPendingUpdate}
+                >
+                  ذخیره
+                </Button>
+                <FormControlLabel control={<Switch value={isUpdate} />} onChange={() => setIsUpdate(prev => !prev)} label="ویرایش اطلاعات کاربر" />
+              </>
             ) : (
               <Button
-                variant="text"
+                variant="contained"
+                endIcon={<FaTrash />}
                 color="error"
                 onClick={() => reviewDelete()}
+                className="w-2/12"
                 disabled={isPendingDelete}
               >
                 حذف
               </Button>
             )}
-            <Button variant="text" color="primary" onClick={closeHandler}>
+            <Button variant="contained" color="warning" className="w-2/12" endIcon={<MdClose />} onClick={closeHandler}>
               بستن
             </Button>
           </div>

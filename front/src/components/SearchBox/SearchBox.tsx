@@ -129,8 +129,7 @@ export default function SearchBox() {
                 <CustomButton
                   name="مشاهده همه پست ها"
                   type="button"
-                  iconClass="text-lg"
-                  iconEnd={<MdManageSearch />}
+                  iconEnd={<MdManageSearch className="text-xl" />}
                 />
               </Link>
             </>

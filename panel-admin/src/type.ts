@@ -96,6 +96,7 @@ type AllReviewType = {
 };
 type ReviewType = {
   id: number;
+  position: "USER" | "AUTHOR" | "ADMIN"
   name: string | null;
   text: string | null;
   email: string | null;

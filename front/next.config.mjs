@@ -17,6 +17,28 @@ const nextConfig = {
   },
   reactStrictMode: true,
   distDir: "build",
+  // async headers() {
+  //   return [
+  //     {
+  //       source: '/app/post/(.*)',
+  //       headers: [
+  //         {
+  //           key: 'Cache-Control',
+  //           value: 'public, max-age=10, must-revalidate',
+  //         },
+  //       ],
+  //     },
+  //     {
+  //       source: '/components/Header',
+  //       headers: [
+  //         {
+  //           key: 'Cache-Control',
+  //           value: 'public, max-age=604800, must-revalidate',
+  //         },
+  //       ],
+  //     },
+  //   ];
+  // },
 };
 
 export default nextConfig;

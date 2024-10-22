@@ -7,7 +7,7 @@ import React from 'react'
 type PageType = { params: { category: string }, searchParams: { page: string } }
 const getData = (query: PageType) => {
     const url = `category/${query.params.category}?page=${query.searchParams.page || 1}`
-    return fetchApi({ url, next: 60 * 60 * 24 * 5 })
+    return fetchApi({ url })
 }
 export default async function page(query: PageType) {
     const data: ALlPostCategory = await getData(query)

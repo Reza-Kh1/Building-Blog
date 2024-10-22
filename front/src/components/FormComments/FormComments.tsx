@@ -2,20 +2,27 @@
 import React from 'react'
 import InputForm from '../InputForm/InputForm'
 import { fetchApi } from '@/action/fetchApi'
+import { toast } from 'react-toastify'
 
-export default function FormComments() {
+export default function FormComments({ postId }: { postId?: number }) {
 
   const commentsHandler = async (form: FormData) => {
+    
     const body = {
       name: form.get("name"),
       email: form.get("email"),
       phone: form.get("phone"),
       text: form.get("text"),
-      postId: 1
+      postId
     }
-    const res = await fetchApi({ url: "", method: "POST", body })
-    console.log(res);
-
+    console.log(postId);
+    
+    fetchApi({ url: "comment", method: "POST", body }).then(() => {
+      toast.success("نظر شما پس از تایید نمایش داده می شود")
+    }).catch((err) => {
+      console.log(err);
+      toast.error("ایمیل و شماره تلفن را صحیح وارد کنید")
+    })
   }
   return (
     <div className='form-comments' id="form-comments">

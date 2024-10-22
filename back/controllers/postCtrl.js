@@ -34,7 +34,7 @@ const createPost = asyncHandler(async (req, res) => {
     throw customError(err.message, 401);
   }
 });
-const getAllPost = asyncHandler(async (req, res, status, isAdmin) => {
+const getAllPost = asyncHandler(async (req, res, status, isAdmin) => {  
   let { search, page, order, tags } = req.query;
   page = page || 1;
   let filter = {};

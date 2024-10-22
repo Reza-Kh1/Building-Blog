@@ -42,6 +42,7 @@ type CardProjectsType = {
 }[];
 type CommentsType = {
   id: number
+  position: "USER" | "ADMIN" | "AUTHOR"
   name: string,
   text: string
   createdAt: Date,
@@ -70,4 +71,23 @@ type PostType = {
   Category: CategoryType
   Comments: CommentsType[]
 }
-export type { CardPostType, PostType, ALlPostCategory, AllCardPostType, PaginationType, CardProjectsType, CategoryType, CommentsType };
+type Footertype = {
+  data: {
+    id: number,
+    page: string,
+    text: {
+      text: string,
+      logoUrl: {
+        alt: string,
+        url: string
+      },
+      menuLink:
+      {
+        id: number,
+        link: string,
+        name: string
+      }[][]
+    }
+  }
+}
+export type { Footertype, CardPostType, PostType, ALlPostCategory, AllCardPostType, PaginationType, CardProjectsType, CategoryType, CommentsType };

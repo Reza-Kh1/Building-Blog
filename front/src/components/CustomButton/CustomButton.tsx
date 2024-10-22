@@ -1,23 +1,33 @@
+import { Button } from '@mui/material'
 import React from 'react'
+import { CgSpinner } from 'react-icons/cg'
 type CustomButtonType = {
     iconEnd?: React.ReactNode
     iconStart?: React.ReactNode
     name: string,
     className?: string
-    iconClass?: string
     type: "submit" | "reset" | "button"
+    color?: "warning" | "blue" | "primary"
+    disable?: boolean
+    onClick?: (value: any) => void
 }
-export default function CustomButton({ type, iconEnd, iconStart, name, className, iconClass }: CustomButtonType) {
+export default function CustomButton({ type, disable, iconEnd, iconStart, name, className, color, onClick }: CustomButtonType) {
+    let colorButton = "hover:from-blue-500/70 hover:to-blue-600/90 from-blue-400/70 to-blue-500"
+    if (color === "blue") {
+        colorButton = "hover:to-[#1a99e7] hover:from-[#a9e0ff] from-[#acdcf7] to-[#58b2e9]"
+    }
+    if (color === "warning") {
+        colorButton = "from-[#ffaf66] to-[#e95858] hover:to-[#ff1010] hover:from-[#ff8b20]"
+    }
+    disable = disable || false
     return (
-        <button type={type} className={"flex p-3 text-gray-100 px-5 justify-center gap-1 text-sm items-center bg-gradient-to-b from-blue-400/70 to-blue-500 rounded-full hover:from-blue-500/70 shadow-md hover:to-blue-600/90 " + className}>
-            {iconStart ? <i className={iconClass}>
-                {iconStart}
-            </i> : null}
+        <Button
+            onClick={onClick}
+            startIcon={iconStart}
+            endIcon={!disable ? iconEnd : <CgSpinner className='animate-spin' />}
+            disabled={disable}
+            type={type} className={"!text-gray-100 bg-gradient-to-tl rounded-lg shadow-md " + colorButton + " " + className}>
             {name}
-            {iconEnd ? <i className={iconClass}>
-                {iconEnd}
-            </i> : null}
-
-        </button>
+        </Button>
     )
 }

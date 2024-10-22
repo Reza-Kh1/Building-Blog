@@ -38,6 +38,10 @@ const reviewModel = dataBase.define(
     status: {
       type: DataTypes.BOOLEAN,
       defaultValue: false
+    },
+    position: {
+      type: DataTypes.ENUM(["ADMIN", "AUTHOR", "USER"]),
+      defaultValue: "USER"
     }
   },
   { updatedAt: false, createdAt: true, tableName: "Comment" }

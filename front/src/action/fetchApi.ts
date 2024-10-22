@@ -25,6 +25,7 @@ export const fetchApi = async ({
         headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token || null}`,
+            // "Cache-Control": "public, max-age=10, must-revalidate",
         },
         // cache: cache || "default",
     };
@@ -37,14 +38,14 @@ export const fetchApi = async ({
     if (body) {
         options.body = JSON.stringify(body);
     }
-    const res = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/${url}`, options);
-    const json = await res.json();
-    if (!res.ok) {
-        if (json.message) {
-            return { error: json.message };
-        } else {
-            return { error: "خطا در ارتباط با دیتابیس" };
+    try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/${url}`, options);
+        const json = await res.json();
+        if (!res.ok) {
+            throw new Error(json?.message);
         }
+        return json
+    } catch (err: any) {
+        throw { error: err.message || "خطا در ارتباط با دیتابیس" }
     }
-    return json;
 };

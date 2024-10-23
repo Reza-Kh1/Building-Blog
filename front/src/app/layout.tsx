@@ -32,9 +32,13 @@ export default function RootLayout({
             <LayoutProvider>
               <div className="bg-white dark:bg-slate-700 dark:text-gray-200">
                 <Header />
-                {children}
+                <main className="w-full">
+                  {children}
+                </main>
+                <footer>
+                  <Footer />
+                </footer>
                 <Calling />
-                <Footer />
               </div>
             </LayoutProvider>
           </AppRouterCacheProvider>

@@ -10,7 +10,7 @@ export default function page() {
       <Breadcrums />
       <h1 className="mt-6 text-xl mb-6">نظرات مشتریان نسبت به ما</h1>
       <div className="max-w-4xl mx-auto">
-        <Comments />
+        <Comments comments={[]} />
         <div className="mt-8">
           <FormComments />
         </div>

@@ -19,7 +19,7 @@ const menuTitle = [
     url: "/blog",
   },
   {
-    name: "تماس با ما",
+    name: "ارتباط با ما",
     url: "/contact-us",
   },
   {

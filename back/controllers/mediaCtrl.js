@@ -38,38 +38,56 @@ const uploadMediaAdmin = asyncHandler(async (req, res) => {
     await mediaModel.bulkCreate(getUrl)
     return res.send({ url: getUrl });
   } catch (error) {
-    await getUrl.map(async (i) => {
-      await client.send(new DeleteObjectCommand({
-        Bucket: process.env.LIARA_BUCKET_NAME,
-        Key: i.url.split("/").slice(-1)[0]
-      }));
-    })
+    await Promise.all(
+      getUrl.map(async (imageUrl) => {
+        const key = decodeURIComponent(imageUrl.url.split("/").slice(-1)[0])
+        await client.send(new DeleteObjectCommand({
+          Bucket: process.env.LIARA_BUCKET_NAME,
+          Key: key
+        }));
+      })
+    );
     throw customError(error.message, 400);
   }
 });
 const uploadMediaUser = asyncHandler(async (req, res) => {
   if (!req.files.length) throw customError("هیچ عکسی انتخاب نشده", 401);
+  const getUrl = req.files.map((i) => {
+    let type;
+    if (i.mimetype.startsWith("image/")) {
+      type = "image";
+    } else if (i.mimetype.startsWith("video/")) {
+      type = "video";
+    }
+    const position = {
+      status: false,
+      url: i.location,
+      type
+    }
+    return position
+  })
   try {
-    const getUrl = req.files.map((i) => {
-      const position = {
-        status: false,
-        url: i.location,
-        type: i.mimetype.search("image") ? "image" : "video",
-      }
-      return position
-    })
     await mediaModel.bulkCreate(getUrl)
     return res.send({ url: getUrl });
   } catch (error) {
+    await Promise.all(
+      getUrl.map(async (imageUrl) => {
+        const key = decodeURIComponent(imageUrl.url.split("/").slice(-1)[0])
+        await client.send(new DeleteObjectCommand({
+          Bucket: process.env.LIARA_BUCKET_NAME,
+          Key: key
+        }));
+      })
+    );
     throw customError(error.message, 400);
   }
 });
 const deleteMedia = asyncHandler(async (req, res) => {
   const { id } = req.params;
+  const transaction = await dataBase.transaction();
   try {
-    const transaction = await dataBase.transaction();
     const media = await mediaModel.findByPk(id, { transaction });
-    const key = media?.url.split("/").slice(-1)[0];
+    const key = decodeURIComponent(media?.url.split("/").slice(-1)[0]);
     await media.destroy(transaction);
     const params = {
       Bucket: process.env.LIARA_BUCKET_NAME,
@@ -79,6 +97,7 @@ const deleteMedia = asyncHandler(async (req, res) => {
     await transaction.commit();
     res.send({ success: true });
   } catch (err) {
+    await transaction.rollback()
     throw customError(err);
   }
 });

@@ -2,11 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-  font-family: "iranSans";
-  src: url("../fonts/Vazir-Regular.woff") format("woff");
-}
-
 @layer utilities {
   .text-balance {
     text-wrap: balance;
@@ -14,7 +9,8 @@
 }
 
 body {
-  font-family: "iranSans", Arial, Helvetica, sans-serif !important;
+
+  font-family: var(--sahel-font), var(--iransans-font), Arial, Helvetica, sans-serif !important;
 }
 
 ul {

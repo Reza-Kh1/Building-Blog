@@ -17,6 +17,7 @@ const nextConfig = {
   },
   reactStrictMode: true,
   distDir: "build",
+  productionBrowserSourceMaps: false
   // async headers() {
   //   return [
   //     {

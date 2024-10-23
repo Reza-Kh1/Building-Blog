@@ -223,6 +223,7 @@ const deletePost = asyncHandler(async (req, res) => {
     await t.commit();
     res.send({ success: true });
   } catch (err) {
+    await t.rollback()
     throw customError(err.message, 401);
   }
 });

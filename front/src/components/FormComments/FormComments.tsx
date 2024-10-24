@@ -2,7 +2,8 @@
 import React from 'react'
 import InputForm from '../InputForm/InputForm'
 import { fetchApi } from '@/action/fetchApi'
-import { toast } from 'react-toastify'
+import toast from 'react-hot-toast'
+
 
 export default function FormComments({ postId }: { postId?: number }) {
 

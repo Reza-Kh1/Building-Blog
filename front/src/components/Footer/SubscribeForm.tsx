@@ -3,7 +3,7 @@ import React from 'react'
 import subscribeAction from '@/action/suscribe'
 import { FaTelegramPlane } from 'react-icons/fa'
 import { useFormState } from 'react-dom'
-import { toast } from 'react-toastify'
+import toast from 'react-hot-toast'
 import { CiWarning } from 'react-icons/ci'
 
 const initialState = {

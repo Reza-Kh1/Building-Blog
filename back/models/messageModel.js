@@ -14,9 +14,6 @@ const messageModel = dataBase.define("Message", {
         type: DataTypes.BOOLEAN,
         defaultValue: false
     },
-    images: {
-        type: DataTypes.ARRAY(DataTypes.STRING)
-    },
     subject: { type: DataTypes.STRING, },
     text: { type: DataTypes.TEXT, },
 }, {

@@ -4,13 +4,13 @@ import React, { useEffect, useRef, useState } from "react";
 import { BsSearch } from "react-icons/bs";
 import { MdClose, MdManageSearch } from "react-icons/md";
 import LoadingSearch from "../LoadingSearch/LoadingSearch";
-import { toast } from "react-toastify";
 import Link from "next/link";
 import { FaSearch } from "react-icons/fa";
 import CustomButton from "../CustomButton/CustomButton";
 import { AllCardPostType } from "@/app/type";
 import CardPost from "../CardPost/CardPost";
 import { usePathname, useSearchParams } from "next/navigation";
+import toast from "react-hot-toast";
 export default function SearchBox() {
   const [isShow, setIsShow] = useState<boolean>(false);
   const ref = useRef<HTMLInputElement>(null);

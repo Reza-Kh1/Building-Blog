@@ -79,19 +79,17 @@ const deleteOnlinePrice = asyncHandler(async (req, res) => {
       await mediaModel.destroy({
         where: {
           url: {
-            [Op.in]: data.images,
-          },
+            [Op.in]: data.images
+          }
         },
-        transaction,
+        transaction
       });
       await Promise.all(
         data.images.map(async (i) => {
-          await client.send(
-            new DeleteObjectCommand({
-              Bucket: process.env.LIARA_BUCKET_NAME,
-              Key: decodeURIComponent(i.split("/").slice(-1)[0]),
-            })
-          );
+          await client.send(new DeleteObjectCommand({
+            Bucket: process.env.LIARA_BUCKET_NAME,
+            Key: decodeURIComponent(i.split("/").slice(-1)[0])
+          }));
         })
       );
     }

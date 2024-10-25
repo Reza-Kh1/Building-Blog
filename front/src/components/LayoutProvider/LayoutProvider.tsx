@@ -7,7 +7,6 @@ import createCache from "@emotion/cache";
 import rtlPlugin from "stylis-plugin-rtl";
 import { prefixer } from "stylis";
 import { Toaster } from "react-hot-toast";
-
 export default function LayoutProvider({
   children,
 }: {

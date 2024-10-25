@@ -10,7 +10,7 @@ import ImgTag from '../ImgTag/ImgTag'
 import { CommentsType } from '@/app/type'
 import { fetchApi } from '@/action/fetchApi'
 import CustomButton from '../CustomButton/CustomButton'
-import { toast } from 'react-toastify'
+import toast from 'react-hot-toast'
 const Transition = React.forwardRef(function Transition(
     props: TransitionProps & {
         children: React.ReactElement<unknown>;

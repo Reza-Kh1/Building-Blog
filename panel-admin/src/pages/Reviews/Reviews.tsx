@@ -65,7 +65,7 @@ export default function Reviews() {
   const [searchQuery, setSearchQuery] = useState<any>();
   const [open, setOpen] = useState<boolean>(false);
   const { handleSubmit, register, setValue } = useForm<FormReviewType>();
-  const [isUpdate, setIsUpdate] = useState<boolean>(false)
+  const [isUpdate, setIsUpdate] = useState<boolean>(false);
   const query = useQueryClient();
   const { search } = useLocation();
   const [review, setReview] = useState<{
@@ -96,11 +96,11 @@ export default function Reviews() {
             ...other,
             status: true,
             postId: review?.data.Post?.id,
-          }
+          };
           await axios.put(`comment/${review?.data.id}`, body);
         }
       } catch (err: any) {
-        throw new Error(err)
+        throw new Error(err);
       }
     },
     onSuccess: () => {
@@ -130,7 +130,6 @@ export default function Reviews() {
   });
   const { isPending: isPendingCheck, mutate: reviewCheck } = useMutation({
     mutationFn: (form: ReviewType) => {
-
       const body = {
         postId: form.Post?.id,
         status: true,
@@ -178,7 +177,7 @@ export default function Reviews() {
   };
   const closeHandler = () => {
     setOpen(false);
-    setIsUpdate(false)
+    setIsUpdate(false);
     // setReview(null);
   };
   useEffect(() => {
@@ -188,7 +187,9 @@ export default function Reviews() {
   return (
     <>
       <div className="w-full">
-        {isPendingDelete || isPendingCheck || isPendingMinus && <PendingApi />}
+        {isPendingDelete ||
+          isPendingCheck ||
+          (isPendingMinus && <PendingApi />)}
         <SearchBox notTag checker />
         {data?.pages[0].rows.length ? (
           <>
@@ -215,7 +216,9 @@ export default function Reviews() {
                         <p className="text-sm cutline cutline-2">{i?.name}</p>
                       </StyledTableCell>
                       <StyledTableCell align="center">
-                        <p className="text-sm cutline cutline-2">{i?.position}</p>
+                        <p className="text-sm cutline cutline-2">
+                          {i?.position}
+                        </p>
                       </StyledTableCell>
                       <StyledTableCell align="center">
                         <p className="text-sm cutline cutline-2">
@@ -261,7 +264,6 @@ export default function Reviews() {
                               رد
                             </Button>
                           ) : (
-
                             <Button
                               onClick={() => reviewCheck(i)}
                               color="success"
@@ -319,87 +321,89 @@ export default function Reviews() {
         onClose={closeHandler}
       >
         <DialogContent>
-          {review ? !review?.position ? (
-            <TableContainer component={Paper}>
-              <Table aria-label="customized table">
-                <TableHead>
-                  <TableRow>
-                    <StyledTableCell align="center">نام</StyledTableCell>
-                    <StyledTableCell align="center">
-                      تلفن / ایمیل
-                    </StyledTableCell>
-                    <StyledTableCell align="center">کامنت</StyledTableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  <StyledTableRow>
-                    <StyledTableCell align="center">
-                      {review?.data.name}
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      {review?.data?.phone || review?.data?.email}
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      <p className="text-sm cutline cutline-3">
-                        {review?.data.text}
-                      </p>
-                    </StyledTableCell>
-                  </StyledTableRow>
-                </TableBody>
-              </Table>
-            </TableContainer>
-          ) : (
-            <div className="flex gap-2">
-              <form className="w-1/2">
-                <TextField
-                  className="shadow-md"
-                  autoComplete="off"
-                  label={"پاسخ کامنت"}
-                  fullWidth
-                  multiline
-                  rows={9}
-                  {...register("replie")}
-                />
-              </form>
-              <form className="w-1/2">
-                <div className="grid grid-cols-3 gap-2 mb-3">
+          {review ? (
+            !review?.position ? (
+              <TableContainer component={Paper}>
+                <Table aria-label="customized table">
+                  <TableHead>
+                    <TableRow>
+                      <StyledTableCell align="center">نام</StyledTableCell>
+                      <StyledTableCell align="center">
+                        تلفن / ایمیل
+                      </StyledTableCell>
+                      <StyledTableCell align="center">کامنت</StyledTableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    <StyledTableRow>
+                      <StyledTableCell align="center">
+                        {review?.data.name}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {review?.data?.phone || review?.data?.email}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        <p className="text-sm cutline cutline-3">
+                          {review?.data.text}
+                        </p>
+                      </StyledTableCell>
+                    </StyledTableRow>
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            ) : (
+              <div className="flex gap-2">
+                <form className="w-1/2">
+                  <TextField
+                    className="shadow-md"
+                    autoComplete="off"
+                    label={"پاسخ کامنت"}
+                    fullWidth
+                    multiline
+                    rows={9}
+                    {...register("replie")}
+                  />
+                </form>
+                <form className="w-1/2">
+                  <div className="grid grid-cols-3 gap-2 mb-3">
+                    <TextField
+                      disabled={!isUpdate}
+                      className="shadow-md"
+                      autoComplete="off"
+                      label={"اسم کاربر"}
+                      fullWidth
+                      {...register("name")}
+                    />
+                    <TextField
+                      disabled={!isUpdate}
+                      className="shadow-md"
+                      autoComplete="off"
+                      label={"ایمیل"}
+                      fullWidth
+                      {...register("email")}
+                    />
+                    <TextField
+                      disabled={!isUpdate}
+                      className="shadow-md"
+                      autoComplete="off"
+                      label={"شماره تلفن"}
+                      fullWidth
+                      {...register("phone")}
+                    />
+                  </div>
                   <TextField
                     disabled={!isUpdate}
                     className="shadow-md"
                     autoComplete="off"
-                    label={"اسم کاربر"}
+                    label={"متن کامنت"}
                     fullWidth
-                    {...register("name")}
+                    multiline
+                    rows={6}
+                    {...register("text")}
                   />
-                  <TextField
-                    disabled={!isUpdate}
-                    className="shadow-md"
-                    autoComplete="off"
-                    label={"ایمیل"}
-                    fullWidth
-                    {...register("email")}
-                  />
-                  <TextField
-                    disabled={!isUpdate}
-                    className="shadow-md"
-                    autoComplete="off"
-                    label={"شماره تلفن"}
-                    fullWidth
-                    {...register("phone")}
-                  />
-                </div>
-                <TextField
-                  disabled={!isUpdate}
-                  className="shadow-md"
-                  autoComplete="off"
-                  label={"متن کامنت"}
-                  fullWidth
-                  multiline
-                  rows={6}
-                  {...register("text")}
-                />
-              </form>
-            </div>
+                </form>
+              </div>
+            )
           ) : null}
         </DialogContent>
         <DialogActions>
@@ -416,7 +420,11 @@ export default function Reviews() {
                 >
                   ذخیره
                 </Button>
-                <FormControlLabel control={<Switch value={isUpdate} />} onChange={() => setIsUpdate(prev => !prev)} label="ویرایش اطلاعات کاربر" />
+                <FormControlLabel
+                  control={<Switch value={isUpdate} />}
+                  onChange={() => setIsUpdate((prev) => !prev)}
+                  label="ویرایش اطلاعات کاربر"
+                />
               </>
             ) : (
               <Button
@@ -430,7 +438,13 @@ export default function Reviews() {
                 حذف
               </Button>
             )}
-            <Button variant="contained" color="warning" className="w-2/12" endIcon={<MdClose />} onClick={closeHandler}>
+            <Button
+              variant="contained"
+              color="warning"
+              className="w-2/12"
+              endIcon={<MdClose />}
+              onClick={closeHandler}
+            >
               بستن
             </Button>
           </div>

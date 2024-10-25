@@ -2,7 +2,7 @@
 import { createTheme } from "@mui/material/styles";
 const theme = createTheme({
   typography: {
-    fontFamily: "fontSahel",
+    fontFamily: "__fontSahel_7a8a2f",
   },
   cssVariables: true,
   direction: "rtl",

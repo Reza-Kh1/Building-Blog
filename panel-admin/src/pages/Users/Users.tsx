@@ -56,8 +56,14 @@ type DataUSerType = {
   position: boolean;
 };
 export default function Users() {
-  const { register, getValues, setValue, handleSubmit, reset } =
-    useForm<UserType>();
+  const {
+    register,
+    getValues,
+    setValue,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<UserType>();
   const [open, setOpen] = useState<boolean>(false);
   const [openBox, setOpenBox] = useState<boolean>(false);
   const [dataUser, setDataUser] = useState<DataUSerType | null>();
@@ -139,6 +145,7 @@ export default function Users() {
           className="shadow-md"
           label={"نام کاربر"}
           fullWidth
+          required
           {...register("name")}
         />
         <TextField
@@ -146,6 +153,7 @@ export default function Users() {
           className="shadow-md"
           label={"ایمیل کاربر"}
           fullWidth
+          required
           {...register("email")}
         />
         <TextField
@@ -153,12 +161,14 @@ export default function Users() {
           className="shadow-md"
           label={"شماره تلفن کاربر"}
           fullWidth
+          required
           {...register("phone")}
         />
         <TextField
           autoComplete="off"
           className="shadow-md"
           label={"پسورد کاربر"}
+          required
           fullWidth
           {...register("password")}
         />

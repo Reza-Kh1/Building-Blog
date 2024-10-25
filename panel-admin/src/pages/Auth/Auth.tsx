@@ -91,17 +91,13 @@ export default function Auth() {
               type="text"
               label={"شماره تلفن خود را وارد کنید"}
               {...register("phone", { required: isLogin })}
-              inputProps={{
-                onKeyDown: (event) => {
-                  const keyCode = event.keyCode || event.which;
-                  const keyValue = String.fromCharCode(keyCode);
-                  if (
-                    keyCode !== 8 &&
-                    keyCode !== 13 &&
-                    !/^\d+$/.test(keyValue)
-                  )
-                    event.preventDefault();
-                },
+              onChange={(e) => {
+                const value = e.target.value.replace(/[^0-9]/g, "");
+                if (value.length > 11) {
+                  e.target.value = value.slice(0, 11);
+                } else {
+                  e.target.value = value;
+                }
               }}
             />
           )}

@@ -97,7 +97,7 @@ export default function Message() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["Message"] });
-      toast.success("اطلاعات ذخیره شد");
+      toast.info("پیام حذف شد");
       setOpen(false);
     },
     onError: (err) => {

@@ -1,23 +1,12 @@
 const asyncHandler = require("express-async-handler");
 const { customError } = require("../middlewares/globalError");
-const { messageModel, mediaModel } = require("../models/sync");
+const { messageModel } = require("../models/sync");
 const pagination = require("../utils/pagination");
-const { S3Client, DeleteObjectCommand } = require("@aws-sdk/client-s3");
-const { dataBase } = require("../config/db");
-const { Op } = require("sequelize");
 const limit = process.env.LIMIT
-const client = new S3Client({
-  region: "default",
-  endpoint: process.env.LIARA_ENDPOINT,
-  credentials: {
-    accessKeyId: process.env.LIARA_ACCESS_KEY,
-    secretAccessKey: process.env.LIARA_SECRET_KEY,
-  },
-});
 const createMessage = asyncHandler(async (req, res) => {
-  const { name, phone, subject, text, images } = req.body;
+  const { name, phone, subject, text } = req.body;
   try {
-    await messageModel.create({ name, phone, subject, text, images });
+    await messageModel.create({ name, phone, subject, text });
     res.send({ success: true });
   } catch (err) {
     throw customError(err, err.statusCode || 400);
@@ -54,34 +43,12 @@ const getMessage = asyncHandler(async (req, res) => {
 });
 const deleteMessage = asyncHandler(async (req, res) => {
   const { id } = req.params;
-  const transaction = await dataBase.transaction();
   try {
-    const data = await messageModel.findByPk(id, { transaction });
+    const data = await messageModel.findByPk(id);
     if (!data) throw customError("آیتم یافت نشد", 404);
-    if (data.images.length) {
-      await mediaModel.destroy({
-        where: {
-          url: {
-            [Op.in]: data.images
-          }
-        },
-        transaction
-      });
-      await Promise.all(
-        data.images.map(async (i) => {
-          console.log(i.split("/").slice(-1)[0]);
-          await client.send(new DeleteObjectCommand({
-            Bucket: process.env.LIARA_BUCKET_NAME,
-            Key: decodeURIComponent(i.split("/").slice(-1)[0])
-          }));
-        })
-      );
-    }
-    await data.destroy({ transaction });
-    await transaction.commit();
+    await data.destroy();
     res.send({ success: true });
   } catch (err) {
-    await transaction.rollback();
     throw customError(err, err.statusCode || 400);
   }
 });

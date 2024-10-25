@@ -68,13 +68,16 @@ export default function ForgetPassword() {
               label={"شماره تلفن خود را وارد کنید"}
               value={phone}
               onChange={({ target }) => {
-                if (target.value.length > 11) {
-                  return setErrPhone(true);
-                }
-                if (!isNaN(Number(target.value))) {
+                const value = target.value.replace(/[^0-9]/g, "");
+                if (value.length > 11) {
+                  target.value = value.slice(0, 11);
+                  setErrPhone(false);
                   setPhone(target.value);
+                } else {
+                  target.value = value;
+                  setPhone(target.value);
+                  setErrPhone(true);
                 }
-                setErrPhone(false);
               }}
               helperText={
                 errPhone && "شماره تلفن صحیح وارد کنید مثل : 09121234567"

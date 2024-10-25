@@ -5,6 +5,8 @@ import React, { useState } from "react";
 import { FaUpload } from "react-icons/fa6";
 import { TbReceipt2 } from "react-icons/tb";
 import axios from "axios";
+import InputForm from "@/components/InputForm/InputForm";
+import ImgTag from "@/components/ImgTag/ImgTag";
 const options = [
   "لوله کشی گاز",
   "کناف",
@@ -29,14 +31,16 @@ const options = [
 export default function FormRequest() {
   const [progress, setProgress] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false);
+  const [mediaAry, setMediaArry] = useState<string[]>([]);
   const UploadMedia = async (event: React.ChangeEvent<HTMLInputElement>) => {
     setLoading(true);
     const newFile = event.target.files;
     if (!newFile?.length) return;
     const formData = new FormData();
     Array.from(newFile).forEach((file) => {
-      formData.append("media", file);
+      formData.append("media/user", file);
     });
+
     const { data } = await axios.post("media", formData, {
       onUploadProgress: (event) => {
         if (event.lengthComputable && event.total) {
@@ -47,7 +51,9 @@ export default function FormRequest() {
         }
       },
     });
-    return data;
+
+    console.log(data);
+    // setMediaArry([...mediaAry,data])
   };
   const submitHandler = (form: FormData) => {
     const body = {
@@ -64,75 +70,63 @@ export default function FormRequest() {
   return (
     <form action={submitHandler} className="flex flex-col gap-3">
       <div className="grid grid-cols-3 gap-3">
-        <TextField
-          className="shadow-md"
-          name="name"
-          fullWidth
-          label="نام :"
-          required
-        />
-        <TextField
-          className="shadow-md"
+        <InputForm name="name" lable="نام " required type="text" />
+        <InputForm
           name="phone"
-          fullWidth
-          label="شماره تلفن :"
+          lable="شماره تلفن "
+          required
+          type="text"
           onChange={(e) => {
             e.target.value = e.target.value.replace(/[^0-9]/g, "");
           }}
-          required
         />
-        <Autocomplete
-          className="shadow-md"
-          freeSolo
-          options={options}
-          renderInput={(params) => (
-            <TextField required {...params} label="نوع درخواست" name="type" />
-          )}
-        />
-        <TextField
+        <div>
+          <span className="text-sm">انتخاب موضوع :*</span>
+          <Autocomplete
+            freeSolo
+            className="flex items-end mt-1"
+            options={options}
+            renderInput={(params) => (
+              <TextField
+                className="!bg-slate-100 !p-2  !shadow-md !rounded-md"
+                variant="standard"
+                required
+                placeholder="انتخاب کنید"
+                {...params}
+                name="type"
+              />
+            )}
+          />
+        </div>
+        <InputForm
           name="price"
-          className="shadow-md"
-          fullWidth
-          label="بودجه مورد نظر :"
+          lable="بودجه مورد نظر "
+          onChange={(e) => {
+            const test = e.target.value.replace(/[^0-9]/g, "");
+            e.target.value = Number(test).toLocaleString();
+          }}
           placeholder="پر کردن این بخش الزامی نیست!"
-          onChange={(e) => {
-            const test = e.target.value.replace(/[^0-9]/g, "");
-            e.target.value = Number(test).toLocaleString();
-          }}
-          slotProps={{
-            input: {
-              endAdornment: (
-                <InputAdornment position="end">تومان</InputAdornment>
-              ),
-            },
-          }}
+          type="text"
+          slotProps="تومان"
         />
-        <TextField
+        <InputForm
           name="metragh"
-          className="shadow-md"
+          lable="متراژ کار "
           onChange={(e) => {
             const test = e.target.value.replace(/[^0-9]/g, "");
             e.target.value = Number(test).toLocaleString();
           }}
-          slotProps={{
-            input: {
-              endAdornment: (
-                <InputAdornment position="end">متر مربع</InputAdornment>
-              ),
-            },
-          }}
-          fullWidth
-          label="متراژ کار :"
+          placeholder="پر کردن این بخش الزامی نیست!"
+          type="text"
+          slotProps="متر مربع"
         />
       </div>
-      <TextField
-        name="text"
-        className="shadow-md"
-        fullWidth
-        label="توضیحات بیشتر"
-        required
-        multiline
+      <InputForm
         rows={10}
+        name="text"
+        lable="توضیحات بیشتر"
+        required
+        type="textarea"
       />
       <div className="flex gap-5">
         <div className="w-1/2">
@@ -149,12 +143,25 @@ export default function FormRequest() {
               id="upload"
               hidden
             />
-            <i className="absolute p-3 bg-green-500/80 hover:bg-orange-500 transition-all shadow-md border border-white text-white rounded-full left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
-              <FaUpload />
+            <i className="absolute flex items-center justify-center w-14 h-14 bg-green-500/80 hover:bg-orange-500 transition-all shadow-md border border-white text-white rounded-full left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
+           100%
             </i>
+            {/* <i className="absolute p-3 bg-green-500/80 hover:bg-orange-500 transition-all shadow-md border border-white text-white rounded-full left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
+              <FaUpload />
+            </i> */}
           </label>
         </div>
-        <div className="w-1/2"></div>
+        {/* <div className="w-1/2 grid grid-cols-5">
+          {mediaAry.map((i, index) => (
+            <ImgTag
+              src={i}
+              key={index}
+              alt={"عکس آپلود شد"}
+              width={300}
+              height={300}
+            />
+          ))}
+        </div> */}
       </div>
       <CustomButton
         className="w-2/12"

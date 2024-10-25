@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { BsSearch } from "react-icons/bs";
 import { MdClose, MdManageSearch } from "react-icons/md";
 import LoadingSearch from "../LoadingSearch/LoadingSearch";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import Link from "next/link";
 import { FaSearch } from "react-icons/fa";
 import CustomButton from "../CustomButton/CustomButton";

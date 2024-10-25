@@ -6,7 +6,6 @@ import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
 import React from "react";
 import Calling from "@/components/Calling/Calling";
 import "./globals.css";
-import "react-toastify/dist/ReactToastify.css";
 import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/navigation";

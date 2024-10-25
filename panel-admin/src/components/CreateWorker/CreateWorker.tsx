@@ -315,17 +315,13 @@ export default function CreateWorker() {
               autoComplete="off"
               label={"تلفن"}
               {...register("phone", { required: true })}
-              inputProps={{
-                onKeyDown: (event) => {
-                  const keyCode = event.keyCode || event.which;
-                  const keyValue = String.fromCharCode(keyCode);
-                  if (
-                    keyCode !== 8 &&
-                    keyCode !== 13 &&
-                    !/^\d+$/.test(keyValue)
-                  )
-                    event.preventDefault();
-                },
+              onChange={(e) => {
+                const value = e.target.value.replace(/[^0-9]/g, "");
+                if (value.length > 11) {
+                  e.target.value = value.slice(0, 11);
+                } else {
+                  e.target.value = value;
+                }
               }}
               helperText="تلفن نباید قبلا ثبت شده باشد!"
             />
@@ -420,7 +416,6 @@ export default function CreateWorker() {
                 <img
                   className="rounded-full w-36 p-1 h-36 object-cover shadow-md transition duration-500 hover:opacity-75"
                   src={image.url || "/notfound.webp"}
-                  
                   alt=""
                 />
                 <i

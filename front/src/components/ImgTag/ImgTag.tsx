@@ -10,7 +10,7 @@ type ImageType = {
   width?: number;
   height?: number;
   classPlus?: string;
-  fiureClass?: string;
+  figureClass?: string;
 };
 export default function ImgTag({
   width,
@@ -19,11 +19,11 @@ export default function ImgTag({
   alt,
   className,
   classPlus,
-  fiureClass,
+  figureClass,
 }: ImageType) {
   const [load, setLoad] = useState<boolean>(true);
   return (
-    <figure className={fiureClass || "w-full relative"}>
+    <figure className={figureClass || "w-full relative"}>
       <Image
         width={width}
         height={height}

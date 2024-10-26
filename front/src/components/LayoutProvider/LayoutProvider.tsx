@@ -7,6 +7,9 @@ import createCache from "@emotion/cache";
 import rtlPlugin from "stylis-plugin-rtl";
 import { prefixer } from "stylis";
 import { Toaster } from "react-hot-toast";
+import axios from "axios";
+axios.defaults.baseURL = process.env.NEXT_PUBLIC_URL_API;
+axios.defaults.withCredentials = true;
 export default function LayoutProvider({
   children,
 }: {

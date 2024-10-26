@@ -1,12 +1,14 @@
 "use client";
 import CustomButton from "@/components/CustomButton/CustomButton";
-import { Autocomplete, InputAdornment, TextField } from "@mui/material";
+import { Autocomplete, IconButton, InputAdornment, TextField } from "@mui/material";
 import React, { useState } from "react";
-import { FaUpload } from "react-icons/fa6";
+import { FaTrashCanArrowUp, FaUpload } from "react-icons/fa6";
 import { TbReceipt2 } from "react-icons/tb";
 import axios from "axios";
 import InputForm from "@/components/InputForm/InputForm";
 import ImgTag from "@/components/ImgTag/ImgTag";
+import toast from "react-hot-toast";
+import { useFormState } from "react-dom";
 const options = [
   "لوله کشی گاز",
   "کناف",
@@ -28,47 +30,69 @@ const options = [
   "آهنگری",
   "مشاوره",
 ];
+const submitHandler = async (formData: FormData, mediaArry) => {
+  // const body = {
+  //   name: formData.get("name"),
+  //   phone: formData.get("phone"),
+  //   type: formData.get("type"),
+  //   metragh: formData.get("metragh"),
+  //   price: formData.get("price"),
+  //   text: formData.get("text"),
+  //   src: [],
+  // };
+  console.log(formData, mediaArry);
+
+}
+const initialize = {
+  msg: "",
+  err: ""
+}
 export default function FormRequest() {
-  const [progress, setProgress] = useState<number>(0);
+  const [progress, setProgress] = useState<number | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  const [mediaAry, setMediaArry] = useState<string[]>([]);
+  const [mediaArry, setMediaArry] = useState<string[]>([]);
+  const [state, formAction] = useFormState(submitHandler, initialize)
+  const deleteImage = (src: string) => {
+    const newImages = mediaArry.filter((item) => item !== src)
+    setMediaArry(newImages)
+  }
   const UploadMedia = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    setLoading(true);
+    let resultSize = 0
+    const maxSize = 10 * 1024 * 1024
     const newFile = event.target.files;
     if (!newFile?.length) return;
     const formData = new FormData();
     Array.from(newFile).forEach((file) => {
-      formData.append("media/user", file);
+      resultSize = resultSize + file.size
+      formData.append("media", file);
     });
-
-    const { data } = await axios.post("media", formData, {
-      onUploadProgress: (event) => {
-        if (event.lengthComputable && event.total) {
-          const percentComplete = Math.round(
-            (event.loaded * 100) / event.total
-          );
-          setProgress(percentComplete);
-        }
-      },
-    });
-
-    console.log(data);
-    // setMediaArry([...mediaAry,data])
-  };
-  const submitHandler = (form: FormData) => {
-    const body = {
-      name: form.get("name"),
-      phone: form.get("phone"),
-      type: form.get("type"),
-      metragh: form.get("metragh"),
-      price: form.get("price"),
-      text: form.get("text"),
-      src: [],
-    };
-    console.log(body);
+    if (resultSize > maxSize) {
+      setProgress(null);
+      return toast.error("!حجم فایل نباید بیش از 10 مگابایت باشد")
+    }
+    const uploadPromise = async () => {
+      const { data } = await axios.post("media/user", formData, {
+        onUploadProgress: (event) => {
+          if (event.lengthComputable && event.total) {
+            const percentComplete = Math.round(
+              (event.loaded * 100) / event.total
+            );
+            setProgress(percentComplete);
+          }
+        },
+      })
+      const getUrl = data.url.map((i: any) => i.url)
+      setMediaArry([...mediaArry, ...getUrl])
+      setProgress(null)
+    }
+    toast.promise(uploadPromise(), {
+      loading: "...درحال آپلود",
+      error: "با خطا مواجه شدیم",
+      success: "با موفقیت آپلود شد"
+    }, { position: "bottom-center" })
   };
   return (
-    <form action={submitHandler} className="flex flex-col gap-3">
+    <form onSubmit={(e) => { e.preventDefault(); formAction( mediaArry) }} className="flex flex-col gap-3">
       <div className="grid grid-cols-3 gap-3">
         <InputForm name="name" lable="نام " required type="text" />
         <InputForm
@@ -129,7 +153,7 @@ export default function FormRequest() {
         type="textarea"
       />
       <div className="flex gap-5">
-        <div className="w-1/2">
+        <div className="w-1/3">
           <span className="block mb-3">عکس های خود را آپلود کنید</span>
           <label
             htmlFor="upload"
@@ -143,25 +167,36 @@ export default function FormRequest() {
               id="upload"
               hidden
             />
-            <i className="absolute flex items-center justify-center w-14 h-14 bg-green-500/80 hover:bg-orange-500 transition-all shadow-md border border-white text-white rounded-full left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
-           100%
-            </i>
-            {/* <i className="absolute p-3 bg-green-500/80 hover:bg-orange-500 transition-all shadow-md border border-white text-white rounded-full left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
-              <FaUpload />
-            </i> */}
+            {progress ?
+              <i className="absolute flex items-center justify-center w-14 h-14 bg-green-500/80 hover:bg-orange-500 transition-all shadow-md border border-white text-white rounded-full left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                {progress}%
+              </i>
+              :
+              <i className="absolute p-3 bg-green-500/80 hover:bg-orange-500 transition-all shadow-md border border-white text-white rounded-full left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                <FaUpload />
+              </i>
+            }
           </label>
         </div>
-        {/* <div className="w-1/2 grid grid-cols-5">
-          {mediaAry.map((i, index) => (
-            <ImgTag
-              src={i}
-              key={index}
-              alt={"عکس آپلود شد"}
-              width={300}
-              height={300}
-            />
+        <div className="w-2/3 grid gap-4 grid-cols-4">
+          {mediaArry.map((i, index) => (
+            <div key={index} className="relative">
+              <ImgTag
+                figureClass="w-full h-full"
+                src={i}
+                className="object-cover w-full h-full shadow-md rounded-md p-1"
+                alt={"عکس آپلود شد"}
+                width={300}
+                height={300}
+              />
+              <i onClick={() => deleteImage(i)} className="absolute left-3 top-3 bg-slate-400/80 rounded-full ">
+                <IconButton color="error" size="small">
+                  <FaTrashCanArrowUp />
+                </IconButton>
+              </i>
+            </div>
           ))}
-        </div> */}
+        </div>
       </div>
       <CustomButton
         className="w-2/12"

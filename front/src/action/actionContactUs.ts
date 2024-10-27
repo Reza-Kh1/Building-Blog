@@ -7,7 +7,6 @@ const actionContactUs = async (prevState: any, formData: FormData) => {
         subject: formData.get("subject"),
         text: formData.get("text"),
     };
-    console.log(body);
     const data = await fetchApi({ url: "message", method: "POST", body })
     console.log(data);
     if (data.success) {

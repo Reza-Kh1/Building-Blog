@@ -12,7 +12,6 @@ const actionProject = async (prevState: any, formData: FormData) => {
         subject: formData.get("subject"),
         images: formatImage,
     };
-
     const data = await fetchApi({ url: "onlineprice", method: "POST", body })
     if (data.success) {
         return {

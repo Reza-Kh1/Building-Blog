@@ -1,28 +1,15 @@
+import { fetchApi } from "@/action/fetchApi";
 import Breadcrums from "@/components/Breadcrums/Breadcrums";
-import CardPost from "@/components/CardPost/CardPost";
 import Cards from "@/components/Cards/Cards";
 import OrderSearch from "@/components/OrderSearch/OrderSearch";
 import Pagination from "@/components/Pagination/Pagination";
 import React from "react";
-const pager = {
-  allPage: 1,
+import { AllPostType } from "../type";
+const getData = () => {
+  return fetchApi({ url: "post?page=1" });
 };
-const test = [
-  {
-    Category: { slug: "test2", name: "مصالح" },
-    id: 4,
-    name: "test",
-    title: "as",
-    image:
-      "https://building-blog.storage.iran.liara.space/1718433007077-Screenshot 2024-06-11 091827.png",
-    slug: "as",
-    status: true,
-    description: "as",
-    totalComments: null,
-    updatedAt: new Date(),
-  },
-];
-export default function page() {
+export default async function page() {
+  const data: AllPostType = await getData();
   return (
     <div className="w-full">
       <div className="max-w-7xl w-full mx-auto my-6">
@@ -33,11 +20,12 @@ export default function page() {
             <OrderSearch />
           </div>
         </div>
+        <span>{data.count} پست</span>
         <div className="my-5">
-          <Cards props={test} />
+          <Cards props={data.rows} />
         </div>
         <div>
-          <Pagination pagination={pager} />
+          <Pagination pagination={data.paginate} />
         </div>
       </div>
     </div>

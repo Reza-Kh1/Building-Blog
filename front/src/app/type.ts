@@ -71,6 +71,11 @@ type PostType = {
   Category: CategoryType;
   Comments: CommentsType[];
 };
+type AllPostType = {
+  count: number;
+  rows: CardPostType[];
+  paginate: PaginationType;
+};
 type Footertype = {
   data: {
     id: number;
@@ -145,4 +150,5 @@ export type {
   CardProjectsType,
   CategoryType,
   CommentsType,
+  AllPostType
 };

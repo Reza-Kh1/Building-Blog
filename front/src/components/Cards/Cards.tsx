@@ -5,16 +5,6 @@ import { FaAngleLeft, FaCalendarDays, FaComments } from "react-icons/fa6";
 import { FaPhotoVideo } from "react-icons/fa";
 import "./style.css";
 import { CardPostType } from "@/app/type";
-const test = {
-  id: 4,
-  name: "test",
-  title: "as",
-  image:
-    "https://building-blog.storage.iran.liara.space/1718433007077-Screenshot 2024-06-11 091827.png",
-  description: "as",
-  totalComments: null,
-  updatedAt: "2024-06-21T15:12:12.498Z",
-};
 export default function Cards({ props }: { props: CardPostType[] }) {
   if (!props?.length) return
   return props.map((i, index) => (
@@ -23,7 +13,7 @@ export default function Cards({ props }: { props: CardPostType[] }) {
       className="card-box w-full group max-w-7xl flex gap-5 hover:bg-[#f1f9ff] hover:shadow-lg p-3 rounded-md transition-all"
     >
       <div className="w-1/3">
-        <ImgTag alt={i.title || test.title} height={200} src={i.image || test.image} width={450} />
+        <ImgTag alt={i.title} height={200} src={i.image} width={450} />
       </div>
       <div className="w-2/3 flex justify-between flex-col py-2">
         <span className="text-sm">{i?.Category?.name}</span>

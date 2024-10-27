@@ -1,31 +1,27 @@
 "use client";
-import { fetchApi } from "@/action/fetchApi";
+import actionContactUs from "@/action/actionContactUs";
 import CustomButton from "@/components/CustomButton/CustomButton";
 import InputForm from "@/components/InputForm/InputForm";
 import React from "react";
 import { useFormState } from "react-dom";
 import toast from "react-hot-toast";
-const submitHandler = async (prevState: any, formData: FormData) => {
-  const body = {
-    name: formData.get("name"),
-    phone: formData.get("phone"),
-    subject: formData.get("subject"),
-    text: formData.get("text"),
-  };
-  const res = () => fetchApi({ url: "message", method: "POST", body });
-  toast.promise(res(), {
-    loading: "...صبر کنید",
-    success: <b>پیام شما با موفقیت ثبت شد</b>,
-    error: <b>خطایی رخ داد دوباره تلاش کنید!</b>,
-  });
-  return {
-    msg: "ok",
-  };
-};
+const initialize = {
+  msg: "",
+  err: ""
+}
 export default function FormContactUs() {
-  const [state, formAction] = useFormState(submitHandler, { msg: "" });
+  const [state, formAction] = useFormState(actionContactUs, initialize);
+  if (state.msg) {
+    toast.dismiss("toast")
+    toast.success("پیام با موفقیت ارسال شد", { id: "toast" })
+  }
+  if (state.err) {
+    toast.dismiss("toast")
+    toast.error("با خطا مواجه شدیم")
+  }
   return (
-    <form action={formAction} className="flex flex-col gap-3 justify-center">
+    <form action={formAction} onSubmit={() => { toast.loading("...صبرکنید", { id: "toast" }) }}
+      className="flex flex-col gap-3 justify-center">
       <div className="grid grid-cols-2 gap-3">
         <InputForm
           name="name"

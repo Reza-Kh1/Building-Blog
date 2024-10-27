@@ -12,6 +12,7 @@ type InputFormType = {
   onChange?: (value: any) => void;
   slotProps?: string;
   rows?: number;
+  value?: string
 };
 export default function InputForm({
   placeholder,
@@ -25,6 +26,7 @@ export default function InputForm({
   lable,
   slotProps,
   rows,
+  value
 }: InputFormType) {
   const classInput =
     "p-3 focus-visible:outline-blue-300 bg-slate-100 rounded text-gray-900 w-full shadow-md " +
@@ -38,8 +40,9 @@ export default function InputForm({
           required={required}
           placeholder={placeholder}
           name={name}
-          className={className ? className : classInput +" resize-none"}
+          className={className ? className : classInput + " resize-none"}
           id={id}
+          value={value}
         />
       );
     }
@@ -54,6 +57,7 @@ export default function InputForm({
             name={name}
             className={className ? className : classInput}
             id={id}
+            value={value}
           />
           <span className="absolute left-2 text-xs top-1/2 bg-slate-100 h-[90%] flex items-center transform -translate-y-1/2">
             {slotProps}
@@ -63,6 +67,7 @@ export default function InputForm({
     } else {
       return (
         <input
+          value={value}
           type={type}
           onChange={onChange}
           required={required}

@@ -18,8 +18,7 @@ import { TagType } from "../../type";
 import DontData from "../../components/DontData/DontData";
 import DeleteButton from "../../components/DeleteButton/DeleteButton";
 type TagsType = {
-  count: number;
-  rows: TagType[];
+  data: TagType[];
 };
 
 export default function Tags() {
@@ -108,9 +107,9 @@ export default function Tags() {
           </Button>
         </div>
         <div className="">
-          {data?.count ? (
+          {data?.data?.length ? (
             <div className="w-ful grid gap-3 grid-cols-5">
-              {data.rows.map((i, index) => (
+              {data.data.map((i, index) => (
                 <div key={index} className="shadow-md border rounded-md p-3">
                   <span className="text-center block">{i.name}</span>
                   <div className="w-full mt-2 gap-3 flex justify-evenly">

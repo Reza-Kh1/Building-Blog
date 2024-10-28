@@ -5,13 +5,11 @@ import { Link } from "react-router-dom";
 import { FaShare } from "react-icons/fa6";
 type TagsBoxType = {
   tags: { name: string }[];
-  name: string
+  name: string;
   setTags: (value: { name: string }[]) => void;
 };
 type TagsType = {
-  count: number;
-  rows: { name: string }[];
-
+  data: { name: string }[];
 };
 export default function TagAutocomplete({ tags, setTags, name }: TagsBoxType) {
   const { data } = useQuery<TagsType>({
@@ -20,12 +18,12 @@ export default function TagAutocomplete({ tags, setTags, name }: TagsBoxType) {
     gcTime: 1000 * 60 * 60 * 24,
     queryFn: fetchTags,
   });
-  return data?.rows?.length ? (
+  return data?.data?.length ? (
     <Autocomplete
       multiple
       className="shadow-md"
       id="tags-outlined"
-      options={data?.rows}
+      options={data?.data}
       getOptionLabel={(option) => option.name}
       isOptionEqualToValue={(option, value) => option.name === value.name}
       value={tags}

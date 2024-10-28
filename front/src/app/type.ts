@@ -64,10 +64,7 @@ type PostType = {
   User: {
     name: string;
   };
-  Tags: {
-    id: number;
-    name: string;
-  }[];
+  Tags: TagsType[];
   Category: CategoryType;
   Comments: CommentsType[];
 };
@@ -75,6 +72,10 @@ type AllPostType = {
   count: number;
   rows: CardPostType[];
   paginate: PaginationType;
+};
+type TagsType = {
+  id: number;
+  name: string;
 };
 type Footertype = {
   data: {
@@ -139,12 +140,12 @@ type ImageType = {
 };
 type CommentsPage = {
   comments: {
-    count: number,
-    rows: CommentsType[]
-  }
-  paginate: PaginationType
-  countNull: number
-}
+    count: number;
+    rows: CommentsType[];
+  };
+  paginate: PaginationType;
+  countNull: number;
+};
 export type {
   FaqsType,
   ImageType,
@@ -159,5 +160,6 @@ export type {
   CategoryType,
   CommentsType,
   AllPostType,
-  CommentsPage
+  CommentsPage,
+  TagsType,
 };

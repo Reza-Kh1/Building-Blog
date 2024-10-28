@@ -6,7 +6,7 @@ import { Breadcrumbs } from '@mui/material'
 const getData = () => {
     return fetchApi({ url: "worker/page" })
 }
-export default async function page({ search }) {
+export default async function page({ searchParams }) {
     const data = getData()
     return (
         <div className='w-full my-6'>

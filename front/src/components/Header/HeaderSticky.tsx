@@ -16,7 +16,7 @@ const menuTitle = [
   },
   {
     name: "وبلاگ",
-    url: "/blog",
+    url: "/blog?order=createdAt-DESC&page=1",
   },
   {
     name: "ارتباط با ما",
@@ -24,11 +24,11 @@ const menuTitle = [
   },
   {
     name: "نظرات مشتریان",
-    url: "/comments",
+    url: "/comments?page=1",
   },
   {
     name: "اعضای تیم",
-    url: "/experts",
+    url: "/experts?order=createdAt-DESC&page=1",
   },
   {
     name: "گرفتن قیمت آنلاین",

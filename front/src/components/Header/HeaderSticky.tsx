@@ -24,9 +24,12 @@ const menuTitle = [
   },
   {
     name: "نظرات مشتریان",
-    url: "/customer-reviews",
+    url: "/comments",
   },
-
+  {
+    name: "اعضای تیم",
+    url: "/experts",
+  },
   {
     name: "گرفتن قیمت آنلاین",
     url: "/request-project",

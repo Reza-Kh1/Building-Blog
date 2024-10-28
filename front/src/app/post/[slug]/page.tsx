@@ -12,6 +12,7 @@ import { Metadata } from "next";
 import { PostType } from "@/app/type";
 import Script from "next/script";
 import parse from "html-react-parser";
+import CommentPost from "../CommentPost";
 const getData = (slug: string) => {
   return fetchApi({ url: `post/${slug.replace(/-/g, " ")}`, next: 10 });
 };
@@ -20,7 +21,7 @@ export async function generateMetadata({
 }: {
   params: { slug: string };
 }): Promise<Metadata> {
-  const data: PostType = await getData(params.slug);  
+  const data: PostType = await getData(params.slug);
   return {
     title: data?.DetailPost?.title,
     description: data?.description,
@@ -103,7 +104,7 @@ export default async function page({ params }: { params: { slug: string } }) {
           <BannerCallUs />
         </div>
         <div className="max-w-3xl mx-auto my-8">
-          <Comments comments={data.Comments} postId={data.id} />
+          <CommentPost comments={data.Comments} postId={data.id} totalComments={data.totalComments} />
           <div className="mt-6">
             <FormComments postId={data.id} />
           </div>

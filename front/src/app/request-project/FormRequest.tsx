@@ -38,11 +38,11 @@ export default function FormRequest() {
   const [formValues, setFormValues] = useState({
     nameValue: "", phoneValue: "", metraghValue: "", priceValue: "", textValue: ""
   });
-  if (state.msg) {
+  if (state?.msg) {
     toast.dismiss("toast")
     toast.success("اطلاعات با موفقیت ارسال شد", { id: "toast" })
   }
-  if (state.err) {
+  if (state?.err) {
     toast.dismiss("toast")
     toast.error("با خطا مواجه شدیم")
   }

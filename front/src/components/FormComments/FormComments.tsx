@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
 import InputForm from "../InputForm/InputForm";
-import { fetchApi } from "@/action/fetchApi";
 import toast from "react-hot-toast";
 import { useFormState } from "react-dom";
 import actionComments from "@/action/actionComments";
@@ -13,16 +12,18 @@ const initialize = {
 };
 export default function FormComments({ postId }: { postId?: number }) {
   const [state, formAction] = useFormState(actionComments, initialize);
-  if (state.msg) {
+  if (state?.msg) {
     toast.dismiss("toast");
     toast.success("پس از تایید نمایش داده میشود", { id: "toast" });
   }
-  if (state.err) {
+  if (state?.err) {
     toast.dismiss("toast");
     toast.error("با خطا مواجه شدیم");
   }
   const commentsHandler = async (form: FormData) => {
-    form.append("postId", JSON.stringify(postId));
+    if (postId) {
+      form.append("postId", JSON.stringify(postId));
+    }
     formAction(form);
   };
   return (

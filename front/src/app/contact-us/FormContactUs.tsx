@@ -11,11 +11,11 @@ const initialize = {
 }
 export default function FormContactUs() {
   const [state, formAction] = useFormState(actionContactUs, initialize);
-  if (state.msg) {
+  if (state?.msg) {
     toast.dismiss("toast")
     toast.success("پیام با موفقیت ارسال شد", { id: "toast" })
   }
-  if (state.err) {
+  if (state?.err) {
     toast.dismiss("toast")
     toast.error("با خطا مواجه شدیم")
   }

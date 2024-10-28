@@ -2,7 +2,6 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import React from 'react'
-import { FaChevronLeft } from 'react-icons/fa6'
 export default function Breadcrums() {
     const route = usePathname()
     const arry = route.split("/")
@@ -52,9 +51,14 @@ export default function Breadcrums() {
                 name: "پروژه های ما", url: "/project"
             }
         }
-        if (i === "customer-reviews") {
+        if (i === "comments") {
             return {
-                name: "نظرات مشتریان", url: "/customer-reviews"
+                name: "نظرات مشتریان", url: "/comments"
+            }
+        }
+        if (i === "experts") {
+            return {
+                name: "اعضای تیم", url: "/experts"
             }
         }
         return {
@@ -73,8 +77,7 @@ export default function Breadcrums() {
                         </span>
                     }
                     {newArry.length - 1 === index ? null :
-                       "/"
-                       // <FaChevronLeft />
+                        "/"
                     }
                 </React.StrictMode>
             ))}

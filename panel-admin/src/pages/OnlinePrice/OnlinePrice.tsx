@@ -69,6 +69,7 @@ export default function OnlinePrice() {
   const [open, setOpen] = useState<boolean>(false);
   const [singleData, setSingleData] = useState<OnlinePriceType>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [showImg, setShowImg] = useState<string>("")
   const { search } = useLocation();
   const queryClient = useQueryClient();
   const { data } = useInfiniteQuery<AllonlinePriceType>({
@@ -131,7 +132,7 @@ export default function OnlinePrice() {
   return (
     <div className="w-full">
       {isLoading ? <PendingApi /> : null}
-      <SearchBox checker notTag notSearch/>
+      <SearchBox checker notTag notSearch />
       <DontData
         text={
           data?.pages[0].count
@@ -191,7 +192,7 @@ export default function OnlinePrice() {
       ) : null}
       <Pagination pager={data?.pages[0].paginate} />
       <Dialog
-        maxWidth="md"
+        maxWidth="lg"
         fullWidth
         open={open}
         TransitionComponent={Transition}
@@ -255,6 +256,26 @@ export default function OnlinePrice() {
               </span>
             </div>
           </div>
+          <div className="grid gap-5 grid-cols-3 my-5">
+            {singleData?.images.map((item, index) => (
+              <figure key={index} className={`${item === showImg ? "fixed z-10 p-16 bg-slate-800/80" : "relative"} image-container top-0 left-0 w-full h-full`}>
+                <img className="w-full rounded-md object-cover shadow-md h-full"
+                  src={item || "/notfound.webp"} alt="test"
+                  onError={({ currentTarget }) => {
+                    currentTarget.onerror = null;
+                    currentTarget.src = "/notfound.webp";
+                  }}
+                />
+                {item === showImg ?
+                  <i onClick={() => setShowImg("")} className="right-20 top-20 absolute cursor-pointer hover:bg-red-700 bg-red-500/70 text-white text-2xl rounded-full shadow-md p-3">
+                    <MdClose />
+                  </i> : <i onClick={() => setShowImg(item)} className="top-1/2 left-1/2 absolute cursor-pointer hover:bg-black -translate-x-1/2 -translate-y-1/2 bg-slate-700/80 text-white text-2xl rounded-full shadow-md p-3 transform">
+                    <IoEye />
+                  </i>
+                }
+              </figure>
+            ))}
+          </div>
           <div className="mt-4">
             <span className="font-semibold">توضیحات :</span>
             <p className="p-2 rounded-md bg-blue-100/80">
@@ -271,7 +292,7 @@ export default function OnlinePrice() {
               onClick={() => checkPrice()}
               endIcon={<FaCheck />}
             >
-              {singleData?.status ? "لغو تایید" : "تایید شود" }
+              {singleData?.status ? "لغو تایید" : "تایید شود"}
             </Button>
             <Button
               disabled={isDelete || isUpdate}
@@ -285,6 +306,6 @@ export default function OnlinePrice() {
           </div>
         </DialogActions>
       </Dialog>
-    </div>
+    </div >
   );
 }

@@ -2,7 +2,7 @@ import React from 'react'
 import ImgTag from '../ImgTag/ImgTag'
 import { CommentsType } from '@/app/type'
 import ResComment from '../ResComment/ResComment'
-export default function Comments({ comments, postId }: { comments: CommentsType[], postId: number }) {
+export default function Comments({ comments, postId }: { comments: CommentsType[], postId?: number }) {
     const ReplyComments = ({ data }: { data: CommentsType }) => {
         return <>
             <div key={data?.id} className='relative'>

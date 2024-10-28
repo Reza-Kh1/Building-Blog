@@ -7,17 +7,20 @@ const actionContactUs = async (prevState: any, formData: FormData) => {
         subject: formData.get("subject"),
         text: formData.get("text"),
     };
-    const data = await fetchApi({ url: "message", method: "POST", body })
-    console.log(data);
-    if (data.success) {
+    try {
+        const data = await fetchApi({ url: "message", method: "POST", body })
+        if (data?.error) throw new Error()
+        if (data.success) {
+            return {
+                msg: "ok",
+                err: "",
+            }
+        };
+    } catch (err) {
         return {
-            msg: "ok",
-            err: ""
-        }
-    }
-    return {
-        msg: "",
-        err: "ok"
+            msg: "",
+            err: "err",
+        };
     }
 }
 export default actionContactUs

@@ -12,16 +12,20 @@ const actionProject = async (prevState: any, formData: FormData) => {
         subject: formData.get("subject"),
         images: formatImage,
     };
-    const data = await fetchApi({ url: "onlineprice", method: "POST", body })
-    if (data.success) {
+    try {
+        const data = await fetchApi({ url: "onlineprice", method: "POST", body })
+        if (data?.error) throw new Error()
+        if (data.success) {
+            return {
+                msg: "ok",
+                err: "",
+            }
+        };
+    } catch (err) {
         return {
-            msg: "ok",
-            err: ""
-        }
-    }
-    return {
-        msg: "",
-        err: "ok"
+            msg: "",
+            err: "err",
+        };
     }
 }
 export default actionProject

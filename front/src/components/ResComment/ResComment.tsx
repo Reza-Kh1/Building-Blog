@@ -29,16 +29,16 @@ export default function ResComment({
   postId,
   comment,
 }: {
-  postId: number;
+  postId?: number;
   comment: CommentsType;
 }) {
   const [state, formAction] = useFormState(actionComments, initialize);
   const [open, setOpen] = useState(false);
-  if (state.msg) {
+  if (state?.msg) {
     toast.dismiss("toast");
     toast.success("پس از تایید نمایش داده میشود", { id: "toast" });
   }
-  if (state.err) {
+  if (state?.err) {
     toast.dismiss("toast");
     toast.error("با خطا مواجه شدیم");
   }
@@ -59,13 +59,15 @@ export default function ResComment({
         PaperProps={{
           component: "form",
           action: (form: FormData) => {
-            if (!comment.id || !postId) return;
+            if (!comment.id) return;
             form.append("replies", JSON.stringify(comment.id));
-            form.append("postId", JSON.stringify(postId));
+            if (postId) {
+              form.append("postId", JSON.stringify(postId));
+            }
             formAction(form);
           },
           onSubmit: (event: React.FormEvent<HTMLFormElement>) => {
-            if (!comment.id || !postId) return;
+            if (!comment.id) return;
             toast.loading("...صبر کنید", { id: "toast" });
           },
         }}
@@ -125,7 +127,7 @@ export default function ResComment({
                     width={80}
                     height={80}
                     className="rounded-full w-14 shadow-md"
-                    src={"/image-admin.png"}
+                    src={comment.position === "USER" ? "/semicolon-image.png" : "/image-admin.png"}
                     alt={comment?.name}
                   />
                 </div>

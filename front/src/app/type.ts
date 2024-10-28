@@ -137,6 +137,14 @@ type ImageType = {
   url: string;
   alt: string;
 };
+type CommentsPage = {
+  comments: {
+    count: number,
+    rows: CommentsType[]
+  }
+  paginate: PaginationType
+  countNull: number
+}
 export type {
   FaqsType,
   ImageType,
@@ -150,5 +158,6 @@ export type {
   CardProjectsType,
   CategoryType,
   CommentsType,
-  AllPostType
+  AllPostType,
+  CommentsPage
 };

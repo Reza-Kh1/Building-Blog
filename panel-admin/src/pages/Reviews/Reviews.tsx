@@ -37,6 +37,7 @@ import queryString from "query-string";
 import DontData from "../../components/DontData/DontData";
 import SearchBox from "../../components/SearchBox/SearchBox";
 import PendingApi from "../../components/PendingApi/PendingApi";
+import { BiSolidMessageAltCheck } from "react-icons/bi";
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -58,7 +59,7 @@ type FormReviewType = {
   name: string;
   text: string;
   email: string;
-  phone: string;
+  phone?: string;
   replie: string;
 };
 export default function Reviews() {
@@ -83,14 +84,6 @@ export default function Reviews() {
   const { isPending: isPendingUpdate, mutate: reviewUpdate } = useMutation({
     mutationFn: async ({ replie, ...other }: FormReviewType) => {
       try {
-        if (replie) {
-          const body = {
-            text: replie,
-            replies: review?.data.id,
-            postId: review?.data.Post?.id,
-          };
-          await axios.post(`comment`, body);
-        }
         if (isUpdate) {
           const body = {
             ...other,
@@ -99,6 +92,19 @@ export default function Reviews() {
           };
           await axios.put(`comment/${review?.data.id}`, body);
         }
+        if (replie) {
+          const body = {
+            text: replie,
+            replies: review?.data.id,
+            postId: review?.data.Post?.id,
+          };
+          await axios.post(`comment`, body);
+        }
+        const check = {
+          status: true,
+          postId: review?.data.Post?.id
+        };
+        return axios.put(`comment/${review?.data?.id}`, check);
       } catch (err: any) {
         throw new Error(err);
       }
@@ -107,6 +113,7 @@ export default function Reviews() {
       closeHandler();
       query.invalidateQueries({ queryKey: ["AllReview"] });
       toast.success("کامنت ثبت شد");
+      setValue("replie", "")
     },
     onError: (err) => {
       console.log(err);
@@ -134,8 +141,6 @@ export default function Reviews() {
         postId: form.Post?.id,
         status: true,
       };
-      console.log(body);
-
       return axios.put(`comment/${form?.id}`, body);
     },
     onSuccess: () => {
@@ -229,18 +234,33 @@ export default function Reviews() {
                         <p className="text-sm cutline cutline-3">{i.text}</p>
                       </StyledTableCell>
                       <StyledTableCell align="center">
-                        <Tooltip title={i.Post?.title} placement="top" arrow>
-                          <Link to={`/home/posts/${i?.Post?.title}`}>
-                            <Button
-                              color="primary"
-                              variant="outlined"
-                              endIcon={<FaEye size={13} />}
-                              size="small"
-                            >
-                              پست
-                            </Button>
-                          </Link>
-                        </Tooltip>
+                        {i.Post?.id ?
+                          <Tooltip title={i.Post?.title} placement="top" arrow>
+                            <Link to={`/home/posts/${i?.Post?.title}`}>
+                              <Button
+                                color="primary"
+                                variant="outlined"
+                                endIcon={<FaEye size={13} />}
+                                size="small"
+                              >
+                                پست
+                              </Button>
+                            </Link>
+                          </Tooltip>
+                          :
+
+                          <Button
+                            color="success"
+                            variant="outlined"
+                            endIcon={<BiSolidMessageAltCheck size={13} />}
+                            size="small"
+                          >
+                            نظر
+                          </Button>
+
+
+                        }
+
                       </StyledTableCell>
                       <StyledTableCell align="center">
                         {new Date(i?.createdAt).toLocaleDateString("fa")}

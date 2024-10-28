@@ -119,10 +119,10 @@ export default async function Footer() {
                 </Link>
               </div>
             </div>
-            <div>
+            {/* <div>
               <p className="text-slate-400 mb-2">در خبرنامه ما عضو شوید.</p>
               <SubscribeForm />
-            </div>
+            </div> */}
           </div>
         </div>
         <div className="after-overlay py-8">

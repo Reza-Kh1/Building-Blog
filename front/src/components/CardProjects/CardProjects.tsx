@@ -9,7 +9,7 @@ export default function CardProjects({ data }: { data: CardProjectsType }) {
             <div key={index}>
                 <Link href={i.url} className="relative group">
                     <ImgTag
-                        fiureClass="relative w-full overflow-hidden rounded-md"
+                        figureClass="relative w-full overflow-hidden rounded-md"
                         alt={"نمونه پروژه"}
                         src={i.src}
                         width={500}

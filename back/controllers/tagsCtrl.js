@@ -10,7 +10,7 @@ const createTag = asyncHandler(async (req, res) => {
     throw customError(err);
   }
 });
-const getAllTags = asyncHandler(async (req, res) => {  
+const getAllTags = asyncHandler(async (req, res) => {    
   try {
     const data = await tagsModel.findAll();
     res.send({ data });

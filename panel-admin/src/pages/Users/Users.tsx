@@ -232,13 +232,15 @@ export default function Users() {
           </div>
         </div>
         <SearchBox isUser notTag />
-        {data?.pages[0].count ? (
-          <h1 className="w-full bg-blue-400 shadow-md rounded-md text-gray-50 p-2 mb-3">
-            {data?.pages[0].count} کاربر
-          </h1>
-        ) : null}
+        <DontData
+          text={
+            data?.pages[0].count
+              ? data?.pages[0].count + " کاربر"
+              : "کاربری یافت نشد!"
+          }
+        />
         {data?.pages[0]?.rows.length ? (
-          <div>
+          <div className="my-4">
             <TableContainer component={Paper}>
               <Table sx={{ minWidth: 700 }} aria-label="customized table">
                 <TableHead>
@@ -269,8 +271,8 @@ export default function Users() {
                         {i?.role === "ADMIN"
                           ? "ادمین"
                           : i?.role === "AUTHOR"
-                          ? "نویسنده"
-                          : "کاربر"}
+                            ? "نویسنده"
+                            : "کاربر"}
                       </StyledTableCell>
                       <StyledTableCell align="center">
                         {new Date(i?.createdAt).toLocaleDateString("fa")}
@@ -349,8 +351,8 @@ export default function Users() {
                       {dataUser?.data?.role === "ADMIN"
                         ? "ادمین"
                         : dataUser?.data?.role === "AUTHOR"
-                        ? "نویسنده"
-                        : "کاربر"}
+                          ? "نویسنده"
+                          : "کاربر"}
                     </StyledTableCell>
                   </StyledTableRow>
                 </TableBody>

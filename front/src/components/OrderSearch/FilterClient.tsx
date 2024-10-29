@@ -1,5 +1,5 @@
 "use client";
-import { TagsType } from "@/app/type";
+import { FilterQueryType, TagsType } from "@/app/type";
 import {
   Autocomplete,
   FormControl,
@@ -8,61 +8,54 @@ import {
   Select,
   TextField,
 } from "@mui/material";
-import Link from "next/link";
-import { useSearchParams } from "next/navigation";
-import React from "react";
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
+import React, { useState } from "react";
 
 export default function FilterClient({ nameTags }: { nameTags: TagsType[] }) {
-  const searchPara = useSearchParams();
-  const { order, search, tags } = Object.fromEntries(searchPara.entries());
-  
+  const searchParam = useSearchParams();
+  const pathName = usePathname()
+  const router = useRouter()
+  const paramsQuery: FilterQueryType = Object.fromEntries(searchParam.entries())
+  const [filterOrder, setFilterOrder] = useState<string>(paramsQuery?.order || "createdAt-DESC")
+  const [filterTags, setFilterTags] = useState<{ name: string }>({ name: paramsQuery?.tags || "" })
+  paramsQuery.page = "1"
   return (
-    <div>
+    <div className="flex items-center gap-5">
       <Autocomplete
-        multiple
-        id="tags-outlined"
+        disablePortal
+        value={filterTags}
+        onChange={(_, value) => {
+          setFilterTags({ name: value?.name || "" })
+          paramsQuery.tags = value?.name
+          router.replace(pathName + "?" + new URLSearchParams(paramsQuery))
+        }}
         options={nameTags}
         getOptionLabel={(option) => option.name}
-        defaultValue={[]}
-        filterSelectedOptions
-        renderInput={(params) => (
-          <TextField
-            {...params}
-            label="filterSelectedOptions"
-            placeholder="Favorites"
-          />
-        )}
+        className="w-1/2 shadow-md"
+        renderInput={(params) => <TextField {...params} label="انتخاب دسته" />}
       />
-      <FormControl fullWidth>
+      <FormControl className="w-1/2">
         <InputLabel id="demo-simple-select-label">مرتب سازی بر اساس</InputLabel>
         <Select
           className="shadow-md"
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          defaultValue={order || "createdAt-DESC"}
+          onChange={({ target }) => setFilterOrder(target.value)}
+          value={filterOrder}
           label="مرتب سازی بر اساس"
         >
-          <MenuItem value={"createdAt-DESC"}>
-            <Link
-              href={{
-                query: `${
-                  search ? "search=" + search + "&" : ""
-                }order=createdAt-DESC&page=1`,
-              }}
-            >
-              جدید ترین
-            </Link>
+          <MenuItem value={"createdAt-DESC"} onClick={() => {
+            paramsQuery.order = "createdAt-DESC"
+            router.replace(pathName + "?" + new URLSearchParams(paramsQuery))
+          }}>
+            جدید ترین
           </MenuItem>
-          <MenuItem value={"createdAt-ASC"}>
-            <Link
-              href={{
-                query: `${
-                  search ? "search=" + search + "&" : ""
-                }order=createdAt-ASC&page=1`,
-              }}
-            >
-              قدیمی ترین
-            </Link>
+          <MenuItem value={"createdAt-ASC"} onClick={() => {
+            paramsQuery.order = "createdAt-ASC"
+            router.replace(pathName + "?" + new URLSearchParams(paramsQuery))
+          }}>
+
+            قدیمی ترین
           </MenuItem>
         </Select>
       </FormControl>

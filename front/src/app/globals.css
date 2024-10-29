@@ -63,7 +63,9 @@ a {
   scale: 1.2;
   transition: all ease-in 4s;
 }
-
+.custom-rounded {
+  border-radius: 3% 3% 100% 100%;
+}
 .swiper-button-next,
 .swiper-button-prev {
   color: black !important;

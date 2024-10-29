@@ -5,6 +5,9 @@ import Pagination from "@/components/Pagination/Pagination";
 import React, { Suspense } from "react";
 import BannerCallUs from "../about-us/BannerCallUs";
 import ContactSocialMedia from "@/components/ContactSocialMedia/ContactSocialMedia";
+import OrderSearch from "@/components/OrderSearch/OrderSearch";
+import { fetchApi } from "@/action/fetchApi";
+import { AllProjectType, FilterQueryType } from "../type";
 const dataProject = [
   {
     src: "/6.jpg",
@@ -13,14 +16,22 @@ const dataProject = [
     address: "تهران ، الهیه",
   },
 ];
+const getData = (query: FilterQueryType) => {
+  const url = "worker?" + new URLSearchParams(query)
+  return fetchApi({ url })
+}
+export default async function page({ searchParams }: { searchParams: FilterQueryType }) {
+  const data: AllProjectType = await getData(searchParams)
 
-export default function page() {
   return (
     <div className="w-full my-8">
       <div className="w-full max-w-7xl mx-auto mb-20">
         <Breadcrums />
-        <div className="mt-6">
-          <h1>پروژه های ساختمان یار</h1>
+        <div className="mt-6 flex justify-between items-center">
+          <h1 className="font-semibold">پروژه های ساختمان یار</h1>
+          <div className="w-1/3">
+            <OrderSearch />
+          </div>
         </div>
         <div className="my-10 grid grid-cols-3 gap-5">
           <CardProjects data={dataProject} />

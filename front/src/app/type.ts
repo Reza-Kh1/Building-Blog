@@ -146,6 +146,61 @@ type CommentsPage = {
   paginate: PaginationType;
   countNull: number;
 };
+type FilterQueryType = {
+  search?: string
+  order?: string
+  page?: string
+  tags?: string
+}
+type ExpertsType = {
+  id: number
+  name: string
+  phone: string
+  socialMedia: {
+    id: number
+    link: string
+    text: string
+    type: "whatsapp" | "telegram" | "instagram" | "phone" | "web" | "twitter" | "linkedin"
+  }[]
+  address: string
+  description: string
+  image: string
+  createdAt: Date
+  updatedAt: Date
+  Tags: TagsType[]
+}
+type AllExpertType = {
+  count: number,
+  rows: ExpertsType[]
+  paginate: PaginationType
+}
+type AllProjectType = {
+  count: number,
+  rows: ProjectType[]
+  paginate: PaginationType
+}
+type ProjectType = {
+  id: number
+  name: string
+  address: string
+  image: string
+  gallery: [],
+  video: string | null,
+  alt: string
+  description: string
+  status: boolean,
+  createdAt: Date
+  updatedAt: Date
+  workerId: number
+  Worker: {
+    id: number,
+    name: string
+    phone: string
+    image: null | string,
+    Projects: ProjectType[]
+  },
+  Tags: TagsType[]
+}
 export type {
   FaqsType,
   ImageType,
@@ -162,4 +217,9 @@ export type {
   AllPostType,
   CommentsPage,
   TagsType,
+  FilterQueryType,
+  ExpertsType,
+  AllExpertType,
+  AllProjectType,
+  ProjectType
 };

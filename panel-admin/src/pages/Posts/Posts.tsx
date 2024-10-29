@@ -34,11 +34,13 @@ export default function Posts() {
         </Button>
       </Link>
       <SearchBox status />
-      {data?.pages[0].count ?
-        <h1 className="w-full p-2 rounded-md shadow-md bg-blue-400 text-gray-50">
-          {data?.pages[0].count} پست
-        </h1> : null
-      }
+      <DontData
+        text={
+          data?.pages[0].count
+            ? data?.pages[0].count + " پست"
+            : "پستی یافت نشد!"
+        }
+      />
       <div className="flex flex-col gap-3 mt-3">
         {data?.pages[0].rows.length ? (
           data.pages[0].rows.map((i, index) => (

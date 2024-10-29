@@ -196,9 +196,16 @@ export default function Reviews() {
           isPendingCheck ||
           (isPendingMinus && <PendingApi />)}
         <SearchBox notTag checker />
+        <DontData
+          text={
+            data?.pages[0].count
+              ? data?.pages[0].count + " کامنت"
+              : "اظلاعاتی یافت نشد!"
+          }
+        />
         {data?.pages[0].rows.length ? (
           <>
-            <TableContainer component={Paper}>
+            <TableContainer className="my-6" component={Paper}>
               <Table sx={{ minWidth: 700 }} aria-label="customized table">
                 <TableHead>
                   <TableRow>

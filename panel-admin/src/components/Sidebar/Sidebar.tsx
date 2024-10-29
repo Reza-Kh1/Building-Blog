@@ -30,7 +30,7 @@ const dataLink = [
     icon: <MdOutlinePostAdd />,
   },
   {
-    name: "نظرات",
+    name: "کامنت ها",
     url: "/home/reviews?page=1&order=createdAt-DESC&search=&tags=",
     icon: <TiMessages />,
   },

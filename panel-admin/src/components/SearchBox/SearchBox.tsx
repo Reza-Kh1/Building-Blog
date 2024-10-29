@@ -80,7 +80,7 @@ export default function SearchBox({
   return (
     <form className="w-full grid my-4 grid-cols-4 gap-3 items-center justify-center">
       {!notTag && (
-        <TagAutocomplete name="انتخاب دسته" setTags={setTags} tags={tags} />
+        <TagAutocomplete name="انتخاب تگ" setTags={setTags} tags={tags} />
       )}
       {!notSearch && (
         <TextField

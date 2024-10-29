@@ -303,6 +303,7 @@ export default function CreateWorker() {
         >
           <div className="grid gap-3 items-start grid-cols-2">
             <TextField
+              required
               fullWidth
               autoComplete="off"
               defaultValue={data?.name}
@@ -313,6 +314,7 @@ export default function CreateWorker() {
             <TextField
               fullWidth
               autoComplete="off"
+              required
               label={"تلفن"}
               {...register("phone", { required: true })}
               onChange={(e) => {

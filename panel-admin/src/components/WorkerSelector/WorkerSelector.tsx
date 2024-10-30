@@ -19,11 +19,11 @@ export default function WorkerSelector({ worker, setWorker }: WorkerType) {
     <div>
       {data ?
         <FormControl fullWidth className="shadow-md">
-          <InputLabel id="demo-simple-select-label">نام متخصص</InputLabel>
+          <InputLabel id="demo-simple-select-label">نام مجری</InputLabel>
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            label="نام متخصص"
+            label="نام مجری"
             value={worker || 0}
             onChange={({ target }) => setWorker(target.value as number)}
           >
@@ -37,7 +37,7 @@ export default function WorkerSelector({ worker, setWorker }: WorkerType) {
         </FormControl>
         : <Link to={"/home/tags"}>
           <Button endIcon={<FaShare />} variant="outlined">
-            هیچ متخصصی در دیتابیس ذخیره نشده لطفا متخصص جدید ایجاد کنید!
+            هیچ مجری در دیتابیس ذخیره نشده لطفا ایجاد کنید!
           </Button>
         </Link>
       }

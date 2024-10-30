@@ -131,7 +131,7 @@ const getProject = asyncHandler(async (req, res) => {
   }
 });
 const getAllProject = asyncHandler(async (req, res) => {
-  let { search, page, order, status, tags } = req.query;
+  let { search, page, order, status, tags, expert } = req.query;
   page = page || 1;
   let filter = {};
   let tagsArray = []
@@ -141,6 +141,9 @@ const getAllProject = asyncHandler(async (req, res) => {
     orderFilter.push([column, direction]);
   } else {
     orderFilter.push(["createdAt", "DESC"]);
+  }
+  if (expert) {
+    filter.workerId = expert
   }
   if (search || status) {
     filter[Op.or] = [];
@@ -156,9 +159,10 @@ const getAllProject = asyncHandler(async (req, res) => {
         { description: { [Op.iLike]: `%${search}%` } }
       );
     }
-
   }
   if (tags) tagsArray = tags.split("-");
+  console.log(filter);
+
   try {
     const data = await projectModel.findAndCountAll({
       where: filter,

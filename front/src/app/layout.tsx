@@ -10,6 +10,7 @@ import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
+import 'swiper/css/pagination';
 import local from "next/font/local"
 export const metadata: Metadata = {
   title: "ساخت یار - اولین منبع برای ساختن",

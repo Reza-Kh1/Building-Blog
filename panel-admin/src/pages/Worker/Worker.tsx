@@ -36,7 +36,7 @@ export default function Worker() {
           fullWidth
           variant="contained"
         >
-          ایجاد متخصص
+          ایجاد مجری
         </Button>
       </Link>
       <div>
@@ -44,13 +44,6 @@ export default function Worker() {
       </div>
       {data?.pages[0].rows.length ?
         <>
-          <DontData
-            text={
-              data?.pages[0].count
-                ? data?.pages[0].count + " متخصص"
-                : "متخصصی یافت نشد!"
-            }
-          />
           <div className="grid grid-cols-4 gap-3 my-5 items-center justify-between">
             {data?.pages[0].rows.map((i, index) => (
               <div key={index} className="group shadow-md relative gap-3 p-3 border rounded-md bg-slate-200 hover:bg-gray-200 flex">
@@ -72,7 +65,7 @@ export default function Worker() {
             ))}
           </div>
         </>
-        : <DontData text="متخصصی یافت نشد!" />}
+        : <DontData text="هیچ اطلاعاتی یافت نشد!" />}
       <Pagination pager={data?.pages[0].paginate} />
     </div>
   );

@@ -55,17 +55,21 @@ a {
 }
 
 .hover-project {
-  scale: 1;
   transition: all ease-in 1s;
 }
 
 .hover-project:hover {
-  scale: 1.2;
   transition: all ease-in 4s;
 }
+
 .custom-rounded {
   border-radius: 3% 3% 100% 100%;
 }
+
+.custom-rounded-reverse {
+  border-radius: 100% 100% 0% 0%;
+}
+
 .swiper-button-next,
 .swiper-button-prev {
   color: black !important;

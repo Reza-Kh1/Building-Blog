@@ -58,7 +58,7 @@ export default function Breadcrums() {
         }
         if (i === "experts") {
             return {
-                name: "اعضای تیم", url: "/experts"
+                name: "مجریان تیم", url: "/experts"
             }
         }
         return {

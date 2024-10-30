@@ -43,13 +43,6 @@ export default function Projects() {
       <div>
         <SearchBox status />
       </div>
-      <DontData
-        text={
-          data?.pages[0].count
-            ? data?.pages[0].count + " پروژه"
-            : "پروژه ای یافت نشد!"
-        }
-      />
       {
         data?.pages[0].rows.length ?
           <div className="w-full my-3 grid grid-cols-3 gap-3">
@@ -100,7 +93,7 @@ export default function Projects() {
               </div>
             ))}
           </div>
-          : <DontData text="هیچ پروژه ای ثبت نشده !" />
+          : <DontData text="پروژه ای یافت نشد!" />
       }
       <div>
         <Pagination pager={data?.pages[0].paginate} />

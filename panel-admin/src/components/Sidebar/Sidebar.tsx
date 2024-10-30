@@ -45,7 +45,7 @@ const dataLink = [
     icon: <BsFillBuildingsFill />,
   },
   {
-    name: "متخصص ها",
+    name: "مجری ها",
     url: "/home/worker?page=1&order=createdAt-DESC&role=all&search=&tags=",
     icon: <GrUserWorker />,
   },

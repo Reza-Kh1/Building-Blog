@@ -35,11 +35,19 @@ type PaginationType = {
   prevPage?: number;
 };
 type CardProjectsType = {
-  url: string;
-  src: string;
-  title: string;
-  address: string;
-}[];
+  id: number,
+  name: string,
+  address: string,
+  image: string,
+  alt: string,
+  status: boolean,
+  createdAt: Date,
+  updatedAt: Date,
+  workerId: number,
+  Worker: {
+    name: string
+  }
+};
 type CommentsType = {
   id: number;
   position: "USER" | "ADMIN" | "AUTHOR";
@@ -152,7 +160,7 @@ type FilterQueryType = {
   page?: string
   tags?: string
 }
-type ExpertsType = {
+type ExpertType = {
   id: number
   name: string
   phone: string
@@ -168,15 +176,16 @@ type ExpertsType = {
   createdAt: Date
   updatedAt: Date
   Tags: TagsType[]
+  Projects: CardProjectsType[]
 }
 type AllExpertType = {
   count: number,
-  rows: ExpertsType[]
+  rows: ExpertType[]
   paginate: PaginationType
 }
 type AllProjectType = {
   count: number,
-  rows: ProjectType[]
+  rows: CardProjectsType[]
   paginate: PaginationType
 }
 type ProjectType = {
@@ -218,7 +227,7 @@ export type {
   CommentsPage,
   TagsType,
   FilterQueryType,
-  ExpertsType,
+  ExpertType,
   AllExpertType,
   AllProjectType,
   ProjectType

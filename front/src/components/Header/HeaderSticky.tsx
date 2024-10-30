@@ -27,7 +27,7 @@ const menuTitle = [
     url: "/comments?page=1",
   },
   {
-    name: "اعضای تیم",
+    name: "مجریان",
     url: "/experts?order=createdAt-DESC&page=1",
   },
   {

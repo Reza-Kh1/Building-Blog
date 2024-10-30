@@ -138,7 +138,7 @@ export default function CreateWorker() {
     onSuccess: () => {
       navigate("/home/worker?order=createdAt-DESC&search=&tags=");
       queryClient.invalidateQueries({ queryKey: ["AllWorker"] });
-      toast.success("متخصص با موفقیت ایجاد شد");
+      toast.success("مجری با موفقیت ایجاد شد");
     },
     onError: (err: any) => {
       toast.warning(err?.response?.data?.message || "با خطا مواجه شدیم");
@@ -183,7 +183,7 @@ export default function CreateWorker() {
     },
     onError: (err: any) => {
       if (err?.response?.data?.message.search("Project_workerId_fkey")) {
-        toast.warning("اول تمام پروژه های متخصص را حذف کنید");
+        toast.warning("اول تمام پروژه های مجری را حذف کنید");
       } else {
         toast.warning(err?.response?.data?.message || "با خطا مواجه شدیم");
       }
@@ -295,7 +295,7 @@ export default function CreateWorker() {
       {isPending && <PendingApi />}
       <div className="w-full">
         <h1 className="w-full p-2 rounded-md shadow-md bg-blue-400 text-gray-50">
-          {data ? "ویرایش متخصص" : "افزودن متخصص"}
+          {data ? "ویرایش مجری" : "افزودن مجری"}
         </h1>
         <form
           className="my-3 flex flex-col gap-3"
@@ -469,7 +469,7 @@ export default function CreateWorker() {
               </Button>
             )}
             <DeleteButton
-              text="حذف متخصص"
+              text="حذف مجری"
               deletePost={deletehandler}
               pendingDelete={!data?.id || pendingDelete}
             />

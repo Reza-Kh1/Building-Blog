@@ -55,7 +55,7 @@ export default function Tags() {
       toast.info("تگ حذف شد");
     },
     onError: (err: any) => {
-      toast.error("تمام متخصص ها ،پروژه هاو پست های مربوط به تگ را حذف کنید");
+      toast.error("تمام مجری ها ،پروژه هاو پست های مربوط به تگ را حذف کنید");
       //   toast.warning(err.response.data.message);
       console.log(err);
     },

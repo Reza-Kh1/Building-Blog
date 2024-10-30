@@ -4,18 +4,32 @@ const workerModel = require("../models/workerModel");
 const pagination = require("../utils/pagination");
 const { Op } = require("sequelize");
 const tagsModel = require("../models/tagsModel");
+const projectModel = require("../models/projectModel");
 const limit = process.env.LIMIT;
 const getWorker = asyncHandler(async (req, res) => {
   const { id } = req.params;
+  let { page } = req.query
+  page = page || 1
   try {
     const data = await workerModel.findOne({
       where: { name: id },
-      include: {
-        model: tagsModel,
-        through: {
-          attributes: []
+      include: [
+        {
+          model: tagsModel,
+          through: {
+            attributes: []
+          }
+        },
+        {
+          model: projectModel,
+          attributes: ["image", "id", "address", "name", "createdAt", "alt"],
+          limit: limit,
+          include: {
+            model: workerModel,
+            attributes: ["name"],
+          }
         }
-      },
+      ]
     });
     res.send({ data });
   } catch (err) {

@@ -5,7 +5,7 @@ import Image from "next/image";
 import { FaCheck } from "react-icons/fa6";
 import SwiperGallery from "@/components/SwiperGallery/SwiperGallery";
 import CardProjects from "@/components/CardProjects/CardProjects";
-import BannerCallUs from "./BannerCallUs";
+import BannerCallUs from "../../components/BannerCallUs/BannerCallUs";
 import { fetchApi } from "@/action/fetchApi";
 import { AboutUsType } from "../type";
 const dataBanner = [
@@ -51,11 +51,19 @@ const dataTrustUs = [
 const imagesSrc = ["/5.jpg", "/6.jpg", "/7.jpg", "/8.jpg", "/5.jpg", "/5.jpg"];
 const dataProject = [
   {
-    src: "/6.jpg",
-    url: "#",
-    title: "پروژه برج امید",
-    address: "تهران ، الهیه",
-  },
+    "id": 9,
+    "name": "برج خلیفا",
+    "address": "تهران-شمال",
+    "image": "https://building-blog.storage.iran.liara.space/1728717013892-azadi.jpg",
+    "alt": "برج آزادی",
+    "status": false,
+    "createdAt": "2024-10-16T10:21:07.519Z",
+    "updatedAt": "2024-10-16T10:21:07.519Z",
+    "workerId": 3,
+    "Worker": {
+      "name": "حسن فیاضی"
+    }
+  }
 ];
 const getData = () => {
   return fetchApi({ url: "page/aboutMe" });

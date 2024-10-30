@@ -2,9 +2,9 @@ import React from 'react'
 import ImgTag from '../ImgTag/ImgTag'
 import Link from 'next/link'
 import { FaPhone, FaRegUserCircle } from 'react-icons/fa'
-import { ExpertsType } from '@/app/type'
+import { ExpertType } from '@/app/type'
 
-export default function ExpertCard(props: ExpertsType) {
+export default function ExpertCard(props: ExpertType) {
   return (
     <div className='bg-slate-900 shadow-md rounded-md pb-2'>
       <div className='w-full bg-slate-50 custom-rounded pt-2 flex justify-center pb-8 shadow-md'>

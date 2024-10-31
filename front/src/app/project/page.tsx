@@ -13,7 +13,7 @@ const getData = (query: FilterQueryType) => {
   return fetchApi({ url })
 }
 export default async function page({ searchParams }: { searchParams: FilterQueryType }) {
-  const data: AllProjectType = await getData(searchParams)  
+  const data: AllProjectType = await getData(searchParams)
   return (
     <div className="w-full my-8">
       <div className="w-full max-w-7xl mx-auto mb-20">
@@ -25,7 +25,9 @@ export default async function page({ searchParams }: { searchParams: FilterQuery
           </div>
         </div>
         <div className="my-10 grid grid-cols-3 gap-5">
-          <CardProjects data={data.rows} />
+          {data.rows.map((item, index) => (
+            <CardProjects project={item} key={index} />
+          ))}
         </div>
         <div>
           <Suspense fallback={<LoadingSearch />}>

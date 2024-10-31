@@ -114,7 +114,9 @@ export default async function page() {
       <div className="max-w-7xl mx-auto w-full my-5 ">
         <h3 className="text-xl font-semibold mb-3">برخی از پروژه های ما</h3>
         <div className="grid grid-cols-3 gap-5">
-          <CardProjects data={dataProject} />
+          {dataProject.map((i, index) => (
+            <CardProjects project={i} key={index} />
+          ))}
         </div>
       </div>
       <BannerCallUs />

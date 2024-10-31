@@ -161,8 +161,6 @@ const getAllProject = asyncHandler(async (req, res) => {
     }
   }
   if (tags) tagsArray = tags.split("-");
-  console.log(filter);
-
   try {
     const data = await projectModel.findAndCountAll({
       where: filter,

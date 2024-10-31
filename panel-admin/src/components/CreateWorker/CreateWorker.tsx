@@ -10,15 +10,19 @@ import {
   Select,
   TextField,
 } from "@mui/material";
+import { RiRefreshLine } from "react-icons/ri";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { BiLogoInternetExplorer, BiMessageSquareEdit } from "react-icons/bi";
 import {
+  FaCheck,
   FaInstagram,
   FaLinkedin,
   FaPen,
   FaPenToSquare,
   FaPhone,
+  FaPlay,
+  FaShare,
   FaTelegram,
   FaTrash,
   FaUser,
@@ -28,15 +32,17 @@ import { IoLogoTwitter } from "react-icons/io5";
 import { MdClose, MdDataSaverOn } from "react-icons/md";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import SelectMedia from "../SelectMedia/SelectMedia";
-import { DataMediaType, WorkerType } from "../../type";
+import { AllProjectType, DataMediaType, WorkerType } from "../../type";
 import TagAutocomplete from "../TagAutocomplete/TagAutocomplete";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { toast } from "react-toastify";
 import PendingApi from "../PendingApi/PendingApi";
 import { fetchSingleWorker } from "../../services/worker";
 import queryString from "query-string";
 import DeleteButton from "../DeleteButton/DeleteButton";
+import { FaCalendarAlt } from "react-icons/fa";
+import { fetchProjectWorker } from "../../services/project";
 const dataSocialMedia = [
   {
     name: "Whatsapp",
@@ -99,12 +105,17 @@ type FormType = {
   linkSocial: string;
   textSocial: string;
 };
+type ProjectWorkerType = {
+  id: number
+  position: boolean
+}
 export default function CreateWorker() {
   const [tagWorker, setTagWorker] = useState<{ name: string }[]>([]);
   const [open, setOpen] = useState<boolean>(false);
   const [socialMedia, setSocialMedia] = useState<SocialMediaType[]>([]);
   const [image, setImage] = useState<DataMediaType | null>(null);
   const [idEdit, setIdEdit] = useState<number | null>(null);
+  const [Project, setProjects] = useState<ProjectWorkerType>()
   const { search } = useLocation();
   const test: { worker?: string } = queryString.parse(search);
   const queryClient = useQueryClient();
@@ -283,8 +294,19 @@ export default function CreateWorker() {
       setSocialMedia(data.socialMedia);
       setTagWorker(data.Tags);
       setImage({ url: data.image, alt: "logo profile" });
+      setProjects({ position: false, id: data.id })
     }
   }, [data]);
+  const { data: projectWorker, fetchNextPage, hasNextPage, isFetchingNextPage} =
+    useInfiniteQuery<AllProjectType>({
+      queryKey: ["mediaDB", Project?.id],
+      queryFn: ({ pageParam = 1 }) => fetchProjectWorker({ pageParam, id: Project?.id }),
+      getNextPageParam: (lastPage) => lastPage?.paginate?.nextPage || undefined,
+      staleTime: 1000 * 60 * 60 * 24,
+      gcTime: 1000 * 60 * 60 * 24,
+      initialPageParam: "",
+      enabled: Project?.position ? true : false
+    });
   if (search && !data) return;
   let isPending = false;
   if (pendingCreate || isUpdate || pendingDelete) {
@@ -475,6 +497,80 @@ export default function CreateWorker() {
             />
           </div>
         </form>
+        <div>
+          <div className="w-full my-3 grid grid-cols-3 gap-3">
+            {projectWorker?.pages?.length ?
+              projectWorker?.pages.map((item) => {
+                return item.rows.map((i, index) => (
+                  <div key={index} className="shadow-md p-2 rounded-md">
+                    <figure className="relative group overflow-hidden">
+                      <img
+                        src={i.image || "/notfound.webp"}
+                        onError={({ currentTarget }) => {
+                          currentTarget.onerror = null;
+                          currentTarget.src = "/notfound.webp";
+                        }}
+                        alt={i.alt}
+                        className="object-cover w-full h-64 rounded-md"
+                      />
+                      <Link
+                        to={"create-project?name=" + i.name.replace(/ /g, "-")}
+                        className="absolute opacity-0 text-white bg-black/30 group-hover:opacity-100 transition-customer backdrop-blur-md p-5 shadow-md text-2xl rounded-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                      >
+                        <FaPlay />
+                      </Link>
+                      <div className="-bottom-[100%] text-sm transition-customer box-shadow-customer absolute rounded-md w-full text-center bg-black/70 text-white py-2 group-hover:bottom-[0%]">
+                        <span>عنوان عکس :{i.alt}</span>
+                        <p>آدرس :{i.address}</p>
+                      </div>
+                      <div className="left-2 text-sm flex items-center gap-3 bg-black/50 px-3 py-1 text-white rounded-md top-2 absolute">
+                        <i>
+                          <FaCalendarAlt />
+                        </i>
+                        <span className="pt-1">
+                          {new Date(i.updatedAt).toLocaleDateString("fa")}
+                        </span>
+                      </div>
+                    </figure>
+                    <div className="flex justify-between px-2 mt-3 items-center">
+                      <span className="font-semibold">{i.Worker.name}</span>
+                      {i.status ? (
+                        <Button endIcon={<FaCheck />} color="success" size="small">
+                          منتشر شده
+                        </Button>
+                      ) : (
+                        <Button endIcon={<MdClose />} color="error" size="small">
+                          منتشر نشده
+                        </Button>
+                      )}
+                    </div>
+                    <p className="px-1 text-justify text-gray-700">{i.name}</p>
+                  </div>
+                ))
+              }) : null
+            }
+          </div>
+          {data?.Projects.length ?
+            !projectWorker || hasNextPage ? (
+              <Button
+                onClick={() => fetchNextPage()}
+                color="primary"
+                className="!mt-5"
+                variant="contained"
+                disabled={isFetchingNextPage}
+                endIcon={<RiRefreshLine />}
+              >
+                {isFetchingNextPage ? "در حال بارگزاری..." : "نمایش بیشتر"}
+              </Button>
+            ) : null
+            :
+            <Link to={"/home/projects/create-project"}>
+              <Button endIcon={<FaShare />} variant="outlined">
+                هیچ پروژه ای در دیتابیس برای این مجری ثبت نشده! ایجاد پروژه
+              </Button>
+            </Link>
+          }
+        </div>
       </div>
       <Dialog
         fullWidth

@@ -22,7 +22,7 @@ const getWorker = asyncHandler(async (req, res) => {
         },
         {
           model: projectModel,
-          attributes: ["image", "id", "address", "name", "createdAt", "alt"],
+          attributes: ["image", "id", "address", "name", "updatedAt", "alt"],
           limit: limit,
           include: {
             model: workerModel,

@@ -9,4 +9,8 @@ const fetchSingleProject = async (name?: string) => {
     const { data } = await axios.get(`project/${url}`);
     return data?.data;
 };
-export { fetchProject, fetchSingleProject };
+const fetchProjectWorker = async ({ pageParam, id }: any) => {    
+    const { data } = await axios.get(`project?page=${pageParam || 1}&expert=${id}`);
+    return data;
+};
+export { fetchProject, fetchSingleProject, fetchProjectWorker };

@@ -41,7 +41,7 @@ export default function Projects() {
         </Button>
       </Link>
       <div>
-        <SearchBox status />
+        <SearchBox status nameWorker/>
       </div>
       {
         data?.pages[0].rows.length ?

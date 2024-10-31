@@ -11,6 +11,7 @@ import TagAutocomplete from "../TagAutocomplete/TagAutocomplete";
 import { useEffect, useState } from "react";
 import queryString from "query-string";
 import { GrSearchAdvanced } from "react-icons/gr";
+import WorkerSelector from "../WorkerSelector/WorkerSelector";
 type SearchFormType = {
   search?: string;
   status?: string;
@@ -23,15 +24,17 @@ type SearchBoxType = {
   notTag?: boolean;
   isUser?: boolean;
   notSearch?: boolean;
+  nameWorker?: boolean
 };
 export default function SearchBox({
   checker,
   status,
   notTag,
   isUser,
-  notSearch,
+  notSearch, nameWorker
 }: SearchBoxType) {
   const [tags, setTags] = useState<{ name: string }[]>([]);
+  const [workerId, setWorkerId] = useState<number>(0)
   const { register, setValue, handleSubmit, watch } = useForm<SearchFormType>({
     defaultValues: {
       status: "all",
@@ -55,6 +58,7 @@ export default function SearchBox({
       ...other,
       tags: newTags,
     } as any;
+    if (workerId) body.expert = workerId
     if (status !== "all") body.status = status;
     const url = "?" + new URLSearchParams(body);
     navigate(url);
@@ -63,6 +67,7 @@ export default function SearchBox({
     if (form?.search) setValue("search", form?.search);
     if (form?.status) setValue("status", form?.status || "all");
     if (form?.order) setValue("order", form?.order);
+    if (form?.expert) setWorkerId(form.expert)
     if (form?.tags) {
       const tagArry = form?.tags.split("-").map((i: any) => (i = { name: i }));
       setTags(tagArry);
@@ -79,9 +84,6 @@ export default function SearchBox({
   const valueUser = watch("role");
   return (
     <form className="w-full grid my-4 grid-cols-4 gap-3 items-center justify-center">
-      {!notTag && (
-        <TagAutocomplete name="انتخاب تگ" setTags={setTags} tags={tags} />
-      )}
       {!notSearch && (
         <TextField
           autoComplete="off"
@@ -90,6 +92,9 @@ export default function SearchBox({
           fullWidth
           {...register("search")}
         />
+      )}
+      {!notTag && (
+        <TagAutocomplete name="انتخاب تگ" setTags={setTags} tags={tags} />
       )}
       {isUser && (
         <TextField
@@ -110,6 +115,25 @@ export default function SearchBox({
           ))}
         </TextField>
       )}
+      {nameWorker && (
+        <WorkerSelector setWorker={setWorkerId} worker={workerId} />
+      )}
+      <TextField
+        fullWidth
+        autoComplete="off"
+        select
+        className="shadow-md"
+        label="مرتب سازی براساس"
+        id="evaluationField"
+        value={orderValue}
+        onChange={(e) => setValue("order", e.target.value)}
+      >
+        {dataOrder?.map((i, index) => (
+          <MenuItem key={index} value={i.value}>
+            {i.name}
+          </MenuItem>
+        ))}
+      </TextField>
       {!checker && !status ? null : (
         <TextField
           fullWidth
@@ -135,22 +159,6 @@ export default function SearchBox({
             ))}
         </TextField>
       )}
-      <TextField
-        fullWidth
-        autoComplete="off"
-        select
-        className="shadow-md"
-        label="مرتب سازی براساس"
-        id="evaluationField"
-        value={orderValue}
-        onChange={(e) => setValue("order", e.target.value)}
-      >
-        {dataOrder?.map((i, index) => (
-          <MenuItem key={index} value={i.value}>
-            {i.name}
-          </MenuItem>
-        ))}
-      </TextField>
       <div>
         <Button
           className="w-1/2 !bg-gradient-to-tr to-slate-500 from-blue-500"

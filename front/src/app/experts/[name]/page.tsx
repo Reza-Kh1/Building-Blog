@@ -2,14 +2,12 @@ import { fetchApi } from '@/action/fetchApi';
 import { ExpertType } from '@/app/type';
 import BannerCallUs from '@/components/BannerCallUs/BannerCallUs';
 import Breadcrums from '@/components/Breadcrums/Breadcrums';
-import CardProjects from '@/components/CardProjects/CardProjects';
 import CustomButton from '@/components/CustomButton/CustomButton';
 import ImgTag from '@/components/ImgTag/ImgTag';
-import SwiperCards from '@/components/SwiperCards/SwiperCards';
 import Link from 'next/link';
 import React from 'react'
 import { FaPhone, FaWhatsapp } from 'react-icons/fa6';
-import ExpertProject from './ExpertProject';
+import SwiperCards from '@/components/SwiperCards/SwiperCards';
 const getData = (name: string) => {
     const url = 'worker/' + name.replace(/-/g, " ")
     return fetchApi({ url })
@@ -56,7 +54,11 @@ export default async function page({ params }: { params: { name: string } }) {
             </div>
             <BannerCallUs />
             <div className='w-full max-w-7xl mx-auto'>
-                <ExpertProject data={data.Projects} />
+                <SwiperCards data={data.Projects} />
+                {/* <h3 className='font-semibold mb-6 text-xl'>
+                    پروژه های مجری
+                </h3>
+                <ExpertProject data={data.Projects} expertId={data.id} /> */}
             </div>
         </div>
 

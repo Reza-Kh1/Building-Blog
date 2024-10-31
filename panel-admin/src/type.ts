@@ -181,6 +181,7 @@ type WorkerType = {
   {
     name: string;
   }[]
+  Projects: ProjectType[]
 };
 type AllWorkerType = {
   count: number;

@@ -62,7 +62,7 @@ export default function Breadcrums() {
             }
         }
         return {
-            name: i,
+            name: decodeURIComponent(i.replace(/-/g," ")),
         }
     })
     return (

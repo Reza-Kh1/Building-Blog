@@ -47,8 +47,8 @@ export default function CardProjects({ project }: { project: CardProjectsType })
                         {project.address}
                     </span>
                 </div>
-                <Link href={project.name.replace(/ /g, "-")} className='w-1/2 block opacity-0 group-hover:opacity-100'>
-                    <CustomButton name='نمایش پروژه' type='button' iconEnd={<BsArrowUpLeftSquare />} />
+                <Link href={project.name.replace(/ /g, "-")} className='w-1/3 block opacity-0 group-hover:opacity-100'>
+                    <CustomButton name='نمایش پروژه' type='button' className='!text-xs' iconEnd={<BsArrowUpLeftSquare size={14}/>} />
                 </Link>
             </div>
         </div>

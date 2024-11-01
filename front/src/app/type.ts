@@ -35,18 +35,18 @@ type PaginationType = {
   prevPage?: number;
 };
 type CardProjectsType = {
-  id: number,
-  name: string,
-  address: string,
-  image: string,
-  alt: string,
-  status: boolean,
-  createdAt: Date,
-  updatedAt: Date,
-  workerId: number,
+  id: number;
+  name: string;
+  address: string;
+  image: string;
+  alt: string;
+  status: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+  workerId: number;
   Worker: {
-    name: string
-  }
+    name: string;
+  };
 };
 type CommentsType = {
   id: number;
@@ -155,61 +155,69 @@ type CommentsPage = {
   countNull: number;
 };
 type FilterQueryType = {
-  search?: string
-  order?: string
-  page?: string
-  tags?: string
-}
+  search?: string;
+  order?: string;
+  page?: string;
+  tags?: string;
+  expert?: string;
+};
 type ExpertType = {
-  id: number
-  name: string
-  phone: string
+  id: number;
+  name: string;
+  phone: string;
   socialMedia: {
-    id: number
-    link: string
-    text: string
-    type: "whatsapp" | "telegram" | "instagram" | "phone" | "web" | "twitter" | "linkedin"
-  }[]
-  address: string
-  description: string
-  image: string
-  createdAt: Date
-  updatedAt: Date
-  Tags: TagsType[]
-  Projects: CardProjectsType[]
-}
+    id: number;
+    link: string;
+    text: string;
+    type:
+      | "whatsapp"
+      | "telegram"
+      | "instagram"
+      | "phone"
+      | "web"
+      | "twitter"
+      | "linkedin";
+  }[];
+  address: string;
+  description: string;
+  image: string;
+  createdAt: Date;
+  updatedAt: Date;
+  Tags: TagsType[];
+  Projects: CardProjectsType[];
+};
 type AllExpertType = {
-  count: number,
-  rows: ExpertType[]
-  paginate: PaginationType
-}
+  count: number;
+  rows: ExpertType[];
+  paginate: PaginationType;
+};
 type AllProjectType = {
-  count: number,
-  rows: CardProjectsType[]
-  paginate: PaginationType
-}
+  count: number;
+  rows: CardProjectsType[];
+  paginate: PaginationType;
+};
 type ProjectType = {
-  id: number
-  name: string
-  address: string
-  image: string
-  gallery: [],
-  video: string | null,
-  alt: string
-  description: string
-  status: boolean,
-  createdAt: Date
-  updatedAt: Date
-  workerId: number
+  id: number;
+  name: string;
+  address: string;
+  image: string;
+  gallery: [];
+  video: string | null;
+  alt: string;
+  description: string;
+  status: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+  workerId: number;
   Worker: {
-    id: number,
-    name: string
-    phone: string
-    image: null | string,
-    Projects: ProjectType[]
-  },
-  Tags: TagsType[]
-}
+    id: number;
+    name: string;
+    phone: string;
+    image: null | string;
+    Projects: ProjectType[];
+  };
+  Tags: TagsType[];
+};
 export type {
   FaqsType,
   ImageType,
@@ -230,5 +238,5 @@ export type {
   ExpertType,
   AllExpertType,
   AllProjectType,
-  ProjectType
+  ProjectType,
 };

@@ -9,29 +9,35 @@ import OrderSearch from "@/components/OrderSearch/OrderSearch";
 import { fetchApi } from "@/action/fetchApi";
 import { AllProjectType, FilterQueryType } from "../type";
 const getData = (query: FilterQueryType) => {
-  const url = "project?" + new URLSearchParams(query)
-  return fetchApi({ url })
-}
-export default async function page({ searchParams }: { searchParams: FilterQueryType }) {
-  const data: AllProjectType = await getData(searchParams)
+  const url = "project?" + new URLSearchParams(query);
+  return fetchApi({ url });
+};
+export default async function page({
+  searchParams,
+}: {
+  searchParams: FilterQueryType;
+}) {
+  const data: AllProjectType = await getData(searchParams);
+  console.log(data);
+
   return (
     <div className="w-full my-8">
       <div className="w-full max-w-7xl mx-auto mb-20">
         <Breadcrums />
         <div className="mt-6 flex justify-between items-center">
           <h1 className="font-semibold">پروژه های ساختمان یار</h1>
-          <div className="w-1/3">
+          <div className="w-3/6">
             <OrderSearch />
           </div>
         </div>
-        <div className="my-10 grid grid-cols-3 gap-5">
+        <div className="my-10 grid grid-cols-4 gap-5">
           {data.rows.map((item, index) => (
             <CardProjects project={item} key={index} />
           ))}
         </div>
         <div>
           <Suspense fallback={<LoadingSearch />}>
-            <Pagination pagination={{ allPage: 1 }} />
+            <Pagination pagination={data.paginate} />
           </Suspense>
         </div>
       </div>

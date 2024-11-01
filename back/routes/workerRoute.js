@@ -10,7 +10,7 @@ const {
   getAllWorkerName,
 } = require("../controllers/workerCtrl");
 app.route("/").get(getAllWorker).post(isAuthor, createWorker);
-app.route("/name-worker").get(isAuthor, getAllWorkerName);
+app.route("/name-worker").get(getAllWorkerName);
 app
   .route("/:id")
   .get(getWorker)

@@ -7,22 +7,7 @@ import CustomButton from '../CustomButton/CustomButton';
 import Link from 'next/link';
 import { BsArrowDownLeftSquare } from 'react-icons/bs';
 import { CardProjectsType } from '@/app/type';
-
-const data = [{
-    "id": 9,
-    "name": "برج خلیفا",
-    "address": "تهران-شمال",
-    "image": "https://building-blog.storage.iran.liara.space/1728717013892-azadi.jpg",
-    "alt": "برج آزادی",
-    "status": false,
-    "createdAt": "2024-10-16T10:21:07.519Z",
-    "updatedAt": "2024-10-16T10:21:07.519Z",
-    "workerId": 3,
-    "Worker": {
-        "name": "حسن فیاضی"
-    }
-}]
-export default function SwiperCards({ data }: { data: CardProjectsType[] }) {
+export default function SwiperCards({ data, url }: { data: CardProjectsType[], url: string }) {
     return (
         <div>
             {data.length ?
@@ -31,7 +16,7 @@ export default function SwiperCards({ data }: { data: CardProjectsType[] }) {
                         <h3 className='font-semibold'>
                             پروژه های دیگر
                         </h3>
-                        <Link href={"#"} className='w-36'>
+                        <Link href={url} className='w-36'>
                             <CustomButton name='نمایش بیشتر' className='w-full' iconEnd={<BsArrowDownLeftSquare />} type='button' />
                         </Link>
                     </div>

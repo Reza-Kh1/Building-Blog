@@ -4,6 +4,8 @@ const asyncHandler = require("express-async-handler");
 const pagination = require("../utils/pagination");
 const { Op } = require("sequelize");
 const { tagsModel } = require("../models/sync");
+const token = require("jsonwebtoken");
+
 const limit = process.env.LIMIT;
 const limitShowProject = 6;
 
@@ -130,8 +132,15 @@ const getProject = asyncHandler(async (req, res) => {
     throw customError(err, err.statusCode || 400);
   }
 });
-const getAllProject = asyncHandler(async (req, res) => {
+const getAllProject = asyncHandler(async (req, res) => {  
   let { search, page, order, status, tags, expert } = req.query;
+  const cookie = req.cookies?.user;
+  let tokenUser
+  try {
+    if (cookie) {
+      tokenUser = token.verify(cookie, process.env.TOKEN_SECURITY);
+    }
+  } catch (err) { }
   page = page || 1;
   let filter = {};
   let tagsArray = []
@@ -145,19 +154,37 @@ const getAllProject = asyncHandler(async (req, res) => {
   if (expert) {
     filter.workerId = expert
   }
-  if (search || status) {
-    filter[Op.or] = [];
-    if (status) {
-      filter[Op.or].push(
-        { status: status },
-      );
-    }
+  if (tokenUser?.role !== ("ADMIN" || "AUTHOR")) {
+    filter[Op.and] = [];
+    filter[Op.and].push(
+      { status: true }
+    );
     if (search) {
-      filter[Op.or].push(
-        { name: { [Op.iLike]: `%${search}%` } },
-        { address: { [Op.iLike]: `%${search}%` } },
-        { description: { [Op.iLike]: `%${search}%` } }
-      );
+      filter[Op.and].push({
+        [Op.or]: [
+          { name: { [Op.iLike]: `%${search}%` } },
+          { address: { [Op.iLike]: `%${search}%` } },
+          { description: { [Op.iLike]: `%${search}%` } }
+        ]
+      });
+    }
+  } else {
+    if (search || status) {
+      filter[Op.and] = [];
+      if (search) {
+        filter[Op.and].push({
+          [Op.or]: [
+            { name: { [Op.iLike]: `%${search}%` } },
+            { address: { [Op.iLike]: `%${search}%` } },
+            { description: { [Op.iLike]: `%${search}%` } }
+          ]
+        });
+      }
+      if (status) {
+        filter[Op.and].push(
+          { status: status }
+        );
+      }
     }
   }
   if (tags) tagsArray = tags.split("-");

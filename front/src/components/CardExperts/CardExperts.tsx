@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { FaPhone, FaRegUserCircle } from 'react-icons/fa'
 import { ExpertType } from '@/app/type'
 
-export default function ExpertCard(props: ExpertType) {
+export default function CardExperts(props: ExpertType) {
   return (
     <div className='bg-slate-900 shadow-md rounded-md pb-2'>
       <div className='w-full bg-slate-50 custom-rounded pt-2 flex justify-center pb-8 shadow-md'>

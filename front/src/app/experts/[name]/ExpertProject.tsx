@@ -27,7 +27,9 @@ export default function ExpertProject({ data, expertId }: { data: CardProjectsTy
     return (
         <>
             <div className='w-full grid grid-cols-4 gap-5'>
-                <CardProjects data={project} />
+                {project.map((item, index) => (
+                    <CardProjects project={item} key={index} />
+                ))}
             </div>
             <div className='w-1/6 mx-auto my-6'>
                 {page ?

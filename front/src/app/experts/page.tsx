@@ -3,7 +3,7 @@ import React from 'react'
 import OrderSearch from '@/components/OrderSearch/OrderSearch'
 import { Breadcrumbs } from '@mui/material'
 import { AllExpertType, FilterQueryType } from '../type'
-import ExpertCard from '@/components/ExpertCard/ExpertCard'
+import CardExperts from '@/components/CardExperts/CardExperts'
 import Pagination from '@/components/Pagination/Pagination'
 import DontData from '@/components/DontData/DontData'
 const getData = (query: FilterQueryType) => {
@@ -25,7 +25,7 @@ export default async function page({ searchParams }: { searchParams: FilterQuery
                 {data?.rows?.length ?
                     <div className='grid gap-5 grid-cols-4 my-6'>
                         {data.rows.map((items, index) => (
-                            <ExpertCard key={index} {...items} />
+                            <CardExperts key={index} {...items} />
                         ))}
                     </div>
                     : <DontData name='هیچ متخصصی یافت نشد!' />}

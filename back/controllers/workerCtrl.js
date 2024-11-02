@@ -21,6 +21,10 @@ const getWorker = asyncHandler(async (req, res) => {
           }
         },
         {
+          where: {
+            status: true
+          },
+          separate: true,
           model: projectModel,
           attributes: ["image", "id", "address", "name", "updatedAt", "alt"],
           limit: limit,

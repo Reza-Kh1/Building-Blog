@@ -18,8 +18,6 @@ export default async function page({
   searchParams: FilterQueryType;
 }) {
   const data: AllProjectType = await getData(searchParams);
-  console.log(data);
-
   return (
     <div className="w-full my-8">
       <div className="w-full max-w-7xl mx-auto mb-20">

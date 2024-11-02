@@ -43,6 +43,7 @@ export default function FilterClient({
   return (
     <div className="flex items-center gap-5">
       <Autocomplete
+        fullWidth
         disablePortal
         value={filterTags}
         onChange={(_, value) => {
@@ -57,11 +58,12 @@ export default function FilterClient({
         }}
         options={nameTags}
         getOptionLabel={(option) => option.name}
-        className="w-1/3 shadow-md"
+        className="shadow-md"
         renderInput={(params) => <TextField {...params} label="انتخاب دسته" />}
       />
-      {pathName.search("project") ? (
+      {pathName.search("/project") === 0 ? (
         <Autocomplete
+          fullWidth
           disablePortal
           value={filterExpert}
           onChange={(_, value) => {
@@ -76,15 +78,17 @@ export default function FilterClient({
           }}
           options={nameExpert}
           getOptionLabel={(option) => option.name}
-          className="w-1/3 shadow-md"
+          className="shadow-md"
           renderInput={(params) => (
             <TextField {...params} label="انتخاب مجری" />
           )}
         />
       ) : null}
-      <FormControl className="w-1/3">
+        
+        <FormControl fullWidth>
         <InputLabel id="demo-simple-select-label">مرتب سازی بر اساس</InputLabel>
         <Select
+          fullWidth
           className="shadow-md"
           labelId="demo-simple-select-label"
           id="demo-simple-select"

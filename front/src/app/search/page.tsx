@@ -2,12 +2,14 @@ import { fetchApi } from "@/action/fetchApi";
 import NotFound from "@/app/not-found";
 import { AllCardPostType } from "@/app/type";
 import React, { Suspense } from "react";
-import FilterSearch from "./FilterSearch";
+import TextSearch from "./TextSearch";
 import Link from "next/link";
 import CustomButton from "@/components/CustomButton/CustomButton";
 import { FaHome } from "react-icons/fa";
 import Pagination from "@/components/Pagination/Pagination";
 import Cards from "@/components/Cards/Cards";
+import Breadcrums from "@/components/Breadcrums/Breadcrums";
+import OrderSearch from "@/components/OrderSearch/OrderSearch";
 type pageType = {
   searchParams: QueryType
 };
@@ -28,10 +30,14 @@ export default async function page({ searchParams }: pageType) {
   const data: AllCardPostType = await getData(searchParams);
   return (
     <div className="search-page max-w-7xl my-5 mx-auto px-2">
-      <div className="navbar-search mb-4">
-        <Suspense fallback={<div>loading...</div>}>
-          <FilterSearch />
-        </Suspense>
+      <Breadcrums />
+      <div className="navbar-search mb-4 flex my-6">
+        <div className="w-2/3">
+          <TextSearch />
+        </div>
+        <div className="w-1/3">
+          <OrderSearch />
+        </div>
       </div>
       <div>
         <span>

@@ -11,8 +11,6 @@ const getData = (query: PageType) => {
 }
 export default async function page(query: PageType) {
     const data: ALlPostCategory = await getData(query)
-    console.log(data);
-
     return (
         <div className='w-full'>
             <div className="max-w-7xl w-full mx-auto my-6">

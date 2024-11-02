@@ -8,6 +8,7 @@ import CardProjects from "@/components/CardProjects/CardProjects";
 import BannerCallUs from "../../components/BannerCallUs/BannerCallUs";
 import { fetchApi } from "@/action/fetchApi";
 import { AboutUsType } from "../type";
+import NotFound from "../not-found";
 const dataBanner = [
   {
     src: "/icon-paint.png",
@@ -40,15 +41,6 @@ const dataBanner = [
     title: "با تجربه",
   },
 ];
-const dataTrustUs = [
-  "بیش از 30 سال تجربه",
-  "تحویل پروژه در زمان معین شده",
-  "100% تضمین و اطمینان",
-  "تیمی حرفه ای که از 100+ تشکیل شده",
-  "پشتیبانی بی نظیر پس از اتمام پروژه",
-  "مشاوره درست و متناسب با شرایط شما",
-];
-const imagesSrc = ["/5.jpg", "/6.jpg", "/7.jpg", "/8.jpg", "/5.jpg", "/5.jpg"];
 const dataProject = [
   {
     "id": 9,

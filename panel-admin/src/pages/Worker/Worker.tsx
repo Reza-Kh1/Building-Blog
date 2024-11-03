@@ -42,6 +42,13 @@ export default function Worker() {
       <div>
         <SearchBox />
       </div>
+      <DontData
+        text={
+          data?.pages[0].count
+            ? data?.pages[0].count + " مجری"
+            : "مجری ای یافت نشد!"
+        }
+      />
       {data?.pages[0].rows.length ?
         <>
           <div className="grid grid-cols-4 gap-3 my-5 items-center justify-between">
@@ -65,7 +72,7 @@ export default function Worker() {
             ))}
           </div>
         </>
-        : <DontData text="هیچ اطلاعاتی یافت نشد!" />}
+        : null}
       <Pagination pager={data?.pages[0].paginate} />
     </div>
   );

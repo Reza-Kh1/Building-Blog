@@ -5,16 +5,18 @@ import {
   DialogContent,
   DialogTitle,
   FormControlLabel,
+  InputAdornment,
+  OutlinedInput,
   Switch,
   TextField,
 } from "@mui/material";
 import { useForm } from "react-hook-form";
-import { MdClose, MdDataSaverOn } from "react-icons/md";
+import { MdClose, MdDataSaverOn, MdPriceCheck } from "react-icons/md";
 import SelectMedia from "../SelectMedia/SelectMedia";
 import { useEffect, useState } from "react";
 import { DataMediaType, ProjectType } from "../../type";
 import ImageComponent from "../ImageComponent/ImageComponent";
-import { FaPenToSquare } from "react-icons/fa6";
+import { FaDollarSign, FaLocationPin, FaPenToSquare } from "react-icons/fa6";
 import TagAutocomplete from "../TagAutocomplete/TagAutocomplete";
 import WorkerSelector from "../WorkerSelector/WorkerSelector";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -26,11 +28,15 @@ import queryString from "query-string";
 import { useLocation, useNavigate } from "react-router-dom";
 import { BiMessageSquareEdit } from "react-icons/bi";
 import DeleteButton from "../DeleteButton/DeleteButton";
+import { GiPencilRuler } from "react-icons/gi";
+import { IoLocation } from "react-icons/io5";
 type ProjectFormType = {
   status: boolean;
   name: string;
   description: string;
   address: string;
+  size: string;
+  price: string;
 };
 export default function CreateProject() {
   const { register, setValue, getValues, watch } = useForm<ProjectFormType>({
@@ -71,6 +77,8 @@ export default function CreateProject() {
         description: getValues("description"),
         address: getValues("address") || null,
         status: getValues("status"),
+        size: getValues("size"),
+        price: getValues("price"),
       };
       return axios.post("project", body);
     },
@@ -97,6 +105,8 @@ export default function CreateProject() {
         description: getValues("description"),
         address: getValues("address") || null,
         status: getValues("status"),
+        size: getValues("size"),
+        price: getValues("price"),
       };
       return axios.put(`project/${data?.id}`, body);
     },
@@ -127,6 +137,8 @@ export default function CreateProject() {
   });
   const syncData = () => {
     setValue("address", data?.address || "");
+    setValue("size", data?.size || "");
+    setValue("price", data?.price || "");
     setValue("status", data?.status ? true : false);
     setValue("name", data?.name || "");
     setValue("description", data?.description || "");
@@ -194,11 +206,10 @@ export default function CreateProject() {
         </div>
         <div className="flex items-start gap-3">
           <TextField
-            multiline
-            rows={6}
             autoComplete="off"
             className="shadow-md w-1/2"
             label={"آدرس"}
+            InputProps={{ startAdornment: <InputAdornment position="start"><IoLocation /></InputAdornment>, }}
             {...register("address", { required: true })}
           />
           <div className="w-1/2">
@@ -208,6 +219,30 @@ export default function CreateProject() {
               tags={tagsProject}
             />
           </div>
+        </div>
+        <div className="grid grid-cols-2 gap-3">
+          <TextField
+            fullWidth
+            autoComplete="off"
+            className="shadow-md w-1/2"
+            label={"بودجه پروژه (تومان)"}
+            {...register("price", { required: true })}
+            InputProps={{ startAdornment: <InputAdornment position="start"><FaDollarSign /></InputAdornment>, }}
+            onChange={({ target }) => {
+              target.value = Number(target.value.replace(/[^0-9]/g, "")).toLocaleString()
+            }}
+          />
+          <TextField
+            fullWidth
+            autoComplete="off"
+            className="shadow-md w-1/2"
+            label={"متراژ"}
+            InputProps={{ startAdornment: <InputAdornment position="start"><GiPencilRuler /></InputAdornment>, }}
+            {...register("size", { required: true })}
+            onChange={({ target }) => {
+              target.value = Number(target.value.replace(/[^0-9]/g, "")).toLocaleString()
+            }}
+          />
         </div>
         <div className="flex gap-3 ">
           <div className="flex flex-col w-1/3 gap-3">

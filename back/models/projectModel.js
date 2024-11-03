@@ -26,6 +26,12 @@ const projectModel = dataBase.define("Project", {
     alt: {
         type: DataTypes.STRING,
     },
+    size: {
+        type: DataTypes.STRING,
+    },
+    price: {
+        type: DataTypes.STRING,
+    },
     description: {
         type: DataTypes.TEXT,
     },

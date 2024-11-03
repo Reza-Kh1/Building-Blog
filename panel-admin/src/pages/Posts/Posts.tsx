@@ -92,9 +92,7 @@ export default function Posts() {
               </figure>
             </Link>
           ))
-        ) : (
-          <DontData text="پستی یافت نشد!" />
-        )}
+        ) : null}
       </div>
       <Pagination pager={data?.pages[0].paginate} />
     </div>

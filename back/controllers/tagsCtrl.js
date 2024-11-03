@@ -1,6 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const { customError } = require("../middlewares/globalError");
-const { tagsModel, projectModel } = require("../models/sync");
+const { tagsModel } = require("../models/sync");
 const createTag = asyncHandler(async (req, res) => {
   const { name } = req.body;
   try {

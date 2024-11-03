@@ -1,6 +1,5 @@
 "use client";
 import React, { Suspense, useEffect, useState } from "react";
-import "./style.css";
 import { IoIosArrowUp } from "react-icons/io";
 import { CategoryType } from "@/app/type";
 import Link from "next/link";
@@ -9,6 +8,7 @@ import DarkMode from "../DarkMode/DarkMode";
 import SearchBox from "../SearchBox/SearchBox";
 import Image from "next/image";
 import NavlinkHeader from "./NavlinkHeader";
+import "./style.css";
 const menuTitle = [
   {
     name: "پروژه های ما",
@@ -85,7 +85,6 @@ export default function HeaderSticky({ category }: { category: CategoryType[] })
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, [scroll]);
-
   return (
     <>
       <div

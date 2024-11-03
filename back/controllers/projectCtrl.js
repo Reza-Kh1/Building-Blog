@@ -1,26 +1,13 @@
 const { customError } = require("../middlewares/globalError");
-const { projectModel, workerModel } = require("../models/sync");
+const { projectModel, workerModel, tagsModel, projectTags } = require("../models/sync");
 const asyncHandler = require("express-async-handler");
 const pagination = require("../utils/pagination");
 const { Op } = require("sequelize");
-const { tagsModel } = require("../models/sync");
 const token = require("jsonwebtoken");
-
+const { dataBase } = require("../config/db");
 const limit = process.env.LIMIT;
-const limitShowProject = 6;
-
 const createProject = asyncHandler(async (req, res) => {
-  const {
-    name,
-    address,
-    image,
-    gallery,
-    video,
-    description,
-    workerId,
-    alt,
-    tags, status
-  } = req.body;
+  const { name, address, image, gallery, video, description, workerId, alt, tags, status, size, price } = req.body;
   try {
     const data = await projectModel.create({
       name,
@@ -29,7 +16,7 @@ const createProject = asyncHandler(async (req, res) => {
       gallery,
       video,
       description,
-      workerId,
+      workerId, size, price,
       alt, status: status | false
     });
     if (tags) {
@@ -54,18 +41,7 @@ const deleteProject = asyncHandler(async (req, res) => {
   }
 });
 const updateProject = asyncHandler(async (req, res) => {
-  const {
-    name,
-    address,
-    image,
-    gallery,
-    video,
-    description,
-    workerId,
-    status,
-    alt,
-    tags,
-  } = req.body;
+  const { name, address, image, gallery, video, description, workerId, status, alt, tags, size, price } = req.body;
   const { id } = req.params;
   try {
     const data = await projectModel.findByPk(id);
@@ -73,6 +49,8 @@ const updateProject = asyncHandler(async (req, res) => {
     if (name) data.name = name;
     if (workerId) data.workerId = workerId;
     if (address) data.address = address;
+    data.size = size;
+    data.price = price;
     data.image = image;
     data.gallery = gallery;
     data.video = video;
@@ -92,7 +70,9 @@ const updateProject = asyncHandler(async (req, res) => {
   }
 });
 const getProject = asyncHandler(async (req, res) => {
+  console.log(res.isLogin);
   const { name } = req.params;
+  let projects
   try {
     const data = await projectModel.findOne({
       where: { name: name },
@@ -108,39 +88,44 @@ const getProject = asyncHandler(async (req, res) => {
               "socialMedia",
             ],
           },
-          include: [
-            {
-              model: projectModel,
-              limit: limitShowProject,
-              where: {
-                name: { [Op.ne]: name },
-              },
-              order: [["createdAt", "DESC"]],
-              attributes: { exclude: ["id", "name", "address", "image"] },
-            },
-          ],
         },
         {
-          model: tagsModel, through: {
+          model: tagsModel,
+          through: {
             attributes: []
           }
         },
       ],
     });
-    res.send({ data });
+    const tagId = data?.Tags?.map((i) => i.id)
+    if (!res.isLogin) {
+      projects = await projectModel.findAll({
+        where: { status: true },
+        attributes: { exclude: ["gallery", "video", "description", "size", "price", "createdAt", "status"] },
+        include: [
+          {
+            model: tagsModel,
+            where: { id: { [Op.in]: tagId } },
+            through: {
+              attributes: [],
+            },
+          },
+          {
+            model: workerModel,
+            attributes: ["name"]
+          }
+        ],
+        limit: limit,
+        order: dataBase.random(),
+      });
+    }
+    res.send({ projects, data });
   } catch (err) {
     throw customError(err, err.statusCode || 400);
   }
 });
-const getAllProject = asyncHandler(async (req, res) => {  
+const getAllProject = asyncHandler(async (req, res) => {
   let { search, page, order, status, tags, expert } = req.query;
-  const cookie = req.cookies?.user;
-  let tokenUser
-  try {
-    if (cookie) {
-      tokenUser = token.verify(cookie, process.env.TOKEN_SECURITY);
-    }
-  } catch (err) { }
   page = page || 1;
   let filter = {};
   let tagsArray = []
@@ -154,7 +139,7 @@ const getAllProject = asyncHandler(async (req, res) => {
   if (expert) {
     filter.workerId = expert
   }
-  if (tokenUser?.role !== ("ADMIN" || "AUTHOR")) {
+  if (!res.isLogin) {
     filter[Op.and] = [];
     filter[Op.and].push(
       { status: true }
@@ -194,7 +179,8 @@ const getAllProject = asyncHandler(async (req, res) => {
       offset: (page - 1) * limit,
       limit: limit,
       order: [orderFilter],
-      attributes: { exclude: ["gallery", "video", "description"] },
+      attributes: { exclude: ["gallery", "video", "description", " size", "price"] },
+      distinct: true,
       include: [
         {
           model: workerModel,

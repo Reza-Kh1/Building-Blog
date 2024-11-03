@@ -9,9 +9,10 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { AllProjectType } from "../../type";
 import { FaCheck, FaPlay } from "react-icons/fa6";
 import { FaCalendarAlt } from "react-icons/fa";
-import { MdClose } from "react-icons/md";
+import { MdAddHomeWork, MdClose } from "react-icons/md";
 import SearchBox from "../../components/SearchBox/SearchBox";
 import DontData from "../../components/DontData/DontData";
+import { GrUserWorker } from "react-icons/gr";
 export default function Projects() {
   const [searchQuery, setSearchQuery] = useState<any>();
   const { search } = useLocation();
@@ -41,8 +42,15 @@ export default function Projects() {
         </Button>
       </Link>
       <div>
-        <SearchBox status nameWorker/>
+        <SearchBox status nameWorker />
       </div>
+      <DontData
+        text={
+          data?.pages[0].count
+            ? data?.pages[0].count + " پروژه"
+            : "پروژه ای یافت نشد!"
+        }
+      />
       {
         data?.pages[0].rows.length ?
           <div className="w-full my-3 grid grid-cols-3 gap-3">
@@ -78,7 +86,10 @@ export default function Projects() {
                   </div>
                 </figure>
                 <div className="flex justify-between px-2 mt-3 items-center">
-                  <span className="font-semibold">{i.Worker.name}</span>
+                  <p className="text-base font-semibold flex items-center gap-1">
+                    <MdAddHomeWork />
+                    {i.name}
+                  </p>
                   {i.status ? (
                     <Button endIcon={<FaCheck />} color="success" size="small">
                       منتشر شده
@@ -89,11 +100,13 @@ export default function Projects() {
                     </Button>
                   )}
                 </div>
-                <p className="px-1 text-justify text-gray-700">{i.name}</p>
+                <span className="text-gray-700 flex items-center gap-1">
+                  <GrUserWorker />
+                  {i.Worker.name}</span>
               </div>
             ))}
           </div>
-          : <DontData text="پروژه ای یافت نشد!" />
+          : null
       }
       <div>
         <Pagination pager={data?.pages[0].paginate} />

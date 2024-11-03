@@ -93,11 +93,10 @@ export default function SearchBox() {
         </div>
       </div>
       <div
-        className={`w-full absolute transition-all right-0 top-36 ${isShow ? "opacity-100 z-20 !top-28" : "opacity-0 -z-20 pointer-events-none"
-          }`}
+        className={`w-full absolute transition-all right-0 top-36 ${isShow ? "opacity-100 z-20 !top-28" : "opacity-0 -z-20 pointer-events-none"}`}
       >
-        <div className="max-w-7xl transition-all rounded-xl p-3 mx-auto flex justify-between items-center bg-gradient-to-tr from-blue-300/60  to-gray-100/60 dark:from-slate-700 dark:to-zinc-500 backdrop-blur-lg shadow-md">
-          <div className="w-10/12 relative">
+        <div className="max-w-7xl transition-all rounded-xl p-3 mx-auto flex justify-between items-center bg-gradient-to-tr from-blue-200/70  to-gray-100/60 dark:from-slate-700 dark:to-zinc-500 backdrop-blur-lg">
+          <div className="w-11/12 relative bg-white p-2 rounded-full shadow-md">
             <input
               ref={ref}
               value={valSearch}
@@ -108,51 +107,50 @@ export default function SearchBox() {
                   route.push("/search?order=createdAt-DESC&page=1&search=" + valSearch)
                 }
               }}
-              className="p-3 bg-transparent border-b w-full border-b-black focus-visible:outline-none"
+              className="p-3 bg-transparent w-full border-b-black focus-visible:outline-none"
               placeholder="جستجوی هوشمند..."
             />
             {loading && (
-              <i className="absolute left-14 p-2 top-1/2 text-xl transform -translate-y-1/2">
+              <i className="absolute left-36 flex p-2 top-1/2 text-xl transform -translate-y-1/2">
                 <LoadingSearch />
               </i>
             )}
-            < Link href={`/${filterName === "post" ? "blog" : filterName === "expert" ? "experts" : "project"}?page=1&order=createdAt-DESC&search=` + valSearch} className="absolute text-xl left-0 top-0">
-              <i className="p-3 rounded-full shadow-md block hover:bg-blue-600/70 bg-blue-500/70 text-white">
+            < Link href={`/${filterName === "post" ? "blog" : filterName === "expert" ? "experts" : "project"}?page=1&order=createdAt-DESC&search=` + valSearch} className="absolute text-xl left-2 transform top-1/2 -translate-y-1/2">
+              <i className="p-3 rounded-full shadow-md block hover:bg-blue-600/70 bg-blue-400/90 text-white">
                 <FaSearch />
               </i>
             </Link>
+            <div className="absolute left-12 transform top-1/2 -translate-y-1/2">
+              <FormControl sx={{ m: 1, minWidth: 80 }} size="small">
+                <Select
+                  id="demo-select-small"
+                  value={filterName}
+                  variant="standard"
+                  onChange={({ target }) => {
+                    setData(null)
+                    setValSearch("")
+                    setFilterName(target.value)
+                  }}
+                >
+                  <MenuItem value="post">
+                    <em>پست ها</em>
+                  </MenuItem>
+                  <MenuItem value="project">
+                    <em>پروژه ها</em>
+                  </MenuItem>
+                  <MenuItem value="expert">
+                    <em>مجری ها</em>
+                  </MenuItem>
+                </Select>
+              </FormControl>
+            </div>
           </div>
-          <span className="w-2/12 flex justify-between items-center">
-            <FormControl sx={{ m: 1, minWidth: 80 }} size="small">
-              <InputLabel id="demo-select-small-label">جستجو در</InputLabel>
-              <Select
-                labelId="demo-select-small-label"
-                id="demo-select-small"
-                value={filterName}
-                variant="standard"
-                label="جستجو در"
-                onChange={({ target }) => {
-                  setData(null)
-                  setValSearch("")
-                  setFilterName(target.value)
-                }}
-              >
-                <MenuItem value="post">
-                  <em>پست ها</em>
-                </MenuItem>
-                <MenuItem value="project">
-                  <em>پروژه ها</em>
-                </MenuItem>
-                <MenuItem value="expert">
-                  <em>مجری ها</em>
-                </MenuItem>
-              </Select>
-            </FormControl>
+          <span className="w-1/12 text-left flex justify-end">
             <i
               onClick={() => setIsShow(false)}
               className="cursor-pointer bg-blue-500/50 hover:bg-blue-600/70 text-white shadow-md transition-all rounded-full p-3"
             >
-              <MdClose size={25} />
+              <MdClose size={20} />
             </i>
           </span>
         </div>
@@ -171,7 +169,7 @@ export default function SearchBox() {
                   ))}
                 </div>
                 : filterName === "expert" ?
-                  <div className="grid grid-cols-3 gap-3">
+                  <div className="grid grid-cols-4 gap-3">
                     {data.rows.map((item, index) => (
                       <CardExperts {...item as ExpertType} key={index} />
                     ))}

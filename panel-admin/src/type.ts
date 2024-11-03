@@ -192,6 +192,8 @@ type AllWorkerType = {
 type ProjectType = {
   id: number,
   name: string,
+  size: string,
+  price: string,
   address: string,
   image: string,
   gallery: {

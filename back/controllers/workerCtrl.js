@@ -1,10 +1,8 @@
 const asyncHandler = require("express-async-handler");
 const { customError } = require("../middlewares/globalError");
-const workerModel = require("../models/workerModel");
 const pagination = require("../utils/pagination");
 const { Op } = require("sequelize");
-const tagsModel = require("../models/tagsModel");
-const projectModel = require("../models/projectModel");
+const { projectModel, tagsModel, workerModel } = require("../models/sync");
 const limit = process.env.LIMIT;
 const getWorker = asyncHandler(async (req, res) => {
   const { id } = req.params;
@@ -13,6 +11,7 @@ const getWorker = asyncHandler(async (req, res) => {
   try {
     const data = await workerModel.findOne({
       where: { name: id },
+      distinct: true,
       include: [
         {
           model: tagsModel,

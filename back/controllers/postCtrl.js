@@ -28,6 +28,7 @@ const createPost = asyncHandler(async (req, res) => {
       categoryId,
     });
     const newTags = tags?.map(i => i?.id)
+    
     await dataId.addTags(newTags);
     res.send({ id: dataId.id });
   } catch (err) {
@@ -104,6 +105,7 @@ const getAllPost = asyncHandler(async (req, res, status, isAdmin) => {
   try {
     const data = await postModel.findAndCountAll({
       where: filter,
+      distinct: true,
       offset: (page - 1) * limit,
       limit: limit,
       order: [orderFilter],

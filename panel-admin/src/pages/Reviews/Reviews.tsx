@@ -200,7 +200,7 @@ export default function Reviews() {
           text={
             data?.pages[0].count
               ? data?.pages[0].count + " کامنت"
-              : "اظلاعاتی یافت نشد!"
+              : "کامنتی یافت نشد!"
           }
         />
         {data?.pages[0].rows.length ? (
@@ -337,9 +337,7 @@ export default function Reviews() {
             </TableContainer>
             <Pagination pager={data?.pages[0].paginate} />
           </>
-        ) : (
-          <DontData text="کامنتی یافت نشد !" />
-        )}
+        ) : null}
       </div>
       <Dialog
         fullWidth={true}

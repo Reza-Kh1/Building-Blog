@@ -170,13 +170,13 @@ type ExpertType = {
     link: string;
     text: string;
     type:
-      | "whatsapp"
-      | "telegram"
-      | "instagram"
-      | "phone"
-      | "web"
-      | "twitter"
-      | "linkedin";
+    | "whatsapp"
+    | "telegram"
+    | "instagram"
+    | "phone"
+    | "web"
+    | "twitter"
+    | "linkedin";
   }[];
   address: string;
   description: string;
@@ -209,12 +209,13 @@ type ProjectType = {
   createdAt: Date;
   updatedAt: Date;
   workerId: number;
+  size: null | string
+  price: null | string
   Worker: {
     id: number;
     name: string;
     phone: string;
     image: null | string;
-    Projects: ProjectType[];
   };
   Tags: TagsType[];
 };

@@ -84,8 +84,7 @@ export default function FilterClient({
           )}
         />
       ) : null}
-        
-        <FormControl fullWidth>
+      <FormControl fullWidth>
         <InputLabel id="demo-simple-select-label">مرتب سازی بر اساس</InputLabel>
         <Select
           fullWidth

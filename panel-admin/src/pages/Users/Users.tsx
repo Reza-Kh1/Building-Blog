@@ -312,9 +312,7 @@ export default function Users() {
             </TableContainer>
             <Pagination pager={data?.pages[0].pagination} />
           </div>
-        ) : (
-          <DontData text="کاربری یافت نشد!" />
-        )}
+        ) : null}
       </div>
       <Dialog
         fullWidth={true}

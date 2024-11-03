@@ -149,6 +149,7 @@ export default function CreateWorker() {
     onSuccess: () => {
       navigate("/home/worker?order=createdAt-DESC&search=&tags=");
       queryClient.invalidateQueries({ queryKey: ["AllWorker"] });
+      queryClient.invalidateQueries({ queryKey: ["workerName"] });
       toast.success("مجری با موفقیت ایجاد شد");
     },
     onError: (err: any) => {
@@ -190,6 +191,7 @@ export default function CreateWorker() {
         queryKey: ["workerSingle", test.worker],
       });
       queryClient.invalidateQueries({ queryKey: ["AllWorker"] });
+      queryClient.invalidateQueries({ queryKey: ["workerName"] });
       toast.info("با موفقیت حذف شد");
     },
     onError: (err: any) => {

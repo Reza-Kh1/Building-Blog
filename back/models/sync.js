@@ -11,6 +11,9 @@ const onlinePriceModel = require("./onlinePriceModel");
 const messageModel = require("./messageModel");
 const mediaModel = require("./mediaModel");
 const tagsModel = require("./tagsModel");
+const postTags = require("./postTags");
+const workerTags = require("./workerTags");
+const projectTags = require("./projectTags");
 ////////  The Relationship of Categorys
 categoryModel.hasMany(categoryModel, {
   as: "subCategory",
@@ -92,37 +95,37 @@ projectModel.belongsTo(workerModel, {
 //////// The Relationship of Tags
 tagsModel.belongsToMany(workerModel, {
   timestamps: false,
-  through: "workerTags",
+  through: workerTags,
   onDelete: "RESTRICT",
   onUpdate: "RESTRICT",
 });
 workerModel.belongsToMany(tagsModel, {
   timestamps: false,
-  through: "workerTags",
+  through: workerTags,
   onDelete: "RESTRICT",
   onUpdate: "RESTRICT",
 });
 tagsModel.belongsToMany(projectModel, {
   timestamps: false,
-  through: "projectTags",
+  through: projectTags,
   onDelete: "RESTRICT",
   onUpdate: "RESTRICT",
 });
 projectModel.belongsToMany(tagsModel, {
   timestamps: false,
-  through: "projectTags",
+  through: projectTags,
   onDelete: "RESTRICT",
   onUpdate: "RESTRICT",
 });
 tagsModel.belongsToMany(postModel, {
   timestamps: false,
-  through: "postTags",
+  through: postTags,
   onDelete: "RESTRICT",
   onUpdate: "RESTRICT",
 });
 postModel.belongsToMany(tagsModel, {
   timestamps: false,
-  through: "postTags",
+  through: postTags,
   onDelete: "RESTRICT",
   onUpdate: "RESTRICT",
 });
@@ -141,5 +144,5 @@ module.exports = {
   onlinePriceModel,
   messageModel,
   mediaModel,
-  tagsModel,
+  tagsModel, postTags, projectTags, workerTags
 };

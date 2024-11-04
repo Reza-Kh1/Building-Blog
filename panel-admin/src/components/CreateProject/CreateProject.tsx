@@ -77,8 +77,8 @@ export default function CreateProject() {
         description: getValues("description"),
         address: getValues("address") || null,
         status: getValues("status"),
-        size: getValues("size"),
-        price: getValues("price"),
+        size: getValues("size").replace(/[^0-9]/g, ""),
+        price: getValues("price").replace(/[^0-9]/g, ""),
       };
       return axios.post("project", body);
     },
@@ -105,8 +105,8 @@ export default function CreateProject() {
         description: getValues("description"),
         address: getValues("address") || null,
         status: getValues("status"),
-        size: getValues("size"),
-        price: getValues("price"),
+        size: getValues("size").replace(/[^0-9]/g, ""),
+        price: getValues("price").replace(/[^0-9]/g, ""),
       };
       return axios.put(`project/${data?.id}`, body);
     },

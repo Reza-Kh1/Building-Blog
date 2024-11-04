@@ -6,7 +6,8 @@ const {
   userModel,
   commentModel,
   categoryModel,
-  tagsModel,
+  tagsModel, projectModel,
+  workerModel
 } = require("../models/sync");
 const { Op } = require("sequelize");
 const { dataBase } = require("../config/db");
@@ -28,14 +29,14 @@ const createPost = asyncHandler(async (req, res) => {
       categoryId,
     });
     const newTags = tags?.map(i => i?.id)
-    
+
     await dataId.addTags(newTags);
     res.send({ id: dataId.id });
   } catch (err) {
     throw customError(err.message, 401);
   }
 });
-const getAllPost = asyncHandler(async (req, res, status, isAdmin) => {  
+const getAllPost = asyncHandler(async (req, res, status, isAdmin) => {
   let { search, page, order, tags } = req.query;
   page = page || 1;
   let filter = {};
@@ -114,7 +115,7 @@ const getAllPost = asyncHandler(async (req, res, status, isAdmin) => {
     });
     const paginate = pagination(data.count, page, limit);
     res.send({ ...data, paginate });
-  } catch (err) {    
+  } catch (err) {
     throw customError(err.message, 401);
   }
 });
@@ -124,6 +125,8 @@ const getAllPostAdmin = asyncHandler(async (req, res) => {
 });
 const getSinglePost = asyncHandler(async (req, res) => {
   const { id } = req.params;
+  let projects
+  let posts
   try {
     const data = await postModel.findOne({
       where: { title: id },
@@ -170,6 +173,46 @@ const getSinglePost = asyncHandler(async (req, res) => {
       data.dataValues.Comments[i].dataValues.replies = await getReplies(
         data.dataValues.Comments[i].id
       );
+    }
+    if (!res?.isLogin) {
+      const tagId = data?.Tags?.map((i) => i.id)
+      posts = await postModel.findAll({
+        where: {
+          status: true,
+          id: { [Op.ne]: data.id },
+        },
+        attributes: { exclude: ["userId", "categoryId"] },
+        include: [{
+          model: tagsModel,
+          where: { id: { [Op.in]: tagId } },
+          through: {
+            attributes: [],
+          },
+        }, { model: categoryModel, attributes: ["slug", "name"] }],
+        limit: limit,
+        order: dataBase.random(),
+      });
+      projects = await projectModel.findAll({
+        where: { status: true },
+        attributes: { exclude: ["gallery", "video", "description", "size", "price", "createdAt", "status"] },
+        include: [
+          {
+            model: tagsModel,
+            where: { id: { [Op.in]: tagId } },
+            through: {
+              attributes: [],
+            },
+          },
+          {
+            model: workerModel,
+            attributes: ["name"]
+          }
+        ],
+        limit: limit,
+        order: dataBase.random(),
+      });
+      res.send({ data, posts, projects })
+      return
     }
     res.send(data);
   } catch (err) {

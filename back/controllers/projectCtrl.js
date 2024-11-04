@@ -70,7 +70,6 @@ const updateProject = asyncHandler(async (req, res) => {
   }
 });
 const getProject = asyncHandler(async (req, res) => {
-  console.log(res.isLogin);
   const { name } = req.params;
   let projects
   try {
@@ -100,7 +99,10 @@ const getProject = asyncHandler(async (req, res) => {
     const tagId = data?.Tags?.map((i) => i.id)
     if (!res.isLogin) {
       projects = await projectModel.findAll({
-        where: { status: true },
+        where: {
+          status: true,
+          id: { [Op.ne]: data.id },
+        },
         attributes: { exclude: ["gallery", "video", "description", "size", "price", "createdAt", "status"] },
         include: [
           {

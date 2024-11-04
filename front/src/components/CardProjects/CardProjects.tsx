@@ -8,10 +8,10 @@ import { BsArrowUpLeftSquare } from 'react-icons/bs'
 import { GrUserWorker } from "react-icons/gr";
 import { SiGooglemaps } from "react-icons/si";
 import { MdAddHomeWork } from 'react-icons/md'
-export default function CardProjects({ project }: { project: CardProjectsType }) {
+export default function CardProjects({ project }: { project: CardProjectsType }) {    
     return (
         <div className='hover:shadow-md rounded-md group   '>
-            <Link href={project.name.replace(/ /g, "-")} className="relative group/image">
+            <Link href={"/project/" + project.name.replace(/ /g, "-")} className="relative group/image">
                 <ImgTag
                     figureClass="relative w-full overflow-hidden rounded-md"
                     alt={"نمونه پروژه"}
@@ -30,13 +30,13 @@ export default function CardProjects({ project }: { project: CardProjectsType })
             </Link>
             <div className="flex flex-col gap-2 p-2">
                 <div className='flex'>
-                    <Link href={project.name.replace(/ /g, "-")} className='flex group/name items-center gap-1'>
+                    <Link href={"/project/" +project.name.replace(/ /g, "-")} className='flex group/name items-center gap-1'>
                         <i className='group-hover/name:text-blue-400'><MdAddHomeWork /></i>
                         <span className="group-hover/name:text-blue-400 text-xl">{project.name}</span>
                     </Link>
                 </div>
                 <div className='flex'>
-                    <Link href={project.Worker?.name.replace(/ /g, "-")} className='group/expert flex items-center gap-1'>
+                    <Link href={"/experts/" + project.Worker?.name.replace(/ /g, "-")} className='group/expert flex items-center gap-1'>
                         <i className='group-hover/expert:text-blue-400'><GrUserWorker /></i>
                         <span className='text-sm text-gray-700 group-hover/expert:text-blue-400'>{project.Worker?.name}</span>
                     </Link>
@@ -47,8 +47,8 @@ export default function CardProjects({ project }: { project: CardProjectsType })
                         {project.address}
                     </span>
                 </div>
-                <Link href={project.name.replace(/ /g, "-")} className='w-1/3 block opacity-0 group-hover:opacity-100'>
-                    <CustomButton name='نمایش پروژه' type='button' className='!text-xs' iconEnd={<BsArrowUpLeftSquare size={14}/>} />
+                <Link href={"/project/" + project.name.replace(/ /g, "-")} className='w-1/3 block opacity-0 group-hover:opacity-100'>
+                    <CustomButton name='نمایش پروژه' type='button' className='!text-sm' iconEnd={<BsArrowUpLeftSquare size={18} />} />
                 </Link>
             </div>
         </div>

@@ -48,7 +48,7 @@ export default function Breadcrums() {
         }
         if (i === "project") {
             return {
-                name: "پروژه های ما", url: "/project"
+                name: "پروژه ها", url: "/project"
             }
         }
         if (i === "comments") {

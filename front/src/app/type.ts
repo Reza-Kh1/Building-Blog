@@ -47,6 +47,7 @@ type CardProjectsType = {
   Worker: {
     name: string;
   };
+  Tags?: TagsType[]
 };
 type CommentsType = {
   id: number;
@@ -201,7 +202,7 @@ type ProjectType = {
   name: string;
   address: string;
   image: string;
-  gallery: [];
+  gallery: ImageType[];
   video: string | null;
   alt: string;
   description: string;

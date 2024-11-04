@@ -7,7 +7,7 @@ export default function Comments({ comments, postId }: { comments: CommentsType[
         return <>
             <div key={data?.id} className='relative'>
                 <div className='w-16 absolute right-0 transform translate-x-1/2 top-4 p-1 bg-white border rounded-full'>
-                    <ImgTag width={80} height={80} className='rounded-full w-14 h-14 shadow-md' src={data.position === "ADMIN" ? "/image-admin.png" : "/semicolon-image.png"} alt={data?.name} />
+                    <ImgTag width={60} height={60} className='rounded-full w-14 h-14 shadow-md' src={data.position === "ADMIN" ? "/image-admin.png" : "/semicolon-image.png"} alt={data?.name} />
                 </div>
                 <div className='border my-2 rounded-sm shadow-sm pr-10 pl-3 py-5'>
                     <div className='flex w-full justify-between mb-3'>

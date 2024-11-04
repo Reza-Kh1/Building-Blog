@@ -46,6 +46,6 @@ export const fetchApi = async ({
         }
         return json
     } catch (err: any) {
-        throw { error: err.message || "خطا در ارتباط با دیتابیس" }
+        return { error: err.message || "خطا در ارتباط با دیتابیس" }
     }
 };

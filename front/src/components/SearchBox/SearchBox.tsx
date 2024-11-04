@@ -133,13 +133,13 @@ export default function SearchBox() {
                   }}
                 >
                   <MenuItem value="post">
-                    <em>پست ها</em>
+                    پست ها
                   </MenuItem>
                   <MenuItem value="project">
-                    <em>پروژه ها</em>
+                    پروژه ها
                   </MenuItem>
                   <MenuItem value="expert">
-                    <em>مجری ها</em>
+                    مجری ها
                   </MenuItem>
                 </Select>
               </FormControl>
@@ -175,7 +175,9 @@ export default function SearchBox() {
                     ))}
                   </div> :
                   <div className="grid grid-cols-3 gap-3">
-                    <CardPost props={data.rows as CardPostType[]} />
+                    {data.rows.map((item, index) => (
+                      <CardPost post={item as CardPostType} key={index} />
+                    ))}
                   </div>
               }
               <Link className="mt-4 block w-1/6 mx-auto" href={`/${filterName === "post" ? "blog" : filterName === "expert" ? "experts" : "project"}?page=1&order=createdAt-DESC&search=` + valSearch}>

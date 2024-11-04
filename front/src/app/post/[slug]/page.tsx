@@ -8,25 +8,36 @@ import FormComments from "@/components/FormComments/FormComments";
 import BannerCallUs from "@/components/BannerCallUs/BannerCallUs";
 import { fetchApi } from "@/action/fetchApi";
 import { Metadata } from "next";
-import { PostType } from "@/app/type";
+import { CardPostType, CardProjectsType, PostType } from "@/app/type";
 import Script from "next/script";
 import parse from "html-react-parser";
 import CommentPost from "../CommentPost";
-const getData = (slug: string) => {
-  return fetchApi({ url: `post/${slug.replace(/-/g, " ")}`, next: 10 });
+import { notFound } from "next/navigation";
+import SwiperCards from "@/components/SwiperCards/SwiperCards";
+type DataPostPageType = {
+  data: PostType
+  posts: CardPostType[]
+  projects: CardProjectsType[]
+}
+const getData = async (name: string) => {
+  const data = await fetchApi({ url: `post/${name.replace(/-/g, " ")}` })
+  if (data?.error) {
+    return notFound()
+  }
+  return data
 };
 export async function generateMetadata({
   params,
 }: {
   params: { slug: string };
 }): Promise<Metadata> {
-  const data: PostType = await getData(params.slug);
+  const { data }: DataPostPageType = await getData(params.slug);
   return {
     title: data?.DetailPost?.title,
     description: data?.description,
     keywords: data?.DetailPost?.keyword,
     openGraph: {
-      url: process.env.NEXTAUTH_URL + "/post/" + data?.title.replace(/ /g, "-"),
+      url: process.env.NEXTAUTH_URL + "/post/" + data?.title?.replace(/ /g, "-"),
       title: data?.DetailPost?.title,
       description: data?.description,
       images: [
@@ -42,7 +53,7 @@ export async function generateMetadata({
   };
 }
 export default async function page({ params }: { params: { slug: string } }) {
-  const data: PostType = await getData(params.slug);
+  const { data, posts, projects }: DataPostPageType = await getData(params.slug);
   const jsonld = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
@@ -102,7 +113,11 @@ export default async function page({ params }: { params: { slug: string } }) {
         <div className="my-8">
           <BannerCallUs />
         </div>
-        <div className="max-w-3xl mx-auto my-8">
+        <div className="w-full max-w-7xl mx-auto">
+          <SwiperCards title="پست های مشابه" isPost data={posts} url={`/blog?page=1&tags=${data.Tags[data.Tags.length - 1]}`} />
+          <SwiperCards title="پروژه های مشابه" data={projects} url={`/blog?page=1&tags=${data.Tags[data.Tags.length - 1]}`} />
+        </div>
+        <div className="max-w-3xl mx-auto my-6">
           <CommentPost comments={data.Comments} postId={data.id} totalComments={data.totalComments} />
           <div className="mt-6">
             <FormComments postId={data.id} />

@@ -54,7 +54,7 @@ export default async function page({ params }: { params: { name: string } }) {
             </div>
             <BannerCallUs />
             <div className='w-full max-w-7xl mx-auto'>
-                <SwiperCards url={`/project?page=1&order=createdAt-DESC&expert=${data.id}`} data={data.Projects} />
+                <SwiperCards title='پروژه های مشابه' url={`/project?page=1&order=createdAt-DESC&expert=${data.id}`} data={data.Projects} />
                 {/* <h3 className='font-semibold mb-6 text-xl'>
                     پروژه های مجری
                 </h3>

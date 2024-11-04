@@ -124,8 +124,8 @@ export default function ResComment({
               <div className="relative w-full">
                 <div className="w-16 absolute right-0 transform translate-x-1/2 top-4 p-1 bg-white border rounded-full">
                   <ImgTag
-                    width={80}
-                    height={80}
+                    width={60}
+                    height={60}
                     className="rounded-full w-14 shadow-md"
                     src={comment.position === "USER" ? "/semicolon-image.png" : "/image-admin.png"}
                     alt={comment?.name}

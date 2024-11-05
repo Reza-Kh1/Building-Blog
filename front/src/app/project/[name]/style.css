@@ -19,9 +19,9 @@
     border-radius: 10px;
 }
 
-.video-player::-webkit-media-controls {
+/* .video-player::-webkit-media-controls {
     background-color: rgba(0, 0, 0, 0.6);
-}
+} */
 
 .video-player:fullscreen {
     border-radius: 0;

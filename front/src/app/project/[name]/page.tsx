@@ -17,6 +17,7 @@ import { BiDollar } from "react-icons/bi";
 import { GiPencilRuler } from "react-icons/gi";
 import SwiperGallery from '@/components/SwiperGallery/SwiperGallery';
 import SwiperCards from '@/components/SwiperCards/SwiperCards';
+import BannerCallUs from '@/components/BannerCallUs/BannerCallUs';
 import "./style.css"
 const getData = async (name: string) => {
     const data = await fetchApi({ url: `project/${name.replace(/-/g, " ")}` })
@@ -30,7 +31,7 @@ export async function generateMetadata({
 }: {
     params: { name: string };
 }): Promise<Metadata> {
-    const { data }: { data: ProjectType } = await getData(params.name);    
+    const { data }: { data: ProjectType } = await getData(params.name);
     return {
         title: data?.name,
         description: data?.description,
@@ -57,6 +58,7 @@ export async function generateMetadata({
 }
 export default async function page({ params }: { params: { name: string } }) {
     const { data, projects }: { data: ProjectType, projects: CardProjectsType[] } = await getData(params.name)
+
     if (!data) return notFound()
     const jsonld = {
         "@context": "https://schema.org",
@@ -214,6 +216,7 @@ export default async function page({ params }: { params: { name: string } }) {
                             </div>
                         </div>
                     </div>
+                    <BannerCallUs />
                     <SwiperCards title='پروژه های مشابه' data={projects} url={`/project?page=1&tags=${data.Tags[0].name}`} />
                 </div>
             </div>

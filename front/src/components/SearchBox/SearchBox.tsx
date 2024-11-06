@@ -11,24 +11,34 @@ import CustomButton from "../CustomButton/CustomButton";
 import { AllCardPostType, AllExpertType, AllProjectType, CardPostType, CardProjectsType, ExpertType } from "@/app/type";
 import CardPost from "../CardPost/CardPost";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import { FormControl, MenuItem, Select } from "@mui/material";
 import CardProjects from "../CardProjects/CardProjects";
 import CardExperts from "../CardExperts/CardExperts";
 export default function SearchBox() {
+  const [filterName, setFilterName] = useState<"post" | "project" | "expert" | string>("post")
   const [isShow, setIsShow] = useState<boolean>(false);
-  const ref = useRef<HTMLInputElement>(null);
   const [valSearch, setValSearch] = useState<string>("");
   const [timer, setTimer] = useState<NodeJS.Timeout | null>(null);
   const [timerLoading, setTimerLoading] = useState<NodeJS.Timeout | null>(null);
   const [data, setData] = useState<AllCardPostType | AllProjectType | AllExpertType | null>();
   const [loading, setLoading] = useState<boolean>(false);
   const [isSearch, setIsSearch] = useState<boolean>(false)
-  const [filterName, setFilterName] = useState<"post" | "project" | "expert" | string>("post")
+  const ref = useRef<HTMLInputElement>(null);
   const paramasPath: string = usePathname()
   const paramsQuery = useSearchParams()
   const route = useRouter()
   useEffect(() => {
     setIsShow(false)
+    const search = Object.fromEntries(
+      paramsQuery.entries()
+    );
+    if (search?.search) {
+      setValSearch(search.search)
+    } else {
+      setValSearch("")
+    }
+    const filterNameParam = paramasPath.split("/")[1] === "experts" ? "expert" : paramasPath.split("/")[1] === "project" ? "project" : "post"
+    setFilterName(filterNameParam)
   }, [paramasPath, paramsQuery])
   useEffect(() => {
     if (isShow && ref.current) {
@@ -104,7 +114,18 @@ export default function SearchBox() {
               type="text"
               onKeyDown={(props) => {
                 if (props.key === "Enter") {
-                  route.push("/search?order=createdAt-DESC&page=1&search=" + valSearch)
+                  let url
+                  if (filterName === "post") {
+                    url = `blog?search=${valSearch}&order=createdAt-DESC`;
+                  }
+                  if (filterName === "project") {
+                    url = `project?order=createdAt-DESC&search=${valSearch}`;
+                  }
+                  if (filterName === "expert") {
+                    url = `experts?order=createdAt-DESC&search=${valSearch}`;
+                  }
+                  if (!url) return
+                  route.push(url)
                 }
               }}
               className="p-3 bg-transparent w-full border-b-black focus-visible:outline-none"

@@ -3,7 +3,6 @@ const { projectModel, workerModel, tagsModel, projectTags } = require("../models
 const asyncHandler = require("express-async-handler");
 const pagination = require("../utils/pagination");
 const { Op } = require("sequelize");
-const token = require("jsonwebtoken");
 const { dataBase } = require("../config/db");
 const limit = process.env.LIMIT;
 const createProject = asyncHandler(async (req, res) => {
@@ -80,7 +79,6 @@ const getProject = asyncHandler(async (req, res) => {
           model: workerModel,
           attributes: {
             exclude: [
-              "createdAt",
               "updatedAt",
               "address",
               "description",

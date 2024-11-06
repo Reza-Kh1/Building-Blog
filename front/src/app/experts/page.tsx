@@ -17,7 +17,7 @@ export default async function page({ searchParams }: { searchParams: FilterQuery
             <div className='max-w-7xl mx-auto'>
                 <Breadcrumbs />
                 <div className=' flex items-center justify-between'>
-                    <h1 className='font-semibold'> مجریان تیم سایت ساختمان یار</h1>
+                    <h1 className='font-semibold'> مجریان سایت ساختمان یار</h1>
                     <div className='w-1/3'>
                         <OrderSearch />
                     </div>

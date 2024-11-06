@@ -19,6 +19,7 @@ import SwiperGallery from '@/components/SwiperGallery/SwiperGallery';
 import SwiperCards from '@/components/SwiperCards/SwiperCards';
 import BannerCallUs from '@/components/BannerCallUs/BannerCallUs';
 import "./style.css"
+import CardExperts from '@/components/CardExperts/CardExperts';
 const getData = async (name: string) => {
     const data = await fetchApi({ url: `project/${name.replace(/-/g, " ")}` })
     if (data?.error) {
@@ -58,7 +59,6 @@ export async function generateMetadata({
 }
 export default async function page({ params }: { params: { name: string } }) {
     const { data, projects }: { data: ProjectType, projects: CardProjectsType[] } = await getData(params.name)
-
     if (!data) return notFound()
     const jsonld = {
         "@context": "https://schema.org",
@@ -189,8 +189,9 @@ export default async function page({ params }: { params: { name: string } }) {
                                 </>
                                 : null}
                         </div>
-                        <div className='w-1/3 h-80 sticky left-0 overflow-hidden top-24 bg-slate-50 shadow-md rounded-xl'>
-                            <div className='bg-blue-300/70 h-28 relative shadow-md'>
+                        <div className='w-1/3 h-80 sticky left-0 overflow-hidden top-24 p-2'>
+                            <CardExperts {...data.Worker} />
+                            {/* <div className='bg-blue-300/70 h-28 relative shadow-md'>
                                 <div className='absolute -bottom-16 left-1/2 transform -translate-x-1/2'>
                                     <Link href={"/experts/" + data.Worker.name.replace(/ /g, "-")} className='w-1/2'>
                                         <ImgTag height={160} width={160} alt={data.Worker.name} src={data.Worker.image} className='rounded-full w-40 border-slate-50 border-8 h-40 object-cover ' />
@@ -213,7 +214,7 @@ export default async function page({ params }: { params: { name: string } }) {
                                 <Link href={"/experts/" + data.Worker.name.replace(/ /g, "-")} className='w-1/2'>
                                     <CustomButton name='پروفایل' iconEnd={<CgProfile />} type="button" />
                                 </Link>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                     <BannerCallUs />

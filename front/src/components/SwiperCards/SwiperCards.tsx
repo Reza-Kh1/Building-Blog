@@ -5,10 +5,18 @@ import { Pagination } from 'swiper/modules';
 import CardProjects from '../CardProjects/CardProjects';
 import CustomButton from '../CustomButton/CustomButton';
 import Link from 'next/link';
-import { BsArrowLeftSquare } from 'react-icons/bs';
-import { CardPostType, CardProjectsType } from '@/app/type';
+import { CardPostType, CardProjectsType, ExpertType } from '@/app/type';
 import CardPost from '../CardPost/CardPost';
-export default function SwiperCards({ data, url, isPost, title }: { data: CardProjectsType[] | CardPostType[], url: string, isPost?: boolean, title: string }) {
+import { PiListPlus } from 'react-icons/pi';
+type SwiperCardsType = {
+    data: CardProjectsType[] | CardPostType[] | ExpertType[]
+    url: string
+    title: string
+    isExpert?: boolean
+    isProject?: boolean
+    isPost?: boolean
+}
+export default function SwiperCards({ data, url, isPost, title, isExpert, isProject }: SwiperCardsType) {
     if (!data.length) return
     return (
         <>
@@ -17,7 +25,7 @@ export default function SwiperCards({ data, url, isPost, title }: { data: CardPr
                     {title}
                 </h3>
                 <Link href={url} className='w-36'>
-                    <CustomButton name='نمایش بیشتر' className='w-full' iconEnd={<BsArrowLeftSquare />} type='button' />
+                    <CustomButton name='نمایش بیشتر' className='w-full' iconEnd={<PiListPlus />} type='button' />
                 </Link>
             </div>
             <Swiper

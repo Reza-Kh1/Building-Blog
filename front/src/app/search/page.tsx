@@ -1,6 +1,6 @@
 import { fetchApi } from "@/action/fetchApi";
 import NotFound from "@/app/not-found";
-import { AllCardPostType } from "@/app/type";
+import { CardPostType, CardProjectsType, ExpertType } from "@/app/type";
 import React, { Suspense } from "react";
 import TextSearch from "./TextSearch";
 import Link from "next/link";
@@ -9,66 +9,46 @@ import { FaHome } from "react-icons/fa";
 import Pagination from "@/components/Pagination/Pagination";
 import Cards from "@/components/Cards/Cards";
 import Breadcrums from "@/components/Breadcrums/Breadcrums";
-import OrderSearch from "@/components/OrderSearch/OrderSearch";
+import SwiperCards from "@/components/SwiperCards/SwiperCards";
 type pageType = {
-  searchParams: QueryType
+  searchParams: { tags: string }
 };
-type QueryType = {
-  search: string
-  order?: "createdAt-ASC" | "createdAt-DESC"
-  page?: string
+type DataSearchType = {
+  projects: CardProjectsType[]
+  posts: CardPostType[]
+  workers: ExpertType[]
 }
-const getData = async (query: QueryType) => {
-  const newQuery = new URLSearchParams(query).toString()
-  let url = "post?" + newQuery
+const getData = async (tagId: string) => {
+  let url = "tag?tags=1" + tagId
   const data = await fetchApi({ url, method: "GET" });
   if (data.error) return NotFound();
   return data;
 };
 export default async function page({ searchParams }: pageType) {
   if (!searchParams) return NotFound();
-  const data: AllCardPostType = await getData(searchParams);
+  const { projects, posts, workers }: DataSearchType = await getData(searchParams.tags);
   return (
     <div className="search-page max-w-7xl my-5 mx-auto px-2">
       <Breadcrums />
       <div className="navbar-search mb-4 flex my-6">
         <div className="w-2/3">
-          <TextSearch />
-        </div>
-        <div className="w-1/3">
-          <OrderSearch />
+          <h1 className="text-lg my-3">
+            جستجو در تگ :
+            <span className=" text-xl text-blue-400 mr-2">
+              {searchParams.tags}
+            </span>
+          </h1>
         </div>
       </div>
       <div>
-        <span>
-          تعداد پست های یافت شده
-          <span className="text-blue-300 font-semibold mr-2">
-            {data.count}
-          </span>
-        </span>
+        <SwiperCards data={posts} title="پست ها" url={`/blog?order=createdAt-DESC&page=1&tags=${searchParams.tags}`} isPost />
       </div>
-      <div className="flex flex-col w-full gap-3 my-6">
-        <Cards props={data.rows} />
+      <div>
+        <SwiperCards data={projects} title="پروژه ها" url={`/projects?order=createdAt-DESC&page=1&tags=${searchParams.tags}`} />
       </div>
-      {data.rows?.length ? (
-        <div className="paginate mt-9">
-          <Suspense fallback={<div>loading...</div>}>
-            <Pagination pagination={data.paginate} />
-          </Suspense>
-        </div>
-      ) : null}
-      {!data.rows?.length && (
-        <div className=" w-full text-center flex flex-col gap-5 my-10">
-          <span className="text-lg">
-            هیچ پستی با کلمه جستجوی شما یافت نشد !!!
-          </span>
-          <div>
-            <Link href="/" className="inline-block">
-              <CustomButton disable={false} name="بازگشت به خانه" type="button" iconEnd={<FaHome />} />
-            </Link>
-          </div>
-        </div>
-      )}
+      <div>
+        
+      </div>
     </div>
   );
 }

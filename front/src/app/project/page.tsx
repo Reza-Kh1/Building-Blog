@@ -28,7 +28,7 @@ export default async function page({
             <OrderSearch />
           </div>
         </div>
-        <div className="my-10 grid grid-cols-4 gap-5">
+        <div className="my-10 grid grid-cols-3 gap-5">
           {data.rows.map((item, index) => (
             <CardProjects project={item} key={index} />
           ))}

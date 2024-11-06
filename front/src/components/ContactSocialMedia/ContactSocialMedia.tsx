@@ -43,7 +43,7 @@ export default function ContactSocialMedia({
         >
           <Link
             href={i.url}
-            className="absolute link-contact-us text-blue-400 bg-white rounded-full p-4 hover:text-white hover:bg-blue-400 left-1/2 top-0 transform -translate-x-1/2 -translate-y-1/2"
+            className="absolute link-contact-us text-blue-400 bg-white rounded-full p-4 hover:text-white hover:bg-gradient-to-tl hover:to-blue-400 hover:from-slate-300 left-1/2 top-0 transform -translate-x-1/2 -translate-y-1/2"
           >
             {i.icon}
           </Link>

@@ -62,11 +62,11 @@ export default function Breadcrums() {
             }
         }
         return {
-            name: decodeURIComponent(i.replace(/-/g," ")),
+            name: decodeURIComponent(i.replace(/-/g, " ")),
         }
     })
     return (
-        <div className='flex gap-3 items-center text-gray-900 dark:text-gray-200 dark:bg-slate-600/50 bg-blue-100/50 shadow-md p-3 rounded-md'>
+        <div className='flex gap-3 items-center bg-gradient-to-br text-white to-blue-400 from-slate-200  dark:text-gray-200 dark:bg-slate-600/50 shadow-md p-3 rounded-md'>
             {newArry.map((i, index) => (
                 <React.StrictMode key={index}>
                     {i.url ? <Link href={i.url} className='hover:text-blue-500'>

@@ -184,7 +184,7 @@ type ExpertType = {
   image: string;
   createdAt: Date;
   updatedAt: Date;
-  Tags: TagsType[];
+  Tags?: TagsType[];
   Projects: CardProjectsType[];
 };
 type AllExpertType = {
@@ -212,12 +212,7 @@ type ProjectType = {
   workerId: number;
   size: null | string
   price: null | string
-  Worker: {
-    id: number;
-    name: string;
-    phone: string;
-    image: null | string;
-  };
+  Worker: ExpertType;
   Tags: TagsType[];
 };
 export type {

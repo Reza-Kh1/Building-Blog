@@ -91,6 +91,7 @@ const getAllWorker = asyncHandler(async (req, res) => {
       attributes: {
         exclude: ["socialMedia", "address", "description", "updatedAt"],
       },
+      distinct: true,
       include: [includeTags]
     });
     const paginate = pagination(data.count, page, limit);

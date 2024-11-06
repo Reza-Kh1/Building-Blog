@@ -1,32 +1,27 @@
 import { fetchApi } from "@/action/fetchApi";
 import NotFound from "@/app/not-found";
 import { CardPostType, CardProjectsType, ExpertType } from "@/app/type";
-import React, { Suspense } from "react";
-import TextSearch from "./TextSearch";
-import Link from "next/link";
-import CustomButton from "@/components/CustomButton/CustomButton";
-import { FaHome } from "react-icons/fa";
-import Pagination from "@/components/Pagination/Pagination";
-import Cards from "@/components/Cards/Cards";
+import React from "react";
 import Breadcrums from "@/components/Breadcrums/Breadcrums";
 import SwiperCards from "@/components/SwiperCards/SwiperCards";
 type pageType = {
-  searchParams: { tags: string }
+  searchParams: { tags: string };
 };
 type DataSearchType = {
-  projects: CardProjectsType[]
-  posts: CardPostType[]
-  workers: ExpertType[]
-}
+  projects: CardProjectsType[];
+  posts: CardPostType[];
+  workers: ExpertType[];
+};
 const getData = async (tagId: string) => {
-  let url = "tag?tags=1" + tagId
+  let url = "tag?tags=" + tagId;
   const data = await fetchApi({ url, method: "GET" });
-  if (data.error) return NotFound();
+  if (data.error) return NotFound();  
   return data;
 };
-export default async function page({ searchParams }: pageType) {
-  if (!searchParams) return NotFound();
-  const { projects, posts, workers }: DataSearchType = await getData(searchParams.tags);
+export default async function page({ searchParams }: pageType) {  
+  const { projects, posts, workers }: DataSearchType = await getData(
+    searchParams.tags
+  );
   return (
     <div className="search-page max-w-7xl my-5 mx-auto px-2">
       <Breadcrums />
@@ -41,13 +36,28 @@ export default async function page({ searchParams }: pageType) {
         </div>
       </div>
       <div>
-        <SwiperCards data={posts} title="پست ها" url={`/blog?order=createdAt-DESC&page=1&tags=${searchParams.tags}`} isPost />
+        <SwiperCards
+          data={posts}
+          title="پست ها"
+          url={`/blog?order=createdAt-DESC&page=1&tags=${searchParams.tags}`}
+          isPost
+        />
       </div>
       <div>
-        <SwiperCards data={projects} title="پروژه ها" url={`/projects?order=createdAt-DESC&page=1&tags=${searchParams.tags}`} />
+        <SwiperCards
+          data={projects}
+          title="پروژه ها"
+          isProject
+          url={`/project?order=createdAt-DESC&page=1&tags=${searchParams.tags}`}
+        />
       </div>
       <div>
-        
+        <SwiperCards
+          data={workers}
+          title="مجریان"
+          isExpert
+          url={`/experts?order=createdAt-DESC&page=1&tags=${searchParams.tags}`}
+        />
       </div>
     </div>
   );

@@ -15,16 +15,16 @@ import CommentPost from "../CommentPost";
 import { notFound } from "next/navigation";
 import SwiperCards from "@/components/SwiperCards/SwiperCards";
 type DataPostPageType = {
-  data: PostType
-  posts: CardPostType[]
-  projects: CardProjectsType[]
-}
+  data: PostType;
+  posts: CardPostType[];
+  projects: CardProjectsType[];
+};
 const getData = async (name: string) => {
-  const data = await fetchApi({ url: `post/${name.replace(/-/g, " ")}` })
+  const data = await fetchApi({ url: `post/${name.replace(/-/g, " ")}` });
   if (data?.error) {
-    return notFound()
+    return notFound();
   }
-  return data
+  return data;
 };
 export async function generateMetadata({
   params,
@@ -37,7 +37,8 @@ export async function generateMetadata({
     description: data?.description,
     keywords: data?.DetailPost?.keyword,
     openGraph: {
-      url: process.env.NEXTAUTH_URL + "/post/" + data?.title?.replace(/ /g, "-"),
+      url:
+        process.env.NEXTAUTH_URL + "/post/" + data?.title?.replace(/ /g, "-"),
       title: data?.DetailPost?.title,
       description: data?.description,
       images: [
@@ -53,7 +54,9 @@ export async function generateMetadata({
   };
 }
 export default async function page({ params }: { params: { slug: string } }) {
-  const { data, posts, projects }: DataPostPageType = await getData(params.slug);
+  const { data, posts, projects }: DataPostPageType = await getData(
+    params.slug
+  );
   const jsonld = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
@@ -114,11 +117,25 @@ export default async function page({ params }: { params: { slug: string } }) {
           <BannerCallUs />
         </div>
         <div className="w-full max-w-7xl mx-auto">
-          <SwiperCards title="پست های مشابه" isPost data={posts} url={`/blog?page=1&tags=${data.Tags[data.Tags.length - 1]}`} />
-          <SwiperCards title="پروژه های مشابه" data={projects} url={`/blog?page=1&tags=${data.Tags[data.Tags.length - 1]}`} />
+          <SwiperCards
+            title="پست های مشابه"
+            isPost
+            data={posts}
+            url={`/blog?page=1&tags=${data.Tags[data.Tags.length - 1]}`}
+          />
+          <SwiperCards
+            title="پروژه های مشابه"
+            isProject
+            data={projects}
+            url={`/blog?page=1&tags=${data.Tags[data.Tags.length - 1]}`}
+          />
         </div>
         <div className="max-w-3xl mx-auto my-6">
-          <CommentPost comments={data.Comments} postId={data.id} totalComments={data.totalComments} />
+          <CommentPost
+            comments={data.Comments}
+            postId={data.id}
+            totalComments={data.totalComments}
+          />
           <div className="mt-6">
             <FormComments postId={data.id} />
           </div>

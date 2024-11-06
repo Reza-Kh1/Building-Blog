@@ -105,7 +105,7 @@ export default function SearchBox() {
       <div
         className={`w-full absolute transition-all right-0 top-36 ${isShow ? "opacity-100 z-20 !top-28" : "opacity-0 -z-20 pointer-events-none"}`}
       >
-        <div className="max-w-7xl transition-all rounded-xl p-3 mx-auto flex justify-between items-center bg-gradient-to-tr from-blue-200/70  to-gray-100/60 dark:from-slate-700 dark:to-zinc-500 backdrop-blur-lg">
+        <div className="max-w-7xl transition-all rounded-xl p-3 mx-auto flex justify-between items-center bg-gradient-to-br to-blue-300/70  from-gray-100/60 dark:from-slate-700 dark:to-zinc-500 backdrop-blur-lg">
           <div className="w-11/12 relative bg-white p-2 rounded-full shadow-md">
             <input
               ref={ref}

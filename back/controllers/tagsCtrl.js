@@ -1,6 +1,12 @@
 const asyncHandler = require("express-async-handler");
 const { customError } = require("../middlewares/globalError");
-const { tagsModel, postModel, projectModel, workerModel, categoryModel } = require("../models/sync");
+const {
+  tagsModel,
+  postModel,
+  projectModel,
+  workerModel,
+  categoryModel,
+} = require("../models/sync");
 const { dataBase } = require("../config/db");
 const limit = process.env.LIMIT;
 const createTag = asyncHandler(async (req, res) => {
@@ -13,18 +19,18 @@ const createTag = asyncHandler(async (req, res) => {
   }
 });
 const getAllTags = asyncHandler(async (req, res) => {
-  const { tags } = req.query
+  const { tags } = req.query;
   try {
     if (tags) {
       const projects = await projectModel.findAll({
         where: {
-          status: true
+          status: true,
         },
         include: [
           {
             model: tagsModel,
             where: {
-              id: tags
+              name: tags,
             },
             attributes: [],
             through: {
@@ -34,39 +40,41 @@ const getAllTags = asyncHandler(async (req, res) => {
           {
             model: workerModel,
             attributes: ["name"],
-          }
+          },
         ],
         attributes: ["name", "address", "image", "alt", "updatedAt"],
         limit: limit,
-        order: dataBase.random()
-      })
+        order: dataBase.random(),
+      });
       const posts = await postModel.findAll({
         where: {
-          status: true
+          status: true,
         },
         include: [
           {
             model: tagsModel,
             where: {
-              id: tags
+              name: tags,
             },
             attributes: [],
             through: {
               attributes: [],
             },
           },
-          { model: categoryModel, attributes: ["slug", "name"] }
+          { model: categoryModel, attributes: ["slug", "name"] },
         ],
-        attributes: { exclude: ["userId", "categoryId", "status", "createdAt", "id"] },
+        attributes: {
+          exclude: ["userId", "categoryId", "status", "createdAt", "id"],
+        },
         limit: limit,
-        order: dataBase.random()
-      })
+        order: dataBase.random(),
+      });
       const workers = await workerModel.findAll({
         include: [
           {
             model: tagsModel,
             where: {
-              id: tags
+              name: tags,
             },
             attributes: ["name"],
             through: {
@@ -74,18 +82,14 @@ const getAllTags = asyncHandler(async (req, res) => {
             },
           },
         ],
-        attributes: ["name", "phone", "image", "createdAt",],
+        attributes: ["name", "phone", "image", "createdAt"],
         limit: limit,
-        order: dataBase.random()
-      })
-      res.send({ projects, posts, workers })
-      return
+        order: dataBase.random(),
+      });
+      res.send({ projects, posts, workers });
+      return;
     }
-    const data = await tagsModel.findAll({
-      where: {
-        id: 1
-      }, include: [{ model: projectModel }], limit: 1
-    });
+    const data = await tagsModel.findAll({});
     res.send({ data });
   } catch (err) {
     throw customError(err);
@@ -119,5 +123,5 @@ module.exports = {
   createTag,
   getAllTags,
   updateTag,
-  deleteTag
+  deleteTag,
 };

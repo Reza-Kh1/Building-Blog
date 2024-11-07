@@ -2,7 +2,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import React from 'react'
-export default function Breadcrums() {
+export default function Breadcrums({ className }: { className?: string }) {
     const route = usePathname()
     const arry = route.split("/")
     const newArry = arry.map((i) => {
@@ -43,7 +43,7 @@ export default function Breadcrums() {
         }
         if (i === "request-project") {
             return {
-                name: "گرفتن قیمت آنلاین", url: "/request-project"
+                name: "محاسبه آنلاین هزینه", url: "/request-project"
             }
         }
         if (i === "project") {
@@ -66,7 +66,7 @@ export default function Breadcrums() {
         }
     })
     return (
-        <div className='flex gap-3 items-center bg-gradient-to-br text-white to-blue-400 from-slate-200  dark:text-gray-200 dark:bg-slate-600/50 shadow-md p-3 rounded-md'>
+        <div className={`flex gap-3 items-center max-w-7xl mx-auto bg-gradient-to-br text-white to-blue-400 from-slate-200  dark:text-gray-200 dark:bg-slate-600/50 shadow-md p-3 rounded-md ${className}`}>
             {newArry.map((i, index) => (
                 <React.StrictMode key={index}>
                     {i.url ? <Link href={i.url} className='hover:text-blue-500'>

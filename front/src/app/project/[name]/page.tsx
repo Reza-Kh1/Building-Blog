@@ -1,15 +1,12 @@
 import { fetchApi } from "@/action/fetchApi";
 import { CardProjectsType, ProjectType } from "@/app/type";
 import Breadcrums from "@/components/Breadcrums/Breadcrums";
-import CustomButton from "@/components/CustomButton/CustomButton";
 import ImgTag from "@/components/ImgTag/ImgTag";
 import { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import Script from "next/script";
 import React from "react";
-import { CgProfile } from "react-icons/cg";
-import { FaPhone } from "react-icons/fa";
 import { FaCalendarDays, FaTags } from "react-icons/fa6";
 import { GrUserWorker } from "react-icons/gr";
 import { SiGooglemaps } from "react-icons/si";
@@ -18,7 +15,6 @@ import { GiPencilRuler } from "react-icons/gi";
 import SwiperGallery from "@/components/SwiperGallery/SwiperGallery";
 import SwiperCards from "@/components/SwiperCards/SwiperCards";
 import BannerCallUs from "@/components/BannerCallUs/BannerCallUs";
-import "./style.css";
 import CardExperts from "@/components/CardExperts/CardExperts";
 const getData = async (name: string) => {
   const data = await fetchApi({ url: `project/${name.replace(/-/g, " ")}` });
@@ -118,84 +114,84 @@ export default async function page({ params }: { params: { name: string } }) {
             </div>
           </div>
         </div>
-        <div className="mt-20 mb-6 w-full max-w-7xl mx-auto">
-          <Breadcrums />
-          <div className="flex relative w-full gap-3 my-6">
-            <div className="w-2/3">
-              <span className="text-xl">توضیحات</span>
-              <p className="text-gray-700">{data.description}</p>
-              <span className="border-t w-full h-1 block my-6"></span>
-              <div className="w-full flex flex-col gap-5">
-                <div className="flex items-center gap-5">
-                  <i className="text-2xl p-3 hover:bg-gray-200 rounded-full bg-gray-100 shadow-md">
-                    <SiGooglemaps />
-                  </i>
-                  <span className="text-xl">موقعیت : {data.address}</span>
-                </div>
-                <div className="flex items-center gap-5">
-                  <i className="text-2xl p-3 hover:bg-gray-200 rounded-full bg-gray-100 shadow-md">
-                    <BiDollar />
-                  </i>
-                  <p className="text-xl">
-                    بودجه :
-                    {Number(data.price) ? (
-                      <>
-                        {Number(data.price).toLocaleString("fa")}
-                        <span className="text-sm"> تومان</span>
-                      </>
-                    ) : (
-                      <span className="text-sm"> ثبت نشده!</span>
-                    )}
-                  </p>
-                </div>
-                <div className="flex items-center gap-5">
-                  <i className="text-2xl p-3 hover:bg-gray-200 rounded-full bg-gray-100 shadow-md">
-                    <GiPencilRuler />
-                  </i>
-                  <p className="text-xl">
-                    متراژ :
-                    {Number(data.size) ? (
-                      <>
-                        {Number(data.size).toLocaleString("fa")}
-                        <span className="text-sm"> متر مربع</span>
-                      </>
-                    ) : (
-                      <span className="text-sm"> ثبت نشده!</span>
-                    )}
-                  </p>
-                </div>
+        <Breadcrums />
+        <div className="flex mt-20 mb-6 relative w-full max-w-7xl mx-auto gap-3 my-6">
+          <div className="w-2/3">
+            <span className="text-xl">توضیحات</span>
+            <p className="text-gray-700">{data.description}</p>
+            <span className="border-t w-full h-1 block my-6"></span>
+            <div className="w-full flex flex-col gap-5">
+              <div className="flex items-center gap-5">
+                <i className="text-2xl p-3 hover:bg-gray-200 rounded-full bg-gray-100 shadow-md">
+                  <SiGooglemaps />
+                </i>
+                <span className="text-xl">موقعیت : {data.address}</span>
               </div>
-              <span className="border-t w-full h-1 block my-6"></span>
-              <div className="w-full">
-                <h3 className="text-xl mb-3">تصاویر پروژه</h3>
-                <SwiperGallery imagesSrc={data.gallery} />
+              <div className="flex items-center gap-5">
+                <i className="text-2xl p-3 hover:bg-gray-200 rounded-full bg-gray-100 shadow-md">
+                  <BiDollar />
+                </i>
+                <p className="text-xl">
+                  بودجه :
+                  {Number(data.price) ? (
+                    <>
+                      {Number(data.price).toLocaleString("fa")}
+                      <span className="text-sm"> تومان</span>
+                    </>
+                  ) : (
+                    <span className="text-sm"> ثبت نشده!</span>
+                  )}
+                </p>
               </div>
-              {data?.video ? (
-                <>
-                  <span className="border-t w-full h-1 block my-6"></span>
-                  <h3 className="text-xl mb-3 block">فیلم پروژه</h3>
-                  <div className="video-container">
-                    <video
-                      className="video-player"
-                      controls
-                      poster={data.gallery[data.gallery.length - 1].url}
-                    >
-                      {data?.video?.search(".mp4") ? (
-                        <source src={data?.video} type="video/mp4" />
-                      ) : (
-                        <source src={data?.video} type="video/webm" />
-                      )}
-                      مرورگر شما از نمایش ویدئو پشتیبانی نمی‌کند.
-                    </video>
-                  </div>
-                </>
-              ) : null}
+              <div className="flex items-center gap-5">
+                <i className="text-2xl p-3 hover:bg-gray-200 rounded-full bg-gray-100 shadow-md">
+                  <GiPencilRuler />
+                </i>
+                <p className="text-xl">
+                  متراژ :
+                  {Number(data.size) ? (
+                    <>
+                      {Number(data.size).toLocaleString("fa")}
+                      <span className="text-sm"> متر مربع</span>
+                    </>
+                  ) : (
+                    <span className="text-sm"> ثبت نشده!</span>
+                  )}
+                </p>
+              </div>
             </div>
-            <div className="w-1/3 h-80 sticky left-0 overflow-hidden top-24 p-2">
-              <CardExperts {...data.Worker} />
+            <span className="border-t w-full h-1 block my-6"></span>
+            <div className="w-full">
+              <h3 className="text-xl mb-3">تصاویر پروژه</h3>
+              <SwiperGallery imagesSrc={data.gallery} />
             </div>
+            {data?.video ? (
+              <>
+                <span className="border-t w-full h-1 block my-6"></span>
+                <h3 className="text-xl mb-3 block">فیلم پروژه</h3>
+                <div className="video-container">
+                  <video
+                    className="video-player"
+                    controls
+                    poster={data.gallery[data.gallery.length - 1].url}
+                  >
+                    {data?.video?.search(".mp4") ? (
+                      <source src={data?.video} type="video/mp4" />
+                    ) : (
+                      <source src={data?.video} type="video/webm" />
+                    )}
+                    مرورگر شما از نمایش ویدئو پشتیبانی نمی‌کند.
+                  </video>
+                </div>
+              </>
+            ) : null}
           </div>
-          <BannerCallUs />
+          <div className="w-1/3 h-80 sticky left-0 overflow-hidden top-24 p-2">
+            <CardExperts {...data.Worker} />
+          </div>
+        </div>
+        <BannerCallUs />
+        <div className="mt-20 mb-6 w-full max-w-7xl mx-auto">
           <SwiperCards
             isProject
             title="پروژه های مشابه"

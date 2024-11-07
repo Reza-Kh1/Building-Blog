@@ -23,6 +23,7 @@ export default function ImgTag({
 }: ImageType) {
   const [load, setLoad] = useState<boolean>(true);
   const [error, setError] = useState<StaticImageData | null>(null)
+  const classImage = className ? className : classPlus ? `${classPlus} rounded-md shadow-md  table mx-auto` : "rounded-md shadow-md w-full table mx-auto object-fill"
   return (
     <figure className={figureClass || "w-full relative"}>
       <Image
@@ -34,11 +35,7 @@ export default function ImgTag({
         onLoad={() => setLoad(false)}
         src={error ? error : src || ImageError}
         alt={alt || "error"}
-        className={
-          className ||
-          `${classPlus} rounded-md shadow-md  table mx-auto` ||
-          "rounded-md shadow-md w-full table mx-auto object-fill"
-        }
+        className={classImage}
         onError={() => setError(ImageError)}
       />
       {load && <LoadingImg />}

@@ -35,7 +35,7 @@ export default function ContactSocialMedia({
   classDiv?: string;
 }) {
   return (
-    <div className={"flex my-12 gap-5 " + classDiv}>
+    <div className={"flex my-12 gap-5 w-full max-w-7xl mx-auto " + classDiv}>
       {data.map((i, index) => (
         <div
           key={index}

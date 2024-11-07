@@ -4,16 +4,18 @@ import React from "react";
 import AccordionFaqs from "./AccordionFaqs";
 import { fetchApi } from "@/action/fetchApi";
 import { FaqsType } from "../type";
-const getData = () => {
-  return fetchApi({ url: "page/faqs" });
+import ContactSocialMedia from "@/components/ContactSocialMedia/ContactSocialMedia";
+import NotFound from "../not-found";
+const getData = async () => {
+  const data = await fetchApi({ url: "page/faqs" });
+  if (data.error) return NotFound();
+  return data
 };
 export default async function page() {
   const { data }: FaqsType = await getData();
   return (
     <div className="faqs-page w-full my-6">
-      <div className="w-full mb-5 max-w-7xl mx-auto">
-        <Breadcrums />
-      </div>
+      <Breadcrums className="mb-5" />
       <div className="flex w-full gap-3 max-w-7xl mx-auto">
         <div className="w-3/4">
           <div className="mb-4">
@@ -23,17 +25,17 @@ export default async function page() {
           <div className="accordion flex flex-col gap-7">
             {data?.text?.accordion.length
               ? data?.text.accordion.map((i, index) => (
-                  <div key={i?.id}>
-                    <span className="font-medium text-xl text-gray-900 mr-3 mb-1 block">
-                      {i?.name}
-                    </span>
-                    {i?.arry.length
-                      ? i.arry.map((item) => (
-                          <AccordionFaqs {...item} key={index} />
-                        ))
-                      : null}
-                  </div>
-                ))
+                <div key={i?.id}>
+                  <span className="font-medium text-xl text-gray-900 mr-3 mb-1 block">
+                    {i?.name}
+                  </span>
+                  {i?.arry.length
+                    ? i.arry.map((item) => (
+                      <AccordionFaqs {...item} key={index} />
+                    ))
+                    : null}
+                </div>
+              ))
               : null}
           </div>
         </div>
@@ -54,6 +56,7 @@ export default async function page() {
           </div>
         </div>
       </div>
+      <ContactSocialMedia />
     </div>
   );
 }

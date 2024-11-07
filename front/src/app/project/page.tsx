@@ -8,9 +8,12 @@ import ContactSocialMedia from "@/components/ContactSocialMedia/ContactSocialMed
 import OrderSearch from "@/components/OrderSearch/OrderSearch";
 import { fetchApi } from "@/action/fetchApi";
 import { AllProjectType, FilterQueryType } from "../type";
-const getData = (query: FilterQueryType) => {
+import NotFound from "../not-found";
+const getData = async (query: FilterQueryType) => {
   const url = "project?" + new URLSearchParams(query);
-  return fetchApi({ url });
+  const data = await fetchApi({ url });
+  if (data.error) return NotFound();
+  return data
 };
 export default async function page({
   searchParams,

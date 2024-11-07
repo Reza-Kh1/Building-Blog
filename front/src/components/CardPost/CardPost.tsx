@@ -8,9 +8,9 @@ export default function CardPost({ post }: { post?: CardPostType }) {
         <Link href={`/post/${post?.title}`}>
             <div className="shadow-md group hover:shadow-slate-600 transition-all w-full relative rounded-lg bg-cover bg-center min-h-80 bg-no-repeat" style={{ backgroundImage: `linear-gradient(rgba(0, 0, 0, .8), rgba(0, 0, 0, .4)), url(${post?.image || "/errorImage.png"})` }}>
                 <div className="z-10 absolute flex flex-col justify-evenly h-full p-3">
-                    <span className="text-xs text-gray-300">{post?.Category?.name}</span>
-                    <h4 className="text-xl font-semibold text-gray-50">{post?.title}</h4>
-                    <div className="flex text-gray-400 text-sm items-center gap-3 justify-start">
+                    <span className="text-xs text-gray-200">{post?.Category?.name}</span>
+                    <h3 className="text-xl font-semibold text-gray-50">{post?.title}</h3>
+                    <div className="flex text-gray-300 text-sm items-center gap-3 justify-start">
                         <div>
                             <i>
                                 <FaPhotoVideo />

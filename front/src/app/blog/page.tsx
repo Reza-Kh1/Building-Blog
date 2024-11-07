@@ -5,11 +5,15 @@ import OrderSearch from "@/components/OrderSearch/OrderSearch";
 import Pagination from "@/components/Pagination/Pagination";
 import React from "react";
 import { AllPostType } from "../type";
-const getData = () => {
-  return fetchApi({ url: "post?page=1" });
+import ContactSocialMedia from "@/components/ContactSocialMedia/ContactSocialMedia";
+import NotFound from "../not-found";
+const getData = async () => {
+  const data = await fetchApi({ url: "post?page=1" });
+  if (data.error) return NotFound();
+  return data
 };
 export default async function page() {
-  const data: AllPostType = await getData();  
+  const data: AllPostType = await getData();
   return (
     <div className="w-full">
       <div className="max-w-7xl w-full mx-auto my-6">
@@ -28,6 +32,7 @@ export default async function page() {
           <Pagination pagination={data.paginate} />
         </div>
       </div>
+      <ContactSocialMedia />
     </div>
   );
 }

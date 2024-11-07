@@ -9,7 +9,7 @@ export default function page() {
     <div className="max-w-7xl mx-auto w-full my-6">
       <Breadcrums />
       <h1 className="text-xl font-semibold mb-5 mt-6">
-        گرفتن قیمت کار ساختمانی آنلاین
+        محسابه آنلاین هزینه ساخت
       </h1>
       <div className="flex items-center gap-2">
         <i className="text-yellow-300 text-xl">
@@ -45,6 +45,7 @@ export default function page() {
         </p>
         <ContactSocialMedia classDiv="my-16" />
       </div>
+      <ContactSocialMedia />
     </div>
   );
 }

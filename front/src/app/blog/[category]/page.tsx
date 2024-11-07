@@ -1,13 +1,17 @@
 import { fetchApi } from '@/action/fetchApi'
+import NotFound from '@/app/not-found'
 import { ALlPostCategory } from '@/app/type'
 import Breadcrums from '@/components/Breadcrums/Breadcrums'
 import Cards from '@/components/Cards/Cards'
+import ContactSocialMedia from '@/components/ContactSocialMedia/ContactSocialMedia'
 import Pagination from '@/components/Pagination/Pagination'
 import React from 'react'
 type PageType = { params: { category: string }, searchParams: { page: string } }
-const getData = (query: PageType) => {
+const getData = async (query: PageType) => {
     const url = `category/${query.params.category}?page=${query.searchParams.page || 1}`
-    return fetchApi({ url })
+    const data = await fetchApi({ url })
+    if (data.error) return NotFound();
+    return data
 }
 export default async function page(query: PageType) {
     const data: ALlPostCategory = await getData(query)
@@ -25,6 +29,7 @@ export default async function page(query: PageType) {
                     <Pagination pagination={data.paginate} />
                 </div>
             </div>
+            <ContactSocialMedia />
         </div>
     )
 }

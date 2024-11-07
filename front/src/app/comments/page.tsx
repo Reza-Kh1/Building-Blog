@@ -6,8 +6,11 @@ import FormComments from "@/components/FormComments/FormComments";
 import React from "react";
 import { CommentsPage } from "../type";
 import Pagination from "@/components/Pagination/Pagination";
-const getData = (page: number) => {
-  return fetchApi({ url: `comment/null?page=${page || 1}` })
+import NotFound from "../not-found";
+const getData = async (page: number) => {
+  const data = await fetchApi({ url: `comment/null?page=${page || 1}` })
+  if (data.error) return NotFound();
+  return data
 }
 export default async function page({ searchParams }: { searchParams: { page: number } }) {
   const data: CommentsPage = await getData(searchParams.page)

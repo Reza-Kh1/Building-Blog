@@ -31,7 +31,7 @@ const menuTitle = [
     url: "/experts?order=createdAt-DESC&page=1",
   },
   {
-    name: "گرفتن قیمت آنلاین",
+    name: "محاسبه آنلاین هزینه",
     url: "/request-project",
   },
 ];

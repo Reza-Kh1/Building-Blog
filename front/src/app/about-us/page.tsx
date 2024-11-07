@@ -8,6 +8,7 @@ import CardProjects from "@/components/CardProjects/CardProjects";
 import BannerCallUs from "../../components/BannerCallUs/BannerCallUs";
 import { fetchApi } from "@/action/fetchApi";
 import { AboutUsType } from "../type";
+import ContactSocialMedia from "@/components/ContactSocialMedia/ContactSocialMedia";
 import NotFound from "../not-found";
 const dataBanner = [
   {
@@ -57,8 +58,10 @@ const dataProject = [
     }
   }
 ];
-const getData = () => {
-  return fetchApi({ url: "page/aboutMe" });
+const getData = async () => {
+  const data = await fetchApi({ url: "page/aboutMe" });
+  if (data.error) return NotFound();
+  return data
 };
 export default async function page() {
   const { data }: AboutUsType = await getData();
@@ -68,7 +71,7 @@ export default async function page() {
         <Breadcrums />
         <div className="my-5">
           <h1 className="text-2xl mb-2 font-semibold">درباره ما</h1>
-          <span>صفحه ای کوچک درباره کار ما</span>
+          <span>صفحه ای کوچک درباره خدمات ما</span>
         </div>
       </div>
       <span className="w-full border block"></span>
@@ -138,6 +141,7 @@ export default async function page() {
           />
         </div>
       </div>
+      <ContactSocialMedia />
     </div>
   );
 }

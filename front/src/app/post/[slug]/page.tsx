@@ -11,9 +11,10 @@ import { Metadata } from "next";
 import { CardPostType, CardProjectsType, PostType } from "@/app/type";
 import Script from "next/script";
 import parse from "html-react-parser";
-import CommentPost from "../CommentPost";
+import CommentPost from "./CommentPost";
 import { notFound } from "next/navigation";
 import SwiperCards from "@/components/SwiperCards/SwiperCards";
+import Breadcrums from "@/components/Breadcrums/Breadcrums";
 type DataPostPageType = {
   data: PostType;
   posts: CardPostType[];
@@ -110,9 +111,10 @@ export default async function page({ params }: { params: { slug: string } }) {
             </div>
           </div>
         </div>
-        <div className="mt-24 max-w-3xl mx-auto text-justify leading-8">
+        <Breadcrums className="mt-20"/>
+        <article className="max-w-3xl mx-auto text-justify leading-8">
           {data?.DetailPost?.text && parse(data?.DetailPost?.text)}
-        </div>
+        </article>
         <div className="my-8">
           <BannerCallUs />
         </div>

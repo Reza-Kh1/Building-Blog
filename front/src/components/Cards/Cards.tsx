@@ -16,9 +16,9 @@ export default function Cards({ props }: { props: CardPostType[] }) {
         <ImgTag alt={i.title} height={200} src={i.image} width={450} />
       </div>
       <div className="w-2/3 flex justify-between flex-col py-2">
-        <span className="text-sm">{i?.Category?.name}</span>
-        <h4 className="text-lg">{i.title}</h4>
-        <div className="flex gap-5">
+        <span className="text-sm text-gray-500">{i?.Category?.name}</span>
+        <h3 className="text-lg text-gray-800">{i.title}</h3>
+        <div className="flex gap-5 text-gray-500">
           <i>
             <FaPhotoVideo />
           </i>
@@ -37,7 +37,7 @@ export default function Cards({ props }: { props: CardPostType[] }) {
             </i>
           </p>
         </div>
-        <p className="text-sm">{i.description}</p>
+        <p className="text-sm text-gray-700">{i.description}</p>
         <div>
           <button type="button" title="button" className="custom-button-card relative flex items-center bg-gradient-to-b from-blue-400/70 to-blue-500 rounded-full group-hover:from-blue-500/70 shadow-md  group-hover:to-blue-600/90 p-2  text-white">
             <span className="group-hover:block ">مشاهده مقاله</span>

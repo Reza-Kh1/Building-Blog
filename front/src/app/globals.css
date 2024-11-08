@@ -101,6 +101,20 @@ a {
   border-radius: 0;
 }
 
+.classDiv {
+  max-width: 80rem;
+  margin: 1rem auto;
+  width: 100%;
+  padding: 0 0.75rem;
+}
+
+@media (min-width: 1024px) {
+  .classDiv {
+    padding: 0;
+    margin: 1.5rem auto;
+  }
+}
+
 /* .swiper-button-next,
 .swiper-button-prev {
   color: black !important;

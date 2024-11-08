@@ -9,12 +9,11 @@ const getData = () => {
   return fetchApi({ url: "page/footer" });
 };
 const menuTitle = [
-  "خانه",
-  "ارتباط با ما",
-  "تماس با ما",
-  "سوالات متداول",
-  "وبلاگ",
-  "گالری",
+  { name: "خانه", link: "/" },
+  { name: "تماس با ما", link: "/contact-us" },
+  { name: "درباره ما", link: "/about-us" },
+  { name: "وبلاگ", link: "/blog" },
+  { name: "پروژه ها", link: "/project" },
 ];
 import "./style.css";
 import { fetchApi } from "@/action/fetchApi";
@@ -22,132 +21,131 @@ import { Footertype } from "@/app/type";
 export default async function Footer() {
   const { data }: Footertype = await getData();
   return (
-    <div>
-      <span className="w-full bg-slate-700"></span>
-      <div className="bg-footer">
-        <div className="w-4/5 mx-auto flex items-center py-10">
-          <div className="w-3/5">
-            <div className="border-b border-b-slate-700 mb-5 pb-5 flex items-stretch gap-5 text-slate-400">
-              <figure className="flex">
-                <Image
-                  alt={data?.text?.logoUrl?.alt || "logo"}
-                  src={data?.text?.logoUrl?.url || "/logo.png"}
-                  width={200}
-                  className="rounded-md shadow-md"
-                  height={100}
-                  loading="lazy"
-                />
-              </figure>
-              <span className="border border-slate-500"></span>
-              <p className="text-justify">{data?.text?.text}</p>
-            </div>
-            <div className="grid grid-cols-3 gap-3">
-              {data?.text?.menuLink.length
-                ? data.text.menuLink.map((i, index) => (
-                    <ul
-                      key={index}
-                      className="flex flex-col gap-2 text-slate-400"
-                    >
-                      {i.length
-                        ? i.map((item) => (
-                            <li
-                              key={item.id}
-                              className="flex hover:pr-1 transition-all"
+    <div className="bg-footer">
+      <div className="w-full xl:w-4/5 mx-auto flex flex-wrap items-center p-3 lg:pt-8">
+        <div className="w-full lg:w-3/5">
+          <div className="w-full border-b border-b-slate-700 mb-5 pb-5 flex items-stretch gap-5 text-slate-400">
+            <figure className="flex">
+              <Image
+                alt={data?.text?.logoUrl?.alt || "logo"}
+                src={data?.text?.logoUrl?.url || "/logo.png"}
+                width={150}
+                className="rounded-md shadow-md w-28 lg:w-52 h-14 lg:h-28"
+                height={80}
+                loading="lazy"
+              />
+            </figure>
+            <span className="border border-slate-500"></span>
+            <p className="text-xs sm:text-base text-justify">
+              {data?.text?.text}
+            </p>
+          </div>
+          <div className="w-full grid grid-cols-3 gap-3">
+            {data?.text?.menuLink.length
+              ? data.text.menuLink.map((i, index) => (
+                  <ul
+                    key={index}
+                    className="flex flex-col gap-1 md:gap-2 text-slate-400"
+                  >
+                    {i.length
+                      ? i.map((item) => (
+                          <li
+                            key={item.id}
+                            className="flex hover:pr-1 transition-all text-sm md:text-base"
+                          >
+                            <Link
+                              href={item.link}
+                              className="hover:text-slate-100 transition-all scale-1 flex items-center"
                             >
-                              <Link
-                                href={item.link}
-                                className="hover:text-slate-100 transition-all scale-1 flex items-center"
-                              >
-                                <i>
-                                  <FaAngleLeft />
-                                </i>
-                                <span className="mr-1 transition-shadow">
-                                  {item.name}
-                                </span>
-                              </Link>
-                            </li>
-                          ))
-                        : null}
-                    </ul>
-                  ))
-                : null}
+                              <i>
+                                <FaAngleLeft />
+                              </i>
+                              <span className="mr-1 transition-shadow">
+                                {item.name}
+                              </span>
+                            </Link>
+                          </li>
+                        ))
+                      : null}
+                  </ul>
+                ))
+              : null}
+          </div>
+        </div>
+        <div className="w-full lg:w-2/5 lg:pr-7 text-sm mt-5 lg:text-base lg:mt-0">
+          <div className=" flex flex-col gap-2 mb-5">
+            <h3 className="text-slate-400 mb-3">
+              هرگونه سوال یا مشاوره ای خواستید ما به صورت رایگان در خدمتیم می
+              توانید با شماره های زیر تماس حاصل کنید :
+            </h3>
+            <address className="text-slate-400 text-sm">
+              آدرس : تهران - فرحزاد - میدان فرحزاد - خیابان گلستان - بن بست لاله
+              یکم - پلاک 13
+            </address>
+            <p className="text-slate-400 text-sm">
+              ایمیل :{" "}
+              <Link
+                href="mailto:R.khani1385.66@gmail.com"
+                className="hover:text-blue-400"
+              >
+                R.khani1385.66@gmail.com
+              </Link>
+            </p>
+            <p className="text-slate-400 text-sm">
+              تلفن :{" "}
+              <Link href="tel:02122087279" className="hover:text-blue-400">
+                22087279-021
+              </Link>
+            </p>
+            <div className="text-blue-100 mt-3 flex justify-evenly lg:justify-between items-center text-sm">
+              <Link
+                href="tel:09390199977"
+                className="bg-[#1c2124] text-xs lg:text-sm hover:bg-gray-950 items-center gap-2 p-2 flex rounded-md shadow-custom-dark"
+              >
+                09390199977
+                <i>
+                  <FiPhoneCall color="green" />
+                </i>
+              </Link>
+              <Link
+                href="tel:09226115716"
+                className="bg-[#1c2124] text-xs lg:text-sm hover:bg-gray-950 items-center gap-2 p-2 flex rounded-md shadow-custom-dark"
+              >
+                09226115716
+                <i>
+                  <FiPhoneCall color="green" />
+                </i>
+              </Link>
             </div>
           </div>
-          <div className="w-2/5 pr-7">
-            <div className=" flex flex-col gap-2 mb-5">
-              <h3 className="text-slate-400 mb-3">
-                هرگونه سوال یا مشاوره ای خواستید ما به صورت رایگان در خدمتیم می
-                توانید با شماره های زیر تماس حاصل کنید :
-              </h3>
-              <address className="text-slate-400 text-sm">
-                آدرس : تهران - فرحزاد - میدان فرحزاد - خیابان گلستان - بن بست
-                لاله یکم - پلاک 13
-              </address>
-              <p className="text-slate-400 text-sm">
-                ایمیل :{" "}
-                <Link
-                  href="mailto:R.khani1385.66@gmail.com"
-                  className="hover:text-blue-400"
-                >
-                  R.khani1385.66@gmail.com
-                </Link>
-              </p>
-              <p className="text-slate-400 text-sm">
-                تلفن :{" "}
-                <Link href="tel:02122087279" className="hover:text-blue-400">
-                  22087279-021
-                </Link>
-              </p>
-              <div className="text-blue-100 mt-3 flex justify-between items-center text-sm">
-                <Link
-                  href="tel:09390199977"
-                  className="bg-[#1c2124] hover:bg-gray-950 items-center gap-2 p-2 flex rounded-md shadow-custom-dark"
-                >
-                  09390199977
-                  <i>
-                    <FiPhoneCall color="green" />
-                  </i>
-                </Link>
-                <Link
-                  href="tel:09226115716"
-                  className="bg-[#1c2124] hover:bg-gray-950 items-center gap-2 p-2 flex rounded-md shadow-custom-dark"
-                >
-                  09226115716
-                  <i>
-                    <FiPhoneCall color="green" />
-                  </i>
-                </Link>
-              </div>
-            </div>
-            {/* <div>
+          {/* <div>
               <p className="text-slate-400 mb-2">در خبرنامه ما عضو شوید.</p>
               <SubscribeForm />
             </div> */}
-          </div>
         </div>
-        <div className="after-overlay py-8">
-          <div className="w-4/5 relative z-10 mx-auto gap-7 flex flex-col">
-            <div className="flex items-center justify-between">
-              <ul className="flex gap-3 text-gray-500 text-sm ">
-                {menuTitle.map((i, index) => (
-                  <li key={index}>
-                    <a
-                      href="/"
-                      className="hover:text-white ml-2 transition-all"
-                    >
-                      {i}
-                    </a>
-                    {menuTitle.length === index + 1 ? null : <span>/</span>}
-                  </li>
-                ))}
-              </ul>
-              <div className="text-2xl">
-                <IconSocialMedia />
-              </div>
+      </div>
+      <div className="after-overlay py-6 lg:py-8">
+        <div className="w-full lg:w-4/5 relative z-10 mx-auto gap-5 lg:gap-7 flex flex-col">
+          <div className="flex flex-wrap items-center justify-between">
+            <ul className="flex gap-2 lg:gap-3 w-full flex-wrap justify-center lg:justify-start lg:w-1/2 text-gray-500">
+              {menuTitle.map((i, index) => (
+                <li key={index}>
+                  <a
+                    href={i.link}
+                    className="hover:text-white ml-1 lg:ml-2 text-sm transition-all"
+                  >
+                    {i.name}
+                  </a>
+                  {menuTitle.length === index + 1 ? null : <span>/</span>}
+                </li>
+              ))}
+            </ul>
+            <div className="text-2xl w-full lg:w-1/2 mt-5 lg:mt-0">
+              <IconSocialMedia />
             </div>
-            <div className="w-1/3 text-slate-500 mx-auto text-center">
-              <p>©️ کلیه حقوق این سایت متعلق به invetion است .</p>
-            </div>
+          </div>
+          <div className="lg:w-1/3 w-full text-slate-500 mx-auto text-xs lg:text-base text-center">
+            <p>©️ کلیه حقوق این سایت متعلق به invetion است .</p>
           </div>
         </div>
       </div>

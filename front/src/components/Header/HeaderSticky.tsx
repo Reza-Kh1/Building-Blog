@@ -149,7 +149,7 @@ export default function HeaderSticky({ category }: { category: CategoryType[] })
             behavior: "smooth",
           })
         }
-        className={`cursor-pointer fixed z-50 right-5 rounded-full shadow-md bg-slate-500/70 text-white p-3 transition-all ${scrollTop ? "bottom-5" : "-bottom-12"
+        className={`p-2 lg:p-3 cursor-pointer fixed z-50 right-2 lg:right-5 rounded-full shadow-md bg-slate-500/70 text-white transition-all ${scrollTop ? "bottom-2 lg:bottom-5" : "-bottom-12"
           }`}
       >
         <i>

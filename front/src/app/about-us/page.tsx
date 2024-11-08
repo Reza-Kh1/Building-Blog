@@ -1,15 +1,14 @@
 import Breadcrums from "@/components/Breadcrums/Breadcrums";
 import React from "react";
 import ImgTag from "@/components/ImgTag/ImgTag";
-import Image from "next/image";
 import { FaCheck } from "react-icons/fa6";
 import SwiperGallery from "@/components/SwiperGallery/SwiperGallery";
-import CardProjects from "@/components/CardProjects/CardProjects";
 import BannerCallUs from "../../components/BannerCallUs/BannerCallUs";
 import { fetchApi } from "@/action/fetchApi";
 import { AboutUsType } from "../type";
 import ContactSocialMedia from "@/components/ContactSocialMedia/ContactSocialMedia";
 import NotFound from "../not-found";
+import SwiperCards from "@/components/SwiperCards/SwiperCards";
 const dataBanner = [
   {
     src: "/icon-paint.png",
@@ -42,63 +41,55 @@ const dataBanner = [
     title: "با تجربه",
   },
 ];
-const dataProject = [
-  {
-    "id": 9,
-    "name": "برج خلیفا",
-    "address": "تهران-شمال",
-    "image": "https://building-blog.storage.iran.liara.space/1728717013892-azadi.jpg",
-    "alt": "برج آزادی",
-    "status": false,
-    "createdAt": "2024-10-16T10:21:07.519Z",
-    "updatedAt": "2024-10-16T10:21:07.519Z",
-    "workerId": 3,
-    "Worker": {
-      "name": "حسن فیاضی"
-    }
-  }
-];
 const getData = async () => {
   const data = await fetchApi({ url: "page/aboutMe" });
   if (data.error) return NotFound();
-  return data
+  return data;
 };
 export default async function page() {
   const { data }: AboutUsType = await getData();
   return (
-    <div className="w-full my-6">
-      <div className="max-w-7xl mx-auto w-full my-6">
-        <Breadcrums />
-        <div className="my-5">
-          <h1 className="text-2xl mb-2 font-semibold">درباره ما</h1>
-          <span>صفحه ای کوچک درباره خدمات ما</span>
+    <div className="w-full">
+      <Breadcrums />
+      <div className="classDiv">
+        <h1 className="lg:text-xl text-base mb-2 font-semibold">درباره ما</h1>
+        <span className="text-xs lg:text-base text-gray-700">
+          صفحه ای کوچک درباره خدمات ما
+        </span>
+        <span className="w-full border block my-4 lg:my-6 "></span>
+      </div>
+      <div className="classDiv flex flex-col md:flex-row gap-4 md:gap-3">
+        <div className="w-full md:w-1/2">
+          <h2 className="lg:text-lg font-semibold">{data?.text?.title1}</h2>
+          <p className="leading-7 text-sm lg:text-base text-gray-800">
+            {data?.text?.text1}
+          </p>
+        </div>
+        <div className="w-full md:w-1/2">
+          <SwiperGallery imagesSrc={data?.text?.imgArry} />
         </div>
       </div>
-      <span className="w-full border block"></span>
-      <div className="max-w-7xl mx-auto w-full my-10">
-        <div className="flex gap-3">
-          <div className="w-1/2">
-            <h2 className="text-xl">{data?.text?.title1}</h2>
-            <p className="leading-7 text-gray-500">{data?.text?.text1}</p>
-          </div>
-          <div className="w-1/2">
-            <SwiperGallery imagesSrc={data?.text?.imgArry} />
-          </div>
+      <div className="w-full px-3 py-3 lg:py-0 flex flex-col md:flex-row gap-5 md:gap-3 bg-[#282828] shadow-md">
+        <div className="w-full md:w-1/3 flex items-center">
+          <ImgTag src={"/5.jpg"} alt={"test"} width={500} height={450} />
         </div>
-      </div>
-      <div className="w-full flex gap-3 bg-[#282828] shadow-md">
-        <div className="w-1/3 flex items-center">
-          <ImgTag src={"/5.jpg"} alt={"test"} width={700} height={600} />
-        </div>
-        <div className="w-2/3 grid grid-cols-2 gap-8 p-10">
+        <div className="w-full md:w-2/3 grid grid-cols-2 gap-5 lg:gap-8 lg:p-10">
           {dataBanner.map((props, index) => (
             <div className="flex gap-3" key={index}>
-              <figure className="text-4xl">
-                <Image alt="paint" src={props.src} width={80} height={30} />
+              <figure className="lg:mt-1">
+                <ImgTag
+                  alt="paint"
+                  src={props.src}
+                  className="lg:w-16 lg:h-10 object-contain"
+                  width={100}
+                  height={100}
+                />
               </figure>
               <div>
-                <span className="text-slate-200">{props.title}</span>
-                <p className="text-slate-400 text-sm mt-2 text-justify">
+                <span className="text-slate-50 text-sm lg:text-base">
+                  {props.title}
+                </span>
+                <p className="text-slate-400 lg:text-sm mt-1 lg:mt-2 text-xs text-justify">
                   {props.text}
                 </p>
               </div>
@@ -106,33 +97,28 @@ export default async function page() {
           ))}
         </div>
       </div>
-      <div className="max-w-7xl mx-auto w-full my-5 ">
-        <h3 className="text-xl font-semibold mb-3">برخی از پروژه های ما</h3>
-        <div className="grid grid-cols-3 gap-5">
-          {dataProject.map((i, index) => (
-            <CardProjects project={i} key={index} />
-          ))}
-        </div>
+      <div className="classDiv">
+        <SwiperCards isProject data={[]} title="پروژه های ما" url="/project" />
       </div>
       <BannerCallUs />
-      <div className="max-w-7xl mx-auto w-full flex gap-3 items-center">
-        <div className="w-1/2">
-          <h3 className="text-xl mb-3 font-semibold">{data?.text?.title2}</h3>
-          <h4 className="text-sm text-gray-600 mb-3">{data?.text?.text2}</h4>
+      <div className="classDiv flex flex-col md:flex-row gap-3 items-center">
+        <div className="w-full md:w-1/2">
+          <h3 className="lg:text-xl mb-3 font-semibold">{data?.text?.title2}</h3>
+          <h4 className="text-sm text-gray-700 mb-3">{data?.text?.text2}</h4>
           {data?.text?.textArry.length ? (
-            <ul className="flex flex-col gap-2">
+            <ul className="flex flex-col gap-1 lg:gap-2">
               {data?.text?.textArry.map((i, index) => (
-                <li key={index} className="flex items-center gap-3">
+                <li key={index} className="flex text-gray-800 items-center gap-2 lg:gap-3">
                   <i>
                     <FaCheck />
                   </i>
-                  <span>{i.text}</span>
+                  <span className="text-sm md:text-base">{i.text}</span>
                 </li>
               ))}
             </ul>
           ) : null}
         </div>
-        <div className="w-1/2">
+        <div className="w-full md:w-1/2">
           <ImgTag
             src={"/about.jpg"}
             alt={"about-us"}

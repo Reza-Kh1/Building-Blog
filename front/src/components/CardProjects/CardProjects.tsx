@@ -28,20 +28,20 @@ export default function CardProjects({ project }: { project: CardProjectsType })
                     <FaPlay className='text-xl' />
                 </i>
             </Link>
-            <div className="flex flex-col gap-2 p-2">
+            <div className="flex flex-col p-2">
                 <div className='flex'>
                     <Link href={"/project/" +project.name.replace(/ /g, "-")} className='flex text-gray-800 group/name items-center gap-1'>
                         <i className='group-hover/name:text-blue-400'><MdAddHomeWork /></i>
                         <h3 className="group-hover/name:text-blue-400 text-xl">{project.name}</h3>
                     </Link>
                 </div>
-                <div className='flex'>
+                <div className='flex mt-3 mb-1'>
                     <Link href={"/experts/" + project.Worker?.name.replace(/ /g, "-")} className='group/expert text-gray-600 flex items-center gap-1'>
                         <i className='group-hover/expert:text-blue-400'><GrUserWorker /></i>
                         <span className='text-sm group-hover/expert:text-blue-400'>{project.Worker?.name}</span>
                     </Link>
                 </div>
-                <div className='flex items-center gap-1 text-gray-600'>
+                <div className='flex items-center gap-1 mb-3 text-gray-600'>
                     <i><SiGooglemaps /></i>
                     <span className="text-sm">
                         {project.address}

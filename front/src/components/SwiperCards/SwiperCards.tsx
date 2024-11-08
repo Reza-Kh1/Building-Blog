@@ -24,7 +24,7 @@ export default function SwiperCards({
   title,
   isExpert,
   isProject,
-}: SwiperCardsType) {  
+}: SwiperCardsType) {
   if (!data.length) return;
   return (
     <>
@@ -39,35 +39,37 @@ export default function SwiperCards({
           />
         </Link>
       </div>
-      <Swiper
-        slidesPerView={3}
-        pagination={{
-          dynamicBullets: true,
-          clickable: true,
-        }}
-        spaceBetween={"50"}
-        modules={[Pagination]}
-        className="!py-10"
-      >
-        {isPost &&
-          data.map((item) => (
-            <SwiperSlide key={item.id}>
-              <CardPost post={item as CardPostType} />
-            </SwiperSlide>
-          ))}
-        {isProject &&
-          data.map((item) => (
-            <SwiperSlide key={item.id}>
-              <CardProjects project={item as CardProjectsType} />
-            </SwiperSlide>
-          ))}
-        {isExpert &&
-          data.map((item) => (
-            <SwiperSlide key={item.id}>
-              <CardExperts {...(item as ExpertType)} />
-            </SwiperSlide>
-          ))}
-      </Swiper>
+      {data.length ? (
+        <Swiper
+          slidesPerView={3}
+          pagination={{
+            dynamicBullets: true,
+            clickable: true,
+          }}
+          spaceBetween={"50"}
+          modules={[Pagination]}
+          className="!py-10"
+        >
+          {isPost &&
+            data.map((item) => (
+              <SwiperSlide key={item.id}>
+                <CardPost post={item as CardPostType} />
+              </SwiperSlide>
+            ))}
+          {isProject &&
+            data.map((item) => (
+              <SwiperSlide key={item.id}>
+                <CardProjects project={item as CardProjectsType} />
+              </SwiperSlide>
+            ))}
+          {isExpert &&
+            data.map((item) => (
+              <SwiperSlide key={item.id}>
+                <CardExperts {...(item as ExpertType)} />
+              </SwiperSlide>
+            ))}
+        </Swiper>
+      ) : null}
     </>
   );
 }

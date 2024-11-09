@@ -9,7 +9,7 @@ const getData = () => {
   return fetchApi({ url: "page/footer" });
 };
 const menuTitle = [
-  { name: "خانه", link: "/" },
+  { name: "صفحه اصلی", link: "/" },
   { name: "تماس با ما", link: "/contact-us" },
   { name: "درباره ما", link: "/about-us" },
   { name: "وبلاگ", link: "/blog" },
@@ -118,21 +118,17 @@ export default async function Footer() {
               </Link>
             </div>
           </div>
-          {/* <div>
-              <p className="text-slate-400 mb-2">در خبرنامه ما عضو شوید.</p>
-              <SubscribeForm />
-            </div> */}
         </div>
       </div>
-      <div className="after-overlay py-6 lg:py-8">
-        <div className="w-full lg:w-4/5 relative z-10 mx-auto gap-5 lg:gap-7 flex flex-col">
+      <div className="after-overlay py-6 md:py-8">
+        <div className="w-full md:w-4/5 relative z-10 mx-auto gap-5 md:gap-7 flex flex-col">
           <div className="flex flex-wrap items-center justify-between">
-            <ul className="flex gap-2 lg:gap-3 w-full flex-wrap justify-center lg:justify-start lg:w-1/2 text-gray-500">
+            <ul className="flex gap-2 md:gap-3 w-full flex-wrap justify-center md:justify-start md:w-1/2 text-gray-500">
               {menuTitle.map((i, index) => (
                 <li key={index}>
                   <a
                     href={i.link}
-                    className="hover:text-white ml-1 lg:ml-2 text-sm transition-all"
+                    className="hover:text-white ml-1 md:ml-2 text-sm transition-all"
                   >
                     {i.name}
                   </a>
@@ -140,11 +136,11 @@ export default async function Footer() {
                 </li>
               ))}
             </ul>
-            <div className="text-2xl w-full lg:w-1/2 mt-5 lg:mt-0">
+            <div className="text-2xl w-full md:w-1/2 flex justify-center md:justify-end mt-5 md:mt-0">
               <IconSocialMedia />
             </div>
           </div>
-          <div className="lg:w-1/3 w-full text-slate-500 mx-auto text-xs lg:text-base text-center">
+          <div className="lg:w-1/3 w-full text-slate-500 mx-auto text-xs md:text-base text-center">
             <p>©️ کلیه حقوق این سایت متعلق به invetion است .</p>
           </div>
         </div>

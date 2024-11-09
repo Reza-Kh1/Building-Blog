@@ -3,42 +3,57 @@ import React, { Suspense, useEffect, useState } from "react";
 import { IoIosArrowUp } from "react-icons/io";
 import { CategoryType } from "@/app/type";
 import Link from "next/link";
-import { FaAngleDoubleDown, FaAngleLeft } from "react-icons/fa";
+import { FaAngleDoubleDown, FaAngleLeft, FaHome, FaPhone } from "react-icons/fa";
 import DarkMode from "../DarkMode/DarkMode";
 import SearchBox from "../SearchBox/SearchBox";
 import Image from "next/image";
 import NavlinkHeader from "./NavlinkHeader";
+import { Drawer, IconButton } from "@mui/material";
+import { MdMapsHomeWork, MdMenuOpen, MdOutlineQuestionMark } from "react-icons/md";
 import "./style.css";
+import { GrArticle, GrUserWorker } from "react-icons/gr";
+import { FaRegComments, FaUsersViewfinder } from "react-icons/fa6";
+import { LiaFileInvoiceDollarSolid } from "react-icons/lia";
+import IconSocialMedia from "../IconSocialMedia/IconSocialMedia";
+import { usePathname } from "next/navigation";
 const menuTitle = [
   {
     name: "پروژه ها",
     url: "/project",
+    icon: <MdMapsHomeWork className="text-gray-600" />
   },
   {
     name: "وبلاگ",
     url: "/blog?order=createdAt-DESC&page=1",
+    icon: <GrArticle className="text-gray-600" />
   },
   {
     name: "ارتباط با ما",
     url: "/contact-us",
+    icon: <FaPhone className="text-gray-600" />
   },
   {
     name: "نظرات مشتریان",
     url: "/comments?page=1",
+    icon: <FaRegComments className="text-gray-600" />
   },
   {
     name: "مجریان",
     url: "/experts?order=createdAt-DESC&page=1",
+    icon: <GrUserWorker className="text-gray-600" />
   },
   {
     name: "محاسبه آنلاین هزینه",
     url: "/request-project",
+    icon: <LiaFileInvoiceDollarSolid className="text-gray-600" />
   },
 ];
 export default function HeaderSticky({ category }: { category: CategoryType[] }) {
   const [scroll, setScroll] = useState<Number>(0);
   const [visible, setVisible] = useState<boolean>(true);
   const [scrollTop, setScrollTop] = useState<boolean>(false);
+  const [openMenu, setOpenMenu] = useState<boolean>(false)
+  const [showCategory, setShowCategory] = useState<string | null>();
   const MenuComponents = ({ props }: { props: CategoryType[] }) => {
     if (!props.length) return;
     return props.map((i, index) => (
@@ -62,6 +77,10 @@ export default function HeaderSticky({ category }: { category: CategoryType[] })
       </li>
     ));
   };
+  const params = usePathname()
+  useEffect(() => {
+    setOpenMenu(false)
+  }, [params])
   useEffect(() => {
     const handleScroll = () => {
       const currentScroll = window.scrollY as Number;
@@ -88,20 +107,97 @@ export default function HeaderSticky({ category }: { category: CategoryType[] })
   return (
     <>
       <div
-        className={`header-sticky shadow-md shadow-[#dbdbdb] dark:shadow-[#6c6c6c] bg-slate-100 dark:bg-slate-700 ${visible
+        className={`header-sticky shadow-md shadow-[#dbdbdb] dark:shadow-[#6c6c6c] bg-slate-200/80 dark:bg-slate-700 ${visible
           ? "header-show bg-slate-100/40 dark:!bg-gray-800/80"
           : "header-hidden"
           } `}
       >
-        <div className="max-w-7xl w-full py-3 flex mx-auto">
-          <div className="w-full flex justify-between">
-            <div className="w-2/12 flex items-center">
+        <div className="max-w-7xl w-full py-1 md:py-3 px-3 xl:px-0 flex mx-auto">
+          <div className="w-full flex justify-between items-center">
+            <div className="w-1/3 md:w-1/12  flex items-center menu-mobile">
+              <div className="md:hidden">
+                <IconButton onClick={() => setOpenMenu(true)}>
+                  <MdMenuOpen />
+                </IconButton>
+                <Drawer
+                  anchor={"left"}
+                  open={openMenu}
+                  onClose={() => setOpenMenu(false)}
+                >
+                  <div className="px-4">
+                    <Link href={"/"}>
+                      <figure className="flex justify-center items-end">
+                        <Image
+                          src={"/logo.png"}
+                          width={60}
+                          height={20}
+                          alt="logo"
+                          loading="eager"
+                        />
+                      </figure>
+                    </Link>
+                    <ul className="flex flex-col gap-3 justify-evenly text-slate-600 dark:text-gray-300 w-full">
+                      <li className="hover:text-blue-400 text-sm flex items-center gap-2">
+                        <FaUsersViewfinder className="text-gray-700" />
+                        <NavlinkHeader title="درباره ما" url="/about-us" />
+                      </li>
+                      <li className="hover:text-blue-400 text-sm flex items-center gap-2">
+                        <MdOutlineQuestionMark className="text-gray-700" />
+                        <NavlinkHeader title="سوالات متداول" url="/faqs" />
+                      </li>
+                      <li className="hover:text-blue-400 text-sm flex items-center gap-2">
+                        <FaHome className="text-gray-700" />
+                        <NavlinkHeader title="صفحه اصلی" url="/" />
+                      </li>
+                      {menuTitle.map((i, index) => (
+                        <li
+                          key={index}
+                          className="flex flex-col gap-2"
+                        >
+                          <div className="flex justify-between items-center">
+                            <div className="flex items-center gap-2">
+                              {i.icon}
+                              <NavlinkHeader title={i.name} url={i.url} className="group-hover:text-blue-400 text-sm" />
+                            </div>
+                            {i.name === "وبلاگ" ? (
+                              <i onClick={() => setShowCategory(showCategory !== i.name ? i.name : null)}>
+                                <FaAngleDoubleDown
+                                  size={14}
+                                  className={`transition-all ${i.name === showCategory ? "text-blue-400 rotate-180" : ""}`}
+                                />
+                              </i>
+                            ) : null}
+                          </div>
+                          <ul className={`hidden ${showCategory === i.name ? "!block" : ""}`}>
+                            {category.map((item, ind) => (
+                              <li key={ind}>
+                                <Link
+                                  className="flex w-full gap-1 items-center text-sm"
+                                  href={"blog/" + item.slug}
+                                >
+                                  <span className="w-[6px] h-[1px] bg-black"></span>
+                                  {item.name}
+                                </Link>
+                              </li>
+                            ))}
+                          </ul>
+                        </li>
+                      ))}
+                    </ul>
+                    <div className="mt-4 flex justify-center">
+                      <IconSocialMedia />
+                    </div>
+                  </div>
+                </Drawer>
+              </div>
               <DarkMode />
+            </div>
+            <div className="w-1/3 md:w-1/12 flex justify-center md:justify-start">
               <Suspense fallback={<div>loading...</div>}>
                 <SearchBox />
               </Suspense>
             </div>
-            <div className="w-8/12 flex items-center mt-1 menu-header">
+            <div className="hidden md:w-8/12 md:flex items-center mt-1 menu-header">
               <ul className="flex justify-evenly text-slate-600 dark:text-gray-300 w-full">
                 {menuTitle.map((i, index) => (
                   <li
@@ -117,7 +213,7 @@ export default function HeaderSticky({ category }: { category: CategoryType[] })
                         <i>
                           <FaAngleDoubleDown
                             size={14}
-                            className="group-hover:text-blue-400"
+                            className="group-hover:text-blue-400 group-hover:rotate-180 transition-all"
                           />
                         </i>
                       </>
@@ -126,12 +222,12 @@ export default function HeaderSticky({ category }: { category: CategoryType[] })
                 ))}
               </ul>
             </div>
-            <div className="w-2/12 flex items-center justify-end">
+            <div className="w-1/3 md:w-2/12 flex items-center justify-end">
               <Link href={"/"}>
                 <figure className="flex justify-end items-end">
                   <Image
                     src={"/logo.png"}
-                    width={70}
+                    width={60}
                     height={20}
                     alt="logo"
                     loading="eager"
@@ -140,8 +236,8 @@ export default function HeaderSticky({ category }: { category: CategoryType[] })
               </Link>
             </div>
           </div>
-        </div>
-      </div>
+        </div >
+      </div >
       <div
         onClick={() =>
           window.scrollTo({

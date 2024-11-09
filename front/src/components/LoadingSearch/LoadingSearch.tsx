@@ -6,5 +6,6 @@ export default function LoadingSearch() {
             <div className="ldio-yzaezf3dcmj">
                 <div></div>
             </div>
-        </div>)
+        </div>
+    )
 }

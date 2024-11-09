@@ -9,7 +9,7 @@ export default function Breadcrums({ className }: { className?: string }) {
   const newArry = arry.map((i) => {
     if (!i) {
       return {
-        name: "خانه",
+        name: "صفحه اصلی",
         url: "/",
       };
     }
@@ -84,7 +84,7 @@ export default function Breadcrums({ className }: { className?: string }) {
         <React.StrictMode key={index}>
           {i.url ? (
             <Link href={i.url} className="hover:text-blue-500 text-sm flex items-center gap-1">
-              {i.name === "خانه" ? <FaHome /> : null}
+              {i.name === "صفحه اصلی" ? <FaHome /> : null}
               {i.name}
             </Link>
           ) : (

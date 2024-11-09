@@ -30,7 +30,7 @@ export default function DarkMode() {
       onClick={darkHandler}
     >
       <MdSunny color="white" className="z-10" />
-      <FaMoon color="white" className="z-10" />
+      <FaMoon color="#838383" className="z-10" />
       <span className="btn-darkmode"></span>
     </div>
   );

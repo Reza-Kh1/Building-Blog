@@ -22,16 +22,16 @@ export default async function page({
 }) {
   const data: AllProjectType = await getData(searchParams);
   return (
-    <div className="w-full my-8">
-      <div className="w-full max-w-7xl mx-auto mb-20">
-        <Breadcrums />
+    <div>
+      <Breadcrums />
+      <div className="classDiv mb-20">
         <div className="mt-6 flex justify-between items-center">
-          <h1 className="font-semibold">پروژه های ساختمان یار</h1>
+          <h1 className="lg:text-xl text-base font-semibold">پروژه های ما</h1>
           <div className="w-3/6">
             <OrderSearch />
           </div>
         </div>
-        <div className="my-10 grid grid-cols-3 gap-5">
+        <div className="my-5 md:my-10 grid grid-cols-2 md:grid-cols-3 gap-5">
           {data.rows.map((item, index) => (
             <CardProjects project={item} key={index} />
           ))}
@@ -43,9 +43,7 @@ export default async function page({
         </div>
       </div>
       <BannerCallUs />
-      <div className="w-full max-w-7xl mx-auto">
-        <ContactSocialMedia classDiv="mt-20" />
-      </div>
+      <ContactSocialMedia />
     </div>
   );
 }

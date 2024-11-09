@@ -2,7 +2,6 @@ import {
   AccordionDetails,
   AccordionSummary,
   Accordion,
-  AccordionActions,
 } from "@mui/material";
 import React from "react";
 import { IoIosArrowDown } from "react-icons/io";
@@ -20,10 +19,15 @@ export default function AccordionFaqs(data: AccordionFaqsType) {
           aria-controls="panel1-content"
           id="panel1-header"
         >
-          {data?.name}
+          <span className="text-sm lg:text-base text-gray-800">
+            {data?.name}
+          </span>
         </AccordionSummary>
-        <AccordionDetails>{data?.text}</AccordionDetails>
-        {/* <AccordionActions>gooz</AccordionActions> */}
+        <AccordionDetails>
+          <p className="text-xs lg:text-base text-gray-700">
+            {data?.text}
+          </p>
+        </AccordionDetails>
       </Accordion>
     </div>
   );

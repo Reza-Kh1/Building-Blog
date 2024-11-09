@@ -98,15 +98,15 @@ export default function SearchBox() {
       <div className="w-2/12 flex items-center">
         <div className="mr-3 text-gray-800 dark:text-gray-300">
           <i onClick={() => setIsShow(true)} className="cursor-pointer">
-            <BsSearch size={22} />
+            <BsSearch className="text-xl lg:text-2xl" />
           </i>
         </div>
       </div>
       <div
-        className={`w-full absolute transition-all right-0 top-36 ${isShow ? "opacity-100 z-20 !top-28" : "opacity-0 -z-20 pointer-events-none"}`}
+        className={`w-full px-1 xl:px-0 absolute transition-all right-0 top-36 ${isShow ? "opacity-100 z-20 !top-24 md:!top-28" : "opacity-0 -z-20 pointer-events-none"}`}
       >
-        <div className="max-w-7xl transition-all rounded-xl p-3 mx-auto flex justify-between items-center bg-gradient-to-br to-blue-300/70  from-gray-100/60 dark:from-slate-700 dark:to-zinc-500 backdrop-blur-lg">
-          <div className="w-11/12 relative bg-white p-2 rounded-full shadow-md">
+        <div className="max-w-7xl gap-2 md:gap-5 transition-all rounded-xl p-2 px-1 lg:p-3 mx-auto flex justify-between items-center bg-gradient-to-br to-blue-300/70  from-gray-100/60 dark:from-slate-700 dark:to-zinc-500 backdrop-blur-lg">
+          <div className="w-full relative bg-white p-1 lg:p-2 rounded-full shadow-md">
             <input
               ref={ref}
               value={valSearch}
@@ -128,22 +128,25 @@ export default function SearchBox() {
                   route.push(url)
                 }
               }}
-              className="p-3 bg-transparent w-full border-b-black focus-visible:outline-none"
+              className="text-xs md:text-base p-2  bg-transparent w-full border-b-black focus-visible:outline-none"
               placeholder="جستجوی هوشمند..."
             />
             {loading && (
-              <i className="absolute left-36 flex p-2 top-1/2 text-xl transform -translate-y-1/2">
+              <i className="absolute text-xs left-24 md:left-32 flex p-1 md:p-2 top-1/2 xl:text-xl transform -translate-y-1/2">
                 <LoadingSearch />
               </i>
             )}
-            < Link href={`/${filterName === "post" ? "blog" : filterName === "expert" ? "experts" : "project"}?page=1&order=createdAt-DESC&search=` + valSearch} className="absolute text-xl left-2 transform top-1/2 -translate-y-1/2">
-              <i className="p-3 rounded-full shadow-md block hover:bg-blue-600/70 bg-blue-400/90 text-white">
+            < Link href={`/${filterName === "post" ? "blog" : filterName === "expert" ? "experts" : "project"}?page=1&order=createdAt-DESC&search=` + valSearch} className="absolute lg:text-xl left-2 transform top-1/2 -translate-y-1/2">
+              <i className="p-2 lg:p-3 rounded-full shadow-md block hover:bg-blue-600/70 bg-blue-400/90 text-white">
                 <FaSearch />
               </i>
             </Link>
-            <div className="absolute left-12 transform top-1/2 -translate-y-1/2">
-              <FormControl sx={{ m: 1, minWidth: 80 }} size="small">
+            <div className="absolute left-9 lg:left-14 transform top-1/2 -translate-y-1/2">
+
+              <FormControl className="!text-xs" size="small">
                 <Select
+                  size="small"
+                  className="!text-sm md:!text-base"
                   id="demo-select-small"
                   value={filterName}
                   variant="standard"
@@ -166,10 +169,10 @@ export default function SearchBox() {
               </FormControl>
             </div>
           </div>
-          <span className="w-1/12 text-left flex justify-end">
+          <span className=" text-left flex justify-end">
             <i
               onClick={() => setIsShow(false)}
-              className="cursor-pointer bg-blue-500/50 hover:bg-blue-600/70 text-white shadow-md transition-all rounded-full p-3"
+              className="cursor-pointer bg-blue-500/50 hover:bg-blue-600/70 text-white shadow-md transition-all rounded-full p-2 lg:p-3"
             >
               <MdClose size={20} />
             </i>
@@ -177,31 +180,31 @@ export default function SearchBox() {
         </div>
       </div >
       <div
-        className={`-z-20 h-screen opacity-0 absolute w-full top-52 left-0 flex justify-center transition-all ${valSearch && isShow ? "z-20 opacity-100 top-48" : "invisible"
+        className={`-z-20 px-1 xl:px-0 h-screen opacity-0 absolute w-full top-52 left-0 flex justify-center transition-all ${valSearch && isShow ? "z-20 opacity-100 top-40 md:top-48" : "invisible"
           }`}
       >
         <div className="max-w-7xl h-3/4 overflow-y-auto w-full bg-gradient-to-tr from-blue-300/60 backdrop-blur-md to-gray-100/60 shadow-md p-4 rounded-lg">
           {!isSearch ? null : isSearch && data?.rows.length ?
             <>
               {filterName === "project" ?
-                <div className="grid grid-cols-3 gap-3">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                   {data.rows.map((item, index) => (
                     <CardProjects project={item as CardProjectsType} key={index} />
                   ))}
                 </div>
                 : filterName === "expert" ?
-                  <div className="grid grid-cols-4 gap-3">
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                     {data.rows.map((item, index) => (
                       <CardExperts {...item as ExpertType} key={index} />
                     ))}
                   </div> :
-                  <div className="grid grid-cols-3 gap-3">
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                     {data.rows.map((item, index) => (
                       <CardPost post={item as CardPostType} key={index} />
                     ))}
                   </div>
               }
-              <Link className="mt-4 block w-1/6 mx-auto" href={`/${filterName === "post" ? "blog" : filterName === "expert" ? "experts" : "project"}?page=1&order=createdAt-DESC&search=` + valSearch}>
+              <Link className="mt-4 block w-1/3 sm:w-1/4 md:w-1/6 mx-auto" href={`/${filterName === "post" ? "blog" : filterName === "expert" ? "experts" : "project"}?page=1&order=createdAt-DESC&search=` + valSearch}>
                 <CustomButton
                   name="مشاهده همه"
                   type="button"
@@ -210,7 +213,7 @@ export default function SearchBox() {
               </Link>
             </>
             :
-            <span className="text-xl text-gray-700">
+            <span className="text-xs md:text-xl text-gray-700">
               هیچ اطلاعاتی با کلمه جستجوی شما یافت نشد !!!
             </span>
           }

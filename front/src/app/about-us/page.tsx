@@ -52,7 +52,7 @@ export default async function page() {
     <div className="w-full">
       <Breadcrums />
       <div className="classDiv">
-        <h1 className="lg:text-xl text-base mb-2 font-semibold">درباره ما</h1>
+        <h1 className="lg:text-xl mb-2 font-semibold">درباره ما</h1>
         <span className="text-xs lg:text-base text-gray-700">
           صفحه ای کوچک درباره خدمات ما
         </span>

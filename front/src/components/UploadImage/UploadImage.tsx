@@ -2,9 +2,9 @@ import React, { useState } from 'react'
 import ImgTag from '../ImgTag/ImgTag'
 import toast from 'react-hot-toast'
 import axios from 'axios'
-import { FaUpload } from 'react-icons/fa'
+import { FaTrashAlt, FaUpload } from 'react-icons/fa'
 import { IconButton } from '@mui/material'
-import { FaTrashCanArrowUp } from 'react-icons/fa6'
+import { FaTrash, FaTrashCanArrowUp } from 'react-icons/fa6'
 type UploadImageType = {
     mediaArry: string[]
     setMediaArry: (value: string[]) => void
@@ -51,12 +51,12 @@ export default function UploadImage({ mediaArry, setMediaArry }: UploadImageType
         }, { position: "bottom-center" })
     };
     return (
-        <div className="flex gap-5">
-            <div className="w-1/3">
+        <div className="flex flex-wrap">
+            <div className="w-full md:w-1/3 md:pl-3">
                 <span className="block mb-3">عکس های خود را آپلود کنید</span>
                 <label
                     htmlFor="upload"
-                    className="w-1/3 h-32 cursor-pointer bg-blue-200/80 block rounded-md shadow-md relative"
+                    className="w-1/2 md:w-1/3 h-32 cursor-pointer bg-blue-200/80 block rounded-md shadow-md relative"
                 >
                     <input
                         onChange={UploadMedia}
@@ -77,7 +77,7 @@ export default function UploadImage({ mediaArry, setMediaArry }: UploadImageType
                     }
                 </label>
             </div>
-            <div className="w-2/3 grid gap-4 grid-cols-4">
+            <div className="w-full md:w-2/3 grid gap-4 grid-cols-2 mt-5 md:mt-0 md:grid-cols-4">
                 {mediaArry.map((i, index) => (
                     <div key={index} className="relative">
                         <ImgTag
@@ -90,7 +90,7 @@ export default function UploadImage({ mediaArry, setMediaArry }: UploadImageType
                         />
                         <i onClick={() => deleteImage(i)} className="absolute left-3 top-3 bg-slate-400/80 rounded-full ">
                             <IconButton color="error" size="small">
-                                <FaTrashCanArrowUp />
+                                <FaTrashAlt />
                             </IconButton>
                         </i>
                     </div>

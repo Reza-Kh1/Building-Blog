@@ -29,11 +29,11 @@ export default function SwiperCards({
   return (
     <>
       <div className="flex w-full justify-between items-center">
-        <h3 className="text-xl">{title}</h3>
-        <Link href={url} className="w-36">
+        <h3 className="md:text-xl">{title}</h3>
+        <Link href={url} className="w-28 md:w-36">
           <CustomButton
             name="نمایش بیشتر"
-            className="w-full"
+            className="!text-xs md:text-base"
             iconEnd={<PiListPlus />}
             type="button"
           />
@@ -41,12 +41,20 @@ export default function SwiperCards({
       </div>
       {data.length ? (
         <Swiper
-          slidesPerView={3}
+          breakpoints={{
+            380: {
+              slidesPerView: 2,
+              spaceBetween: 25
+            },
+            1024: {
+              slidesPerView: 3,
+              spaceBetween: 30
+            },
+          }}
           pagination={{
             dynamicBullets: true,
             clickable: true,
           }}
-          spaceBetween={"50"}
           modules={[Pagination]}
           className="!py-10"
         >

@@ -16,21 +16,18 @@ export default async function page() {
   const data: AllPostType = await getData();
   return (
     <div className="w-full">
-      <div className="max-w-7xl w-full mx-auto my-6">
-        <Breadcrums />
-        <div className="flex w-full items-center mt-6 justify-between">
-          <h1>وبلاگ ساختمان یار</h1>
+      <Breadcrums />
+      <div className="classDiv">
+        <div className="flex w-full items-center justify-between">
+          <h1 className="font-semibold lg:text-xl">وبلاگ</h1>
           <div className="w-2/6">
             <OrderSearch />
           </div>
         </div>
-        <span>{data.count} پست</span>
         <div className="my-5">
           <Cards props={data.rows} />
         </div>
-        <div>
-          <Pagination pagination={data.paginate} />
-        </div>
+        <Pagination pagination={data.paginate} />
       </div>
       <ContactSocialMedia />
     </div>

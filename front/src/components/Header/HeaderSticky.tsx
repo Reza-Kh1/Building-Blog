@@ -87,8 +87,12 @@ export default function HeaderSticky({ category }: { category: CategoryType[] })
       const sizePage = document.body.scrollHeight;
       const scrollPage = window.scrollY + window.innerHeight;
       const mathLocation = Math.floor((scrollPage / sizePage) * 100);
-      if (mathLocation > 80) {
-        setScrollTop(true);
+      if (mathLocation > 50) {
+        if (currentScroll > scroll) {
+          setScrollTop(false);
+        } else {
+          setScrollTop(true);
+        }
       } else {
         setScrollTop(false);
       }
@@ -245,7 +249,7 @@ export default function HeaderSticky({ category }: { category: CategoryType[] })
             behavior: "smooth",
           })
         }
-        className={`p-2 lg:p-3 cursor-pointer fixed z-50 right-2 lg:right-5 rounded-full shadow-md bg-slate-500/70 text-white transition-all ${scrollTop ? "bottom-2 lg:bottom-5" : "-bottom-12"
+        className={`p-3 lg:p-3 cursor-pointer fixed z-50 right-2 lg:right-5 rounded-full shadow-md bg-slate-500/70 text-white transition-all ${scrollTop ? "bottom-2 lg:bottom-5" : "-bottom-12"
           }`}
       >
         <i>

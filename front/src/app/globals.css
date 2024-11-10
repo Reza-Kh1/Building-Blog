@@ -101,6 +101,22 @@ a {
   border-radius: 0;
 }
 
+.card-box:hover .custom-button-card:before {
+  height: 1px;
+  transform-origin: 100% 50%;
+  transform: scale3d(1, 1, 1);
+  transition: all ease-in-out 0.3s;
+}
+
+.cutline {
+  white-space: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
 .classDiv {
   max-width: 80rem;
   margin: 1rem auto;
@@ -108,7 +124,7 @@ a {
   padding: 0 0.75rem;
 }
 
-@media (min-width: 1280) {
+@media (min-width: 1280px) {
   .classDiv {
     padding: 0;
     margin: 1.5rem auto;

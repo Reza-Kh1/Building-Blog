@@ -4,14 +4,15 @@ import Link from 'next/link'
 import { FaPhone, FaRegUserCircle } from 'react-icons/fa'
 import { ExpertType } from '@/app/type'
 import { IoIosCheckmarkCircleOutline } from 'react-icons/io'
+import { FaCalendar } from 'react-icons/fa6'
 
 export default function CardExperts(props: ExpertType) {
   return (
     <div className='w-full shadow-md  bg-gradient-to-b to-blue-300 from-slate-200 rounded-md'>
       <div className='h-32 bg-gray-50 shadow-md rounded-t-md'>
-        <h4 className='font-semibold p-2 flex justify-between items-center'>
+        <h4 className='font-semibold text-sm md:text-base p-2 flex justify-between items-center'>
           {props.name}
-          <span className='text-sm font-normal flex items-center gap-1'>
+          <span className='text-xs md:text-sm font-normal flex items-center gap-1'>
             مورد تایید<IoIosCheckmarkCircleOutline className='text-green-500 text-xl' />
           </span>
         </h4>
@@ -20,13 +21,14 @@ export default function CardExperts(props: ExpertType) {
         </Link>
       </div>
       <div className='mt-14 p-2 text-white'>
-        <div className='flex flex-wrap gap-2 w-full px-2 my-2'>
-          <div className='flex items-center justify-between w-full'>
-            <Link href={"tel:" + props.phone} className='text-sm hover:bg-blue-400/70 hover:shadow-md p-1 px-2 rounded-md text-white flex items-center gap-2'>
-              <i className='text-blue-500'><FaPhone /></i>
+        <div className='flex flex-wrap gap-2 w-full md:px-2 my-2'>
+          <div className='flex flex-col md:flex-row items-start md:items-center justify-between w-full'>
+            <Link href={"tel:" + props.phone} className='w-full text-sm hover:bg-blue-400/70 hover:shadow-md p-1 px-2 rounded-md text-white flex items-center gap-2'>
+              <i className='text-gray-50'><FaPhone /></i>
               {props.phone}
             </Link>
-            <div className='text-sm hover:bg-blue-400/70 hover:shadow-md p-1 px-2 rounded-md text-white'>
+            <div className='text-sm w-full md:justify-end hover:bg-blue-400/70 hover:shadow-md p-1 px-2 rounded-md text-white flex items-center gap-2'>
+              <FaCalendar className='text-gray-50'/>
               <span>
                 {new Date(props.createdAt).toLocaleDateString("fa")}
               </span>
@@ -45,7 +47,7 @@ export default function CardExperts(props: ExpertType) {
               </div>
             )
             : null}
-          <Link href={"experts/" + props.name.replace(/ /g, "-")} className='text-gray-600 mx-auto hover:text-blue-400 hover:shadow-blue-300 flex items-center px-5 bg-gray-50  shadow-md p-1 rounded-md text-[17px] gap-1'>
+          <Link href={"experts/" + props.name.replace(/ /g, "-")} className='text-sm md:text-base text-gray-600 mx-auto hover:text-blue-400 hover:shadow-blue-300 flex items-center px-5 bg-gray-50  shadow-md p-1 rounded-md text-[17px] gap-1'>
             <span className='inline-block'>
               پروفایل
             </span>

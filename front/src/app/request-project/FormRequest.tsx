@@ -56,8 +56,8 @@ export default function FormRequest() {
     formAction(formData)
   }
   return (
-    <form action={changHandler} onSubmit={() => { toast.loading("...صبرکنید", { id: "toast" }) }} className="flex flex-col gap-3" >
-      <div className="grid grid-cols-3 gap-3">
+    <form action={changHandler} onSubmit={() => { toast.loading("...صبرکنید", { id: "toast" }) }} className="" >
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
         <div className="flex flex-col gap-2">
           <label className="text-sm">
             نام*
@@ -146,7 +146,7 @@ export default function FormRequest() {
           </div>
         </div>
       </div>
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 my-5">
         <label className="text-sm">
           توضیحات بیشتر*
         </label>
@@ -157,14 +157,14 @@ export default function FormRequest() {
             onChange={({ target }) => setFormValues({ ...formValues, textValue: target.value })}
             required
             className="p-3 focus-visible:outline-blue-300 bg-slate-100 rounded text-gray-900 w-full shadow-md resize-none"
-            placeholder="پر کردن این بخش الزامی نیست!"
+            placeholder="توضیح بیشتر مربوط به خواسته های خودتان"
             value={formValues.textValue}
           />
         </div>
       </div>
       <UploadImage mediaArry={mediaArry} setMediaArry={setMediaArry} />
       <CustomButton
-        className="w-2/12"
+        className="!w-1/2 sm:!w-1/4 !mt-5 md:!mt-10 !text-sm md:!text-base md:!w-2/12"
         name="درخواست قیمت"
         iconEnd={<TbReceipt2 size={20} />}
         type="submit"

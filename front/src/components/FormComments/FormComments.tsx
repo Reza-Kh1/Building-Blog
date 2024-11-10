@@ -28,9 +28,9 @@ export default function FormComments({ postId }: { postId?: number }) {
   };
   return (
     <div className="form-comments" id="form-comments">
-      <h5 className="text-xl mb-3">
+      <h4 className="font-bold lg:text-xl mb-3">
         <span className="text-[#58b2e9]">کامنت</span> خود را ثبت کنید.
-      </h5>
+      </h4>
       <form
         action={commentsHandler}
         onSubmit={() => {
@@ -38,12 +38,12 @@ export default function FormComments({ postId }: { postId?: number }) {
         }}
         className="flex flex-col gap-3"
       >
-        <div className="flex justify-between items-center gap-3">
-          <div>
+        <div className="flex flex-col lg:flex-row justify-between items-center gap-2 lg:gap-3">
+          <div className="w-full">
             <span className="text-sm mb-1 inline-block">نام :*</span>
             <InputForm type="text" name="name" placeholder="نام" required />
           </div>
-          <div>
+          <div className="w-full">
             <span className="text-sm mb-1 inline-block">شماره تلفن :*</span>
             <InputForm
               type="text"
@@ -55,7 +55,7 @@ export default function FormComments({ postId }: { postId?: number }) {
               required
             />
           </div>
-          <div>
+          <div className="w-full">
             <span className="text-sm mb-1 inline-block">ایمیل :</span>
             <InputForm type="email" name="email" placeholder="ایمیل" />
           </div>
@@ -73,10 +73,9 @@ export default function FormComments({ postId }: { postId?: number }) {
             placeholder="نظر خودتان را بنویسید"
           />
         </div>
-        <div>
+        <div className="w-1/3 sm:w-1/4">
           <CustomButton
             name="ارسال"
-            className="w-1/4"
             type="submit"
             color="blue"
             iconEnd={<TbMessage2Plus />}

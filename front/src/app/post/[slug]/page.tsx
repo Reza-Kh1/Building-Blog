@@ -89,10 +89,11 @@ export default async function page({ params }: { params: { slug: string } }) {
             height={450}
             alt={data?.title}
             src={data?.image}
+            className="h-96 object-cover w-full md:max-h-[600px] md:h-auto md:min-h-[450px]"
           />
-          <div className="bg-gray-50 py-7 rounded-md w-3/4 shadow-lg text-center absolute bottom-20 left-1/2 transform -translate-x-1/2 translate-y-full">
-            <h1 className="text-xl">{data?.title}</h1>
-            <div className="flex text-gray-400 text-sm items-center justify-center gap-4 mt-7">
+          <div className="bg-gray-50 py-3 md:py-6 rounded-md w-11/12 md:w-3/4 shadow-lg text-center absolute bottom-12 md:bottom-20 left-1/2 transform -translate-x-1/2 translate-y-full">
+            <h1 className="lg:text-xl font-bold">{data?.title}</h1>
+            <div className="flex text-gray-400 text-sm items-center justify-center gap-2 md:gap-4 mt-4 md:mt-7">
               <span>
                 <FaPhotoVideo />
               </span>
@@ -111,14 +112,12 @@ export default async function page({ params }: { params: { slug: string } }) {
             </div>
           </div>
         </div>
-        <Breadcrums className="mt-20"/>
-        <article className="max-w-3xl mx-auto text-justify leading-8">
+        <Breadcrums className="mt-14 md:!mt-20" />
+        <article className="classDiv !max-w-3xl mx-auto text-justify leading-8">
           {data?.DetailPost?.text && parse(data?.DetailPost?.text)}
         </article>
-        <div className="my-8">
-          <BannerCallUs />
-        </div>
-        <div className="w-full max-w-7xl mx-auto">
+        <BannerCallUs />
+        <div className="classDiv">
           <SwiperCards
             title="پست های مشابه"
             isPost
@@ -132,7 +131,7 @@ export default async function page({ params }: { params: { slug: string } }) {
             url={`/blog?page=1&tags=${data.Tags[data.Tags.length - 1]}`}
           />
         </div>
-        <div className="max-w-3xl mx-auto my-6">
+        <div className="classDiv !max-w-3xl">
           <CommentPost
             comments={data.Comments}
             postId={data.id}

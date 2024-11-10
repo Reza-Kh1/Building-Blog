@@ -15,21 +15,23 @@ const getData = async (page: number) => {
 export default async function page({ searchParams }: { searchParams: { page: number } }) {
   const data: CommentsPage = await getData(searchParams.page)
   return (
-    <div className="w-full mx-auto max-w-7xl my-8">
+    <div className="w-full">
       <Breadcrums />
-      <h1 className="mt-6 text-xl mb-6">نظرات مشتریان نسبت به ما</h1>
-      <span>
-        {data.countNull} {" "}
-        نظر تا اکنون ثبت شده
-      </span>
-      <div className="max-w-4xl mx-auto mt-4">
-        <Comments comments={data.comments.rows} />
-        <div className="mt-8">
+      <div className="classDiv">
+        <h1 className="lg:text-xl font-semibold mb-3 md:mb-6">نظرات مشتریان نسبت به ما</h1>
+        <span className="text-sm lg:text-base">
+          {data.countNull} {" "}
+          نظر تا اکنون ثبت شده
+        </span>
+        <div className="max-w-4xl mx-auto my-8">
+          <Comments comments={data.comments.rows} />
+        </div>
+        <Pagination pagination={data.paginate} />
+        <div className="max-w-4xl mx-auto mt-8">
           <FormComments />
         </div>
+        <ContactSocialMedia />
       </div>
-      <Pagination pagination={data.paginate} />
-      <ContactSocialMedia classDiv="mt-20" />
     </div>
   );
 }

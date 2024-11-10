@@ -22,11 +22,11 @@ export default async function page({
 }) {
   const data: AllProjectType = await getData(searchParams);
   return (
-    <div>
+    <div className="w-full">
       <Breadcrums />
       <div className="classDiv mb-20">
         <div className="mt-6 flex justify-between items-center">
-          <h1 className="lg:text-xl text-base font-semibold">پروژه های ما</h1>
+          <h1 className="lg:text-xl font-semibold">پروژه های ما</h1>
           <div className="w-3/6">
             <OrderSearch />
           </div>

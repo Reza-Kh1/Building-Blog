@@ -516,7 +516,7 @@ export default function CreateWorker() {
                         className="object-cover w-full h-64 rounded-md"
                       />
                       <Link
-                        to={"create-project?name=" + i.name.replace(/ /g, "-")}
+                        to={"/home/projects/create-project?name=" + i.name.replace(/ /g, "-")}
                         className="absolute opacity-0 text-white bg-black/30 group-hover:opacity-100 transition-customer backdrop-blur-md p-5 shadow-md text-2xl rounded-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
                       >
                         <FaPlay />

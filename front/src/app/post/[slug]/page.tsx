@@ -117,6 +117,16 @@ export default async function page({ params }: { params: { slug: string } }) {
           {data?.DetailPost?.text && parse(data?.DetailPost?.text)}
         </article>
         <BannerCallUs />
+        <div className="classDiv !max-w-3xl">
+          <CommentPost
+            comments={data.Comments}
+            postId={data.id}
+            totalComments={data.totalComments}
+          />
+          <div className="my-6">
+            <FormComments postId={data.id} />
+          </div>
+        </div>
         <div className="classDiv">
           <SwiperCards
             title="پست های مشابه"
@@ -130,16 +140,6 @@ export default async function page({ params }: { params: { slug: string } }) {
             data={projects}
             url={`/blog?page=1&tags=${data.Tags[data.Tags.length - 1]}`}
           />
-        </div>
-        <div className="classDiv !max-w-3xl">
-          <CommentPost
-            comments={data.Comments}
-            postId={data.id}
-            totalComments={data.totalComments}
-          />
-          <div className="mt-6">
-            <FormComments postId={data.id} />
-          </div>
         </div>
       </div>
     </>

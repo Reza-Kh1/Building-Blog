@@ -53,11 +53,11 @@ export default async function page({ params }: { params: { name: string } }) {
   return (
     <div className="w-full">
       <Breadcrums className="mt-6" />
-      <div className="flex w-full max-w-7xl mx-auto gap-5 my-6 text-white">
-        <div className="bg-gradient-to-t from-blue-400 to-slate-200 rounded-md shadow-md w-1/3 p-4 flex flex-col gap-3 justify-evenly items-center">
+      <div className="classDiv flex flex-col md:flex-row gap-5 text-white">
+        <div className="bg-gradient-to-t from-blue-400 to-slate-200 rounded-md shadow-md w-full md:w-1/3 p-4 flex flex-col gap-3 justify-evenly items-center">
           <div className="flex justify-between items-center w-full bg-slate-50 shadow-md rounded-md text-black p-2">
-            <h1 className="font-semibold text-center text-xl">{data.name}</h1>
-            <span className="flex items-center gap-2">
+            <h1 className="font-semibold text-center md:text-xl">{data.name}</h1>
+            <span className="flex text-sm md:text-base items-center gap-2">
               مورد تایید
               <IoIosCheckmarkCircleOutline className="text-green-500 text-xl" />
             </span>
@@ -117,25 +117,25 @@ export default async function page({ params }: { params: { name: string } }) {
             <span className="inline-block">تماس بگیرید</span>
           </Link>
         </div>
-        <div className="w-2/3 flex flex-col gap-5">
+        <div className="w-full md:w-2/3 flex flex-col gap-5">
           <div className="bg-gradient-to-br to-blue-400 from-slate-300 rounded-md shadow-md p-4">
-            <span className="text-xl mb-3 block">معرفی</span>
+            <span className="text-base font-bold md:text-xl mb-3 block">معرفی</span>
             <p>{data?.description}</p>
             {data.address ? (
               <>
-                <span className="text-xl my-3 block">آدرس</span>
+                <span className="text-base font-bold md:text-xl my-3 block">آدرس</span>
                 <p>{data.address}</p>
               </>
             ) : null}
           </div>
           <div className="bg-gradient-to-tr to-blue-400 from-slate-300 rounded-md shadow-md p-4">
-            <span className="text-xl mb-3 block">شبکه های اجتماعی</span>
-            <div className="grid grid-cols-2 gap-5">
+            <span className="text-base font-bold md:text-xl mb-3 block">شبکه های اجتماعی</span>
+            <div className="grid grid-cols-2 gap-3 md:gap-5">
               {data.socialMedia.map((i, index) => (
                 <Link
                   href={i.link}
                   key={index}
-                  className="flex bg-slate-50 hover:shadow-blue-300 hover:text-blue-300 p-3 shadow-md text-gray-900 gap-2 rounded-md items-center"
+                  className="flex bg-slate-50 hover:shadow-blue-300 hover:text-blue-300 p-2 md:p-3 shadow-md text-gray-900 gap-2 rounded-md items-center"
                 >
                   <i>
                     {
@@ -151,7 +151,7 @@ export default async function page({ params }: { params: { name: string } }) {
         </div>
       </div>
       <BannerCallUs />
-      <div className="w-full max-w-7xl mx-auto">
+      <div className="classDiv">
         <SwiperCards
           isProject
           title="پروژه های بیشتر"

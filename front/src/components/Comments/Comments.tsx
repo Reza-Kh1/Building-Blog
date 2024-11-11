@@ -33,12 +33,14 @@ export default function Comments({ comments, postId }: { comments: CommentsType[
     }
     return (
         <div className='comments mb-3' id='comments'>
-            <h5 className='text-sm lg:text-lg mb-3'><span className='text-[#58b2e9]'>کامنت</span> کاربران</h5>
-            <div className='mr-6 lg:mr-8 relative'>
-                {comments.length ? comments.map((i, index) => (
-                    <ReplyComments data={i} key={index} />
-                )) : <span className='text-sm lg:text-xl'>هیچ کامنتی ثبت نشده !</span>}
-            </div>
+            <h5 className='lg:text-lg mb-3'><span className='text-[#58b2e9]'>کامنت</span> کاربران</h5>
+            {comments.length ?
+                <div className='mr-6 lg:mr-8 relative'>
+                    {comments.map((i, index) => (
+                        <ReplyComments data={i} key={index} />
+                    ))}
+                </div>
+                : <span className='text-sm block  lg:text-xl'>هیچ کامنتی ثبت نشده !</span>}
         </div>
     )
 }

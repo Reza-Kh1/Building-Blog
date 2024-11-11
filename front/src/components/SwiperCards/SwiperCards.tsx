@@ -28,7 +28,7 @@ export default function SwiperCards({
   if (!data.length) return;
   return (
     <>
-      <div className="flex w-full justify-between items-center">
+      <div className="flex w-full mt-6 md:mt-10 justify-between items-center">
         <h3 className="md:text-xl">{title}</h3>
         <Link href={url} className="w-28 md:w-36">
           <CustomButton
@@ -44,7 +44,7 @@ export default function SwiperCards({
           breakpoints={{
             380: {
               slidesPerView: 2,
-              spaceBetween: 25
+              spaceBetween: 15
             },
             1024: {
               slidesPerView: 3,
@@ -56,7 +56,7 @@ export default function SwiperCards({
             clickable: true,
           }}
           modules={[Pagination]}
-          className="!py-10"
+          className="!py-5 md:!py-10"
         >
           {isPost &&
             data.map((item) => (

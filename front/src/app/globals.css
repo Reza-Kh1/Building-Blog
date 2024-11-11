@@ -108,15 +108,6 @@ a {
   transition: all ease-in-out 0.3s;
 }
 
-.cutline {
-  white-space: normal;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
-}
-
 .classDiv {
   max-width: 80rem;
   margin: 1rem auto;

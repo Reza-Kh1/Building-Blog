@@ -17,7 +17,7 @@ import {
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { LuFilter } from "react-icons/lu";
 import React, { useEffect, useState } from "react";
-import { MdClose, MdDataSaverOn, MdSaveAlt } from "react-icons/md";
+import { MdClose, MdDataSaverOn } from "react-icons/md";
 import CustomButton from "../CustomButton/CustomButton";
 
 type FilterClienttype = {
@@ -71,6 +71,7 @@ export default function FilterClient({
           fullWidth
           disablePortal
           value={filterTags}
+
           onChange={(_, value) => {
             setFilterTags({ name: value?.name || "" });
             if (value === null) {
@@ -83,8 +84,8 @@ export default function FilterClient({
           }}
           options={nameTags}
           getOptionLabel={(option) => option.name}
-          className="shadow-md"
-          renderInput={(params) => <TextField {...params} label="انتخاب دسته" />}
+          className="shadow-md !border-slate-100"
+          renderInput={(params) => <TextField className="shadow-md !border-slate-100"  {...params} label="انتخاب دسته" />}
         />
         {pathName.search("/project") === 0 ? (
           <Autocomplete

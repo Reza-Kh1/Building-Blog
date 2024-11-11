@@ -180,7 +180,7 @@ export default function SearchBox() {
         </div>
       </div >
       <div
-        className={`-z-20 px-1 xl:px-0 h-screen opacity-0 absolute w-full top-52 left-0 flex justify-center transition-all ${valSearch && isShow ? "z-20 opacity-100 top-40 md:top-48" : "invisible"
+        className={`-z-20 px-1 xl:px-0 h-screen opacity-0 absolute w-full top-52 left-0 flex justify-center transition-all ${valSearch && isShow ? "z-20 opacity-100 top-[160px] md:top-52" : "invisible"
           }`}
       >
         <div className="max-w-7xl h-3/4 overflow-y-auto w-full bg-gradient-to-tr from-blue-300/60 backdrop-blur-md to-gray-100/60 shadow-md p-4 rounded-lg">

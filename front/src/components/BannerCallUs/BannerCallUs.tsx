@@ -3,7 +3,7 @@ import React from 'react'
 
 export default function BannerCallUs() {
     return (
-        <div className="w-full my-6 lg:my-10 py-4 bg-blue-400 shadow-md shadow-[#1b6cffa6] flex items-center gap-2 justify-center relative">
+        <div className="w-full my-6 lg:my-10 py-4 bg-blue-400 dark:bg-[#B8D4E3] shadow-md shadow-[#1b6cffa6] flex items-center gap-2 justify-center relative">
             <span className="text-white text-xs md:text-base">
                 آیا میخواهید خانه رویایی خود را با ما بسازید ؟
             </span>

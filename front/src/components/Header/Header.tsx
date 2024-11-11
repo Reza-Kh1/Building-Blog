@@ -11,7 +11,7 @@ export default async function Header() {
   const data: CategoryType[] = await getData()
   return (
     <>
-      <div className="bg-slate-200/80 dark:bg-slate-700 transition-all pt-2 md:pt-8">
+      <div className="bg-slate-200/80 dark:bg-gray-800/80 transition-all pt-2 md:pt-8">
           <div className="classDiv !my-0 flex w-full flex-wrap px-3 xl:px-0 md:flex-row justify-between items-center md:items-start">
             <div className="w-1/2 order-1 md:order-1 md:w-2/12 text-right">
               <IconSocialMedia />

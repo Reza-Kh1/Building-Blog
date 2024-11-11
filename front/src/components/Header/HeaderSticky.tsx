@@ -10,12 +10,12 @@ import Image from "next/image";
 import NavlinkHeader from "./NavlinkHeader";
 import { Drawer, IconButton } from "@mui/material";
 import { MdMapsHomeWork, MdMenuOpen, MdOutlineQuestionMark } from "react-icons/md";
-import "./style.css";
 import { GrArticle, GrUserWorker } from "react-icons/gr";
 import { FaRegComments, FaUsersViewfinder } from "react-icons/fa6";
 import { LiaFileInvoiceDollarSolid } from "react-icons/lia";
 import IconSocialMedia from "../IconSocialMedia/IconSocialMedia";
 import { usePathname } from "next/navigation";
+import "./style.css"; 
 const menuTitle = [
   {
     name: "پروژه ها",
@@ -111,7 +111,7 @@ export default function HeaderSticky({ category }: { category: CategoryType[] })
   return (
     <>
       <div
-        className={`header-sticky shadow-md shadow-[#dbdbdb] dark:shadow-[#6c6c6c] bg-slate-200/80 dark:bg-slate-700 ${visible
+        className={`header-sticky shadow-md shadow-[#dbdbdb] dark:shadow-[#6c6c6c] bg-slate-200/80 dark:bg-gray-800/80 ${visible
           ? "header-show bg-slate-100/40 dark:!bg-gray-800/80"
           : "header-hidden"
           } `}

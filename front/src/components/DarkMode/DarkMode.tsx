@@ -3,16 +3,16 @@ import React, { useContext, useEffect, useState } from "react";
 import "./style.css";
 import { MdSunny } from "react-icons/md";
 import { FaMoon } from "react-icons/fa";
-import { useColorScheme } from "@mui/material";
 import { ThemeContext } from "@/context/ThemeContext";
 export default function DarkMode() {
   const [isDark, setIsDark] = useState<boolean>(false);
-  const { setMode } = useContext(ThemeContext)
+  const { setMode, mode } = useContext(ThemeContext);
   useEffect(() => {
     const position = localStorage.getItem("darkMode");
     if (position) {
       document.body.classList.add("dark");
       setIsDark(true);
+      setMode(true);
     }
   }, [isDark]);
   const darkHandler = () => {
@@ -21,12 +21,12 @@ export default function DarkMode() {
       setIsDark(false);
       localStorage.setItem("darkMode", "");
       document.body.classList.remove("dark");
-      setMode(true)
+      setMode(false);
     } else {
       setIsDark(true);
       document.body.classList.add("dark");
       localStorage.setItem("darkMode", JSON.stringify("on"));
-      setMode(false)
+      setMode(true);
     }
   };
   return (

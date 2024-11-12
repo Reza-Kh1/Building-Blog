@@ -52,16 +52,16 @@ export default async function page() {
     <div className="w-full">
       <Breadcrums />
       <div className="classDiv">
-        <h1 className="lg:text-xl mb-2 font-semibold">درباره ما</h1>
-        <span className="text-xs lg:text-base text-gray-700">
+        <h1 className="lg:text-xl mb-2 font-semibold dark:text-h-dark">درباره ما</h1>
+        <span className="text-xs lg:text-base text-gray-700 dark:text-s-dark">
           صفحه ای کوچک درباره خدمات ما
         </span>
-        <span className="w-full border block my-4 lg:my-6 "></span>
+        <span className="w-full border block my-4 lg:my-6 dark:border-bg-dark"></span>
       </div>
       <div className="classDiv flex flex-col md:flex-row gap-4 md:gap-3">
         <div className="w-full md:w-1/2">
-          <h2 className="lg:text-lg font-semibold">{data?.text?.title1}</h2>
-          <p className="leading-7 text-sm lg:text-base text-gray-800">
+          <h2 className="lg:text-lg font-semibold dark:text-h-dark">{data?.text?.title1}</h2>
+          <p className="!leading-8 mt-3 text-justify text-sm lg:text-base text-gray-800 dark:text-p-dark">
             {data?.text?.text1}
           </p>
         </div>
@@ -103,12 +103,12 @@ export default async function page() {
       <BannerCallUs />
       <div className="classDiv flex flex-col md:flex-row gap-3 items-center">
         <div className="w-full md:w-1/2">
-          <h3 className="lg:text-xl mb-3 font-semibold">{data?.text?.title2}</h3>
-          <h4 className="text-sm text-gray-700 mb-3">{data?.text?.text2}</h4>
+          <h3 className="lg:text-xl mb-3 font-semibold dark:text-h-dark">{data?.text?.title2}</h3>
+          <h4 className="text-sm text-gray-700 mb-3 dark:text-s-dark">{data?.text?.text2}</h4>
           {data?.text?.textArry.length ? (
             <ul className="flex flex-col gap-1 lg:gap-2">
               {data?.text?.textArry.map((i, index) => (
-                <li key={index} className="flex text-gray-800 items-center gap-2 lg:gap-3">
+                <li key={index} className="flex text-gray-800 items-center gap-2 lg:gap-3 dark:text-p-dark">
                   <i>
                     <FaCheck />
                   </i>

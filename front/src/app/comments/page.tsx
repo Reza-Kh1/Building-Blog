@@ -18,8 +18,8 @@ export default async function page({ searchParams }: { searchParams: { page: num
     <div className="w-full">
       <Breadcrums />
       <div className="classDiv">
-        <h1 className="lg:text-xl font-semibold mb-3 md:mb-6">نظرات مشتریان نسبت به ما</h1>
-        <span className="text-sm lg:text-base">
+        <h1 className="lg:text-xl font-semibold mb-3 md:mb-6 dark:text-h-dark">نظرات مشتریان نسبت به ما</h1>
+        <span className="text-sm lg:text-base dark:text-p-dark">
           {data.countNull} {" "}
           نظر تا اکنون ثبت شده
         </span>

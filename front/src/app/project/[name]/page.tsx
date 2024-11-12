@@ -85,9 +85,9 @@ export default async function page({ params }: { params: { name: string } }) {
       <div className="w-full">
         <div className="w-full mx-auto relative">
           <ImgTag width={1450} height={450} alt={data?.alt} src={data?.image} className="h-96 object-cover w-full md:max-h-[600px] md:h-auto md:min-h-[450px]" />
-          <div className="bg-gray-50 py-3 md:py-6 rounded-md w-11/12 md:w-3/4 shadow-lg text-center absolute bottom-12 md:bottom-20 left-1/2 transform -translate-x-1/2 translate-y-full">
-            <h1 className="lg:text-xl font-semibold">{data?.name}</h1>
-            <div className="flex text-gray-400 text-sm items-center justify-center gap-2 md:gap-4 mt-4 md:mt-7">
+          <div className="bg-gray-50 text-gray-700 dark:bg-info-dark dark:shadow-low-dark py-3 md:py-6 rounded-md w-11/12 md:w-3/4 shadow-lg text-center absolute bottom-12 md:bottom-20 left-1/2 transform -translate-x-1/2 translate-y-full">
+            <h1 className="lg:text-xl dark:text-h-dark font-semibold">{data?.name}</h1>
+            <div className="flex text-gray-400 dark:text-s-dark text-sm items-center justify-center gap-2 md:gap-4 mt-4 md:mt-7">
               <div className="flex text-sm md:text-base items-center gap-2">
                 {data.Tags.map((i, index) => (
                   <Link
@@ -101,12 +101,12 @@ export default async function page({ params }: { params: { name: string } }) {
                 ))}
                 <FaTags />
               </div>
-              <span className="border-r border-dashed border-black h-6 w-1"></span>
+              <span className="border-r border-dashed border-black dark:border-bg-dark h-6 w-1"></span>
               <span className="flex gap-2 text-sm md:text-base items-center">
                 {data?.Worker?.name}
                 <GrUserWorker />
               </span>
-              <span className="border-r border-dashed border-black h-6 w-1"></span>
+              <span className="border-r border-dashed border-black dark:border-bg-dark h-6 w-1"></span>
               <span className="flex gap-2 text-sm md:text-base items-center">
                 {new Date(data?.updatedAt).toLocaleDateString("fa")}
                 <FaCalendarDays />
@@ -117,21 +117,21 @@ export default async function page({ params }: { params: { name: string } }) {
         <Breadcrums className="mt-14 md:!mt-20" />
         <div className="classDiv flex flex-col md:flex-row relative gap-3">
           <div className="w-full md:w-2/3">
-            <span className="text-sm font-bold md:text-xl">توضیحات</span>
-            <p className="text-sm md:text-base text-gray-700">{data.description}</p>
+            <span className="text-sm dark:text-h-dark md:text-xl text-gray-700">توضیحات</span>
+            <p className="text-sm md:text-base text-gray-600 dark:text-p-dark text-justify !leading-8">{data.description}</p>
             <span className="border-t w-full h-1 block my-4 md:my-6"></span>
             <div className="w-full flex flex-col gap-2 md:gap-5">
               <div className="flex items-center gap-5">
-                <i className="text-base lg:text-2xl p-3 hover:bg-gray-200 rounded-full bg-gray-100 shadow-md">
+                <i className="text-base lg:text-2xl p-3 hover:bg-gray-200 rounded-full bg-gray-100 dark:bg-info-dark dark:shadow-low-dark dark:hover:shadow-none shadow-md">
                   <SiGooglemaps />
                 </i>
-                <span className="text-sm lg:text-xl">موقعیت : {data.address}</span>
+                <span className="text-sm lg:text-xl dark:text-p-dark text-gray-600">موقعیت : {data.address}</span>
               </div>
               <div className="flex items-center gap-5">
-                <i className="text-base lg:text-2xl p-3 hover:bg-gray-200 rounded-full bg-gray-100 shadow-md">
+                <i className="text-base lg:text-2xl p-3 hover:bg-gray-200 rounded-full bg-gray-100 dark:bg-info-dark dark:shadow-low-dark dark:hover:shadow-none shadow-md">
                   <BiDollar />
                 </i>
-                <p className="text-sm lg:text-xl">
+                <p className="text-sm lg:text-xl dark:text-p-dark text-gray-600">
                   بودجه :
                   {Number(data.price) ? (
                     <>
@@ -144,10 +144,10 @@ export default async function page({ params }: { params: { name: string } }) {
                 </p>
               </div>
               <div className="flex items-center gap-5">
-                <i className="text-base lg:text-2xl p-3 hover:bg-gray-200 rounded-full bg-gray-100 shadow-md">
+                <i className="text-base lg:text-2xl p-3 hover:bg-gray-200 rounded-full bg-gray-100 dark:bg-info-dark dark:shadow-low-dark dark:hover:shadow-none shadow-md">
                   <GiPencilRuler />
                 </i>
-                <p className="text-sm lg:text-xl">
+                <p className="text-sm lg:text-xl dark:text-p-dark text-gray-600">
                   متراژ :
                   {Number(data.size) ? (
                     <>
@@ -162,13 +162,13 @@ export default async function page({ params }: { params: { name: string } }) {
             </div>
             <span className="border-t w-full h-1 block my-4 md:my-6"></span>
             <div className="w-full">
-              <h3 className="text-base lg:text-xl font-bold mb-3">تصاویر پروژه</h3>
+              <h3 className="text-base lg:text-xl dark:text-h-dark text-gray-700 mb-3">تصاویر پروژه</h3>
               <SwiperGallery imagesSrc={data.gallery} />
             </div>
             {data?.video ? (
               <>
                 <span className="border-t w-full h-1 block my-6"></span>
-                <h3 className="text-base lg:text-xl font-bold mb-3 block">فیلم پروژه</h3>
+                <h3 className="text-base lg:text-xl dark:text-h-dark text-gray-700 mb-3 block">فیلم پروژه</h3>
                 <div className="video-container">
                   <video
                     className="video-player"

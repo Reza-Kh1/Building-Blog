@@ -37,18 +37,18 @@ export default function ContactSocialMedia({
   return (
     <div
       className={
-        "grid grid-cols-4 px-3 md:px-4 overflow-auto my-6 md:my-12 gap-1 justify-center md:gap-5 w-full max-w-7xl mx-auto pt-6 md:pt-12 " +
+        "grid grid-cols-4 px-3 md:px-4 pb-2 overflow-auto my-6 md:my-12 gap-1 justify-center md:gap-5 w-full max-w-7xl mx-auto pt-6 md:pt-12 " +
         classDiv
       }
     >
       {data.map((i, index) => (
         <div
           key={index}
-          className="border shadow-md rounded-md text-center p-1 md:p-3 flex flex-col gap-1 md:gap-3 relative pt-6 md:pt-12"
+          className="border dark:shadow-low-dark dark:border-bg-dark shadow-md rounded-md text-center p-1 md:p-3 flex flex-col gap-1 md:gap-3 relative pt-6 md:pt-12"
         >
           <Link
             href={i.url}
-            className="absolute link-contact-us text-blue-400 bg-white rounded-full p-2 md:p-4 hover:text-white hover:bg-gradient-to-tl hover:to-blue-400 hover:from-slate-300 left-1/2 top-0 transform -translate-x-1/2 -translate-y-1/2"
+            className="absolute link-contact-us dark:from-blue-500 dark:to-slate-800 text-blue-400 dark:bg-custom-dark dark:text-h-dark bg-white rounded-full p-2 md:p-4 hover:text-white hover:bg-gradient-to-tl hover:to-blue-400 hover:from-slate-300 left-1/2 top-0 transform -translate-x-1/2 -translate-y-1/2"
           >
             {i.icon}
           </Link>

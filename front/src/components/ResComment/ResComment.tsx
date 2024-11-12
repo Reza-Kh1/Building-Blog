@@ -45,7 +45,7 @@ export default function ResComment({
   return (
     <>
       <i
-        className="cursor-pointer hover:text-gray-950 text-gray-500"
+        className="cursor-pointer hover:text-gray-950 text-gray-500 dark:text-h-dark dark:hover:text-blue-500"
         onClick={() => setOpen(true)}
       >
         <IoArrowRedoSharp />
@@ -73,9 +73,9 @@ export default function ResComment({
         }}
       >
         <DialogContent>
-          <div className="flex gap-5">
-            <div className="flex flex-col w-2/3 justify-evenly items-center gap-3">
-              <div className="flex w-full flex-wrap gap-3">
+          <div className="flex gap-3 md:gap-5 flex-col md:flex-row">
+            <div className="w-full order-2 md:order-1 flex flex-col md:w-2/3 justify-evenly items-center gap-3">
+              <div className="flex w-full flex-col md:flex-wrap gap-3">
                 <div>
                   <span className="text-sm mb-1 inline-block">نام :*</span>
                   <InputForm
@@ -113,36 +113,36 @@ export default function ResComment({
                   rows={6}
                   wrap="6"
                   required
-                  className="bg-slate-100 w-full shadow-md focus-visible:outline-blue-300 resize-none p-2 rounded-md"
+                  className="bg-slate-100 w-full shadow-md focus-visible:outline-blue-300 dark:shadow-low-dark dark:bg-input-dark resize-none p-2 rounded-md"
                   id=""
                   placeholder="نظر خودتان را بنویسید"
                 />
               </div>
             </div>
-            <div className="w-1/3 pr-8">
+            <div className="w-full md:w-1/3 md:order-2 pr-7 order-1">
               <span>کامنت شخص :</span>
               <div className="relative w-full">
-                <div className="w-16 absolute right-0 transform translate-x-1/2 top-4 p-1 bg-white border rounded-full">
+                <div className="w-12 lg:w-16 absolute right-0 transform translate-x-1/2 top-1 lg:top-3 p-1 dark:border-bg-dark dark:bg-[#393939] bg-white border rounded-full">
                   <ImgTag
                     width={60}
                     height={60}
-                    className="rounded-full w-14 shadow-md"
+                    className="rounded-full w-10 lg:w-14 lg:h-14 h-10 shadow-md"
                     src={comment.position === "USER" ? "/semicolon-image.png" : "/image-admin.png"}
                     alt={comment?.name}
                   />
                 </div>
-                <div className="border my-2 rounded-sm shadow-sm pr-10 pl-3 py-5">
+                <div className=" dark:border-bg-dark border my-2 rounded-sm shadow-sm pr-7 lg:pr-10 pl-2 lg:pl-3 py-2 lg:py-5">
                   <div className="flex w-full justify-between mb-3">
                     <div className="flex flex-col">
-                      <span className="font-bold text-gray-700">
+                      <span className="text-sm lg:text-base text-gray-700 dark:text-h-dark">
                         {comment?.name}
                       </span>
-                      <span className="text-xs text-gray-400 italic">
+                      <span className="text-[0.60rem] lg:text-xs text-gray-400 italic dark:text-s-dark">
                         {new Date(comment?.createdAt).toLocaleDateString("fa")}
                       </span>
                     </div>
                   </div>
-                  <div className="text-justify text-sm text-gray-700 pl-5">
+                  <div className="text-justify text-sm text-gray-700 pl-5 dark:text-p-dark">
                     <p>{comment?.text}</p>
                   </div>
                 </div>
@@ -152,21 +152,23 @@ export default function ResComment({
         </DialogContent>
         <DialogActions>
           <div className="w-full flex justify-between">
-            <CustomButton
-              className="w-2/12"
-              color="blue"
-              name="ارسال"
-              type="submit"
-              iconEnd={<TbMessage2Plus />}
-            />
-            <CustomButton
-              className="w-2/12"
-              onClick={() => setOpen(false)}
-              name="بستن"
-              iconEnd={<MdClose />}
-              color="warning"
-              type="button"
-            />
+            <div className="w-1/3 md:w-2/12">
+              <CustomButton
+                color="blue"
+                name="ارسال"
+                type="submit"
+                iconEnd={<TbMessage2Plus />}
+              />
+            </div>
+            <div className="w-1/3 md:w-2/12">
+              <CustomButton
+                onClick={() => setOpen(false)}
+                name="بستن"
+                iconEnd={<MdClose />}
+                color="warning"
+                type="button"
+              />
+            </div>
           </div>
         </DialogActions>
       </Dialog>

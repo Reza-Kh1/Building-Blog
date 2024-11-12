@@ -19,12 +19,12 @@ export default function AccordionFaqs(data: AccordionFaqsType) {
           aria-controls="panel1-content"
           id="panel1-header"
         >
-          <span className="text-sm lg:text-base text-gray-800">
+          <span className="text-sm lg:text-base text-gray-800 dark:text-p-dark">
             {data?.name}
           </span>
         </AccordionSummary>
         <AccordionDetails>
-          <p className="text-xs lg:text-base text-gray-700">
+          <p className="text-xs lg:text-base text-gray-700 dark:text-s-dark">
             {data?.text}
           </p>
         </AccordionDetails>

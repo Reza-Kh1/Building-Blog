@@ -24,36 +24,38 @@ export default async function page({ searchParams }: pageType) {
     searchParams.tags
   );
   return (
-    <div className="search-page max-w-7xl my-5 mx-auto px-2">
+    <div className="search-page w-full">
       <Breadcrums />
-      <div className="navbar-search mb-4 flex my-6">
-        <div className="w-2/3">
-          <h1 className="text-lg my-3">
-            جستجو در تگ :
-            <span className=" text-xl text-blue-400 mr-2">
-              {searchParams.tags}
-            </span>
-          </h1>
+      <div className="classDiv">
+        <div className="navbar-search flex md:my-6">
+          <div className="w-2/3">
+            <h1 className="text-lg my-3">
+              جستجو در تگ :
+              <span className=" text-xl text-blue-400 mr-2">
+                {searchParams.tags}
+              </span>
+            </h1>
+          </div>
         </div>
+        <SwiperCards
+          data={posts}
+          title="پست ها"
+          url={`/blog?order=createdAt-DESC&page=1&tags=${searchParams.tags}`}
+          isPost
+        />
+        <SwiperCards
+          data={projects}
+          title="پروژه ها"
+          isProject
+          url={`/project?order=createdAt-DESC&page=1&tags=${searchParams.tags}`}
+        />
+        <SwiperCards
+          data={workers}
+          title="مجریان"
+          isExpert
+          url={`/experts?order=createdAt-DESC&page=1&tags=${searchParams.tags}`}
+        />
       </div>
-      <SwiperCards
-        data={posts}
-        title="پست ها"
-        url={`/blog?order=createdAt-DESC&page=1&tags=${searchParams.tags}`}
-        isPost
-      />
-      <SwiperCards
-        data={projects}
-        title="پروژه ها"
-        isProject
-        url={`/project?order=createdAt-DESC&page=1&tags=${searchParams.tags}`}
-      />
-      <SwiperCards
-        data={workers}
-        title="مجریان"
-        isExpert
-        url={`/experts?order=createdAt-DESC&page=1&tags=${searchParams.tags}`}
-      />
       <ContactSocialMedia />
     </div >
   );

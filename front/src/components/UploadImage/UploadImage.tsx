@@ -56,7 +56,7 @@ export default function UploadImage({ mediaArry, setMediaArry }: UploadImageType
                 <span className="block mb-3">عکس های خود را آپلود کنید</span>
                 <label
                     htmlFor="upload"
-                    className="w-1/2 md:w-1/3 h-32 cursor-pointer bg-blue-200/80 block rounded-md shadow-md relative"
+                    className="w-1/2 md:w-1/3 h-32 cursor-pointer dark:bg-[#444e54] dark:shadow-full-dark dark:hover:shadow-none bg-blue-200/80 block rounded-md shadow-md relative"
                 >
                     <input
                         onChange={UploadMedia}
@@ -83,7 +83,7 @@ export default function UploadImage({ mediaArry, setMediaArry }: UploadImageType
                         <ImgTag
                             figureClass="w-full h-full"
                             src={i}
-                            className="object-cover w-full h-full shadow-md rounded-md p-1"
+                            className="object-cover w-full h-full shadow-md dark:shadow-full-dark rounded-md p-1"
                             alt={"عکس آپلود شد"}
                             width={300}
                             height={300}

@@ -3,26 +3,6 @@ import CustomButton from "@/components/CustomButton/CustomButton";
 import SwiperCards from "@/components/SwiperCards/SwiperCards";
 import SwiperHero from "@/components/SwiperHero/SwiperHero";
 import { FaPhone } from "react-icons/fa6";
-const dataPost = [
-  {
-    id: 6,
-    title: "پست جدید",
-    image:
-      "https://building-blog.storage.iran.liara.space/1729368450165-apex.png",
-    description: "تست شماره 57",
-    totalComments: 0,
-    status: true,
-    createdAt: "2024-10-19T20:10:43.473Z",
-    updatedAt: "2024-10-27T21:58:48.883Z",
-    Category: {
-      slug: "gog",
-      name: "go",
-    },
-    User: {
-      name: "sam",
-    },
-  },
-];
 export default function Home() {
   return (
     <main className="w-full ">
@@ -49,12 +29,12 @@ export default function Home() {
         </div>
       </div>
       <div className="max-w-7xl mx-auto my-6">
-        <SwiperCards
+        {/* <SwiperCards
           isPost
           data={dataPost}
           title="مقالات"
           url="/blog?order=createdAt-DESC&page=1"
-        />
+        /> */}
         <h2 className="mt-6">خدمات ما</h2>
         محصولات ما
       </div>

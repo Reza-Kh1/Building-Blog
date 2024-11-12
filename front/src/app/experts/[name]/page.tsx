@@ -52,11 +52,11 @@ export default async function page({ params }: { params: { name: string } }) {
   const { data }: { data: ExpertType } = await getData(params.name);
   return (
     <div className="w-full">
-      <Breadcrums className="mt-6" />
+      <Breadcrums className="mt-4 md:mt-6" />
       <div className="classDiv flex flex-col md:flex-row gap-5 text-white">
-        <div className="bg-gradient-to-t from-blue-400 to-slate-200 rounded-md shadow-md w-full md:w-1/3 p-4 flex flex-col gap-3 justify-evenly items-center">
-          <div className="flex justify-between items-center w-full bg-slate-50 shadow-md rounded-md text-black p-2">
-            <h1 className="font-semibold text-center md:text-xl">{data.name}</h1>
+        <div className="bg-gradient-to-t dark:to-[#363e4a] dark:from-[#1b1b1f] dark:hover:shadow-none transition-all dark:shadow-full-dark from-blue-400 to-slate-200 rounded-md shadow-md w-full md:w-1/3 p-4 flex flex-col gap-3 justify-evenly items-center">
+          <div className="flex justify-between dark:bg-info-dark dark:text-p-dark dark:shadow-low-dark items-center w-full bg-slate-50 shadow-md rounded-md text-black p-2">
+            <h1 className="text-center md:text-xl">{data.name}</h1>
             <span className="flex text-sm md:text-base items-center gap-2">
               مورد تایید
               <IoIosCheckmarkCircleOutline className="text-green-500 text-xl" />
@@ -71,16 +71,16 @@ export default async function page({ params }: { params: { name: string } }) {
           />
           <Link
             href={"tel:" + data.phone}
-            className="flex gap-3 items-center py-2 px-4 hover:bg-blue-400/70 hover:shadow-md rounded-md"
+            className="flex gap-3 items-center dark:text-p-dark py-2 px-4 hover:bg-blue-400/70 hover:shadow-md rounded-md"
           >
             <FaPhone />
             <h2>{data.phone}</h2>
           </Link>
-          <div className="text-sm hover:bg-blue-400/70 hover:shadow-md py-2 px-4 rounded-md text-white">
+          <div className="text-sm dark:text-s-dark hover:bg-blue-400/70 hover:shadow-md py-2 px-4 rounded-md text-white">
             عضویت :{" "}
             <span>{new Date(data.createdAt).toLocaleDateString("fa")}</span>
           </div>
-          <div className="w-full justify-center text-white flex gap-1 items-center">
+          <div className="w-full justify-center dark:text-p-dark text-white flex gap-1 items-center">
             <p>تخصص :</p>
             {data?.Tags?.map((i, index) => {
               if (index + 1 === data.Tags?.length) {
@@ -109,7 +109,7 @@ export default async function page({ params }: { params: { name: string } }) {
           </div>
           <Link
             href={`tel:${data.phone}`}
-            className="text-gray-600 mx-auto hover:text-blue-400 hover:shadow-blue-300 flex items-center px-5 bg-gray-50  shadow-md p-1 rounded-md text-[17px] gap-1"
+            className="text-gray-600 mx-auto dark:shadow-full-dark dark:hover:shadow-none hover:text-blue-400 hover:shadow-blue-300 flex items-center px-5 bg-gray-50  shadow-md p-1 rounded-md text-[17px] gap-1"
           >
             <i>
               <FaPhone />
@@ -118,24 +118,24 @@ export default async function page({ params }: { params: { name: string } }) {
           </Link>
         </div>
         <div className="w-full md:w-2/3 flex flex-col gap-5">
-          <div className="bg-gradient-to-br to-blue-400 from-slate-300 rounded-md shadow-md p-4">
-            <span className="text-base font-bold md:text-xl mb-3 block">معرفی</span>
-            <p>{data?.description}</p>
+          <div className="bg-gradient-to-br to-blue-400 dark:to-[#363e4a] dark:from-[#1b1b1f] transition-all dark:shadow-full-dark dark:hover:shadow-none from-slate-300 rounded-md shadow-md p-4">
+            <span className="text-base dark:text-h-dark md:text-xl mb-3 block ">معرفی</span>
+            <p className="dark:text-p-dark">{data?.description}</p>
             {data.address ? (
               <>
-                <span className="text-base font-bold md:text-xl my-3 block">آدرس</span>
-                <p>{data.address}</p>
+                <span className="text-base dark:text-h-dark md:text-xl my-3 block ">آدرس</span>
+                <p className="dark:text-p-dark">{data.address}</p>
               </>
             ) : null}
           </div>
-          <div className="bg-gradient-to-tr to-blue-400 from-slate-300 rounded-md shadow-md p-4">
-            <span className="text-base font-bold md:text-xl mb-3 block">شبکه های اجتماعی</span>
+          <div className="bg-gradient-to-tr to-blue-400 dark:to-[#363e4a] dark:from-[#1b1b1f] transition-all dark:shadow-full-dark dark:hover:shadow-none from-slate-300 rounded-md shadow-md p-4">
+            <span className="text-base dark:text-h-dark  md:text-xl mb-3 block">شبکه های اجتماعی</span>
             <div className="grid grid-cols-2 gap-3 md:gap-5">
               {data.socialMedia.map((i, index) => (
                 <Link
                   href={i.link}
                   key={index}
-                  className="flex bg-slate-50 hover:shadow-blue-300 hover:text-blue-300 p-2 md:p-3 shadow-md text-gray-900 gap-2 rounded-md items-center"
+                  className="flex bg-slate-50 dark:bg-info-dark dark:text-p-dark hover:shadow-blue-300 dark:shadow-low-dark  dark:hover:shadow-none hover:text-blue-300 p-2 md:p-3 shadow-md text-gray-900 gap-2 rounded-md items-center"
                 >
                   <i>
                     {

@@ -10,8 +10,9 @@ const config: Config = {
   theme: {
     extend: {
       textColor: {
-        "p-light": "rgb(114, 114, 114)",
-        "p-dark": "rgb(39, 39, 38)",
+        "h-dark": "#e9ecef",
+        "p-dark": "#dadada",
+        "s-dark": "#b0b0b0"
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
@@ -20,7 +21,19 @@ const config: Config = {
       },
       boxShadow: {
         "custom-dark": "0px 1px 4px #000000"
-      }
+      },
+      boxShadowColor: {
+        "low-dark": "#171717",
+        "full-dark": "#000000"
+      },
+      borderColor: {
+        "bg-dark": "#6b7280"
+      },
+      backgroundColor: {
+        "input-dark": "#48484b69",
+        "custom-dark": "#212121",
+        "info-dark": "#232528"
+      },
     },
   },
   plugins: [],

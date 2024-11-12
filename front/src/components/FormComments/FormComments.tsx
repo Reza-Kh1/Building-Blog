@@ -68,7 +68,7 @@ export default function FormComments({ postId }: { postId?: number }) {
             name="text"
             rows={8}
             required
-            className="bg-slate-100 w-full shadow-md focus-visible:outline-blue-300 resize-none p-2 rounded-md"
+            className="bg-slate-100 w-full shadow-md focus-visible:outline-blue-300 resize-none p-2 rounded-md dark:shadow-low-dark dark:bg-input-dark"
             id=""
             placeholder="نظر خودتان را بنویسید"
           />

@@ -29,7 +29,7 @@ export default function SwiperCards({
   return (
     <>
       <div className="flex w-full mt-6 md:mt-10 justify-between items-center">
-        <h3 className="md:text-xl">{title}</h3>
+        <h3 className="md:text-xl text-gray-700 dark:text-p-dark">{title}</h3>
         <Link href={url} className="w-28 md:w-36">
           <CustomButton
             name="نمایش بیشتر"
@@ -59,20 +59,20 @@ export default function SwiperCards({
           className="!py-5 md:!py-10"
         >
           {isPost &&
-            data.map((item) => (
-              <SwiperSlide key={item.id}>
+            data.map((item,index) => (
+              <SwiperSlide key={index}>
                 <CardPost post={item as CardPostType} />
               </SwiperSlide>
             ))}
           {isProject &&
-            data.map((item) => (
-              <SwiperSlide key={item.id}>
+            data.map((item,index) => (
+              <SwiperSlide key={index}>
                 <CardProjects project={item as CardProjectsType} />
               </SwiperSlide>
             ))}
           {isExpert &&
-            data.map((item) => (
-              <SwiperSlide key={item.id}>
+            data.map((item,index) => (
+              <SwiperSlide key={index}>
                 <CardExperts {...(item as ExpertType)} />
               </SwiperSlide>
             ))}

@@ -6,6 +6,8 @@ import { FreeMode, Navigation, Thumbs } from "swiper/modules";
 import { ImageType } from "@/app/type";
 import { MdClose } from "react-icons/md";
 import { BsFullscreen } from "react-icons/bs";
+import "swiper/css/free-mode";
+import "swiper/css/thumbs";
 export default function SwiperGallery({
   imagesSrc,
 }: {
@@ -80,7 +82,7 @@ export default function SwiperGallery({
       </Swiper >
       <div className={`${open ? "opacity-100 z-50" : "opacity-0 -z-20"} scroll-y fixed flex flex-col justify-between bg-black/80 top-0 left-0 w-full h-full`}>
         <div >
-          <i className="bg-gray-200 z-50 cursor-pointer hover:text-red-600 shadow-md absolute top-1 md:top-5 right-1 md:right-5 rounded-full inline-block p-2 md:p-3 text-xl" onClick={() => setOpen(false)}><MdClose /></i>
+          <i className="bg-gray-200 dark:text-gray-800 z-50 cursor-pointer hover:text-red-600 shadow-md absolute top-1 md:top-5 right-1 md:right-5 rounded-full inline-block p-2 md:p-3 text-xl" onClick={() => setOpen(false)}><MdClose /></i>
         </div>
         <div className="">
           <Swiper

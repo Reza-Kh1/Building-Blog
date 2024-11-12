@@ -6,7 +6,7 @@ import { FaMoon } from "react-icons/fa";
 import { ThemeContext } from "@/context/ThemeContext";
 export default function DarkMode() {
   const [isDark, setIsDark] = useState<boolean>(false);
-  const { setMode, mode } = useContext(ThemeContext);
+  const { setMode } = useContext(ThemeContext);
   useEffect(() => {
     const position = localStorage.getItem("darkMode");
     if (position) {
@@ -34,8 +34,8 @@ export default function DarkMode() {
       className={`darkmode ${isDark ? "btn-dark" : ""}`}
       onClick={darkHandler}
     >
-      <MdSunny color="white" className="z-10" />
-      <FaMoon color="#838383" className="z-10" />
+      <MdSunny className="z-10 text-gray-50 dark:text-yellow-300" />
+      <FaMoon className="z-10 text-gray-800 dark:text-gray-50" />
       <span className="btn-darkmode"></span>
     </div>
   );

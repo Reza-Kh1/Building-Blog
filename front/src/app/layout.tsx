@@ -7,9 +7,7 @@ import React from "react";
 import Calling from "@/components/Calling/Calling";
 import "./globals.css";
 import "swiper/css";
-import "swiper/css/free-mode";
 import "swiper/css/navigation";
-import "swiper/css/thumbs";
 import 'swiper/css/pagination';
 import local from "next/font/local"
 export const metadata: Metadata = {
@@ -30,7 +28,7 @@ export default function RootLayout({
         <React.StrictMode>
           <AppRouterCacheProvider options={{ key: "css" }}>
             <LayoutProvider>
-              <div className="bg-white dark:bg-[#181717] dark:text-gray-200">
+              <div className="bg-white dark:bg-custom-dark dark:text-gray-200">
                 <Header />
                 <main className="w-full">
                   {children}

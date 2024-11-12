@@ -29,7 +29,7 @@ export default function InputForm({
   value
 }: InputFormType) {
   const classInput =
-    "p-3 focus-visible:outline-blue-300 bg-slate-100 rounded text-gray-900 w-full shadow-md " +
+    "p-3 focus-visible:outline-blue-300 bg-slate-100 dark:bg-input-dark dark:text-p-dark dark:shadow-low-dark rounded text-gray-900 w-full shadow-md " +
     classPlus;
   const InputCom = () => {
     if (type === "textarea") {
@@ -59,7 +59,7 @@ export default function InputForm({
             id={id}
             value={value}
           />
-          <span className="absolute left-2 text-xs top-1/2 bg-slate-100 h-[90%] flex items-center transform -translate-y-1/2">
+          <span className="absolute dark:text-s-dark left-2 text-xs top-1/2 bg-slate-100 h-[90%] flex items-center transform -translate-y-1/2">
             {slotProps}
           </span>
         </div>
@@ -81,7 +81,7 @@ export default function InputForm({
   };
   return lable ? (
     <div className="flex flex-col gap-2">
-      <label className="text-sm" htmlFor={id}>
+      <label className="text-sm dark:text-p-dark" htmlFor={id}>
         {lable}:{required ? "*" : null}
       </label>
       <InputCom />

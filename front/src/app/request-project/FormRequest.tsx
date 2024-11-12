@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 import { useFormState } from "react-dom";
 import UploadImage from "@/components/UploadImage/UploadImage";
 import actionProject from "@/action/actionProject";
+import InputForm from "@/components/InputForm/InputForm";
 const options = [
   "لوله کشی گاز",
   "کناف",
@@ -59,7 +60,7 @@ export default function FormRequest() {
     <form action={changHandler} onSubmit={() => { toast.loading("...صبرکنید", { id: "toast" }) }} className="" >
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
         <div className="flex flex-col gap-2">
-          <label className="text-sm">
+          <label className="text-sm text-gray-600 dark:text-s-dark">
             نام*
           </label>
           <input
@@ -67,33 +68,33 @@ export default function FormRequest() {
             onChange={({ target }) => setFormValues({ ...formValues, nameValue: target.value })}
             required
             name="name"
-            className="p-3 focus-visible:outline-blue-300 bg-slate-100 rounded text-gray-900 w-full shadow-md"
+            className="p-3 focus-visible:outline-blue-300 dark:text-p-dark dark:bg-input-dark dark:shadow-low-dark bg-slate-100 rounded text-gray-900 w-full shadow-md"
             placeholder=""
             value={formValues.nameValue}
           />
         </div>
         <div className="flex flex-col gap-2">
-          <label className="text-sm">
+          <label className="text-sm text-gray-600 dark:text-s-dark">
             شماره تلفن*
           </label>
           <input
             name="phone"
             onChange={({ target }) => setFormValues({ ...formValues, phoneValue: target.value.replace(/[^0-9]/g, "") })}
             required
-            className="p-3 focus-visible:outline-blue-300 bg-slate-100 rounded text-gray-900 w-full shadow-md"
+            className="p-3 focus-visible:outline-blue-300 dark:text-p-dark dark:bg-input-dark dark:shadow-low-dark bg-slate-100 rounded text-gray-900 w-full shadow-md"
             placeholder="09390199977"
             value={formValues.phoneValue}
           />
         </div>
         <div>
-          <span className="text-sm">انتخاب موضوع :*</span>
+          <span className="text-sm text-gray-600 dark:text-s-dark">انتخاب موضوع :*</span>
           <Autocomplete
             freeSolo
             className="flex items-end mt-1"
             options={options}
             renderInput={(params) => (
               <TextField
-                className="!bg-slate-100 !p-2  !shadow-md !rounded-md"
+                className="!bg-slate-100 !p-2 dark:!text-p-dark dark:!bg-input-dark dark:!shadow-low-dark !shadow-md !rounded-md"
                 variant="standard"
                 required
                 placeholder="انتخاب کنید"
@@ -104,7 +105,7 @@ export default function FormRequest() {
           />
         </div>
         <div className="flex flex-col gap-2">
-          <label className="text-sm">
+          <label className="text-sm text-gray-600 dark:text-s-dark">
             بودجه مورد نظر*
           </label>
           <div className="relative">
@@ -115,17 +116,17 @@ export default function FormRequest() {
               }}
               name="price"
               required
-              className="p-3 focus-visible:outline-blue-300 bg-slate-100 rounded text-gray-900 w-full shadow-md"
+              className="p-3 focus-visible:outline-blue-300 dark:text-p-dark dark:bg-input-dark dark:shadow-low-dark bg-slate-100 rounded text-gray-900 w-full shadow-md"
               placeholder="پر کردن این بخش الزامی نیست!"
               value={formValues.priceValue}
             />
-            <span className="absolute left-2 text-xs top-1/2 bg-slate-100 h-[90%] flex items-center transform -translate-y-1/2">
+            <span className="absolute left-2 text-xs top-1/2 dark:text-s-dark dark:bg-[#313132] bg-slate-100 h-[90%] flex items-center transform -translate-y-1/2">
               تومان
             </span>
           </div>
         </div>
         <div className="flex flex-col gap-2">
-          <label className="text-sm">
+          <label className="text-sm text-gray-600 dark:text-s-dark">
             متراژ کار*
           </label>
           <div className="relative">
@@ -136,18 +137,18 @@ export default function FormRequest() {
               }}
               name="size"
               required
-              className="p-3 focus-visible:outline-blue-300 bg-slate-100 rounded text-gray-900 w-full shadow-md"
+              className="p-3 focus-visible:outline-blue-300 dark:text-p-dark dark:bg-input-dark dark:shadow-low-dark bg-slate-100 rounded text-gray-900 w-full shadow-md"
               placeholder="پر کردن این بخش الزامی نیست!"
               value={formValues.metraghValue}
             />
-            <span className="absolute left-2 text-xs top-1/2 bg-slate-100 h-[90%] flex items-center transform -translate-y-1/2">
+            <span className="absolute left-2 text-xs top-1/2 dark:text-s-dark dark:bg-[#313132] bg-slate-100 h-[90%] flex items-center transform -translate-y-1/2">
               مترمربع
             </span>
           </div>
         </div>
       </div>
       <div className="flex flex-col gap-2 my-5">
-        <label className="text-sm">
+        <label className="text-sm text-gray-600 dark:text-s-dark">
           توضیحات بیشتر*
         </label>
         <div className="relative">
@@ -156,7 +157,7 @@ export default function FormRequest() {
             name="text"
             onChange={({ target }) => setFormValues({ ...formValues, textValue: target.value })}
             required
-            className="p-3 focus-visible:outline-blue-300 bg-slate-100 rounded text-gray-900 w-full shadow-md resize-none"
+            className="p-3 focus-visible:outline-blue-300 dark:text-p-dark dark:bg-input-dark dark:shadow-low-dark bg-slate-100 rounded text-gray-900 w-full shadow-md resize-none"
             placeholder="توضیح بیشتر مربوط به خواسته های خودتان"
             value={formValues.textValue}
           />

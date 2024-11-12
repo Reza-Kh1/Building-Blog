@@ -27,7 +27,7 @@ export default function Breadcrums({ className }: { className?: string }) {
     }
     if (i === "post") {
       return {
-        name: "پست",
+        name: "پست ها",
       };
     }
     if (i === "about-us") {
@@ -78,7 +78,7 @@ export default function Breadcrums({ className }: { className?: string }) {
   });
   return (
     <div
-      className={`flex gap-3 my-3 lg:my-6 mx-3 p-2 lg:p-3 xl:mx-auto items-center max-w-7xl  bg-gradient-to-br text-white to-blue-400 from-slate-200  dark:text-gray-200 dark:from-[#B8D4E3] dark:to-gray-800 shadow-md rounded-md ${className}`}
+      className={`flex gap-3 my-3 lg:my-6 mx-3 p-2 lg:p-3 xl:mx-auto items-center max-w-7xl  bg-gradient-to-br text-white to-blue-400 from-slate-200  dark:text-gray-200 dark:from-gray-400 dark:to-gray-800 shadow-md rounded-md ${className}`}
     >
       {newArry.map((i, index) => (
         <React.StrictMode key={index}>

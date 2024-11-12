@@ -105,8 +105,8 @@ export default function SearchBox() {
       <div
         className={`w-full px-1 xl:px-0 absolute transition-all right-0 top-36 ${isShow ? "opacity-100 z-20 !top-24 md:!top-28" : "opacity-0 -z-20 pointer-events-none"}`}
       >
-        <div className="max-w-7xl gap-2 md:gap-5 transition-all rounded-xl p-2 px-1 lg:p-3 mx-auto flex justify-between items-center bg-gradient-to-br to-blue-300/70  from-gray-100/60 dark:from-slate-700 dark:to-zinc-500 backdrop-blur-lg">
-          <div className="w-full relative bg-white p-1 lg:p-2 rounded-full shadow-md">
+        <div className="max-w-7xl gap-2  md:gap-5 transition-all rounded-xl p-2 px-1 lg:p-3 mx-auto flex justify-between items-center bg-gradient-to-br to-blue-300/70 from-gray-100/60 dark:to-slate-700 dark:from-zinc-900 backdrop-blur-lg">
+          <div className="w-full relative bg-white dark:bg-input-dark p-1 lg:p-2 rounded-full shadow-md">
             <input
               ref={ref}
               value={valSearch}
@@ -142,7 +142,6 @@ export default function SearchBox() {
               </i>
             </Link>
             <div className="absolute left-9 lg:left-14 transform top-1/2 -translate-y-1/2">
-
               <FormControl className="!text-xs" size="small">
                 <Select
                   size="small"
@@ -183,7 +182,7 @@ export default function SearchBox() {
         className={`-z-20 px-1 xl:px-0 h-screen opacity-0 absolute w-full top-52 left-0 flex justify-center transition-all ${valSearch && isShow ? "z-20 opacity-100 top-[160px] md:top-52" : "invisible"
           }`}
       >
-        <div className="max-w-7xl h-3/4 overflow-y-auto w-full bg-gradient-to-tr from-blue-300/60 backdrop-blur-md to-gray-100/60 shadow-md p-4 rounded-lg">
+        <div className="max-w-7xl h-3/4 overflow-y-auto w-full bg-gradient-to-tr dark:to-slate-700 dark:from-zinc-900  from-blue-300/60 backdrop-blur-md to-gray-100/60 shadow-md p-4 rounded-lg">
           {!isSearch ? null : isSearch && data?.rows.length ?
             <>
               {filterName === "project" ?

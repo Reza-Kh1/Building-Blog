@@ -4,24 +4,63 @@ import FormRequest from "./FormRequest";
 import { PiWarningDiamondFill } from "react-icons/pi";
 import ContactSocialMedia from "@/components/ContactSocialMedia/ContactSocialMedia";
 import Breadcrums from "@/components/Breadcrums/Breadcrums";
+import { Metadata } from "next";
+export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_URL || "http://localhost:3000"),
+  title: 'درخواست محاسبه آنلاین | ساخت یار',
+  description: 'برای محاسبه آنلاین هزینه پروژه‌های ساختمانی خود می‌توانید از این صفحه استفاده کنید. با وارد کردن اطلاعات پروژه خود، برآورد دقیقی از هزینه‌ها و زمان تحویل دریافت کنید.',
+  keywords: [
+    'محاسبه آنلاین پروژه',
+    'هزینه پروژه ساختمانی',
+    'محاسبه هزینه ساخت و ساز',
+    'درخواست محاسبه پروژه',
+    'پروژه‌های ساختمانی',
+  ],
+  openGraph: {
+    title: 'درخواست محاسبه آنلاین | ساخت یار',
+    description: 'با استفاده از فرم درخواست محاسبه آنلاین، می‌توانید هزینه و زمان تحویل پروژه‌های ساختمانی خود را به راحتی محاسبه کنید.',
+    url: `${process.env.NEXT_PUBLIC_URL + "/request-project"}`,
+    images: [
+      {
+        url: `${process.env.NEXT_PUBLIC_URL + "/about-us.jpg"}`,
+        width: 800,
+        height: 600,
+        alt: 'درخواست محاسبه آنلاین پروژه‌های ساخت یار',
+      },
+    ],
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'درخواست محاسبه آنلاین | ساخت یار',
+    description: 'برای درخواست محاسبه آنلاین پروژه‌های ساختمانی خود از این صفحه استفاده کنید و هزینه‌ها و زمان تحویل پروژه‌ها را محاسبه کنید.',
+    images: [`${process.env.NEXT_PUBLIC_URL + "/about-us.jpg"}`],
+  },
+  robots: "index, follow",
+  alternates: {
+    canonical: `${process.env.NEXT_PUBLIC_URL + "/request-project"}`,
+  },
+};
 export default function page() {
   return (
-    <div className="w-full">
+    <>
       <Breadcrums />
       <div className="classDiv">
-        <h1 className="lg:text-lg font-semibold mb-3 dark:text-h-dark">
-          محاسبه آنلاین هزینه ساخت
-        </h1>
-        <div className="flex items-start md:items-center gap-2">
-          <i className="text-yellow-300 text-xl">
-            <FaStar />
-          </i>
-          <p className="text-sm md:text-base text-justify dark:text-s-dark text-gray-700">
-            در این صفحه میتوانید با بارگزاری عکس از محیط کار یا پروژه خود و پر
-            کردن فرم های خواسته شده میتوانید از ما به صورت آنلاین قیمت بگیرید در
-            کمتر از 6 ساعت به درخواست شما پاسخ خواهیم داد.
-          </p>
-        </div>
+        <section>
+          <h1 className="lg:text-lg font-semibold mb-3 dark:text-h-dark">
+            محاسبه آنلاین هزینه ساخت
+          </h1>
+          <div className="flex items-start md:items-center gap-2">
+            <i className="text-yellow-300 text-xl">
+              <FaStar />
+            </i>
+            <p className="text-sm md:text-base text-justify dark:text-s-dark text-gray-700">
+              در این صفحه میتوانید با بارگزاری عکس از محیط کار یا پروژه خود و پر
+              کردن فرم های خواسته شده میتوانید از ما به صورت آنلاین قیمت بگیرید در
+              کمتر از 6 ساعت به درخواست شما پاسخ خواهیم داد.
+            </p>
+          </div>
+        </section>
         <div className="font-semibold my-8 md:my-16 text-center flex gap-3 items-center justify-center mb-5">
           <i className="text-orange-400 text-2xl">
             <PiWarningDiamondFill />
@@ -45,6 +84,6 @@ export default function page() {
         </p>
       </div>
       <ContactSocialMedia />
-    </div>
+    </>
   );
 }

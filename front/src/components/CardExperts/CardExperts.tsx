@@ -8,16 +8,16 @@ import { FaCalendar } from 'react-icons/fa6'
 
 export default function CardExperts(props: ExpertType) {
   return (
-    <div className='w-full shadow-md dark:shadow-full-dark dark:hover:shadow-none transition-all bg-gradient-to-b to-blue-300 dark:from-[#4d4d4d21] dark:to-slate-600 from-slate-200 rounded-md'>
-      <div className='h-32 dark:bg-[#272727] bg-gray-50 shadow-md rounded-t-md'>
-        <h4 className='font-semibold text-sm md:text-base p-2 flex justify-between items-center dark:text-p-dark'>
+    <section className='w-full shadow-md dark:shadow-full-dark dark:hover:shadow-none transition-all bg-gradient-to-b to-blue-300 dark:to-slate-700 dark:from-zinc-900 from-slate-200 rounded-md'>
+      <div className='h-32 dark:bg-info-dark bg-gray-50 shadow-md rounded-t-md'>
+        <h3 className='font-semibold text-sm md:text-base p-2 flex justify-between items-center dark:text-p-dark'>
           {props.name}
           <span className='text-xs md:text-sm font-normal flex items-center gap-1 dark:text-s-dark'>
             مورد تایید<IoIosCheckmarkCircleOutline className='text-green-500 text-xl' />
           </span>
-        </h4>
+        </h3>
         <Link href={"experts/" + props?.name?.replace(/ /g, "-")} className='w-full flex justify-center'>
-          <ImgTag figureClass='relative' alt={props.name} src={props?.image} width={300} height={300} className='rounded-full border-8 dark:border-[#38404b] border-[#b1d2f8] w-40 h-40 object-cover' />
+          <ImgTag figureClass='relative' alt={props.name} src={props?.image} width={300} height={300} className='rounded-full border-8 dark:border-[#262e3b] border-[#b1d2f8] w-40 h-40 object-cover' />
         </Link>
       </div>
       <div className='mt-14 p-2 text-white'>
@@ -28,7 +28,7 @@ export default function CardExperts(props: ExpertType) {
               {props.phone}
             </Link>
             <div className='text-sm w-full md:justify-end hover:bg-blue-400/70 hover:shadow-md p-1 px-2 rounded-md dark:text-p-dark text-white flex items-center gap-2'>
-              <FaCalendar className='text-gray-50 dark:text-p-dark'/>
+              <FaCalendar className='text-gray-50 dark:text-p-dark' />
               <span>
                 {new Date(props.createdAt).toLocaleDateString("fa")}
               </span>
@@ -47,7 +47,7 @@ export default function CardExperts(props: ExpertType) {
               </div>
             )
             : null}
-          <Link href={"experts/" + props?.name?.replace(/ /g, "-")} className='text-sm md:text-base mt-3 text-gray-600 mx-auto hover:text-blue-400 dark:shadow-low-dark dark:hover:shadow-none hover:shadow-blue-300 flex items-center px-5 bg-gray-50  shadow-md p-1 rounded-md text-[17px] gap-1'>
+          <Link href={"experts/" + props?.name?.replace(/ /g, "-")} className='text-sm md:text-base mt-3 text-gray-600 mx-auto hover:text-blue-400 dark:bg-info-dark dark:text-h-dark dark:shadow-low-dark dark:hover:shadow-none hover:shadow-blue-300 flex items-center px-5 bg-gray-50  shadow-md p-1 rounded-md text-[17px] gap-1'>
             <span className='inline-block'>
               پروفایل
             </span>
@@ -57,6 +57,6 @@ export default function CardExperts(props: ExpertType) {
           </Link>
         </div>
       </div>
-    </div>
+    </section>
   )
 }

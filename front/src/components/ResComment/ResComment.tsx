@@ -72,7 +72,7 @@ export default function ResComment({
           },
         }}
       >
-        <DialogContent>
+        <DialogContent className="dark:!bg-custom-dark">
           <div className="flex gap-3 md:gap-5 flex-col md:flex-row">
             <div className="w-full order-2 md:order-1 flex flex-col md:w-2/3 justify-evenly items-center gap-3">
               <div className="flex w-full flex-col md:flex-wrap gap-3">
@@ -150,7 +150,7 @@ export default function ResComment({
             </div>
           </div>
         </DialogContent>
-        <DialogActions>
+        <DialogActions  className="dark:!bg-custom-dark">
           <div className="w-full flex justify-between">
             <div className="w-1/3 md:w-2/12">
               <CustomButton

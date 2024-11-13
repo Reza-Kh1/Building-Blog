@@ -5,31 +5,71 @@ import Breadcrums from '@/components/Breadcrums/Breadcrums'
 import Cards from '@/components/Cards/Cards'
 import ContactSocialMedia from '@/components/ContactSocialMedia/ContactSocialMedia'
 import Pagination from '@/components/Pagination/Pagination'
-import React from 'react'
+import { Metadata } from 'next'
+import React, { Suspense } from 'react'
 type PageType = { params: { category: string }, searchParams: { page: string } }
 const getData = async (query: PageType) => {
-    const url = `category/${query.params.category}?page=${query.searchParams.page || 1}`
+    const url = `category/${query.params.category.replace(/-/g, " ")}?page=${query.searchParams.page || 1}`
     const data = await fetchApi({ url })
     if (data.error) return NotFound();
     return data
 }
+export async function generateMetadata(query: PageType): Promise<Metadata> {
+    const data: ALlPostCategory = await getData(query);
+    const categoryName = data?.category?.name || 'دسته‌بندی';
+    const baseUrl = process.env.NEXTAUTH_URL;
+    const categorySlug = query.params.category.replace(/ /g, "-");
+    return {
+        metadataBase: new URL(process.env.NEXT_PUBLIC_URL || "http://localhost:3000"),
+        title: `پست‌های دسته‌بندی ${categoryName} | ساخت یار`,
+        description: `مطالب و مقالات مرتبط با ${categoryName} در حوزه ساخت و ساز و معماری.`,
+        keywords: [categoryName, "ساختمان", "ساخت و ساز", "معماری", "پروژه‌های ساختمانی"],
+        robots: "index, follow",
+        openGraph: {
+            type: "article",
+            url: `${baseUrl}/blog/${categorySlug}`,
+            title: `پست‌های دسته‌بندی ${categoryName} | ساخت یار`,
+            description: `در این بخش از سایت، جدیدترین مطالب مرتبط با ${categoryName} را بخوانید.`,
+            images: [
+                {
+                    url: `${baseUrl}/category.jpg`,
+                    width: 1200,
+                    height: 630,
+                    alt: `پست‌های دسته‌بندی ${categoryName}`,
+                },
+            ],
+            siteName: "ساخت یار",
+        },
+        twitter: {
+            card: 'summary_large_image',
+            title: `پست‌های دسته‌بندی ${categoryName} | ساخت یار`,
+            description: `مطالب جدید در زمینه ${categoryName} را بخوانید.`,
+            images: [`${baseUrl}/category.jpg`],
+        },
+        alternates: {
+            canonical: `${baseUrl}/blog/${categorySlug}`,
+        },
+    };
+}
 export default async function page(query: PageType) {
     const data: ALlPostCategory = await getData(query)
     return (
-        <div className='w-full'>
-            <div className="max-w-7xl w-full mx-auto my-6">
-                <Breadcrums />
-                <div className="flex w-full items-center mt-6 justify-between">
-                    <h1 className='font-semibold'>پست های دسته بندی {data?.category?.name}</h1>
-                </div>
+        <>
+            <Breadcrums />
+            <div className="classDiv">
+                <section className="flex w-full items-center mt-6 justify-between">
+                    <h1 className='font-semibold dark:text-h-dark text-gray-700 lg:text-lg'>پست های دسته بندی {data?.category?.name}</h1>
+                </section>
                 <div className="my-5">
                     <Cards props={data.rows} />
                 </div>
                 <div>
-                    <Pagination pagination={data.paginate} />
+                    <Suspense fallback={"در حال بارگیری ..."}>
+                        <Pagination pagination={data.paginate} />
+                    </Suspense >
                 </div>
             </div>
             <ContactSocialMedia />
-        </div>
+        </>
     )
 }

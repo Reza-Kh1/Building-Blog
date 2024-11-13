@@ -1,6 +1,5 @@
 import React from "react";
 import Image from "next/image";
-import SubscribeForm from "./SubscribeForm";
 import { FiPhoneCall } from "react-icons/fi";
 import Link from "next/link";
 import IconSocialMedia from "../IconSocialMedia/IconSocialMedia";
@@ -22,55 +21,55 @@ export default async function Footer() {
   const { data }: Footertype = await getData();
   return (
     <div className="bg-footer">
-      <div className="w-full xl:w-4/5 mx-auto flex flex-wrap items-center p-3 lg:pt-8">
+      <div className="w-full xl:w-4/5 mx-auto flex flex-wrap items-start p-3 lg:pt-8">
         <div className="w-full lg:w-3/5">
-          <div className="w-full border-b border-b-slate-700 mb-5 pb-5 flex items-stretch gap-5 text-slate-400">
-            <figure className="flex">
+          <section className="w-full border-b border-b-slate-700 mb-5 pb-5 flex items-stretch gap-2 md:gap-5 text-slate-400">
+            <figure className="flex w-1/4">
               <Image
                 alt={data?.text?.logoUrl?.alt || "logo"}
                 src={data?.text?.logoUrl?.url || "/logo.png"}
-                width={150}
-                className="rounded-md shadow-md w-28 lg:w-52 h-14 lg:h-28"
-                height={80}
+                width={250}
+                className="h-auto object-contain w-full rounded-md"
+                height={150}
                 loading="lazy"
               />
             </figure>
             <span className="border border-slate-500"></span>
-            <p className="text-xs sm:text-base text-justify">
+            <p className="text-xs w-3/4 sm:text-base text-justify">
               {data?.text?.text}
             </p>
-          </div>
-          <div className="w-full grid grid-cols-3 gap-3">
+          </section>
+          <nav aria-label="Main footer" className="w-full grid grid-cols-3 gap-3">
             {data?.text?.menuLink.length
               ? data.text.menuLink.map((i, index) => (
-                  <ul
-                    key={index}
-                    className="flex flex-col gap-1 md:gap-2 text-slate-400"
-                  >
-                    {i.length
-                      ? i.map((item) => (
-                          <li
-                            key={item.id}
-                            className="flex hover:pr-1 transition-all text-sm md:text-base"
-                          >
-                            <Link
-                              href={item.link}
-                              className="hover:text-slate-100 transition-all scale-1 flex items-center"
-                            >
-                              <i>
-                                <FaAngleLeft />
-                              </i>
-                              <span className="mr-1 transition-shadow">
-                                {item.name}
-                              </span>
-                            </Link>
-                          </li>
-                        ))
-                      : null}
-                  </ul>
-                ))
+                <ul
+                  key={index}
+                  className="flex flex-col gap-1 md:gap-2 text-slate-400"
+                >
+                  {i.length
+                    ? i.map((item) => (
+                      <li
+                        key={item.id}
+                        className="flex hover:pr-1 transition-all text-sm md:text-base"
+                      >
+                        <Link
+                          href={item.link}
+                          className="hover:text-slate-100 transition-all scale-1 flex items-center"
+                        >
+                          <i>
+                            <FaAngleLeft />
+                          </i>
+                          <span className="mr-1 transition-shadow">
+                            {item.name}
+                          </span>
+                        </Link>
+                      </li>
+                    ))
+                    : null}
+                </ul>
+              ))
               : null}
-          </div>
+          </nav>
         </div>
         <div className="w-full lg:w-2/5 lg:pr-7 text-sm mt-5 lg:text-base lg:mt-0">
           <div className=" flex flex-col gap-2 mb-5">

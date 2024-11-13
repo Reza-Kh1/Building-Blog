@@ -1,5 +1,5 @@
 import Breadcrums from "@/components/Breadcrums/Breadcrums";
-import React from "react";
+import React, { Suspense } from "react";
 import ImgTag from "@/components/ImgTag/ImgTag";
 import { FaCheck } from "react-icons/fa6";
 import SwiperGallery from "@/components/SwiperGallery/SwiperGallery";
@@ -9,6 +9,7 @@ import { AboutUsType } from "../type";
 import ContactSocialMedia from "@/components/ContactSocialMedia/ContactSocialMedia";
 import NotFound from "../not-found";
 import SwiperCards from "@/components/SwiperCards/SwiperCards";
+import { Metadata } from "next";
 const dataBanner = [
   {
     src: "/icon-paint.png",
@@ -46,36 +47,66 @@ const getData = async () => {
   if (data.error) return NotFound();
   return data;
 };
+export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_URL || "http://localhost:3000"),
+  title: 'درباره ما | ساخت یار',
+  description: 'آماده ایم تا با شروع این همکاری ،رویاهای ساخت و ساز شما را به واقعیت تبدیل کنیم - با هم ، از ایده تا اجرا پیش خواهیم رفت.',
+  keywords: ['پروژه‌های ساختمانی', 'مشاوره ساخت‌وساز', 'ساخت یار', 'خدمات پیمانکاری'],
+  openGraph: {
+    title: 'درباره ما | ساخت یار',
+    description: 'آماده ایم تا با شروع این همکاری ،رویاهای ساخت و ساز شما را به واقعیت تبدیل کنیم - با هم ، از ایده تا اجرا پیش خواهیم رفت.',
+    url: `${process.env.NEXT_PUBLIC_URL + "/about-us"}`,
+    images: [
+      {
+        url: `${process.env.NEXT_PUBLIC_URL + "/about-us.jpg"}`,
+        width: 800,
+        height: 600,
+        alt: 'درباره ما سایت ساخت یار',
+      },
+    ],
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'درباره ما | ساخت یار',
+    description: 'تیم ساختمان سازی آماده همکاری و تماس های شماس.',
+    images: [`${process.env.NEXT_PUBLIC_URL + "/about-us.jpg"}`],
+  },
+  robots: "index, follow",
+  alternates: {
+    canonical: `${process.env.NEXT_PUBLIC_URL + "/about-us"}`,
+  },
+};
 export default async function page() {
   const { data }: AboutUsType = await getData();
   return (
-    <div className="w-full">
+    <>
       <Breadcrums />
-      <div className="classDiv">
+      <section className="classDiv">
         <h1 className="lg:text-xl mb-2 font-semibold dark:text-h-dark">درباره ما</h1>
         <span className="text-xs lg:text-base text-gray-700 dark:text-s-dark">
           صفحه ای کوچک درباره خدمات ما
         </span>
         <span className="w-full border block my-4 lg:my-6 dark:border-bg-dark"></span>
-      </div>
+      </section>
       <div className="classDiv flex flex-col md:flex-row gap-4 md:gap-3">
-        <div className="w-full md:w-1/2">
+        <section className="w-full md:w-1/2">
           <h2 className="lg:text-lg font-semibold dark:text-h-dark">{data?.text?.title1}</h2>
           <p className="!leading-8 mt-3 text-justify text-sm lg:text-base text-gray-800 dark:text-p-dark">
             {data?.text?.text1}
           </p>
-        </div>
+        </section>
         <div className="w-full md:w-1/2">
           <SwiperGallery imagesSrc={data?.text?.imgArry} />
         </div>
       </div>
       <div className="w-full px-3 py-3 lg:py-0 flex flex-col md:flex-row gap-5 md:gap-3 bg-[#282828] shadow-md">
         <div className="w-full md:w-1/3 flex items-center">
-          <ImgTag src={"/5.jpg"} alt={"test"} width={500} height={450} />
+          <ImgTag src={"/about-us.jpg"} alt={"test"} width={500} height={450} />
         </div>
         <div className="w-full md:w-2/3 grid grid-cols-2 gap-5 lg:gap-8 lg:p-10">
           {dataBanner.map((props, index) => (
-            <div className="flex gap-3" key={index}>
+            <section className="flex gap-3" key={index}>
               <figure className="lg:mt-1">
                 <ImgTag
                   alt="paint"
@@ -93,7 +124,7 @@ export default async function page() {
                   {props.text}
                 </p>
               </div>
-            </div>
+            </section>
           ))}
         </div>
       </div>
@@ -102,7 +133,7 @@ export default async function page() {
       </div>
       <BannerCallUs />
       <div className="classDiv flex flex-col md:flex-row gap-3 items-center">
-        <div className="w-full md:w-1/2">
+        <section className="w-full md:w-1/2">
           <h3 className="lg:text-xl mb-3 font-semibold dark:text-h-dark">{data?.text?.title2}</h3>
           <h4 className="text-sm text-gray-700 mb-3 dark:text-s-dark">{data?.text?.text2}</h4>
           {data?.text?.textArry.length ? (
@@ -117,10 +148,10 @@ export default async function page() {
               ))}
             </ul>
           ) : null}
-        </div>
+        </section>
         <div className="w-full md:w-1/2">
           <ImgTag
-            src={"/about.jpg"}
+            src={"/about-us (2).jpg"}
             alt={"about-us"}
             width={500}
             height={450}
@@ -128,6 +159,6 @@ export default async function page() {
         </div>
       </div>
       <ContactSocialMedia />
-    </div>
+    </>
   );
 }

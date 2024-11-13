@@ -11,11 +11,17 @@
     cursor: pointer;
     transition: all ease-in-out 0.5s;
 }
-.btn-dark{
+
+.dark .btn-dark {
+    background-color: rgb(35 35 35) !important;
+    box-shadow: inset 0px -1px 2px 0px #000000 !important;
+}
+
+.btn-dark {
     background-color: rgb(41 53 70) !important;
     box-shadow: inset 0px -1px 2px #70769c !important;
-
 }
+
 .btn-darkmode {
     position: absolute;
     width: 1.5rem;
@@ -28,10 +34,11 @@
     transition: all ease-in-out 0.5s;
 
 }
+
 .btn-dark .btn-darkmode {
     transition: all ease-in-out 0.5s;
     background-color: rgb(6, 6, 6) !important;
-    box-shadow: inset 0px 0px 3px rgb(8 10 86)  !important;
+    box-shadow: inset 0px 0px 3px rgb(8 10 86) !important;
     top: 10% !important;
     right: 60% !important;
 }

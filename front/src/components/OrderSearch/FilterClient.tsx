@@ -57,7 +57,7 @@ export default function FilterClient({
   }, [params])
   return (
     <>
-      <div className="w-1/2 text-left mr-auto md:hidden">
+      <div className=" w-3/5 text-left mr-auto md:hidden">
         <CustomButton
           name="فیلتر"
           type="button"
@@ -71,7 +71,6 @@ export default function FilterClient({
           fullWidth
           disablePortal
           value={filterTags}
-
           onChange={(_, value) => {
             setFilterTags({ name: value?.name || "" });
             if (value === null) {
@@ -84,8 +83,8 @@ export default function FilterClient({
           }}
           options={nameTags}
           getOptionLabel={(option) => option.name}
-          className="shadow-md !border-slate-100"
-          renderInput={(params) => <TextField className="shadow-md !border-slate-100"  {...params} label="انتخاب دسته" />}
+          className="shadow-md !border-slate-100 dark:shadow-low-dark"
+          renderInput={(params) => <TextField name="category" className="shadow-md dark:shadow-low-dark !border-slate-100"  {...params} label="انتخاب دسته" />}
         />
         {pathName.search("/project") === 0 ? (
           <Autocomplete
@@ -104,22 +103,23 @@ export default function FilterClient({
             }}
             options={nameExpert}
             getOptionLabel={(option) => option.name}
-            className="shadow-md"
+            className="shadow-md dark:shadow-low-dark"
             renderInput={(params) => (
-              <TextField {...params} label="انتخاب مجری" />
+              <TextField {...params} name="experts" label="انتخاب مجری" />
             )}
           />
         ) : null}
         <FormControl fullWidth>
-          <InputLabel id="demo-simple-select-label">مرتب سازی بر اساس</InputLabel>
+          <InputLabel id="demo-simple-select-label">مرتب سازی</InputLabel>
           <Select
+            name="order"
             fullWidth
-            className="shadow-md"
+            className="shadow-md dark:shadow-low-dark"
             labelId="demo-simple-select-label"
             id="demo-simple-select"
             onChange={({ target }) => setFilterOrder(target.value)}
             value={filterOrder}
-            label="مرتب سازی بر اساس"
+            label="مرتب سازی"
           >
             <MenuItem
               value={"createdAt-DESC"}
@@ -148,7 +148,7 @@ export default function FilterClient({
         open={open}
         onClose={() => setOpen(false)}
       >
-        <DialogContent>
+        <DialogContent className="dark:!bg-custom-dark">
           <div className="flex flex-col items-center gap-5">
             <Autocomplete
               fullWidth
@@ -167,8 +167,8 @@ export default function FilterClient({
               }}
               options={nameTags}
               getOptionLabel={(option) => option.name}
-              className="shadow-md"
-              renderInput={(params) => <TextField {...params} label="انتخاب دسته" />}
+              className="shadow-md dark:shadow-low-dark"
+              renderInput={(params) => <TextField name="category" {...params} label="انتخاب دسته" />}
             />
             {pathName.search("/project") === 0 ? (
               <Autocomplete
@@ -188,18 +188,19 @@ export default function FilterClient({
                 }}
                 options={nameExpert}
                 getOptionLabel={(option) => option.name}
-                className="shadow-md"
+                className="shadow-md dark:shadow-low-dark"
                 renderInput={(params) => (
-                  <TextField {...params} label="انتخاب مجری" />
+                  <TextField {...params} name="expert" label="انتخاب مجری" />
                 )}
               />
             ) : null}
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label">مرتب سازی</InputLabel>
               <Select
+                name="order"
                 size="small"
                 fullWidth
-                className="shadow-md"
+                className="shadow-md dark:shadow-low-dark"
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 onChange={({ target }) => setFilterOrder(target.value)}
@@ -228,7 +229,7 @@ export default function FilterClient({
             </FormControl>
           </div>
         </DialogContent>
-        <DialogActions>
+        <DialogActions className="dark:!bg-custom-dark">
           <div className="flex justify-between w-full">
             <Button size="small" onClick={() => setOpen(false)} color="primary" variant="outlined" endIcon={<MdDataSaverOn />}>ذخیره</Button>
             <Button size="small" onClick={() => setOpen(false)} color="error" variant="outlined" endIcon={<MdClose />}>بستن</Button>

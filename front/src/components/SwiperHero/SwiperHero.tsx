@@ -16,7 +16,7 @@ export default function SwiperHero() {
             className="mySwiper"
         >
             <SwiperSlide>
-                <div className='w-full h-[550px] bg-image relative' style={{ backgroundImage: `url(${"/5.jpg"})` }}>
+                <div className='w-full h-[550px] bg-image relative' style={{ backgroundImage: `url(${"/about-us (2).jpg"})` }}>
                     <div className='absolute top-1/3 w-1/2 right-10 transform -translate-y-1/2 bg-gray-800/80 p-3 rounded-xl shadow-md'>
                         <h3 className='text-gray-50 mb-5 text-xl'>این بخش برای تست هستش میخوام تست کنم</h3>
                         <p className='text-gray-200'>بخش خش تست هستش ولی زیاد هم نیستش هاخش تست هستش ولی زیاد هم نیستش هاخش تست هستش ولی زیاد هم نیستش هاتست هستش ولی زیاد هم نیستش هاها</p>
@@ -29,7 +29,7 @@ export default function SwiperHero() {
                 </div>
             </SwiperSlide>
             <SwiperSlide>
-                <div className='w-full h-[550px] bg-image relative' style={{ backgroundImage: `url(${"/6.jpg"})` }}>
+                <div className='w-full h-[550px] bg-image relative' style={{ backgroundImage: `url(${"/category.jpg"})` }}>
                     <div className='absolute top-1/3 right-10 transform -translate-y-1/2 bg-gray-800/80 p-3 rounded-md shadow-md'>
                         <h3 className='text-gray-50 mb-5 text-xl'>این بخش برای تست هستش میخوام تست کنم</h3>
                         <p className='text-gray-300'>بخش خش تست هستش ولی زیاد هم نیستش هاخش تست هستش ولی زیاد هم نیستش هاخش تست هستش ولی زیاد هم نیستش هاتست هستش ولی زیاد هم نیستش هاها</p>

@@ -11,6 +11,8 @@ import { IoIosCheckmarkCircleOutline, IoLogoTwitter } from "react-icons/io";
 import { FaInstagram, FaLinkedin, FaTelegram } from "react-icons/fa6";
 import { BiLogoInternetExplorer } from "react-icons/bi";
 import NotFound from "@/app/not-found";
+import { Metadata } from "next";
+import Script from "next/script";
 const dataSocialMedia = [
   {
     value: "whatsapp",
@@ -48,20 +50,88 @@ const getData = async (name: string) => {
   if (data.error) return NotFound();
   return data
 };
+export async function generateMetadata({ params }: { params: { name: string } }): Promise<Metadata> {
+  const { data }: { data: ExpertType } = await getData(params.name);
+  const baseUrl = process.env.NEXTAUTH_URL;
+  const urlPage = data.name.replace(/ /g, "-");
+  const tags = data.Tags?.map(i => i.name) || ""
+  return {
+    metadataBase: new URL(process.env.NEXT_PUBLIC_URL || "http://localhost:3000"),
+    title: `${data.name} | ساخت یار`,
+    description: `آشنایی با متخصص ${data.name} در حوزه ساخت و ساز و معماری. خدمات و تجارب حرفه‌ای ${data.name} را مشاهده کنید و برای پروژه‌های خود از آنها مشاوره بگیرید.`,
+    keywords: [data.name, ...tags],
+    robots: "index, follow",
+    openGraph: {
+      type: "profile",
+      url: `${baseUrl}/experts/${urlPage}`,
+      title: `${data.name} | ساخت یار`,
+      description: `آشنایی با خدمات و تجارب ${data.name} در زمینه ساخت و ساز و معماری. برای پروژه‌های خود از تخصص این متخصص استفاده کنید.`,
+      images: [
+        {
+          url: `${baseUrl}/experts/${data.name.toLowerCase().replace(/ /g, "-")}-profile.jpg`,
+          width: 1200,
+          height: 630,
+          alt: `پروفایل ${data.name} مجری ساخت و ساز`,
+        },
+      ],
+      siteName: "ساخت یار",
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${data.name} | ساخت یار`,
+      description: `آشنایی با تخصص‌ها و خدمات ${data.name} در حوزه ساخت و ساز و معماری. مشاوره برای پروژه‌های ساختمانی.`,
+      images: [`${baseUrl}/experts/${data.name.toLowerCase().replace(/ /g, "-")}-profile.jpg`],
+    },
+    alternates: {
+      canonical: `${baseUrl}/experts/${urlPage}`,
+    },
+  };
+}
 export default async function page({ params }: { params: { name: string } }) {
   const { data }: { data: ExpertType } = await getData(params.name);
+  const jsonld = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": data?.name || "نام فرد",
+    "description": data?.description || "بیوگرافی فرد",
+    "image": data?.image || `${process.env.NEXTAUTH_URL}/image-admin.png`,
+    "url": `${process.env.NEXTAUTH_URL}/profile/${data?.name.replace(/ /g, "-")}`,
+    "sameAs": data.socialMedia.map((i) => i.link) || []
+    ,
+    "jobTitle": data?.Tags ? data.Tags[0].name : "عنوان شغلی",
+    "worksFor": {
+      "@type": "Organization",
+      "name": data?.name || "نام شرکت",
+    },
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": data?.address || "مکان",
+    },
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "contactType": "customer service",
+      "telephone": data?.phone || "+98-9390199977",
+      "areaServed": "IR",
+      "availableLanguage": "fa"
+    },
+  };
   return (
-    <div className="w-full">
+    <>
+      <Script
+        type="application/ld+json"
+        id="jsonld-product"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonld) }}
+      />
       <Breadcrums className="mt-4 md:mt-6" />
       <div className="classDiv flex flex-col md:flex-row gap-5 text-white">
         <div className="bg-gradient-to-t dark:to-[#363e4a] dark:from-[#1b1b1f] dark:hover:shadow-none transition-all dark:shadow-full-dark from-blue-400 to-slate-200 rounded-md shadow-md w-full md:w-1/3 p-4 flex flex-col gap-3 justify-evenly items-center">
-          <div className="flex justify-between dark:bg-info-dark dark:text-p-dark dark:shadow-low-dark items-center w-full bg-slate-50 shadow-md rounded-md text-black p-2">
-            <h1 className="text-center md:text-xl">{data.name}</h1>
+          <section aria-labelledby="name-expert" className="flex justify-between dark:bg-info-dark dark:text-p-dark dark:shadow-low-dark items-center w-full bg-slate-50 shadow-md rounded-md text-black p-2">
+            <h1 id="name-exper" className="text-center md:text-xl">{data.name}</h1>
             <span className="flex text-sm md:text-base items-center gap-2">
               مورد تایید
               <IoIosCheckmarkCircleOutline className="text-green-500 text-xl" />
             </span>
-          </div>
+          </section>
           <ImgTag
             alt={data.name}
             src={data.image}
@@ -80,12 +150,13 @@ export default async function page({ params }: { params: { name: string } }) {
             عضویت :{" "}
             <span>{new Date(data.createdAt).toLocaleDateString("fa")}</span>
           </div>
-          <div className="w-full justify-center dark:text-p-dark text-white flex gap-1 items-center">
+          <section aria-labelledby="tags-expert" className="w-full justify-center dark:text-p-dark text-white flex gap-1 items-center">
             <p>تخصص :</p>
             {data?.Tags?.map((i, index) => {
               if (index + 1 === data.Tags?.length) {
                 return (
                   <Link
+                    id="tags-expert"
                     key={index}
                     className="hover:bg-blue-400/70 hover:shadow-md py-1 px-2 rounded-md"
                     href={"/search?tags=" + i.name}
@@ -97,6 +168,7 @@ export default async function page({ params }: { params: { name: string } }) {
               return (
                 <div key={index}>
                   <Link
+                    id="tags-expert"
                     className="hover:bg-blue-400/70 hover:shadow-md py-1 px-2 rounded-md"
                     href={"/search?tags=" + i.name}
                   >
@@ -106,10 +178,10 @@ export default async function page({ params }: { params: { name: string } }) {
                 </div>
               );
             })}
-          </div>
+          </section>
           <Link
             href={`tel:${data.phone}`}
-            className="text-gray-600 mx-auto dark:shadow-full-dark dark:hover:shadow-none hover:text-blue-400 hover:shadow-blue-300 flex items-center px-5 bg-gray-50  shadow-md p-1 rounded-md text-[17px] gap-1"
+            className="text-gray-600 mx-auto dark:shadow-full-dark dark:hover:shadow-none hover:text-blue-400 hover:shadow-blue-300 flex items-center px-5 bg-gray-50 dark:bg-info-dark dark:text-h-dark  shadow-md p-1 rounded-md text-[17px] gap-1"
           >
             <i>
               <FaPhone />
@@ -118,19 +190,19 @@ export default async function page({ params }: { params: { name: string } }) {
           </Link>
         </div>
         <div className="w-full md:w-2/3 flex flex-col gap-5">
-          <div className="bg-gradient-to-br to-blue-400 dark:to-[#363e4a] dark:from-[#1b1b1f] transition-all dark:shadow-full-dark dark:hover:shadow-none from-slate-300 rounded-md shadow-md p-4">
+          <section aria-labelledby="information-expert" className="bg-gradient-to-br to-blue-400 dark:to-[#363e4a] dark:from-[#1b1b1f] transition-all dark:shadow-full-dark dark:hover:shadow-none from-slate-300 rounded-md shadow-md p-4">
             <span className="text-base dark:text-h-dark md:text-xl mb-3 block ">معرفی</span>
-            <p className="dark:text-p-dark">{data?.description}</p>
+            <p id="information-expert" className="dark:text-p-dark">{data?.description}</p>
             {data.address ? (
               <>
                 <span className="text-base dark:text-h-dark md:text-xl my-3 block ">آدرس</span>
                 <p className="dark:text-p-dark">{data.address}</p>
               </>
             ) : null}
-          </div>
+          </section>
           <div className="bg-gradient-to-tr to-blue-400 dark:to-[#363e4a] dark:from-[#1b1b1f] transition-all dark:shadow-full-dark dark:hover:shadow-none from-slate-300 rounded-md shadow-md p-4">
             <span className="text-base dark:text-h-dark  md:text-xl mb-3 block">شبکه های اجتماعی</span>
-            <div className="grid grid-cols-2 gap-3 md:gap-5">
+            <section aria-labelledby="social-media" className="grid grid-cols-2 gap-3 md:gap-5">
               {data.socialMedia.map((i, index) => (
                 <Link
                   href={i.link}
@@ -146,7 +218,7 @@ export default async function page({ params }: { params: { name: string } }) {
                   <span>{i.text}</span>
                 </Link>
               ))}
-            </div>
+            </section>
           </div>
         </div>
       </div>
@@ -159,6 +231,6 @@ export default async function page({ params }: { params: { name: string } }) {
           data={data.Projects}
         />
       </div>
-    </div>
+    </>
   );
 }

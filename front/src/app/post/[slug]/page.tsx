@@ -34,6 +34,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { data }: DataPostPageType = await getData(params.slug);
   return {
+    metadataBase: new URL(process.env.NEXT_PUBLIC_URL || "http://localhost:3000"),
     title: data?.DetailPost?.title,
     description: data?.description,
     keywords: data?.DetailPost?.keyword,
@@ -52,6 +53,14 @@ export async function generateMetadata({
       ],
       siteName: process.env.NEXTAUTH_URL,
     },
+    twitter: {
+      card: 'summary_large_image',
+      title: data?.DetailPost?.title,
+      description: data?.description,
+      images: [data?.image],
+      site: process.env.NEXTAUTH_URL,
+    },
+    robots: "index, follow",
   };
 }
 export default async function page({ params }: { params: { slug: string } }) {
@@ -71,6 +80,7 @@ export default async function page({ params }: { params: { slug: string } }) {
     datePublished: data?.updatedAt || "تاریخ انتشار",
     articleBody: data?.DetailPost?.text || "متن مقاله",
     keywords: data?.DetailPost?.keyword?.join(", ") || "کلمات کلیدی",
+    articleSection: data.Category.name,
     url:
       `${process.env.NEXTAUTH_URL}/blog/${data?.title.replace(/ /g, "-")}` ||
       "آدرس مقاله",
@@ -82,66 +92,69 @@ export default async function page({ params }: { params: { slug: string } }) {
         id="jsonld-product"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonld) }}
       />
-      <div className="w-full">
-        <div className="w-full mx-auto relative">
-          <ImgTag
-            width={1450}
-            height={450}
-            alt={data?.title}
-            src={data?.image}
-            className="h-96 object-cover w-full md:max-h-[600px] md:h-auto md:min-h-[450px]"
-          />
-          <div className="bg-gray-50 dark:bg-info-dark dark:shadow-low-dark py-3 md:py-6 rounded-md w-11/12 md:w-3/4 shadow-lg text-center absolute bottom-12 md:bottom-20 left-1/2 transform -translate-x-1/2 translate-y-full">
-            <h1 className="lg:text-xl text-gray-700 font-bold dark:text-h-dark">{data?.title}</h1>
-            <div className="flex text-gray-400 dark:text-s-dark text-sm items-center justify-center gap-2 md:gap-4 mt-4 md:mt-7">
-              <span>
-                <FaPhotoVideo />
-              </span>
-              <span className="border-r border-dashed border-black dark:border-bg-dark h-6 w-1"></span>
-              <ScollComment totalComments={data?.totalComments} />
-              <span className="border-r border-dashed border-black dark:border-bg-dark h-6 w-1"></span>
-              <span className="flex gap-2 items-center">
-                {data?.User?.name}
-                <IoPerson />
-              </span>
-              <span className="border-r border-dashed border-black dark:border-bg-dark h-6 w-1"></span>
-              <span className="flex gap-2 items-center">
-                {new Date(data?.updatedAt).toLocaleDateString("fa")}
-                <FaCalendarDays />
-              </span>
-            </div>
+      <div className="w-full mx-auto relative">
+        <ImgTag
+          width={1450}
+          height={450}
+          alt={data?.title}
+          src={data?.image}
+          className="h-96 object-cover w-full md:max-h-[600px] md:h-auto md:min-h-[450px]"
+        />
+        <section aria-labelledby="post-name" className="bg-gray-50 dark:bg-info-dark dark:shadow-low-dark py-3 md:py-6 rounded-md w-11/12 md:w-3/4 shadow-lg text-center absolute bottom-12 md:bottom-20 left-1/2 transform -translate-x-1/2 translate-y-full">
+          <h1 id="post-name" className="lg:text-xl text-gray-700 font-bold dark:text-h-dark">{data?.title}</h1>
+          <div className="flex text-gray-400 dark:text-s-dark text-sm items-center justify-center gap-2 md:gap-4 mt-4 md:mt-7">
+            <span>
+              <FaPhotoVideo />
+            </span>
+            <span className="border-r border-dashed border-black dark:border-bg-dark h-6 w-1"></span>
+            <ScollComment totalComments={data?.totalComments} />
+            <span className="border-r border-dashed border-black dark:border-bg-dark h-6 w-1"></span>
+            <span className="flex gap-2 items-center">
+              {data?.User?.name}
+              <IoPerson />
+            </span>
+            <span className="border-r border-dashed border-black dark:border-bg-dark h-6 w-1"></span>
+            <span className="flex gap-2 items-center">
+              {new Date(data?.updatedAt).toLocaleDateString("fa")}
+              <FaCalendarDays />
+            </span>
           </div>
-        </div>
-        <Breadcrums className="mt-14 md:!mt-20" />
-        <article className="classDiv !max-w-3xl mx-auto text-justify !leading-8 dark:text-p-dark text-gray-700">
-          {data?.DetailPost?.text && parse(data?.DetailPost?.text)}
-        </article>
-        <BannerCallUs />
-        <div className="classDiv !max-w-3xl">
-          <CommentPost
-            comments={data.Comments}
-            postId={data.id}
-            totalComments={data.totalComments}
-          />
-          <div className="my-6">
-            <FormComments postId={data.id} />
-          </div>
-        </div>
-        <div className="classDiv">
-          <SwiperCards
-            title="پست های مشابه"
-            isPost
-            data={posts}
-            url={`/blog?page=1&tags=${data.Tags[data.Tags.length - 1]}`}
-          />
-          <SwiperCards
-            title="پروژه های مشابه"
-            isProject
-            data={projects}
-            url={`/blog?page=1&tags=${data.Tags[data.Tags.length - 1]}`}
-          />
+        </section>
+      </div>
+      <Breadcrums className="mt-14 md:!mt-20" />
+      <article className="classDiv !max-w-3xl mx-auto text-justify !leading-8 dark:text-p-dark text-gray-700">
+        {data?.DetailPost?.text && parse(data?.DetailPost?.text)}
+      </article>
+      <BannerCallUs />
+      <div id="comments-section" className="classDiv !max-w-3xl">
+        <CommentPost
+          comments={data.Comments}
+          postId={data.id}
+          totalComments={data.totalComments}
+        />
+        <div className="my-6">
+          <FormComments postId={data.id} />
         </div>
       </div>
+      <div className="classDiv" aria-labelledby="related-posts">
+        <SwiperCards
+          title="پست های مشابه"
+          isPost
+          data={posts}
+          url={`/blog?page=1&tags=${data.Tags[data.Tags.length - 1]}`}
+        />
+        {
+          console.log(data.Tags[data.Tags.length - 1])
+
+        }
+        <SwiperCards
+          title="پروژه های مشابه"
+          isProject
+          data={projects}
+          url={`/blog?page=1&tags=${data.Tags[data.Tags.length - 1]}`}
+        />
+      </div>
+
     </>
   );
 }

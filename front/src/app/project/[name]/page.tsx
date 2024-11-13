@@ -30,9 +30,11 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { data }: { data: ProjectType } = await getData(params.name);
   return {
+    metadataBase: new URL(process.env.NEXT_PUBLIC_URL || "http://localhost:3000"),
     title: data?.name,
     description: data?.description,
     keywords: data?.Tags.map((i) => i.name),
+    robots: "index, follow",
     openGraph: {
       type: "article",
       url:
@@ -56,12 +58,7 @@ export async function generateMetadata({
   };
 }
 export default async function page({ params }: { params: { name: string } }) {
-  const {
-    data,
-    projects,
-  }: { data: ProjectType; projects: CardProjectsType[] } = await getData(
-    params.name
-  );
+  const { data, projects, }: { data: ProjectType; projects: CardProjectsType[] } = await getData(params.name);
   if (!data) return notFound();
   const jsonld = {
     "@context": "https://schema.org",
@@ -82,129 +79,127 @@ export default async function page({ params }: { params: { name: string } }) {
   };
   return (
     <>
-      <div className="w-full">
-        <div className="w-full mx-auto relative">
-          <ImgTag width={1450} height={450} alt={data?.alt} src={data?.image} className="h-96 object-cover w-full md:max-h-[600px] md:h-auto md:min-h-[450px]" />
-          <div className="bg-gray-50 text-gray-700 dark:bg-info-dark dark:shadow-low-dark py-3 md:py-6 rounded-md w-11/12 md:w-3/4 shadow-lg text-center absolute bottom-12 md:bottom-20 left-1/2 transform -translate-x-1/2 translate-y-full">
-            <h1 className="lg:text-xl dark:text-h-dark font-semibold">{data?.name}</h1>
-            <div className="flex text-gray-400 dark:text-s-dark text-sm items-center justify-center gap-2 md:gap-4 mt-4 md:mt-7">
-              <div className="flex text-sm md:text-base items-center gap-2">
-                {data.Tags.map((i, index) => (
-                  <Link
-                    key={index}
-                    className="hover:text-blue-400"
-                    href={"/search?tag=" + i.name}
-                  >
-                    {i.name}
-                    {data.Tags.length !== Number(index + 1) ? " ،" : null}
-                  </Link>
-                ))}
-                <FaTags />
-              </div>
-              <span className="border-r border-dashed border-black dark:border-bg-dark h-6 w-1"></span>
-              <span className="flex gap-2 text-sm md:text-base items-center">
-                {data?.Worker?.name}
-                <GrUserWorker />
-              </span>
-              <span className="border-r border-dashed border-black dark:border-bg-dark h-6 w-1"></span>
-              <span className="flex gap-2 text-sm md:text-base items-center">
-                {new Date(data?.updatedAt).toLocaleDateString("fa")}
-                <FaCalendarDays />
-              </span>
-            </div>
-          </div>
-        </div>
-        <Breadcrums className="mt-14 md:!mt-20" />
-        <div className="classDiv flex flex-col md:flex-row relative gap-3">
-          <div className="w-full md:w-2/3">
-            <span className="text-sm dark:text-h-dark md:text-xl text-gray-700">توضیحات</span>
-            <p className="text-sm md:text-base text-gray-600 dark:text-p-dark text-justify !leading-8">{data.description}</p>
-            <span className="border-t w-full h-1 block my-4 md:my-6"></span>
-            <div className="w-full flex flex-col gap-2 md:gap-5">
-              <div className="flex items-center gap-5">
-                <i className="text-base lg:text-2xl p-3 hover:bg-gray-200 rounded-full bg-gray-100 dark:bg-info-dark dark:shadow-low-dark dark:hover:shadow-none shadow-md">
-                  <SiGooglemaps />
-                </i>
-                <span className="text-sm lg:text-xl dark:text-p-dark text-gray-600">موقعیت : {data.address}</span>
-              </div>
-              <div className="flex items-center gap-5">
-                <i className="text-base lg:text-2xl p-3 hover:bg-gray-200 rounded-full bg-gray-100 dark:bg-info-dark dark:shadow-low-dark dark:hover:shadow-none shadow-md">
-                  <BiDollar />
-                </i>
-                <p className="text-sm lg:text-xl dark:text-p-dark text-gray-600">
-                  بودجه :
-                  {Number(data.price) ? (
-                    <>
-                      {Number(data.price).toLocaleString("fa")}
-                      <span className="text-xs lg:text-sm"> تومان</span>
-                    </>
-                  ) : (
-                    <span className="text-xs lg:text-sm"> ثبت نشده!</span>
-                  )}
-                </p>
-              </div>
-              <div className="flex items-center gap-5">
-                <i className="text-base lg:text-2xl p-3 hover:bg-gray-200 rounded-full bg-gray-100 dark:bg-info-dark dark:shadow-low-dark dark:hover:shadow-none shadow-md">
-                  <GiPencilRuler />
-                </i>
-                <p className="text-sm lg:text-xl dark:text-p-dark text-gray-600">
-                  متراژ :
-                  {Number(data.size) ? (
-                    <>
-                      {Number(data.size).toLocaleString("fa")}
-                      <span className="text-xs lg:text-sm"> متر مربع</span>
-                    </>
-                  ) : (
-                    <span className="text-xs lg:text-sm"> ثبت نشده!</span>
-                  )}
-                </p>
-              </div>
-            </div>
-            <span className="border-t w-full h-1 block my-4 md:my-6"></span>
-            <div className="w-full">
-              <h3 className="text-base lg:text-xl dark:text-h-dark text-gray-700 mb-3">تصاویر پروژه</h3>
-              <SwiperGallery imagesSrc={data.gallery} />
-            </div>
-            {data?.video ? (
-              <>
-                <span className="border-t w-full h-1 block my-6"></span>
-                <h3 className="text-base lg:text-xl dark:text-h-dark text-gray-700 mb-3 block">فیلم پروژه</h3>
-                <div className="video-container">
-                  <video
-                    className="video-player"
-                    controls
-                    poster={data.gallery[data.gallery.length - 1].url}
-                  >
-                    {data?.video?.search(".mp4") ? (
-                      <source src={data?.video} type="video/mp4" />
-                    ) : (
-                      <source src={data?.video} type="video/webm" />
-                    )}
-                    مرورگر شما از نمایش ویدئو پشتیبانی نمی‌کند.
-                  </video>
-                </div>
-              </>
-            ) : null}
-          </div>
-          <div className="w-full sm:w-1/2 mx-auto md:w-1/3 md:h-80 md:sticky md:left-0 overflow-hidden md:top-24 md:p-2">
-            <CardExperts {...data.Worker} />
-          </div>
-        </div>
-        <BannerCallUs />
-        <div className="classDiv">
-          <SwiperCards
-            isProject
-            title="پروژه های مشابه"
-            data={projects}
-            url={`/project?page=1&tags=${data.Tags[0].name}`}
-          />
-        </div>
-      </div>
       <Script
         type="application/ld+json"
         id="jsonld-product"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonld) }}
       />
+      <div className="w-full mx-auto relative">
+        <ImgTag width={1450} height={450} alt={data?.alt} src={data?.image} className="h-96 object-cover w-full md:max-h-[600px] md:h-auto md:min-h-[450px]" />
+        <section className="bg-gray-50 text-gray-700 dark:bg-info-dark dark:shadow-low-dark py-3 md:py-6 rounded-md w-11/12 md:w-3/4 shadow-lg text-center absolute bottom-12 md:bottom-20 left-1/2 transform -translate-x-1/2 translate-y-full">
+          <h1 className="lg:text-xl dark:text-h-dark font-semibold">{data?.name}</h1>
+          <div className="flex text-gray-400 dark:text-s-dark text-sm items-center justify-center gap-2 md:gap-4 mt-4 md:mt-7">
+            <div className="flex text-sm md:text-base items-center gap-2">
+              {data.Tags.map((i, index) => (
+                <Link
+                  key={index}
+                  className="hover:text-blue-400"
+                  href={"/search?tag=" + i.name}
+                >
+                  {i.name}
+                  {data.Tags.length !== Number(index + 1) ? " ،" : null}
+                </Link>
+              ))}
+              <FaTags />
+            </div>
+            <span className="border-r border-dashed border-black dark:border-bg-dark h-6 w-1"></span>
+            <span className="flex gap-2 text-sm md:text-base items-center">
+              {data?.Worker?.name}
+              <GrUserWorker />
+            </span>
+            <span className="border-r border-dashed border-black dark:border-bg-dark h-6 w-1"></span>
+            <span className="flex gap-2 text-sm md:text-base items-center">
+              {new Date(data?.updatedAt).toLocaleDateString("fa")}
+              <FaCalendarDays />
+            </span>
+          </div>
+        </section>
+      </div>
+      <Breadcrums className="mt-14 md:!mt-20" />
+      <div className="classDiv flex flex-col md:flex-row relative gap-3">
+        <section className="w-full md:w-2/3">
+          <span className="text-sm dark:text-h-dark md:text-xl text-gray-700">توضیحات</span>
+          <p className="text-sm md:text-base text-gray-600 dark:text-p-dark text-justify !leading-8">{data.description}</p>
+          <span className="border-t w-full h-1 block my-4 md:my-6"></span>
+          <div className="w-full flex flex-col gap-2 md:gap-5">
+            <div className="flex items-center gap-5">
+              <i className="text-base lg:text-2xl p-3 hover:bg-gray-200 rounded-full bg-gray-100 dark:bg-info-dark dark:shadow-low-dark dark:hover:shadow-none shadow-md">
+                <SiGooglemaps />
+              </i>
+              <span className="text-sm lg:text-xl dark:text-p-dark text-gray-600">موقعیت : {data.address}</span>
+            </div>
+            <div className="flex items-center gap-5">
+              <i className="text-base lg:text-2xl p-3 hover:bg-gray-200 rounded-full bg-gray-100 dark:bg-info-dark dark:shadow-low-dark dark:hover:shadow-none shadow-md">
+                <BiDollar />
+              </i>
+              <p className="text-sm lg:text-xl dark:text-p-dark text-gray-600">
+                بودجه :
+                {Number(data.price) ? (
+                  <>
+                    {Number(data.price).toLocaleString("fa")}
+                    <span className="text-xs lg:text-sm"> تومان</span>
+                  </>
+                ) : (
+                  <span className="text-xs lg:text-sm"> ثبت نشده!</span>
+                )}
+              </p>
+            </div>
+            <div className="flex items-center gap-5">
+              <i className="text-base lg:text-2xl p-3 hover:bg-gray-200 rounded-full bg-gray-100 dark:bg-info-dark dark:shadow-low-dark dark:hover:shadow-none shadow-md">
+                <GiPencilRuler />
+              </i>
+              <p className="text-sm lg:text-xl dark:text-p-dark text-gray-600">
+                متراژ :
+                {Number(data.size) ? (
+                  <>
+                    {Number(data.size).toLocaleString("fa")}
+                    <span className="text-xs lg:text-sm"> متر مربع</span>
+                  </>
+                ) : (
+                  <span className="text-xs lg:text-sm"> ثبت نشده!</span>
+                )}
+              </p>
+            </div>
+          </div>
+          <span className="border-t w-full h-1 block my-4 md:my-6"></span>
+          <div className="w-full">
+            <h3 className="text-base lg:text-xl dark:text-h-dark text-gray-700 mb-3">تصاویر پروژه</h3>
+            <SwiperGallery imagesSrc={data.gallery} />
+          </div>
+          {data?.video ? (
+            <>
+              <span className="border-t w-full h-1 block my-6"></span>
+              <h3 className="text-base lg:text-xl dark:text-h-dark text-gray-700 mb-3 block">فیلم پروژه</h3>
+              <div className="video-container">
+                <video
+                  className="video-player"
+                  controls
+                  poster={data.gallery[data.gallery.length - 1].url}
+                >
+                  {data?.video?.search(".mp4") ? (
+                    <source src={data?.video} type="video/mp4" />
+                  ) : (
+                    <source src={data?.video} type="video/webm" />
+                  )}
+                  مرورگر شما از نمایش ویدئو پشتیبانی نمی‌کند.
+                </video>
+              </div>
+            </>
+          ) : null}
+        </section>
+        <aside className="w-full sm:w-1/2 mx-auto md:w-1/3 md:h-80 md:sticky md:left-0 overflow-hidden md:top-24 md:p-2">
+          <CardExperts {...data.Worker} />
+        </aside>
+      </div>
+      <BannerCallUs />
+      <div className="classDiv">
+        <SwiperCards
+          isProject
+          title="پروژه های مشابه"
+          data={projects}
+          url={`/project?page=1&tags=${data.Tags[0].name}`}
+        />
+      </div>
     </>
   );
 }

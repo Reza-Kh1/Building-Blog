@@ -1,21 +1,59 @@
+import ContactSocialMedia from "@/components/ContactSocialMedia/ContactSocialMedia";
 import Breadcrums from "@/components/Breadcrums/Breadcrums";
 import ImgTag from "@/components/ImgTag/ImgTag";
-import React from "react";
 import FormContactUs from "./FormContactUs";
-import ContactSocialMedia from "@/components/ContactSocialMedia/ContactSocialMedia";
+import React from "react";
+import { Metadata } from "next";
+export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_URL || "http://localhost:3000"),
+  title: 'ارتباط با ما | ساخت یار',
+  description: 'برای تماس با تیم ساخت یار، درخواست مشاوره یا هر سوال دیگری می‌توانید از فرم زیر استفاده کنید و یا از طریق شبکه‌های اجتماعی با ما ارتباط برقرار کنید.',
+  keywords: [
+    'ارتباط با ما',
+    'تماس با تیم ساخت یار',
+    'پشتیبانی مشتری',
+    'مشاوره ساخت و ساز',
+    'سوالات رایج',
+    'پیمانکاری و ساخت‌وساز',
+  ],
+  openGraph: {
+    title: 'ارتباط با ما | ساخت یار',
+    description: 'برای تماس با تیم ساخت یار، درخواست مشاوره یا هر سوال دیگری می‌توانید از فرم زیر استفاده کنید و یا از طریق شبکه‌های اجتماعی با ما ارتباط برقرار کنید.',
+    url: `${process.env.NEXT_PUBLIC_URL + "/contact-us"}`,
+    images: [
+      {
+        url: `${process.env.NEXT_PUBLIC_URL + "/about-us.jpg"}`,
+        width: 800,
+        height: 600,
+        alt: 'ارتباط با ما در سایت ساخت یار',
+      },
+    ],
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'ارتباط با ما | ساخت یار',
+    description: 'برای تماس با تیم ساخت یار و دریافت مشاوره در زمینه خدمات ساخت و ساز، از طریق فرم زیر یا شبکه‌های اجتماعی با ما در تماس باشید.',
+    images: [`${process.env.NEXT_PUBLIC_URL + "/about-us.jpg"}`],
+  },
+  robots: "index, follow",
+  alternates: {
+    canonical: `${process.env.NEXT_PUBLIC_URL + "/contact-us"}`,
+  },
+};
 export default function page() {
   return (
-    <div className="w-full">
+    <>
       <Breadcrums />
       <div className="classDiv">
-        <div className="mt-6">
+        <section className="mt-6">
           <h1 className="text-2xl mb-2 block font-semibold dark:text-h-dark">ارتباط با ما</h1>
           <p className="dark:text-s-dark text-gray-700">
             با ما در ارتباط باشید تا پروژه‌های ساختمانی خود را با راهکارهای
             حرفه‌ای و نوآورانه به واقعیت تبدیل کنید. تیم ما آماده پاسخگویی به
             سوالات و ارائه مشاوره‌های تخصصی است.
           </p>
-        </div>
+        </section>
         <div className="w-full flex flex-col md:flex-row gap-3 my-12 justify-around">
           <div className="md:w-1/2 w-full md:order-1 order-2">
             <h3 className="text-xl mb-5 dark:text-p-dark">پیام خود را برای ما ارسال کنید.</h3>
@@ -33,6 +71,6 @@ export default function page() {
         </div>
       </div>
       <ContactSocialMedia />
-    </div>
+    </>
   );
 }

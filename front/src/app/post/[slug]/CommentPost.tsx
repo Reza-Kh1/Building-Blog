@@ -1,7 +1,7 @@
 "use client"
 import Comments from '@/components/Comments/Comments'
 import React, { useState } from 'react'
-import { CommentsType, PaginationType } from '../../type'
+import { CommentsType } from '../../type'
 import CustomButton from '@/components/CustomButton/CustomButton'
 import { TbMessageSearch } from 'react-icons/tb'
 import { fetchApi } from '@/action/fetchApi'

@@ -59,19 +59,19 @@ export default function SwiperCards({
           className="!py-5 md:!py-10"
         >
           {isPost &&
-            data.map((item,index) => (
+            data.map((item, index) => (
               <SwiperSlide key={index}>
                 <CardPost post={item as CardPostType} />
               </SwiperSlide>
             ))}
           {isProject &&
-            data.map((item,index) => (
+            data.map((item, index) => (
               <SwiperSlide key={index}>
                 <CardProjects project={item as CardProjectsType} />
               </SwiperSlide>
             ))}
           {isExpert &&
-            data.map((item,index) => (
+            data.map((item, index) => (
               <SwiperSlide key={index}>
                 <CardExperts {...(item as ExpertType)} />
               </SwiperSlide>

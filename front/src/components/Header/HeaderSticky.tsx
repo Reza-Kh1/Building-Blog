@@ -15,37 +15,37 @@ import { FaRegComments, FaUsersViewfinder } from "react-icons/fa6";
 import { LiaFileInvoiceDollarSolid } from "react-icons/lia";
 import IconSocialMedia from "../IconSocialMedia/IconSocialMedia";
 import { usePathname } from "next/navigation";
-import "./style.css"; 
+import "./style.css";
 const menuTitle = [
   {
     name: "پروژه ها",
     url: "/project",
-    icon: <MdMapsHomeWork className="text-gray-600" />
+    icon: <MdMapsHomeWork className="text-gray-600 dark:text-s-dark" />
   },
   {
     name: "وبلاگ",
     url: "/blog?order=createdAt-DESC&page=1",
-    icon: <GrArticle className="text-gray-600" />
+    icon: <GrArticle className="text-gray-600 dark:text-s-dark" />
   },
   {
     name: "ارتباط با ما",
     url: "/contact-us",
-    icon: <FaPhone className="text-gray-600" />
+    icon: <FaPhone className="text-gray-600 dark:text-s-dark" />
   },
   {
     name: "نظرات مشتریان",
     url: "/comments?page=1",
-    icon: <FaRegComments className="text-gray-600" />
+    icon: <FaRegComments className="text-gray-600 dark:text-s-dark" />
   },
   {
     name: "مجریان",
     url: "/experts?order=createdAt-DESC&page=1",
-    icon: <GrUserWorker className="text-gray-600" />
+    icon: <GrUserWorker className="text-gray-600 dark:text-s-dark" />
   },
   {
     name: "محاسبه آنلاین هزینه",
     url: "/request-project",
-    icon: <LiaFileInvoiceDollarSolid className="text-gray-600" />
+    icon: <LiaFileInvoiceDollarSolid className="text-gray-600 dark:text-s-dark" />
   },
 ];
 export default function HeaderSticky({ category }: { category: CategoryType[] }) {
@@ -60,7 +60,7 @@ export default function HeaderSticky({ category }: { category: CategoryType[] })
       <li key={index}>
         <Link
           className="flex w-full justify-between items-center py-2 px-3"
-          href={"/blog/" + i.slug}
+          href={"/blog/" + i.slug.replace(/ /g,"-")}
         >
           {i.name}
           {i.subCategory?.length ? (
@@ -111,8 +111,8 @@ export default function HeaderSticky({ category }: { category: CategoryType[] })
   return (
     <>
       <div
-        className={`header-sticky shadow-md shadow-[#dbdbdb] dark:shadow-[#6c6c6c] bg-slate-200/80 dark:bg-gray-800/80 ${visible
-          ? "header-show bg-slate-100/40 dark:!bg-gray-800/80"
+        className={`header-sticky shadow-md shadow-[#dbdbdb] dark:shadow-full-dark bg-slate-200/80 dark:bg-zinc-900/80 ${visible
+          ? "header-show bg-slate-100/40 dark:!bg-zinc-900/80"
           : "header-hidden"
           } `}
       >
@@ -128,11 +128,12 @@ export default function HeaderSticky({ category }: { category: CategoryType[] })
                   open={openMenu}
                   onClose={() => setOpenMenu(false)}
                 >
-                  <div className="px-4">
+                  <div className="px-4 dark:bg-zinc-900/80">
                     <Link href={"/"}>
                       <figure className="flex justify-center items-end">
                         <Image
                           src={"/logo.png"}
+                          className="w-auto h-12 md:h-14"
                           width={60}
                           height={20}
                           alt="logo"
@@ -140,17 +141,17 @@ export default function HeaderSticky({ category }: { category: CategoryType[] })
                         />
                       </figure>
                     </Link>
-                    <ul className="flex flex-col gap-3 justify-evenly text-slate-600 dark:text-gray-300 w-full">
+                    <ul className="flex flex-col gap-3 justify-evenly text-slate-600 dark:text-s-dark w-full">
                       <li className="hover:text-blue-400 text-sm flex items-center gap-2">
-                        <FaUsersViewfinder className="text-gray-700" />
+                        <FaUsersViewfinder className="text-gray-700 dark:text-s-dark" />
                         <NavlinkHeader title="درباره ما" url="/about-us" />
                       </li>
                       <li className="hover:text-blue-400 text-sm flex items-center gap-2">
-                        <MdOutlineQuestionMark className="text-gray-700" />
+                        <MdOutlineQuestionMark className="text-gray-700 dark:text-s-dark" />
                         <NavlinkHeader title="سوالات متداول" url="/faqs" />
                       </li>
                       <li className="hover:text-blue-400 text-sm flex items-center gap-2">
-                        <FaHome className="text-gray-700" />
+                        <FaHome className="text-gray-700 dark:text-s-dark" />
                         <NavlinkHeader title="صفحه اصلی" url="/" />
                       </li>
                       {menuTitle.map((i, index) => (
@@ -177,7 +178,7 @@ export default function HeaderSticky({ category }: { category: CategoryType[] })
                               <li key={ind}>
                                 <Link
                                   className="flex w-full gap-1 items-center text-sm"
-                                  href={"blog/" + item.slug}
+                                  href={"blog/" + item.slug.replace(/ /g,"-")}
                                 >
                                   <span className="w-[6px] h-[1px] bg-black"></span>
                                   {item.name}
@@ -208,7 +209,7 @@ export default function HeaderSticky({ category }: { category: CategoryType[] })
                     key={index}
                     className="flex items-center gap-2 group relative"
                   >
-                    <NavlinkHeader title={i.name} url={i.url} className="group-hover:text-blue-400 hover:scale-105 py-3 transition-all scale-1 flex items-center" />
+                    <NavlinkHeader title={i.name} url={i.url} className="group-hover:text-blue-400 dark:text-p-dark hover:scale-105 py-3 transition-all scale-1 flex items-center" />
                     {i.name === "وبلاگ" ? (
                       <>
                         <ul>
@@ -231,8 +232,9 @@ export default function HeaderSticky({ category }: { category: CategoryType[] })
                 <figure className="flex justify-end items-end">
                   <Image
                     src={"/logo.png"}
-                    width={60}
-                    height={20}
+                    className="rounded-md w-auto h-14"
+                    width={56}
+                    height={56}
                     alt="logo"
                     loading="eager"
                   />

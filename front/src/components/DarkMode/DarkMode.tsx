@@ -14,7 +14,7 @@ export default function DarkMode() {
       setIsDark(true);
       setMode(true);
     }
-  }, [isDark]);
+  }, [isDark, setMode]);
   const darkHandler = () => {
     const position = localStorage.getItem("darkMode");
     if (position) {

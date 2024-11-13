@@ -3,14 +3,12 @@ import React from 'react'
 import ImgTag from '../ImgTag/ImgTag'
 import { FaPlay, FaRegCalendarCheck } from 'react-icons/fa'
 import { CardProjectsType } from '@/app/type'
-import CustomButton from '../CustomButton/CustomButton'
-import { BsArrowUpLeftSquare } from 'react-icons/bs'
 import { GrUserWorker } from "react-icons/gr";
 import { SiGooglemaps } from "react-icons/si";
 import { MdAddHomeWork } from 'react-icons/md'
 export default function CardProjects({ project }: { project: CardProjectsType }) {
     return (
-        <div className='hover:shadow-md dark:shadow-full-dark rounded-md group   '>
+        <section className='hover:shadow-md dark:shadow-full-dark rounded-md group   '>
             <Link href={"/project/" + project.name.replace(/ /g, "-")} className="relative group/image">
                 <ImgTag
                     figureClass="relative w-full overflow-hidden rounded-md"
@@ -48,6 +46,6 @@ export default function CardProjects({ project }: { project: CardProjectsType })
                     </span>
                 </div>
             </div>
-        </div>
+        </section>
     )
 }

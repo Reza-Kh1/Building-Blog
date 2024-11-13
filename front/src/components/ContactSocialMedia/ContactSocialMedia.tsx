@@ -35,7 +35,8 @@ export default function ContactSocialMedia({
   classDiv?: string;
 }) {
   return (
-    <div
+    <section
+      aria-labelledby="link-social-media"
       className={
         "grid grid-cols-4 px-3 md:px-4 pb-2 overflow-auto my-6 md:my-12 gap-1 justify-center md:gap-5 w-full max-w-7xl mx-auto pt-6 md:pt-12 " +
         classDiv
@@ -48,7 +49,7 @@ export default function ContactSocialMedia({
         >
           <Link
             href={i.url}
-            className="absolute link-contact-us dark:from-blue-500 dark:to-slate-800 text-blue-400 dark:bg-custom-dark dark:text-h-dark bg-white rounded-full p-2 md:p-4 hover:text-white hover:bg-gradient-to-tl hover:to-blue-400 hover:from-slate-300 left-1/2 top-0 transform -translate-x-1/2 -translate-y-1/2"
+            className="absolute link-contact-us dark:to-[#363e4a] dark:from-[#1b1b1f] text-blue-400 dark:bg-custom-dark dark:text-h-dark bg-white rounded-full p-2 md:p-4 hover:text-white hover:bg-gradient-to-tl hover:to-blue-400 hover:from-slate-300 left-1/2 top-0 transform -translate-x-1/2 -translate-y-1/2"
           >
             {i.icon}
           </Link>
@@ -58,6 +59,6 @@ export default function ContactSocialMedia({
           </div>
         </div>
       ))}
-    </div>
+    </section>
   );
 }

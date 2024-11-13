@@ -21,6 +21,8 @@
     padding: 0px;
     scale: 0.9;
     transition: all ease-in 0.2s;
-
     outline: 2px solid #7da5f1;
+}
+.dark .link-contact-us::after {
+    outline: 2px solid #6b7280;
 }

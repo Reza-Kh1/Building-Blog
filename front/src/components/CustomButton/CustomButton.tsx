@@ -15,9 +15,9 @@ type CustomButtonType = {
 }
 export default function CustomButton({ type, disable, iconEnd, iconStart, name, className, color, onClick }: CustomButtonType) {
     const { pending } = useFormStatus()
-    let colorButton = "hover:from-blue-500/70 hover:to-blue-600/90 from-blue-400/70 to-blue-500 w-full  dark:to-[#0d7fc4] dark:from-[#1a2328] dark:shadow-full-dark dark:hover:shadow-none"
+    let colorButton = "hover:from-blue-500/70 hover:to-blue-600/90 from-blue-400/70 to-blue-500 w-full dark:from-slate-700 dark:to-zinc-900 dark:shadow-full-dark dark:hover:shadow-none"
     if (color === "blue") {
-        colorButton = "hover:to-[#1a99e7] hover:from-[#a9e0ff] from-[#acdcf7] to-[#58b2e9] w-full dark:to-[#0d7fc4] dark:from-[#1a2328] dark:shadow-full-dark dark:hover:shadow-none"
+        colorButton = "hover:to-[#1a99e7] hover:from-[#a9e0ff] from-[#acdcf7] to-[#58b2e9] w-full dark:from-slate-700 dark:to-zinc-900 dark:shadow-full-dark dark:hover:shadow-none"
     }
     if (color === "warning") {
         colorButton = "from-[#ffaf66] to-[#e95858] hover:to-[#ff1010] hover:from-[#ff8b20] w-full"

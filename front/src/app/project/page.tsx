@@ -12,7 +12,7 @@ import NotFound from "../not-found";
 import { Metadata } from "next";
 const getData = async (query: FilterQueryType) => {
   const url = "project?" + new URLSearchParams(query);
-  const data = await fetchApi({ url });
+  const data = await fetchApi({ url, tags: ["project"], next: 5000 });
   if (data.error) return NotFound();
   return data
 };

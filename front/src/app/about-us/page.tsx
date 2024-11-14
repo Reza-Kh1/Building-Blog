@@ -1,15 +1,16 @@
 import Breadcrums from "@/components/Breadcrums/Breadcrums";
-import React, { Suspense } from "react";
+import React from "react";
 import ImgTag from "@/components/ImgTag/ImgTag";
 import { FaCheck } from "react-icons/fa6";
 import SwiperGallery from "@/components/SwiperGallery/SwiperGallery";
 import BannerCallUs from "../../components/BannerCallUs/BannerCallUs";
 import { fetchApi } from "@/action/fetchApi";
-import { AboutUsType } from "../type";
+import { AboutUsType, AllProjectType } from "../type";
 import ContactSocialMedia from "@/components/ContactSocialMedia/ContactSocialMedia";
 import NotFound from "../not-found";
-import SwiperCards from "@/components/SwiperCards/SwiperCards";
 import { Metadata } from "next";
+import { notFound } from "next/navigation";
+import SwiperCards from "@/components/SwiperCards/SwiperCards";
 const dataBanner = [
   {
     src: "/icon-paint.png",
@@ -43,10 +44,15 @@ const dataBanner = [
   },
 ];
 const getData = async () => {
-  const data = await fetchApi({ url: "page/aboutMe" });
+  const data = await fetchApi({ url: "page/aboutMe", next: Number(process.env.CACHE_PROJECT), tags: ["project"] });
   if (data.error) return NotFound();
   return data;
 };
+const getProjects = async () => {
+  const data = await fetchApi({ url: "project" });
+  if (data.error) return notFound();
+  return data
+}
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_URL || "http://localhost:3000"),
   title: 'درباره ما | ساخت یار',
@@ -79,6 +85,7 @@ export const metadata: Metadata = {
 };
 export default async function page() {
   const { data }: AboutUsType = await getData();
+  const projects: AllProjectType = await getProjects()
   return (
     <>
       <Breadcrums />
@@ -129,7 +136,7 @@ export default async function page() {
         </div>
       </div>
       <div className="classDiv">
-        <SwiperCards isProject data={[]} title="پروژه های ما" url="/project" />
+        <SwiperCards data={projects.rows} title="پروژه های ما" url="/project" />
       </div>
       <BannerCallUs />
       <div className="classDiv flex flex-col md:flex-row gap-3 items-center">

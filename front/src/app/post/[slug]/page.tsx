@@ -141,17 +141,13 @@ export default async function page({ params }: { params: { slug: string } }) {
           title="پست های مشابه"
           isPost
           data={posts}
-          url={`/blog?page=1&tags=${data.Tags[data.Tags.length - 1]}`}
+          url={`/blog?page=1&tags=${data.Tags[data.Tags.length - 1].name}`}
         />
-        {
-          console.log(data.Tags[data.Tags.length - 1])
-
-        }
         <SwiperCards
           title="پروژه های مشابه"
           isProject
           data={projects}
-          url={`/blog?page=1&tags=${data.Tags[data.Tags.length - 1]}`}
+          url={`/project?page=1&tags=${data.Tags[data.Tags.length - 1].name}`}
         />
       </div>
 

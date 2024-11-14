@@ -11,6 +11,7 @@ type FetchToken = {
     | "only-if-cached"
     | "reload";
     next?: number;
+    tags?: string[]
 };
 export const fetchApi = async ({
     url,
@@ -19,6 +20,7 @@ export const fetchApi = async ({
     body,
     cache,
     next,
+    tags
 }: FetchToken) => {
     let options: RequestInit = {
         method: method || "GET",
@@ -29,8 +31,14 @@ export const fetchApi = async ({
         },
         // cache: cache || "default",
     };
-    if (next) {
-        options.next = { revalidate: next };
+    if (next || tags) {
+        options.next = {}
+        if (next) {
+            options.next = { revalidate: next };
+        }
+        if (tags) {
+            options.next = { ...options.next, tags: tags };
+        }
     }
     if (cache) {
         options.cache = cache;

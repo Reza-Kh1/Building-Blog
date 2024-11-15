@@ -8,8 +8,9 @@ import { CommentsPage } from "../type";
 import Pagination from "@/components/Pagination/Pagination";
 import NotFound from "../not-found";
 import { Metadata } from "next";
+import { dataApi } from "@/data/tagsName";
 const getData = async (page: number) => {
-  const data = await fetchApi({ url: `comment/null?page=${page || 1}` })
+  const data = await fetchApi({ url: `${dataApi.comments.url}?page=${page || 1}`,next:dataApi.comments.cache,tags:dataApi.comments.tags })
   if (data.error) return NotFound();
   return data
 }

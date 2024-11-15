@@ -18,6 +18,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import axios from "axios";
 import PendingApi from "../PendingApi/PendingApi";
+import deleteCache from "../../services/revalidate";
 type ImgArryType = {
   url: string;
   alt: string;
@@ -74,7 +75,7 @@ export default function AboutMe() {
     setImgArry(newDetail);
   };
   const { isPending, mutate: saveHandler } = useMutation({
-    mutationFn: () => {
+    mutationFn: async () => {
       const body = {
         page: "aboutMe",
         text: {
@@ -86,6 +87,7 @@ export default function AboutMe() {
           textArry: textArry,
         },
       };
+      await deleteCache({ tag: "page/aboutMe" });
       return axios.post("page/aboutMe", body);
     },
     onSuccess: () => {

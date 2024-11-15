@@ -11,6 +11,7 @@ import NotFound from "../not-found";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import SwiperCards from "@/components/SwiperCards/SwiperCards";
+import { dataApi } from "@/data/tagsName";
 const dataBanner = [
   {
     src: "/icon-paint.png",
@@ -44,12 +45,12 @@ const dataBanner = [
   },
 ];
 const getData = async () => {
-  const data = await fetchApi({ url: "page/aboutMe", next: Number(process.env.CACHE_PROJECT), tags: ["project"] });
+  const data = await fetchApi({ url:dataApi.aboutUs.url,next:dataApi.aboutUs.cache,tags:dataApi.aboutUs.tags });
   if (data.error) return NotFound();
   return data;
 };
 const getProjects = async () => {
-  const data = await fetchApi({ url: "project" });
+  const data = await fetchApi({ url:dataApi.projects.url,next:dataApi.projects.cache,tags:dataApi.projects.tags });
   if (data.error) return notFound();
   return data
 }

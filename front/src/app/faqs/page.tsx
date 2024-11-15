@@ -9,8 +9,9 @@ import CustomButton from "@/components/CustomButton/CustomButton";
 import { Metadata } from "next";
 import { Accordion, AccordionDetails, AccordionSummary } from "@mui/material";
 import { IoIosArrowDown } from "react-icons/io";
+import { dataApi } from "@/data/tagsName";
 const getData = async () => {
-  const data = await fetchApi({ url: "page/faqs" });
+  const data = await fetchApi({ url: dataApi.faqs.url, next:dataApi.faqs.cache, tags:dataApi.faqs.tags });
   if (data.error) return NotFound();
   return data
 };

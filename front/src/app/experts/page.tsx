@@ -9,9 +9,10 @@ import ContactSocialMedia from '@/components/ContactSocialMedia/ContactSocialMed
 import NotFound from '../not-found'
 import Breadcrums from '@/components/Breadcrums/Breadcrums'
 import { Metadata } from 'next'
+import { dataApi } from '@/data/tagsName'
 const getData = async (query: FilterQueryType) => {
-    const url = "worker?" + new URLSearchParams(query)
-    const data = await fetchApi({ url })
+    const url = dataApi.experts.url+"?" + new URLSearchParams(query)
+    const data = await fetchApi({ url ,next:dataApi.experts.cache,tags:dataApi.experts.tags})
     if (data.error) return NotFound();
     return data
 }

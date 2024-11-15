@@ -18,6 +18,7 @@ import { fetchPageInfo } from "../../services/pageInfo";
 import axios from "axios";
 import { toast } from "react-toastify";
 import PendingApi from "../PendingApi/PendingApi";
+import deleteCache from "../../services/revalidate";
 type DataType = {
   id: number;
   page: string;
@@ -80,7 +81,7 @@ export default function Faqs() {
     setAccrodion(newAc);
   };  
   const { isPending, mutate: saveHandler } = useMutation({
-    mutationFn: () => {
+    mutationFn:async () => {
       const body = {
         page: "faqs",
         text: {
@@ -88,6 +89,7 @@ export default function Faqs() {
           accordion,
         },
       };
+      await deleteCache({ tag:"page/faqs"});
       return axios.post("page/faqs", body);
     },
     onSuccess: () => {

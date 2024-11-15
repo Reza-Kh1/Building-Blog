@@ -10,9 +10,10 @@ import { fetchApi } from "@/action/fetchApi";
 import { AllProjectType, FilterQueryType } from "../type";
 import NotFound from "../not-found";
 import { Metadata } from "next";
+import { dataApi } from "@/data/tagsName";
 const getData = async (query: FilterQueryType) => {
-  const url = "project?" + new URLSearchParams(query);
-  const data = await fetchApi({ url, tags: ["project"], next: 5000 });
+  const url = dataApi.projects.url + "?" + new URLSearchParams(query);
+  const data = await fetchApi({ url, tags: dataApi.projects.tags, next: dataApi.projects.cache });
   if (data.error) return NotFound();
   return data
 };

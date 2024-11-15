@@ -6,17 +6,16 @@ import {
   DialogTitle,
   FormControlLabel,
   InputAdornment,
-  OutlinedInput,
   Switch,
   TextField,
 } from "@mui/material";
 import { useForm } from "react-hook-form";
-import { MdClose, MdDataSaverOn, MdPriceCheck } from "react-icons/md";
+import { MdClose, MdDataSaverOn } from "react-icons/md";
 import SelectMedia from "../SelectMedia/SelectMedia";
 import { useEffect, useState } from "react";
 import { DataMediaType, ProjectType } from "../../type";
 import ImageComponent from "../ImageComponent/ImageComponent";
-import { FaDollarSign, FaLocationPin, FaPenToSquare } from "react-icons/fa6";
+import { FaDollarSign, FaPenToSquare } from "react-icons/fa6";
 import TagAutocomplete from "../TagAutocomplete/TagAutocomplete";
 import WorkerSelector from "../WorkerSelector/WorkerSelector";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -30,6 +29,7 @@ import { BiMessageSquareEdit } from "react-icons/bi";
 import DeleteButton from "../DeleteButton/DeleteButton";
 import { GiPencilRuler } from "react-icons/gi";
 import { IoLocation } from "react-icons/io5";
+import deleteCache from "../../services/revalidate";
 type ProjectFormType = {
   status: boolean;
   name: string;
@@ -40,9 +40,7 @@ type ProjectFormType = {
 };
 export default function CreateProject() {
   const { register, setValue, getValues, watch } = useForm<ProjectFormType>({
-    defaultValues: {
-      status: false,
-    },
+    defaultValues: { status: false },
   });
   const queryClient = useQueryClient();
   const [videoProject, setVideoProject] = useState<DataMediaType | null>(null);
@@ -65,7 +63,7 @@ export default function CreateProject() {
     enabled: test?.name ? true : false,
   });
   const { isPending: pendingCreate, mutate: createHandler } = useMutation({
-    mutationFn: () => {
+    mutationFn: async () => {
       const body = {
         image: image?.url || null,
         gallery: galleryProject,
@@ -80,6 +78,7 @@ export default function CreateProject() {
         size: getValues("size").replace(/[^0-9]/g, ""),
         price: getValues("price").replace(/[^0-9]/g, ""),
       };
+      await deleteCache({ tag:"project"});
       return axios.post("project", body);
     },
     onSuccess: () => {
@@ -93,7 +92,7 @@ export default function CreateProject() {
     },
   });
   const { isPending: pendingUpdate, mutate: updateHandler } = useMutation({
-    mutationFn: () => {
+    mutationFn: async () => {
       const body = {
         image: image?.url || null,
         gallery: galleryProject,
@@ -108,6 +107,7 @@ export default function CreateProject() {
         size: getValues("size").replace(/[^0-9]/g, ""),
         price: getValues("price").replace(/[^0-9]/g, ""),
       };
+      await deleteCache({ tag:"project"});
       return axios.put(`project/${data?.id}`, body);
     },
     onSuccess: () => {
@@ -121,7 +121,8 @@ export default function CreateProject() {
     },
   });
   const { isPending: pendingDelete, mutate: deleteHandler } = useMutation({
-    mutationFn: () => {
+    mutationFn: async () => {
+      await deleteCache({ tag:"project"});
       return axios.delete(`project/${data?.id}`);
     },
     onSuccess: () => {
@@ -209,7 +210,13 @@ export default function CreateProject() {
             autoComplete="off"
             className="shadow-md w-1/2"
             label={"آدرس"}
-            InputProps={{ startAdornment: <InputAdornment position="start"><IoLocation /></InputAdornment>, }}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <IoLocation />
+                </InputAdornment>
+              ),
+            }}
             {...register("address", { required: true })}
           />
           <div className="w-1/2">
@@ -227,9 +234,17 @@ export default function CreateProject() {
             className="shadow-md w-1/2"
             label={"بودجه پروژه (تومان)"}
             {...register("price", { required: true })}
-            InputProps={{ startAdornment: <InputAdornment position="start"><FaDollarSign /></InputAdornment>, }}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <FaDollarSign />
+                </InputAdornment>
+              ),
+            }}
             onChange={({ target }) => {
-              target.value = Number(target.value.replace(/[^0-9]/g, "")).toLocaleString()
+              target.value = Number(
+                target.value.replace(/[^0-9]/g, "")
+              ).toLocaleString();
             }}
           />
           <TextField
@@ -237,10 +252,18 @@ export default function CreateProject() {
             autoComplete="off"
             className="shadow-md w-1/2"
             label={"متراژ"}
-            InputProps={{ startAdornment: <InputAdornment position="start"><GiPencilRuler /></InputAdornment>, }}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <GiPencilRuler />
+                </InputAdornment>
+              ),
+            }}
             {...register("size", { required: true })}
             onChange={({ target }) => {
-              target.value = Number(target.value.replace(/[^0-9]/g, "")).toLocaleString()
+              target.value = Number(
+                target.value.replace(/[^0-9]/g, "")
+              ).toLocaleString();
             }}
           />
         </div>

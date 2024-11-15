@@ -34,7 +34,12 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import SelectMedia from "../SelectMedia/SelectMedia";
 import { AllProjectType, DataMediaType, WorkerType } from "../../type";
 import TagAutocomplete from "../TagAutocomplete/TagAutocomplete";
-import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import axios from "axios";
 import { toast } from "react-toastify";
 import PendingApi from "../PendingApi/PendingApi";
@@ -43,6 +48,7 @@ import queryString from "query-string";
 import DeleteButton from "../DeleteButton/DeleteButton";
 import { FaCalendarAlt } from "react-icons/fa";
 import { fetchProjectWorker } from "../../services/project";
+import deleteCache from "../../services/revalidate";
 const dataSocialMedia = [
   {
     name: "Whatsapp",
@@ -106,16 +112,16 @@ type FormType = {
   textSocial: string;
 };
 type ProjectWorkerType = {
-  id: number
-  position: boolean
-}
+  id: number;
+  position: boolean;
+};
 export default function CreateWorker() {
   const [tagWorker, setTagWorker] = useState<{ name: string }[]>([]);
   const [open, setOpen] = useState<boolean>(false);
   const [socialMedia, setSocialMedia] = useState<SocialMediaType[]>([]);
   const [image, setImage] = useState<DataMediaType | null>(null);
   const [idEdit, setIdEdit] = useState<number | null>(null);
-  const [Project, setProjects] = useState<ProjectWorkerType>()
+  const [Project, setProjects] = useState<ProjectWorkerType>();
   const { search } = useLocation();
   const test: { worker?: string } = queryString.parse(search);
   const queryClient = useQueryClient();
@@ -134,7 +140,7 @@ export default function CreateWorker() {
     enabled: test?.worker ? true : false,
   });
   const { isPending: pendingCreate, mutate: submitAction } = useMutation({
-    mutationFn: () => {
+    mutationFn: async () => {
       const body = {
         name: getValues("name"),
         phone: getValues("phone"),
@@ -144,6 +150,7 @@ export default function CreateWorker() {
         image: image?.url,
         tags: tagWorker,
       };
+      await deleteCache({ tag:"worker"});
       return axios.post("worker", body);
     },
     onSuccess: () => {
@@ -158,7 +165,7 @@ export default function CreateWorker() {
     },
   });
   const { isPending: isUpdate, mutate: submitUpdate } = useMutation({
-    mutationFn: () => {
+    mutationFn: async () => {
       const body = {
         name: getValues("name"),
         phone: getValues("phone"),
@@ -168,6 +175,7 @@ export default function CreateWorker() {
         image: image?.url || null,
         tags: tagWorker,
       };
+      await deleteCache({ tag:"worker"});
       return axios.put(`worker/${data?.id}`, body);
     },
     onSuccess: () => {
@@ -182,7 +190,8 @@ export default function CreateWorker() {
     },
   });
   const { isPending: pendingDelete, mutate: deletehandler } = useMutation({
-    mutationFn: () => {
+    mutationFn: async () => {
+      await deleteCache({ tag:"worker"});
       return axios.delete(`worker/${data?.id}`);
     },
     onSuccess: () => {
@@ -296,19 +305,24 @@ export default function CreateWorker() {
       setSocialMedia(data.socialMedia);
       setTagWorker(data.Tags);
       setImage({ url: data.image, alt: "logo profile" });
-      setProjects({ position: false, id: data.id })
+      setProjects({ position: false, id: data.id });
     }
   }, [data]);
-  const { data: projectWorker, fetchNextPage, hasNextPage, isFetchingNextPage} =
-    useInfiniteQuery<AllProjectType>({
-      queryKey: ["mediaDB", Project?.id],
-      queryFn: ({ pageParam = 1 }) => fetchProjectWorker({ pageParam, id: Project?.id }),
-      getNextPageParam: (lastPage) => lastPage?.paginate?.nextPage || undefined,
-      staleTime: 1000 * 60 * 60 * 24,
-      gcTime: 1000 * 60 * 60 * 24,
-      initialPageParam: "",
-      enabled: Project?.position ? true : false
-    });
+  const {
+    data: projectWorker,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery<AllProjectType>({
+    queryKey: ["mediaDB", Project?.id],
+    queryFn: ({ pageParam = 1 }) =>
+      fetchProjectWorker({ pageParam, id: Project?.id }),
+    getNextPageParam: (lastPage) => lastPage?.paginate?.nextPage || undefined,
+    staleTime: 1000 * 60 * 60 * 24,
+    gcTime: 1000 * 60 * 60 * 24,
+    initialPageParam: "",
+    enabled: Project?.position ? true : false,
+  });
   if (search && !data) return;
   let isPending = false;
   if (pendingCreate || isUpdate || pendingDelete) {
@@ -501,58 +515,71 @@ export default function CreateWorker() {
         </form>
         <div>
           <div className="w-full my-3 grid grid-cols-3 gap-3">
-            {projectWorker?.pages?.length ?
-              projectWorker?.pages.map((item) => {
-                return item.rows.map((i, index) => (
-                  <div key={index} className="shadow-md p-2 rounded-md">
-                    <figure className="relative group overflow-hidden">
-                      <img
-                        src={i.image || "/notfound.webp"}
-                        onError={({ currentTarget }) => {
-                          currentTarget.onerror = null;
-                          currentTarget.src = "/notfound.webp";
-                        }}
-                        alt={i.alt}
-                        className="object-cover w-full h-64 rounded-md"
-                      />
-                      <Link
-                        to={"/home/projects/create-project?name=" + i.name.replace(/ /g, "-")}
-                        className="absolute opacity-0 text-white bg-black/30 group-hover:opacity-100 transition-customer backdrop-blur-md p-5 shadow-md text-2xl rounded-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-                      >
-                        <FaPlay />
-                      </Link>
-                      <div className="-bottom-[100%] text-sm transition-customer box-shadow-customer absolute rounded-md w-full text-center bg-black/70 text-white py-2 group-hover:bottom-[0%]">
-                        <span>عنوان عکس :{i.alt}</span>
-                        <p>آدرس :{i.address}</p>
+            {projectWorker?.pages?.length
+              ? projectWorker?.pages.map((item) => {
+                  return item.rows.map((i, index) => (
+                    <div key={index} className="shadow-md p-2 rounded-md">
+                      <figure className="relative group overflow-hidden">
+                        <img
+                          src={i.image || "/notfound.webp"}
+                          onError={({ currentTarget }) => {
+                            currentTarget.onerror = null;
+                            currentTarget.src = "/notfound.webp";
+                          }}
+                          alt={i.alt}
+                          className="object-cover w-full h-64 rounded-md"
+                        />
+                        <Link
+                          to={
+                            "/home/projects/create-project?name=" +
+                            i.name.replace(/ /g, "-")
+                          }
+                          className="absolute opacity-0 text-white bg-black/30 group-hover:opacity-100 transition-customer backdrop-blur-md p-5 shadow-md text-2xl rounded-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                        >
+                          <FaPlay />
+                        </Link>
+                        <div className="-bottom-[100%] text-sm transition-customer box-shadow-customer absolute rounded-md w-full text-center bg-black/70 text-white py-2 group-hover:bottom-[0%]">
+                          <span>عنوان عکس :{i.alt}</span>
+                          <p>آدرس :{i.address}</p>
+                        </div>
+                        <div className="left-2 text-sm flex items-center gap-3 bg-black/50 px-3 py-1 text-white rounded-md top-2 absolute">
+                          <i>
+                            <FaCalendarAlt />
+                          </i>
+                          <span className="pt-1">
+                            {new Date(i.updatedAt).toLocaleDateString("fa")}
+                          </span>
+                        </div>
+                      </figure>
+                      <div className="flex justify-between px-2 mt-3 items-center">
+                        <span className="font-semibold">{i.Worker.name}</span>
+                        {i.status ? (
+                          <Button
+                            endIcon={<FaCheck />}
+                            color="success"
+                            size="small"
+                          >
+                            منتشر شده
+                          </Button>
+                        ) : (
+                          <Button
+                            endIcon={<MdClose />}
+                            color="error"
+                            size="small"
+                          >
+                            منتشر نشده
+                          </Button>
+                        )}
                       </div>
-                      <div className="left-2 text-sm flex items-center gap-3 bg-black/50 px-3 py-1 text-white rounded-md top-2 absolute">
-                        <i>
-                          <FaCalendarAlt />
-                        </i>
-                        <span className="pt-1">
-                          {new Date(i.updatedAt).toLocaleDateString("fa")}
-                        </span>
-                      </div>
-                    </figure>
-                    <div className="flex justify-between px-2 mt-3 items-center">
-                      <span className="font-semibold">{i.Worker.name}</span>
-                      {i.status ? (
-                        <Button endIcon={<FaCheck />} color="success" size="small">
-                          منتشر شده
-                        </Button>
-                      ) : (
-                        <Button endIcon={<MdClose />} color="error" size="small">
-                          منتشر نشده
-                        </Button>
-                      )}
+                      <p className="px-1 text-justify text-gray-700">
+                        {i.name}
+                      </p>
                     </div>
-                    <p className="px-1 text-justify text-gray-700">{i.name}</p>
-                  </div>
-                ))
-              }) : null
-            }
+                  ));
+                })
+              : null}
           </div>
-          {data?.Projects.length ?
+          {data?.Projects.length ? (
             !projectWorker || hasNextPage ? (
               <Button
                 onClick={() => fetchNextPage()}
@@ -565,13 +592,13 @@ export default function CreateWorker() {
                 {isFetchingNextPage ? "در حال بارگزاری..." : "نمایش بیشتر"}
               </Button>
             ) : null
-            :
+          ) : (
             <Link to={"/home/projects/create-project"}>
               <Button endIcon={<FaShare />} variant="outlined">
                 هیچ پروژه ای در دیتابیس برای این مجری ثبت نشده! ایجاد پروژه
               </Button>
             </Link>
-          }
+          )}
         </div>
       </div>
       <Dialog

@@ -16,8 +16,10 @@ import SwiperCards from "@/components/SwiperCards/SwiperCards";
 import BannerCallUs from "@/components/BannerCallUs/BannerCallUs";
 import CardExperts from "@/components/CardExperts/CardExperts";
 import SwiperGallery from "@/components/SwiperGallery/SwiperGallery";
+import { dataApi } from "@/data/tagsName";
 const getData = async (name: string) => {
-  const data = await fetchApi({ url: `project/${name.replace(/-/g, " ")}` });
+  const url = `${dataApi.singleProject.url}/${name.replace(/-/g, " ")}`
+  const data = await fetchApi({ url,next:dataApi.singleProject.cache});
   if (data?.error) {
     return notFound();
   }

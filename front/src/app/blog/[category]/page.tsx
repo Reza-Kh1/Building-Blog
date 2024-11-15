@@ -5,12 +5,13 @@ import Breadcrums from '@/components/Breadcrums/Breadcrums'
 import Cards from '@/components/Cards/Cards'
 import ContactSocialMedia from '@/components/ContactSocialMedia/ContactSocialMedia'
 import Pagination from '@/components/Pagination/Pagination'
+import { dataApi } from '@/data/tagsName'
 import { Metadata } from 'next'
 import React, { Suspense } from 'react'
 type PageType = { params: { category: string }, searchParams: { page: string } }
 const getData = async (query: PageType) => {
-    const url = `category/${query.params.category.replace(/-/g, " ")}?page=${query.searchParams.page || 1}`
-    const data = await fetchApi({ url })
+    const url = `${dataApi.category.url}/${query.params.category.replace(/-/g, " ")}?page=${query.searchParams.page || 1}`
+    const data = await fetchApi({ url ,next:dataApi.category.cache,tags:dataApi.category.tags})
     if (data.error) return NotFound();
     return data
 }

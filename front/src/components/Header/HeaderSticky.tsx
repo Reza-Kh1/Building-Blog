@@ -128,7 +128,7 @@ export default function HeaderSticky({ category }: { category: CategoryType[] })
                   open={openMenu}
                   onClose={() => setOpenMenu(false)}
                 >
-                  <div className="px-4 dark:bg-zinc-900/80">
+                  <nav className="px-4 dark:bg-zinc-900/80">
                     <Link href={"/"}>
                       <figure className="flex justify-center items-end">
                         <Image
@@ -192,7 +192,7 @@ export default function HeaderSticky({ category }: { category: CategoryType[] })
                     <div className="mt-4 flex justify-center">
                       <IconSocialMedia />
                     </div>
-                  </div>
+                  </nav>
                 </Drawer>
               </div>
               <DarkMode />
@@ -202,7 +202,7 @@ export default function HeaderSticky({ category }: { category: CategoryType[] })
                 <SearchBox />
               </Suspense>
             </div>
-            <div className="hidden md:w-8/12 md:flex items-center mt-1 menu-header">
+            <nav className="hidden md:w-8/12 md:flex items-center mt-1 menu-header">
               <ul className="flex justify-evenly text-slate-600 dark:text-gray-300 w-full">
                 {menuTitle.map((i, index) => (
                   <li
@@ -226,7 +226,7 @@ export default function HeaderSticky({ category }: { category: CategoryType[] })
                   </li>
                 ))}
               </ul>
-            </div>
+            </nav>
             <div className="w-1/3 md:w-2/12 flex items-center justify-end">
               <Link href={"/"}>
                 <figure className="flex justify-end items-end">
@@ -245,14 +245,8 @@ export default function HeaderSticky({ category }: { category: CategoryType[] })
         </div >
       </div >
       <div
-        onClick={() =>
-          window.scrollTo({
-            top: 0,
-            behavior: "smooth",
-          })
-        }
-        className={`p-3 lg:p-3 cursor-pointer fixed z-50 right-2 lg:right-5 rounded-full shadow-md bg-slate-500/70 text-white transition-all ${scrollTop ? "bottom-2 lg:bottom-5" : "-bottom-12"
-          }`}
+        onClick={() => window.scrollTo({top: 0,behavior: "smooth"})}
+        className={`p-3 lg:p-3 cursor-pointer fixed z-50 right-2 lg:right-5 rounded-full shadow-md bg-slate-500/70 text-white transition-all ${scrollTop ? "bottom-2 lg:bottom-5" : "-bottom-12"}`}
       >
         <i>
           <IoIosArrowUp />

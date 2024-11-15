@@ -3,9 +3,13 @@ import Image from "next/image";
 import { FiPhoneCall } from "react-icons/fi";
 import Link from "next/link";
 import IconSocialMedia from "../IconSocialMedia/IconSocialMedia";
+import "./style.css";
+import { fetchApi } from "@/action/fetchApi";
+import { Footertype } from "@/app/type";
 import { FaAngleLeft } from "react-icons/fa";
-const getData = () => {
-  return fetchApi({ url: "page/footer" });
+import { dataApi } from "@/data/tagsName";
+const getData =async () => {
+return fetchApi({url:dataApi.footer.url,next:dataApi.footer.cache,tags:dataApi.footer.tags})
 };
 const menuTitle = [
   { name: "صفحه اصلی", link: "/" },
@@ -14,9 +18,6 @@ const menuTitle = [
   { name: "وبلاگ", link: "/blog" },
   { name: "پروژه ها", link: "/project" },
 ];
-import "./style.css";
-import { fetchApi } from "@/action/fetchApi";
-import { Footertype } from "@/app/type";
 export default async function Footer() {
   const { data }: Footertype = await getData();
   return (

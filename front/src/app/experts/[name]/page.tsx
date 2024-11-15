@@ -13,6 +13,7 @@ import { BiLogoInternetExplorer } from "react-icons/bi";
 import NotFound from "@/app/not-found";
 import { Metadata } from "next";
 import Script from "next/script";
+import { dataApi } from "@/data/tagsName";
 const dataSocialMedia = [
   {
     value: "whatsapp",
@@ -45,8 +46,8 @@ const dataSocialMedia = [
   },
 ];
 const getData = async (name: string) => {
-  const url = "worker/" + name.replace(/-/g, " ");
-  const data = await fetchApi({ url });
+  const url = dataApi.singleExpert.url +"/" + name.replace(/-/g, " ");
+  const data = await fetchApi({ url,next:dataApi.singleExpert.cache });
   if (data.error) return NotFound();
   return data
 };

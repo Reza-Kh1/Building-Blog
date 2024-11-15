@@ -28,7 +28,7 @@ export default function FormComments({ postId }: { postId?: number }) {
   };
   return (
     <div className="form-comments" id="form-comments">
-      <h4 className="font-bold lg:text-xl mb-3">
+      <h4 className="font-bold lg:text-xl mb-3 dark:text-p-dark">
         <span className="text-[#58b2e9]">کامنت</span> خود را ثبت کنید.
       </h4>
       <form

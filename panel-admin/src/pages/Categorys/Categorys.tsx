@@ -26,6 +26,7 @@ import { fetchCategory } from "../../services/category";
 import { toast } from "react-toastify";
 import PendingApi from "../../components/PendingApi/PendingApi";
 import DontData from "../../components/DontData/DontData";
+import deleteCache from "../../services/revalidate";
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -65,14 +66,14 @@ export default function Categorys() {
     gcTime: 1000 * 60 * 60 * 24,
   });
   const { isPending: createPending, mutate: createCategory } = useMutation({
-    mutationFn: (form: FormCategoryType) => {
+    mutationFn: async (form: FormCategoryType) => {
       const body = {
         ...form,
       };
       if (form.categoryId === "s") {
         delete body.categoryId;
       }
-
+      await deleteCache({ tag:"category"});
       return axios.post("category", body);
     },
     onSuccess: () => {
@@ -86,13 +87,14 @@ export default function Categorys() {
     },
   });
   const { isPending: updatePending, mutate: updateCategory } = useMutation({
-    mutationFn: (form: FormCategoryType) => {
+    mutationFn: async (form: FormCategoryType) => {
       const body = {
         ...form,
       };
       if (form.categoryId === "s") {
         delete body.categoryId;
       }
+      await deleteCache({ tag:"category"});
       return axios
         .put(`category/${singleCategory?.category.id}`, body)
         .then(() => {});
@@ -107,7 +109,8 @@ export default function Categorys() {
     },
   });
   const { isPending: deletePending, mutate: deleteCategory } = useMutation({
-    mutationFn: (id?: string) => {
+    mutationFn: async (id?: string) => {
+      await deleteCache({ tag:"category"});
       return axios.delete(`category/${id}`);
     },
     onSuccess: () => {
@@ -275,9 +278,9 @@ export default function Categorys() {
                 </TableBody>
               </Table>
             </TableContainer>
-          ) : 
-          <DontData text="دسته ای یافت نشد!"/>
-          }
+          ) : (
+            <DontData text="دسته ای یافت نشد!" />
+          )}
         </div>
       </div>
       <Dialog

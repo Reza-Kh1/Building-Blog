@@ -7,6 +7,7 @@ import SwiperCards from "@/components/SwiperCards/SwiperCards";
 import ContactSocialMedia from "@/components/ContactSocialMedia/ContactSocialMedia";
 import { Metadata } from "next";
 import Script from "next/script";
+import { dataApi } from "@/data/tagsName";
 type pageType = {
   searchParams: { tags: string };
 };
@@ -16,8 +17,8 @@ type DataSearchType = {
   workers: ExpertType[];
 };
 const getData = async (tagId: string) => {
-  let url = "tag?tags=" + tagId;
-  const data = await fetchApi({ url, method: "GET" });
+  let url = dataApi.search.url + "?tags=" + tagId;
+  const data = await fetchApi({ url, next:dataApi.search.cache,tags:dataApi.search.tags });
   if (data.error) return NotFound();
   return data;
 };

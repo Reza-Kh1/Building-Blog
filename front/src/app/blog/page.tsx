@@ -4,47 +4,61 @@ import Cards from "@/components/Cards/Cards";
 import OrderSearch from "@/components/OrderSearch/OrderSearch";
 import Pagination from "@/components/Pagination/Pagination";
 import React, { Suspense } from "react";
-import { AllPostType } from "../type";
+import { AllPostType, FilterQueryType } from "../type";
 import ContactSocialMedia from "@/components/ContactSocialMedia/ContactSocialMedia";
 import NotFound from "../not-found";
 import { Metadata } from "next";
-const getData = async () => {
-  const data = await fetchApi({ url: "post?page=1" });
+import { dataApi } from "@/data/tagsName";
+const getData = async (query: FilterQueryType) => {
+  const url = "post?" + new URLSearchParams(query);
+  const data = await fetchApi({ url, next:dataApi.posts.cache,tags:dataApi.posts.tags  });
   if (data.error) return NotFound();
-  return data
+  return data;
 };
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_URL || "http://localhost:3000"),
-  title: 'وبلاگ | ساخت یار',
-  description: 'ما برای افزایش آگاهی شما مقالاتی را نوشتیم که میتواند در انتخاب هاتون بهتون کمک کند.',
-  keywords: ['پروژه‌های ساختمانی', 'مشاوره ساخت‌وساز', 'ساخت یار', 'خدمات پیمانکاری'],
+  title: "وبلاگ | ساخت یار",
+  description:
+    "ما برای افزایش آگاهی شما مقالاتی را نوشتیم که میتواند در انتخاب هاتون بهتون کمک کند.",
+  keywords: [
+    "پروژه‌های ساختمانی",
+    "مشاوره ساخت‌وساز",
+    "ساخت یار",
+    "خدمات پیمانکاری",
+  ],
   openGraph: {
-    title: 'وبلاگ | ساخت یار',
-    description: 'ما برای افزایش آگاهی شما مقالاتی را نوشتیم که میتواند در انتخاب هاتون بهتون کمک کند.',
+    title: "وبلاگ | ساخت یار",
+    description:
+      "ما برای افزایش آگاهی شما مقالاتی را نوشتیم که میتواند در انتخاب هاتون بهتون کمک کند.",
     url: `${process.env.NEXT_PUBLIC_URL + "/blog"}`,
-    type: 'website',
+    type: "website",
     images: [
       {
         url: `${process.env.NEXTAUTH_URL}/category.jpg`,
         width: 1200,
         height: 630,
-        alt: 'صفحه وبلاگ سایت ساخت یار',
+        alt: "صفحه وبلاگ سایت ساخت یار",
       },
     ],
   },
   twitter: {
-    card: 'summary_large_image',
-    title: 'وبلاگ | ساخت یار',
+    card: "summary_large_image",
+    title: "وبلاگ | ساخت یار",
     images: [`${process.env.NEXTAUTH_URL}/category.jpg`],
-    description: 'ما برای افزایش آگاهی شما مقالاتی را نوشتیم که میتواند در انتخاب هاتون بهتون کمک کند.',
+    description:
+      "ما برای افزایش آگاهی شما مقالاتی را نوشتیم که میتواند در انتخاب هاتون بهتون کمک کند.",
   },
   robots: "index, follow",
   alternates: {
     canonical: `${process.env.NEXT_PUBLIC_URL + "/blog"}`,
   },
 };
-export default async function page() {
-  const data: AllPostType = await getData();
+export default async function page({
+  searchParams,
+}: {
+  searchParams: FilterQueryType;
+}) {
+  const data: AllPostType = await getData(searchParams);
   return (
     <>
       <Breadcrums />

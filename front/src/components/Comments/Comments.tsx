@@ -33,7 +33,7 @@ export default function Comments({ comments, postId }: { comments: CommentsType[
     }
     return (
         <section aria-labelledby="user-comments" className='comments mb-3' id='comments'>
-            <h5 className='lg:text-lg mb-3 text-gray-700'><span className='text-[#58b2e9]'>کامنت</span> کاربران</h5>
+            <h5 className='lg:text-lg mb-3 text-gray-700 dark:text-p-dark'><span className='text-[#58b2e9]'>کامنت</span> کاربران</h5>
             {comments.length ?
                 <div className='mr-6 lg:mr-8 relative'>
                     {comments.map((i, index) => (

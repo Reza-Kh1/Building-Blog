@@ -38,6 +38,7 @@ import DontData from "../../components/DontData/DontData";
 import SearchBox from "../../components/SearchBox/SearchBox";
 import PendingApi from "../../components/PendingApi/PendingApi";
 import { BiSolidMessageAltCheck } from "react-icons/bi";
+import deleteCache from "../../services/revalidate";
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -83,6 +84,9 @@ export default function Reviews() {
   });
   const { isPending: isPendingUpdate, mutate: reviewUpdate } = useMutation({
     mutationFn: async ({ replie, ...other }: FormReviewType) => {
+      if (!review?.data.Post) {
+        await deleteCache({ tag:"comment"});
+      }
       try {
         if (isUpdate) {
           const body = {
@@ -102,7 +106,7 @@ export default function Reviews() {
         }
         const check = {
           status: true,
-          postId: review?.data.Post?.id
+          postId: review?.data.Post?.id,
         };
         return axios.put(`comment/${review?.data?.id}`, check);
       } catch (err: any) {
@@ -113,7 +117,7 @@ export default function Reviews() {
       closeHandler();
       query.invalidateQueries({ queryKey: ["AllReview"] });
       toast.success("کامنت ثبت شد");
-      setValue("replie", "")
+      setValue("replie", "");
     },
     onError: (err) => {
       console.log(err);
@@ -121,7 +125,10 @@ export default function Reviews() {
     },
   });
   const { isPending: isPendingDelete, mutate: reviewDelete } = useMutation({
-    mutationFn: () => {
+    mutationFn: async () => {
+      if (!review?.data.Post) {
+        await deleteCache({ tag:"comment"});
+      }
       return axios.delete(`comment/${review?.data?.id}`);
     },
     onSuccess: () => {
@@ -136,7 +143,10 @@ export default function Reviews() {
     },
   });
   const { isPending: isPendingCheck, mutate: reviewCheck } = useMutation({
-    mutationFn: (form: ReviewType) => {
+    mutationFn: async (form: ReviewType) => {
+      if (!form.Post) {
+        await deleteCache({ tag:"comment"});
+      }
       const body = {
         postId: form.Post?.id,
         status: true,
@@ -153,7 +163,10 @@ export default function Reviews() {
     },
   });
   const { isPending: isPendingMinus, mutate: reviewMinus } = useMutation({
-    mutationFn: (form: ReviewType) => {
+    mutationFn: async (form: ReviewType) => {
+      if (!form.Post) {
+        await deleteCache({ tag:"comment"});
+      }
       const body = {
         postId: form.Post?.id,
         status: false,
@@ -241,7 +254,7 @@ export default function Reviews() {
                         <p className="text-sm cutline cutline-3">{i.text}</p>
                       </StyledTableCell>
                       <StyledTableCell align="center">
-                        {i.Post?.id ?
+                        {i.Post?.id ? (
                           <Tooltip title={i.Post?.title} placement="top" arrow>
                             <Link to={`/home/posts/${i?.Post?.title}`}>
                               <Button
@@ -254,8 +267,7 @@ export default function Reviews() {
                               </Button>
                             </Link>
                           </Tooltip>
-                          :
-
+                        ) : (
                           <Button
                             color="success"
                             variant="outlined"
@@ -264,10 +276,7 @@ export default function Reviews() {
                           >
                             نظر
                           </Button>
-
-
-                        }
-
+                        )}
                       </StyledTableCell>
                       <StyledTableCell align="center">
                         {new Date(i?.createdAt).toLocaleDateString("fa")}

@@ -15,13 +15,14 @@ import CommentPost from "./CommentPost";
 import { notFound } from "next/navigation";
 import SwiperCards from "@/components/SwiperCards/SwiperCards";
 import Breadcrums from "@/components/Breadcrums/Breadcrums";
+import { dataApi } from "@/data/tagsName";
 type DataPostPageType = {
   data: PostType;
   posts: CardPostType[];
   projects: CardProjectsType[];
 };
 const getData = async (name: string) => {
-  const data = await fetchApi({ url: `post/${name.replace(/-/g, " ")}` });
+  const data = await fetchApi({ url: `${dataApi.singlePost.url}/${name.replace(/-/g, " ")}`, next:dataApi.singlePost.cache });
   if (data?.error) {
     return notFound();
   }

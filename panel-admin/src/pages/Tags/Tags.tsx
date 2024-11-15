@@ -17,6 +17,7 @@ import { MdClose } from "react-icons/md";
 import { TagType } from "../../type";
 import DontData from "../../components/DontData/DontData";
 import DeleteButton from "../../components/DeleteButton/DeleteButton";
+import deleteCache from "../../services/revalidate";
 type TagsType = {
   data: TagType[];
 };
@@ -33,7 +34,8 @@ export default function Tags() {
     gcTime: 1000 * 60 * 60 * 24,
   });
   const { mutate: createTag, isPending: pendingcreate } = useMutation({
-    mutationFn: () => {
+    mutationFn:async () => {
+      await deleteCache({ tag:"tag"});
       return axios.post("tag", { name: valueTag });
     },
     onSuccess: () => {
@@ -47,7 +49,8 @@ export default function Tags() {
     },
   });
   const { mutate: deleteTag, isPending: pendingdelete } = useMutation({
-    mutationFn: (id: number) => {
+    mutationFn:async (id: number) => {
+      await deleteCache({ tag:"tag"});
       return axios.delete(`tag/${id}`);
     },
     onSuccess: () => {
@@ -61,7 +64,8 @@ export default function Tags() {
     },
   });
   const { mutate: updatetag, isPending: pendingupate } = useMutation({
-    mutationFn: (name) => {
+    mutationFn:async (name) => {
+      await deleteCache({ tag:"tag"});
       return axios.put(`tag/${editTag?.id}`, { name });
     },
     onSuccess: () => {

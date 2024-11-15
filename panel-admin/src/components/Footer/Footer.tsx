@@ -11,6 +11,7 @@ import { fetchPageInfo } from "../../services/pageInfo";
 import { toast } from "react-toastify";
 import axios from "axios";
 import PendingApi from "../PendingApi/PendingApi";
+import deleteCache from "../../services/revalidate";
 type MenuFooterType = {
   link: string;
   name: string;
@@ -64,7 +65,7 @@ export default function Footer() {
     setMenuFooter(newMenu);
   };
   const { isPending, mutate: saveHandler } = useMutation({
-    mutationFn: () => {
+    mutationFn:async () => {
       const body = {
         page: "footer",
         text: {
@@ -73,6 +74,7 @@ export default function Footer() {
           menuLink: menuFooter,
         },
       };
+      await deleteCache({ tag:"footer"});
       return axios.post("page/footer", body);
     },
     onSuccess: () => {

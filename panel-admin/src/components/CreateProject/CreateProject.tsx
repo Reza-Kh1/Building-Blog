@@ -78,7 +78,7 @@ export default function CreateProject() {
         size: getValues("size").replace(/[^0-9]/g, ""),
         price: getValues("price").replace(/[^0-9]/g, ""),
       };
-      await deleteCache({ tag:"project"});
+      await deleteCache({ tag: "project" });
       return axios.post("project", body);
     },
     onSuccess: () => {
@@ -106,8 +106,8 @@ export default function CreateProject() {
         status: getValues("status"),
         size: getValues("size").replace(/[^0-9]/g, ""),
         price: getValues("price").replace(/[^0-9]/g, ""),
-      };
-      await deleteCache({ tag:"project"});
+      };            
+      await deleteCache({ path: `/project/${test.name}`, tag: "project" });
       return axios.put(`project/${data?.id}`, body);
     },
     onSuccess: () => {
@@ -122,7 +122,7 @@ export default function CreateProject() {
   });
   const { isPending: pendingDelete, mutate: deleteHandler } = useMutation({
     mutationFn: async () => {
-      await deleteCache({ tag:"project"});
+      await deleteCache({ tag: "project" });
       return axios.delete(`project/${data?.id}`);
     },
     onSuccess: () => {

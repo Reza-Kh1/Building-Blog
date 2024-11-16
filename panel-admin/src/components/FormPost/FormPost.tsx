@@ -26,7 +26,7 @@ import ImageComponent from "../ImageComponent/ImageComponent";
 import DeleteButton from "../DeleteButton/DeleteButton";
 import PendingApi from "../PendingApi/PendingApi";
 import deleteCache from "../../services/revalidate";
-export default function FormPost({ dataPost }: { dataPost?: SinglePostType }) {
+export default function FormPost({ dataPost }: { dataPost?: SinglePostType }) {  
   const { register, handleSubmit, watch, setValue, getValues } =
     useForm<FormPostType>({
       defaultValues: {
@@ -53,13 +53,15 @@ export default function FormPost({ dataPost }: { dataPost?: SinglePostType }) {
     staleTime: 1000 * 60 * 60 * 24,
   });
   const { isPending: isPendingPost1, mutate: createPost } = useMutation({
-    mutationFn:async (form: FormPostType) => {
+    mutationFn: async (form: FormPostType) => {
       const body = {
         image: imagePost?.url,
         ...form,
         tags: tagPost || []
       };
-      await deleteCache({ tag:"post"});
+      const nameCategory = dataCategory?.find((i) => i.id === form.categoryId)
+      await deleteCache({ tag: `category-${nameCategory?.slug}` });
+      await deleteCache({ tag: "post" });
       return axios.post("post", body);
     },
     onSuccess: ({ data }) => {
@@ -73,13 +75,15 @@ export default function FormPost({ dataPost }: { dataPost?: SinglePostType }) {
     },
   });
   const { isPending: isPendingPost2, mutate: updatePost } = useMutation({
-    mutationFn:async (form: FormPostType) => {
+    mutationFn: async (form: FormPostType) => {
       const body = {
         image: imagePost?.url,
         ...form,
         tags: tagPost || []
       };
-      await deleteCache({ tag:"post"});
+      const nameCategory = dataCategory?.find((i) => i.id === form.categoryId)
+      await deleteCache({ tag: `category-${nameCategory?.slug}` });
+      await deleteCache({ tag: "post" });
       return axios.put(`post/${postId}`, body);
     },
     onSuccess: () => {
@@ -93,15 +97,35 @@ export default function FormPost({ dataPost }: { dataPost?: SinglePostType }) {
       console.log(err);
     },
   });
+  const { isPending: pendingDelete, mutate: deletePost } = useMutation({
+    mutationFn: async () => {
+      if (!postId) {
+        throw new Error("آیدی پست یافت نشد!")
+      }
+      const nameCategory = dataCategory?.find((i) => i.id === getValues("categoryId"))
+      await deleteCache({ tag: `category-${nameCategory?.slug}` });
+      await deleteCache({ tag: "post" });
+      return axios.delete(`post/${postId}`);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["AllPost", slug] });
+      navigate("/home/posts")
+      toast.success("اطلاعات با موفقیت آپدیت شد");
+    },
+    onError: (err: any) => {
+      toast.warning(err?.response?.data?.message || "با خطا مواجه شدیم");
+      console.log(err);
+    },
+  }
+  );
   const { isPending: isPendingDetail1, mutate: createDetailPost } = useMutation({
-    mutationFn:async () => {
+    mutationFn: async () => {
       const body = {
         keyword,
         title: getValues("titleDetail"),
         text: editorText,
       };
-      console.log( decodeURIComponent(slug));
-      await deleteCache({ tag:"/post/"});
+      await deleteCache({ path: `/post/${slug}` });
       return axios.post(`detail/${postId}`, body);
     },
     onSuccess: () => {
@@ -116,13 +140,13 @@ export default function FormPost({ dataPost }: { dataPost?: SinglePostType }) {
   }
   );
   const { isPending: isPendingDetail2, mutate: updateDetailPost } = useMutation({
-    mutationFn:async () => {
+    mutationFn: async () => {
       const body = {
         keyword,
         title: getValues("titleDetail"),
         text: editorText,
       };
-      await deleteCache({ path:"/post/"});
+      await deleteCache({ path: `/post/${slug}` });
       return axios.put(`detail/${postId}`, body);
     },
     onSuccess: () => {
@@ -135,29 +159,11 @@ export default function FormPost({ dataPost }: { dataPost?: SinglePostType }) {
     },
   }
   );
-  const { isPending: pendingDelete, mutate: deletePost } = useMutation({
-    mutationFn:async () => {
-      if (!postId) {
-        throw new Error("آیدی پست یافت نشد!")
-      }
-      await deleteCache({ tag:"post"});
-      return axios.delete(`post/${postId}`);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["AllPost", slug] });
-      navigate("/home/posts")
-      toast.success("اطلاعات با موفقیت آپدیت شد");
-    },
-    onError: (err: any) => {
-      toast.warning(err?.response?.data?.message || "با خطا مواجه شدیم");
-      console.log(err);
-    },
-  }
-  );
   const syncData = () => {
     if (!dataPost) return;
     setValue("title", dataPost.title);
     setValue("description", dataPost.description);
+    setValue("status",dataPost.status ? true : false)
     setImagePost(dataPost.image ? { url: dataPost.image, alt: dataPost.title } : null);
     setPostId(dataPost.id);
     setTagPost(dataPost.Tags)
@@ -266,7 +272,7 @@ export default function FormPost({ dataPost }: { dataPost?: SinglePostType }) {
             control={
               <Switch
                 color="secondary"
-                //   value={statusValue}
+                // value={statusValue}
                 checked={statusValue ? true : false}
                 onChange={() => setValue("status", !getValues("status"))}
               />

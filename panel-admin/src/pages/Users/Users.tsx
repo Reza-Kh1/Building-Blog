@@ -62,7 +62,6 @@ export default function Users() {
     setValue,
     handleSubmit,
     reset,
-    formState: { errors },
   } = useForm<UserType>();
   const [open, setOpen] = useState<boolean>(false);
   const [openBox, setOpenBox] = useState<boolean>(false);

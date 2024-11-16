@@ -5,11 +5,17 @@ type deleteCacheType = {
   path?: string;
 };
 const deleteCache = async ({ tag, path }: deleteCacheType) => {
+  if (!tag && !path) return
   let url = "";
   if (tag) {
     url = "tag=" + tag;
-  } else {
-    url = "path=" + path;
+  }
+  if (path) {
+    if (tag) {
+      url = url + "&path=" + path
+    } else {
+      url = "path=" + path
+    }
   }
   const err = await axios.delete(
     `${import.meta.env.VITE_PUBLIC_URL_SITE}api/revalidate?${url}`

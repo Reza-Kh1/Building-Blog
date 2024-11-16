@@ -150,7 +150,7 @@ export default function CreateWorker() {
         image: image?.url,
         tags: tagWorker,
       };
-      await deleteCache({ tag:"worker"});
+      await deleteCache({ tag: "worker" });
       return axios.post("worker", body);
     },
     onSuccess: () => {
@@ -175,7 +175,7 @@ export default function CreateWorker() {
         image: image?.url || null,
         tags: tagWorker,
       };
-      await deleteCache({ tag:"worker"});
+      await deleteCache({ tag: "worker", path: `/experts/${test.worker}` });
       return axios.put(`worker/${data?.id}`, body);
     },
     onSuccess: () => {
@@ -191,7 +191,7 @@ export default function CreateWorker() {
   });
   const { isPending: pendingDelete, mutate: deletehandler } = useMutation({
     mutationFn: async () => {
-      await deleteCache({ tag:"worker"});
+      await deleteCache({ tag: "worker" });
       return axios.delete(`worker/${data?.id}`);
     },
     onSuccess: () => {
@@ -517,66 +517,66 @@ export default function CreateWorker() {
           <div className="w-full my-3 grid grid-cols-3 gap-3">
             {projectWorker?.pages?.length
               ? projectWorker?.pages.map((item) => {
-                  return item.rows.map((i, index) => (
-                    <div key={index} className="shadow-md p-2 rounded-md">
-                      <figure className="relative group overflow-hidden">
-                        <img
-                          src={i.image || "/notfound.webp"}
-                          onError={({ currentTarget }) => {
-                            currentTarget.onerror = null;
-                            currentTarget.src = "/notfound.webp";
-                          }}
-                          alt={i.alt}
-                          className="object-cover w-full h-64 rounded-md"
-                        />
-                        <Link
-                          to={
-                            "/home/projects/create-project?name=" +
-                            i.name.replace(/ /g, "-")
-                          }
-                          className="absolute opacity-0 text-white bg-black/30 group-hover:opacity-100 transition-customer backdrop-blur-md p-5 shadow-md text-2xl rounded-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-                        >
-                          <FaPlay />
-                        </Link>
-                        <div className="-bottom-[100%] text-sm transition-customer box-shadow-customer absolute rounded-md w-full text-center bg-black/70 text-white py-2 group-hover:bottom-[0%]">
-                          <span>عنوان عکس :{i.alt}</span>
-                          <p>آدرس :{i.address}</p>
-                        </div>
-                        <div className="left-2 text-sm flex items-center gap-3 bg-black/50 px-3 py-1 text-white rounded-md top-2 absolute">
-                          <i>
-                            <FaCalendarAlt />
-                          </i>
-                          <span className="pt-1">
-                            {new Date(i.updatedAt).toLocaleDateString("fa")}
-                          </span>
-                        </div>
-                      </figure>
-                      <div className="flex justify-between px-2 mt-3 items-center">
-                        <span className="font-semibold">{i.Worker.name}</span>
-                        {i.status ? (
-                          <Button
-                            endIcon={<FaCheck />}
-                            color="success"
-                            size="small"
-                          >
-                            منتشر شده
-                          </Button>
-                        ) : (
-                          <Button
-                            endIcon={<MdClose />}
-                            color="error"
-                            size="small"
-                          >
-                            منتشر نشده
-                          </Button>
-                        )}
+                return item.rows.map((i, index) => (
+                  <div key={index} className="shadow-md p-2 rounded-md">
+                    <figure className="relative group overflow-hidden">
+                      <img
+                        src={i.image || "/notfound.webp"}
+                        onError={({ currentTarget }) => {
+                          currentTarget.onerror = null;
+                          currentTarget.src = "/notfound.webp";
+                        }}
+                        alt={i.alt}
+                        className="object-cover w-full h-64 rounded-md"
+                      />
+                      <Link
+                        to={
+                          "/home/projects/create-project?name=" +
+                          i.name.replace(/ /g, "-")
+                        }
+                        className="absolute opacity-0 text-white bg-black/30 group-hover:opacity-100 transition-customer backdrop-blur-md p-5 shadow-md text-2xl rounded-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                      >
+                        <FaPlay />
+                      </Link>
+                      <div className="-bottom-[100%] text-sm transition-customer box-shadow-customer absolute rounded-md w-full text-center bg-black/70 text-white py-2 group-hover:bottom-[0%]">
+                        <span>عنوان عکس :{i.alt}</span>
+                        <p>آدرس :{i.address}</p>
                       </div>
-                      <p className="px-1 text-justify text-gray-700">
-                        {i.name}
-                      </p>
+                      <div className="left-2 text-sm flex items-center gap-3 bg-black/50 px-3 py-1 text-white rounded-md top-2 absolute">
+                        <i>
+                          <FaCalendarAlt />
+                        </i>
+                        <span className="pt-1">
+                          {new Date(i.updatedAt).toLocaleDateString("fa")}
+                        </span>
+                      </div>
+                    </figure>
+                    <div className="flex justify-between px-2 mt-3 items-center">
+                      <span className="font-semibold">{i.Worker.name}</span>
+                      {i.status ? (
+                        <Button
+                          endIcon={<FaCheck />}
+                          color="success"
+                          size="small"
+                        >
+                          منتشر شده
+                        </Button>
+                      ) : (
+                        <Button
+                          endIcon={<MdClose />}
+                          color="error"
+                          size="small"
+                        >
+                          منتشر نشده
+                        </Button>
+                      )}
                     </div>
-                  ));
-                })
+                    <p className="px-1 text-justify text-gray-700">
+                      {i.name}
+                    </p>
+                  </div>
+                ));
+              })
               : null}
           </div>
           {data?.Projects.length ? (

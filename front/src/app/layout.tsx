@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
 import LayoutProvider from "@/components/LayoutProvider/LayoutProvider";
@@ -17,6 +17,10 @@ export const metadata: Metadata = {
 };
 const fontSahel = local({ src: "../fonts/Sahel.woff", variable: "--sahel-font" })
 const fontIran = local({ src: "../fonts/Vazir-Regular.woff", variable: "--iransans-font" })
+export const viewport:Viewport={
+  maximumScale:1,
+  userScalable:false
+}
 export default function RootLayout({
   children,
 }: Readonly<{

@@ -46,7 +46,7 @@ const dataSocialMedia = [
   },
 ];
 const getData = async (name: string) => {
-  const url = dataApi.singleExpert.url +"/" + name.replace(/-/g, " ");
+  const url = dataApi.singleExpert.url +"/" + name.replace(/-/g, " ");  
   const data = await fetchApi({ url,next:dataApi.singleExpert.cache });
   if (data.error) return NotFound();
   return data

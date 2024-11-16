@@ -16,7 +16,7 @@ export default function CardExperts(props: ExpertType) {
             مورد تایید<IoIosCheckmarkCircleOutline className='text-green-500 text-xl' />
           </span>
         </h3>
-        <Link href={"experts/" + props?.name?.replace(/ /g, "-")} className='w-full flex justify-center'>
+        <Link href={"/experts/" + props?.name?.replace(/ /g, "-")} className='w-full flex justify-center'>
           <ImgTag figureClass='relative' alt={props.name} src={props?.image} width={300} height={300} className='rounded-full border-8 dark:border-[#262e3b] border-[#b1d2f8] w-40 h-40 object-cover' />
         </Link>
       </div>
@@ -47,7 +47,7 @@ export default function CardExperts(props: ExpertType) {
               </div>
             )
             : null}
-          <Link href={"experts/" + props?.name?.replace(/ /g, "-")} className='text-sm md:text-base mt-3 text-gray-600 mx-auto hover:text-blue-400 dark:bg-info-dark dark:text-h-dark dark:shadow-low-dark dark:hover:shadow-none hover:shadow-blue-300 flex items-center px-5 bg-gray-50  shadow-md p-1 rounded-md text-[17px] gap-1'>
+          <Link href={"/experts/" + props?.name?.replace(/ /g, "-")} className='text-sm md:text-base mt-3 text-gray-600 mx-auto hover:text-blue-400 dark:bg-info-dark dark:text-h-dark dark:shadow-low-dark dark:hover:shadow-none hover:shadow-blue-300 flex items-center px-5 bg-gray-50  shadow-md p-1 rounded-md text-[17px] gap-1'>
             <span className='inline-block'>
               پروفایل
             </span>

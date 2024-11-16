@@ -10,7 +10,9 @@ export async function DELETE(req: NextRequest) {
       revalidateTag(tags);
     }
     if (path) {
-      revalidatePath(path);
+      const slug = encodeURIComponent(path?.split('/')[2])
+      const url = "/" + path?.split("/")[1] + "/" + slug
+      revalidatePath(url);
     }
     return NextResponse.json({ success: true });
   } catch (err) {

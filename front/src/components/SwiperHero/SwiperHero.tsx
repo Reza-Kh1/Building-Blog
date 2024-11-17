@@ -1,6 +1,6 @@
 "use client"
 import React from 'react'
-import { EffectFade, Pagination } from 'swiper/modules';
+import { Autoplay, EffectFade, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css/effect-fade';
 export default function SwiperHero() {
@@ -12,7 +12,7 @@ export default function SwiperHero() {
                 clickable: true,
             }}
             loop={true}
-            modules={[EffectFade, Pagination]}
+            modules={[EffectFade, Pagination, Autoplay]}
             className="mySwiper"
         >
             <SwiperSlide>

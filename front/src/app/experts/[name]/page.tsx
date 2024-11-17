@@ -95,7 +95,7 @@ export default async function page({ params }: { params: { name: string } }) {
     "@type": "Person",
     "name": data?.name || "نام فرد",
     "description": data?.description || "بیوگرافی فرد",
-    "image": data?.image || `${process.env.NEXTAUTH_URL}/image-admin.png`,
+    "image": data?.image || `${process.env.NEXTAUTH_URL}/comments/image-admin.png`,
     "url": `${process.env.NEXTAUTH_URL}/profile/${data?.name.replace(/ /g, "-")}`,
     "sameAs": data.socialMedia.map((i) => i.link) || []
     ,

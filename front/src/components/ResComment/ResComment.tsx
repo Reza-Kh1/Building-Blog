@@ -127,7 +127,7 @@ export default function ResComment({
                     width={60}
                     height={60}
                     className="rounded-full w-10 lg:w-14 lg:h-14 h-10 shadow-md"
-                    src={comment.position === "USER" ? "/semicolon-image.png" : "/image-admin.png"}
+                    src={comment.position === "USER" ? "/comments/semicolon-image.png" : "/comments/image-admin.png"}
                     alt={comment?.name}
                   />
                 </div>

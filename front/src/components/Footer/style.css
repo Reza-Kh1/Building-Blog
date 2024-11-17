@@ -1,5 +1,5 @@
 .bg-footer {
-    background-image: url("@/../../../../public/footer-bg.jpg");
+    background-image: url("/footer/footer-bg.jpg");
     width: 100%;
     height: 100%;
 }

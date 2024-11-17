@@ -1,37 +1,6 @@
 import React from 'react'
 import ImgTag from '../ImgTag/ImgTag';
-const dataBanner = [
-    {
-        src: "/icon-paint.png",
-        text: "طراحی های مدرن و سریع برای دوستانی که میخواهند تغییر های جدید را توی خونه هاشون ارائه بدن",
-        title: "طراحی داخلی",
-    },
-    {
-        src: "/icon-home.png",
-        text: "طراحی های مدرن و سریع برای دوستانی که میخواهند تغییر های جدید را توی خونه هاشون ارائه بدن",
-        title: "ساخت هوشمندانه",
-    },
-    {
-        src: "/icon-check.png",
-        text: "طراحی های مدرن و سریع برای دوستانی که میخواهند تغییر های جدید را توی خونه هاشون ارائه بدن",
-        title: "اعتبار",
-    },
-    {
-        src: "/icon-money.png",
-        text: "طراحی های مدرن و سریع برای دوستانی که میخواهند تغییر های جدید را توی خونه هاشون ارائه بدن",
-        title: "ذخیره کردن پول",
-    },
-    {
-        src: "/icon-conflict.png",
-        text: "طراحی های مدرن و سریع برای دوستانی که میخواهند تغییر های جدید را توی خونه هاشون ارائه بدن",
-        title: "سرعت",
-    },
-    {
-        src: "/icon-worker.png",
-        text: "طراحی های مدرن و سریع برای دوستانی که میخواهند تغییر های جدید را توی خونه هاشون ارائه بدن",
-        title: "با تجربه",
-    },
-];
+import { dataBanner } from '@/data/dataBanner';
 export default function OurServices() {
     return (
         <div className="w-full px-3 py-3 lg:py-0 flex flex-col md:flex-row gap-5 md:gap-3 bg-[#282828] shadow-md">
@@ -46,8 +15,8 @@ export default function OurServices() {
                                 alt="paint"
                                 src={props.src}
                                 className="lg:w-16 lg:h-10 object-contain"
-                                width={100}
-                                height={100}
+                                width={48}
+                                height={48}
                             />
                         </figure>
                         <div>

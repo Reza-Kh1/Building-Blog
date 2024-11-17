@@ -15,7 +15,6 @@ import { FaRegComments, FaUsersViewfinder } from "react-icons/fa6";
 import { LiaFileInvoiceDollarSolid } from "react-icons/lia";
 import IconSocialMedia from "../IconSocialMedia/IconSocialMedia";
 import { usePathname } from "next/navigation";
-import "./style.css";
 const menuTitle = [
   {
     name: "پروژه ها",
@@ -60,7 +59,7 @@ export default function HeaderSticky({ category }: { category: CategoryType[] })
       <li key={index}>
         <Link
           className="flex w-full justify-between items-center py-2 px-3"
-          href={"/blog/" + i.slug.replace(/ /g,"-")}
+          href={"/blog/" + i.slug.replace(/ /g, "-")}
         >
           {i.name}
           {i.subCategory?.length ? (
@@ -87,7 +86,7 @@ export default function HeaderSticky({ category }: { category: CategoryType[] })
       const sizePage = document.body.scrollHeight;
       const scrollPage = window.scrollY + window.innerHeight;
       const mathLocation = Math.floor((scrollPage / sizePage) * 100);
-      if (mathLocation > 50) {        
+      if (mathLocation > 50) {
         if (currentScroll > scroll) {
           setScrollTop(false);
         } else {
@@ -96,12 +95,11 @@ export default function HeaderSticky({ category }: { category: CategoryType[] })
       } else {
         setScrollTop(false);
       }
-      if (currentScroll > scroll) {
+      if (currentScroll > scroll) {        
         setVisible(false);
       } else if (Number(currentScroll) < 65) {
         setVisible(false);
       } else {
-        console.log("ok");
         setVisible(true);
       }
       setScroll(currentScroll);
@@ -111,9 +109,6 @@ export default function HeaderSticky({ category }: { category: CategoryType[] })
   }, [scroll]);
   return (
     <>
-    <div className="sticky w-52 h-6 right-0 top-0">
-      Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ducimus esse eos doloremque quod debitis dolorem velit itaque labore, incidunt libero? Alias, repellendus quo? Autem culpa corporis sint esse voluptatum! Tempora?
-    </div>
       <div
         className={`header-sticky shadow-md shadow-[#dbdbdb] dark:shadow-full-dark bg-slate-200/80 dark:bg-zinc-900/80 ${visible
           ? "header-show bg-slate-100/40 dark:!bg-zinc-900/80"
@@ -182,7 +177,7 @@ export default function HeaderSticky({ category }: { category: CategoryType[] })
                               <li key={ind}>
                                 <Link
                                   className="flex w-full gap-1 items-center text-sm"
-                                  href={"blog/" + item.slug.replace(/ /g,"-")}
+                                  href={"blog/" + item.slug.replace(/ /g, "-")}
                                 >
                                   <span className="w-[6px] h-[1px] bg-black"></span>
                                   {item.name}
@@ -249,7 +244,7 @@ export default function HeaderSticky({ category }: { category: CategoryType[] })
         </div >
       </div >
       <div
-        onClick={() => window.scrollTo({top: 0,behavior: "smooth"})}
+        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
         className={`p-3 lg:p-3 cursor-pointer fixed z-50 right-2 lg:right-5 rounded-full shadow-md bg-slate-500/70 text-white transition-all ${scrollTop ? "bottom-2 lg:bottom-5" : "-bottom-12"}`}
       >
         <i>

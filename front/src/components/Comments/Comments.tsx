@@ -7,7 +7,7 @@ export default function Comments({ comments, postId }: { comments: CommentsType[
         return <>
             <article itemProp="review" itemScope itemType="http://schema.org/Review" key={data?.id} className='relative'>
                 <div className='w-12 lg:w-16 absolute right-0 transform translate-x-1/2 top-1 lg:top-3 p-1 dark:border-bg-dark dark:bg-custom-dark bg-white border rounded-full'>
-                    <ImgTag width={60} height={60} className='rounded-full w-10 lg:w-14 lg:h-14 h-10 shadow-md' src={data.position === "ADMIN" ? "/image-admin.png" : "/semicolon-image.png"} alt={data?.name} />
+                    <ImgTag width={60} height={60} className='rounded-full w-10 lg:w-14 lg:h-14 h-10 shadow-md' src={data.position === "ADMIN" ? "/comments/image-admin.png" : "/comments/semicolon-image.png"} alt={data?.name} />
                 </div>
                 <div className='border dark:border-bg-dark my-2 rounded-sm shadow-sm dark:shadow-full-dark pr-7 lg:pr-10 pl-2 lg:pl-3 py-2 lg:py-5'>
                     <div className='flex w-full justify-between mb-3'>

@@ -25,7 +25,7 @@ export default function ImgTag({
 }: ImageType) {
   const [load, setLoad] = useState<boolean>(true);
   const [error, setError] = useState<StaticImageData | null>(null)
-  const classImage = className ? className : classPlus ? `${classPlus} rounded-md shadow-md  table mx-auto` : "rounded-md shadow-md w-full table mx-auto object-fill"
+  const classImage = className ? className : classPlus ? `${classPlus} rounded-md shadow-md  table mx-auto` : "rounded-md shadow-md w-full h-auto table mx-auto object-fill"
   return (
     <figure className={figureClass || "w-full relative"}>
       <Image

@@ -174,7 +174,7 @@ export default async function page({ params }: { params: { name: string } }) {
               <h3 className="text-base lg:text-xl dark:text-h-dark text-gray-700 mb-3 block">فیلم پروژه</h3>
               <div className="video-container">
                 <video
-                  className="video-player"
+                  className="video-player h-52 md:h-80"
                   controls
                   poster={data.gallery[data.gallery.length - 1].url}
                 >

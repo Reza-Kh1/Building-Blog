@@ -17,9 +17,9 @@ export const metadata: Metadata = {
 };
 const fontSahel = local({ src: "../fonts/Sahel.woff", variable: "--sahel-font" })
 const fontIran = local({ src: "../fonts/Vazir-Regular.woff", variable: "--iransans-font" })
-export const viewport:Viewport={
-  maximumScale:1,
-  userScalable:false
+export const viewport: Viewport = {
+  maximumScale: 1,
+  userScalable: false
 }
 export default function RootLayout({
   children,
@@ -33,9 +33,7 @@ export default function RootLayout({
           <AppRouterCacheProvider options={{ key: "css" }}>
             <LayoutProvider>
               <div className="bg-white dark:bg-custom-dark dark:text-p-dark">
-                <header>
-                  <Header />
-                </header>
+                <Header />
                 <main>
                   {children}
                 </main>

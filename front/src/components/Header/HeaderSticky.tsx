@@ -95,7 +95,7 @@ export default function HeaderSticky({ category }: { category: CategoryType[] })
       } else {
         setScrollTop(false);
       }
-      if (currentScroll > scroll) {        
+      if (currentScroll > scroll) {
         setVisible(false);
       } else if (Number(currentScroll) < 65) {
         setVisible(false);
@@ -132,7 +132,7 @@ export default function HeaderSticky({ category }: { category: CategoryType[] })
                       <figure className="flex justify-center items-end">
                         <Image
                           src={"/logo.png"}
-                          className="w-auto h-12 md:h-14"
+                          className="w-full h-auto"
                           width={60}
                           height={20}
                           alt="logo"
@@ -173,7 +173,7 @@ export default function HeaderSticky({ category }: { category: CategoryType[] })
                             ) : null}
                           </div>
                           <ul className={`hidden ${showCategory === i.name ? "!block" : ""}`}>
-                            {category.map((item, ind) => (
+                            {category.length ? category.map((item, ind) => (
                               <li key={ind}>
                                 <Link
                                   className="flex w-full gap-1 items-center text-sm"
@@ -183,7 +183,7 @@ export default function HeaderSticky({ category }: { category: CategoryType[] })
                                   {item.name}
                                 </Link>
                               </li>
-                            ))}
+                            )) : null}
                           </ul>
                         </li>
                       ))}
@@ -231,7 +231,7 @@ export default function HeaderSticky({ category }: { category: CategoryType[] })
                 <figure className="flex justify-end items-end">
                   <Image
                     src={"/logo.png"}
-                    className="rounded-md w-auto h-14"
+                    className="rounded-md w-full h-auto"
                     width={56}
                     height={56}
                     alt="logo"

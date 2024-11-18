@@ -3,13 +3,13 @@ import Image from "next/image";
 import { FiPhoneCall } from "react-icons/fi";
 import Link from "next/link";
 import IconSocialMedia from "../IconSocialMedia/IconSocialMedia";
-import "./style.css";
 import { fetchApi } from "@/action/fetchApi";
 import { Footertype } from "@/app/type";
 import { FaAngleLeft } from "react-icons/fa";
 import { dataApi } from "@/data/tagsName";
-const getData =async () => {
-return fetchApi({url:dataApi.footer.url,next:dataApi.footer.cache,tags:dataApi.footer.tags})
+import "./style.css";
+const getData = async () => {
+  return fetchApi({ url: dataApi.footer.url, next: dataApi.footer.cache, tags: dataApi.footer.tags })
 };
 const menuTitle = [
   { name: "صفحه اصلی", link: "/" },
@@ -47,7 +47,7 @@ export default async function Footer() {
                   key={index}
                   className="flex flex-col gap-1 md:gap-2 text-slate-400"
                 >
-                  {i.length
+                  {i[0].name
                     ? i.map((item) => (
                       <li
                         key={item.id}

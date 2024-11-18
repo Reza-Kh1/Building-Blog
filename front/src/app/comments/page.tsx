@@ -6,12 +6,12 @@ import FormComments from "@/components/FormComments/FormComments";
 import React, { Suspense } from "react";
 import { CommentsPage } from "../type";
 import Pagination from "@/components/Pagination/Pagination";
-import NotFound from "../not-found";
 import { Metadata } from "next";
 import { dataApi } from "@/data/tagsName";
+import { notFound } from "next/navigation";
 const getData = async (page: number) => {
   const data = await fetchApi({ url: `${dataApi.comments.url}?page=${page || 1}`,next:dataApi.comments.cache,tags:dataApi.comments.tags })
-  if (data.error) return NotFound();
+  if (data.error) return notFound();
   return data
 }
 export const metadata: Metadata = {

@@ -17,12 +17,14 @@ const deleteCache = async ({ tag, path }: deleteCacheType) => {
       url = "path=" + path
     }
   }
-  const err = await axios.delete(
-    `${import.meta.env.VITE_PUBLIC_URL_SITE}api/revalidate?${url}`
-  );
-  if (err.status !== 200) {
+  try {
+    const data = await axios.delete(
+      `${import.meta.env.VITE_PUBLIC_URL_SITE}api/revalidate?${url}`
+    );
+    return data
+  } catch (err) {
+    console.log(err);
     toast.error("!حذف کش با خطا مواجه شد");
   }
-  return err;
 };
 export default deleteCache;

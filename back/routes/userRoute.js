@@ -1,5 +1,6 @@
 const express = require("express");
 const isAdmin = require("../utils/isAdmin")
+const isAuthor = require("../utils/isAuthor")
 const {
   registerUser,
   getAllUser,
@@ -15,5 +16,5 @@ routes.route("/").get(isAdmin, getAllUser).post(registerUser);
 routes.post("/login", loginUser);
 routes.get("/logout", logOutUser)
 routes.route("/forget-password").post(forgetPassword)
-routes.route("/:id").get(getProfileUser).put(isAdmin, updateUser).delete(isAdmin, deleteUser);
+routes.route("/:id").get(getProfileUser).put(isAuthor, updateUser).delete(isAdmin, deleteUser);
 module.exports = routes;

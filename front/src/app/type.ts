@@ -215,6 +215,28 @@ type ProjectType = {
   Worker: ExpertType;
   Tags: TagsType[];
 };
+type HeroDataType = {
+  id: number
+  img: string
+  title: string
+  text: string
+  alt: string
+}
+type TabDataType = {
+  id: number
+  text: string
+  title: string
+}
+type HomePageType = {
+  data: {
+    page: string
+    text: {
+      tabImage: { alt: string, url: string } | null,
+      tabs: TabDataType[],
+      heroData: HeroDataType[]
+    }
+  }
+}
 export type {
   FaqsType,
   ImageType,
@@ -236,4 +258,7 @@ export type {
   AllExpertType,
   AllProjectType,
   ProjectType,
+  HomePageType,
+  HeroDataType,
+  TabDataType
 };

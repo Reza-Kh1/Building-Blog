@@ -119,9 +119,10 @@ const getProject = asyncHandler(async (req, res) => {
         order: dataBase.random(),
       });
     }
+    if (!data.status && !res.isLogin) throw new Error("صفحه در دسترس نیست")
     res.send({ projects, data });
   } catch (err) {
-    throw customError(err, err.statusCode || 400);
+    throw customError(err, err.statusCode || 404);
   }
 });
 const getAllProject = asyncHandler(async (req, res) => {

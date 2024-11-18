@@ -19,7 +19,7 @@ import SwiperGallery from "@/components/SwiperGallery/SwiperGallery";
 import { dataApi } from "@/data/tagsName";
 const getData = async (name: string) => {
   const url = `${dataApi.singleProject.url}/${name.replace(/-/g, " ")}`
-  const data = await fetchApi({ url,next:dataApi.singleProject.cache});
+  const data = await fetchApi({ url, next: dataApi.singleProject.cache });
   if (data?.error) {
     return notFound();
   }
@@ -61,7 +61,6 @@ export async function generateMetadata({
 }
 export default async function page({ params }: { params: { name: string } }) {
   const { data, projects, }: { data: ProjectType; projects: CardProjectsType[] } = await getData(params.name);
-  if (!data) return notFound();
   const jsonld = {
     "@context": "https://schema.org",
     "@type": "article",
@@ -96,7 +95,7 @@ export default async function page({ params }: { params: { name: string } }) {
                 <Link
                   key={index}
                   className="hover:text-blue-400"
-                  href={"/search?tag=" + i.name}
+                  href={"/search?tags=" + i.name}
                 >
                   {i.name}
                   {data.Tags.length !== Number(index + 1) ? " ،" : null}

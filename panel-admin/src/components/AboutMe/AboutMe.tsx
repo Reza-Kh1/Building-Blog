@@ -87,7 +87,7 @@ export default function AboutMe() {
           textArry: textArry,
         },
       };
-      await deleteCache({ tag: "page/aboutMe" });
+      await deleteCache({ tag: "aboutUs" });
       return axios.post("page/aboutMe", body);
     },
     onSuccess: () => {

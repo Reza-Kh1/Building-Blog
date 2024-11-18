@@ -4,15 +4,15 @@ import React from "react";
 import { fetchApi } from "@/action/fetchApi";
 import { FaqsType } from "../type";
 import ContactSocialMedia from "@/components/ContactSocialMedia/ContactSocialMedia";
-import NotFound from "../not-found";
 import CustomButton from "@/components/CustomButton/CustomButton";
 import { Metadata } from "next";
 import { Accordion, AccordionDetails, AccordionSummary } from "@mui/material";
 import { IoIosArrowDown } from "react-icons/io";
 import { dataApi } from "@/data/tagsName";
+import { notFound } from "next/navigation";
 const getData = async () => {
-  const data = await fetchApi({ url: dataApi.faqs.url, next:dataApi.faqs.cache, tags:dataApi.faqs.tags });
-  if (data.error) return NotFound();
+  const data = await fetchApi({ url: dataApi.faqs.url, next: dataApi.faqs.cache, tags: dataApi.faqs.tags });
+  if (data.error) return notFound();
   return data
 };
 export const metadata: Metadata = {
@@ -65,7 +65,7 @@ export default async function page() {
             <span className="text-xs lg:text-base text-gray-700 dark:text-s-dark">{data?.text?.title}</span>
           </section>
           <div className="accordion flex flex-col gap-5 lg:gap-7">
-            {data?.text?.accordion.length
+            {data?.text?.accordion[0].name
               ? data?.text.accordion.map((i, index) => (
                 <div key={i?.id}>
                   <span className="lg:text-xl text-gray-900 mr-3 mb-1 block dark:text-p-dark">
@@ -99,15 +99,17 @@ export default async function page() {
           </div>
         </div>
         <div className="w-full md:w-1/4">
-          <section className="w-full bg-gradient-to-bl from-[#60a5fa] dark:shadow-full-dark dark:from-[#363e4a] dark:to-[#1b1b1f]  shadow-md to-slate-200 rounded-md p-3 sticky top-24 left-0 min-h-12">
-            <h2 className="text-white text-xl mb-4 dark:text-p-dark lg:text-xl  font-semibold ">درباره ما</h2>
-            <p className="text-justify !leading-7 dark:text-p-dark text-gray-600 textsm lg:text-base">
-              {data?.text?.description}
-            </p>
-            <Link href={"/about-us"} className="w-1/2 block mx-auto mt-3">
-              <CustomButton name="مطالعه بیشتر..." type="button" color="blue" />
-            </Link>
-          </section>
+          {data?.text?.description && (
+            <section className="w-full bg-gradient-to-bl from-[#60a5fa] dark:shadow-full-dark dark:from-[#363e4a] dark:to-[#1b1b1f]  shadow-md to-slate-200 rounded-md p-3 sticky top-24 left-0 min-h-12">
+              <h2 className="text-white text-xl mb-4 dark:text-p-dark lg:text-xl  font-semibold ">درباره ما</h2>
+              <p className="text-justify !leading-7 dark:text-p-dark text-gray-600 textsm lg:text-base">
+                {data?.text?.description}
+              </p>
+              <Link href={"/about-us"} className="w-1/2 block mx-auto mt-3">
+                <CustomButton name="مطالعه بیشتر..." type="button" color="blue" />
+              </Link>
+            </section>
+          )}
         </div>
       </div>
       <ContactSocialMedia />

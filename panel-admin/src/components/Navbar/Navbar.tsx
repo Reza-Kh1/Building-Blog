@@ -1,12 +1,16 @@
 import { Button } from "@mui/material";
+import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { MdOutlineArrowBackIos } from "react-icons/md";
-import { useNavigate } from "react-router-dom";
+import { TbRefresh } from "react-icons/tb";
+import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 export default function Navbar() {
   const [time, setTime] = useState({ week: "", date: "" });
   const [userInfo, setUserInfo] = useState<{ name: string; role: string }>();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const { pathname, search } = useLocation()
   useEffect(() => {
     const localData = localStorage.getItem("user") as any;
     if (!localData) {
@@ -36,6 +40,17 @@ export default function Navbar() {
           <span>{time.date}</span>
         </div>
         <div className="w-4/12 flex gap-4 items-center justify-end">
+          <Button
+            onClick={() => {
+              queryClient.clear()
+              navigate(pathname + search)
+            }}
+            variant="contained"
+            color="info"
+            endIcon={<TbRefresh />}
+          >
+            بارگزاری
+          </Button>
           <Button
             onClick={() => navigate(-1)}
             variant="contained"

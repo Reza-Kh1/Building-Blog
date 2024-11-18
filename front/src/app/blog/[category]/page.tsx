@@ -1,5 +1,4 @@
 import { fetchApi } from '@/action/fetchApi'
-import NotFound from '@/app/not-found'
 import { ALlPostCategory } from '@/app/type'
 import Breadcrums from '@/components/Breadcrums/Breadcrums'
 import Cards from '@/components/Cards/Cards'
@@ -7,17 +6,19 @@ import ContactSocialMedia from '@/components/ContactSocialMedia/ContactSocialMed
 import Pagination from '@/components/Pagination/Pagination'
 import { dataApi } from '@/data/tagsName'
 import { Metadata } from 'next'
+import { notFound } from 'next/navigation'
 import React, { Suspense } from 'react'
 type PageType = { params: { category: string }, searchParams: { page: string } }
 const getData = async (query: PageType) => {
     const url = `${dataApi.category.url}/${query.params.category.replace(/-/g, " ")}?page=${query.searchParams.page || 1}`
-    const tags = dataApi.category.tags + decodeURIComponent(query.params.category)    
+    const tags = dataApi.category.tags + decodeURIComponent(query.params.category)
     const data = await fetchApi({ url, next: dataApi.category.cache, tags: [tags] })
-    if (data.error) return NotFound();
+    if (data.error) return notFound();
     return data
 }
 export async function generateMetadata(query: PageType): Promise<Metadata> {
     const data: ALlPostCategory = await getData(query);
+    if (!data.count) return notFound()
     const categoryName = data?.category?.name || 'دسته‌بندی';
     const baseUrl = process.env.NEXTAUTH_URL;
     const categorySlug = query.params.category.replace(/ /g, "-");

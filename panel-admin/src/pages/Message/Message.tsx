@@ -167,7 +167,7 @@ export default function Message() {
                         }}
                         disabled={isDelete || isUpdate}
                       >
-                        بیشتر
+                        نمایش
                       </Button>
                     </StyledTableCell>
                   </StyledTableRow>

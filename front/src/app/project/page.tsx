@@ -8,13 +8,14 @@ import ContactSocialMedia from "@/components/ContactSocialMedia/ContactSocialMed
 import OrderSearch from "@/components/OrderSearch/OrderSearch";
 import { fetchApi } from "@/action/fetchApi";
 import { AllProjectType, FilterQueryType } from "../type";
-import NotFound from "../not-found";
 import { Metadata } from "next";
 import { dataApi } from "@/data/tagsName";
+import DontData from "@/components/DontData/DontData";
+import { notFound } from "next/navigation";
 const getData = async (query: FilterQueryType) => {
   const url = dataApi.projects.url + "?" + new URLSearchParams(query);
   const data = await fetchApi({ url, tags: dataApi.projects.tags, next: dataApi.projects.cache });
-  if (data.error) return NotFound();
+  if (data.error) return notFound();
   return data
 };
 export const metadata: Metadata = {
@@ -71,11 +72,17 @@ export default async function page({
             <OrderSearch />
           </div>
         </section>
-        <div className="my-5 md:my-10 grid grid-cols-2 md:grid-cols-3 gap-5">
-          {data.rows.map((item, index) => (
-            <CardProjects project={item} key={index} />
-          ))}
-        </div>
+        {data.rows.length ?
+          (
+            <div className="my-5 md:my-10 grid grid-cols-2 md:grid-cols-3 gap-5">
+              {data.rows.map((item, index) => (
+                <CardProjects project={item} key={index} />
+              ))}
+            </div>
+          )
+          :
+          <DontData name="هیچ پروژه ای یافت نشد!" />
+        }
         <div>
           <Suspense fallback={<LoadingSearch />}>
             <Pagination pagination={data.paginate} />

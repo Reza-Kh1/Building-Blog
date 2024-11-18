@@ -6,7 +6,11 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import ImgTag from '../ImgTag/ImgTag';
-
+import { TabDataType } from '@/app/type';
+type TabsComponentType = {
+    image: { alt: string, url: string } | null,
+    tabs: TabDataType[]
+}
 interface TabPanelProps {
     children?: React.ReactNode;
     dir?: string;
@@ -20,26 +24,25 @@ function TabPanel(props: TabPanelProps) {
         <div
             role="tabpanel"
             hidden={value !== index}
-            className='text-justify px-1'
+            className='text-justify px-1 mt-5 md:mt-8'
             id={`full-width-tabpanel-${index}`}
             aria-labelledby={`full-width-tab-${index}`}
             {...other}
         >
             {value === index && (
-                <Typography>{children}</Typography>
+                <Typography className='!text-sm md:!text-base'>{children}</Typography>
             )}
         </div>
     );
 }
 
-export default function FullWidthTabs() {
+export default function TabsComponent({ image, tabs }: TabsComponentType) {
     const theme = useTheme();
     const [value, setValue] = React.useState(0);
-
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
     };
-
+    if (!image) return
     return (
         <section className='w-full flex flex-col md:flex-row gap-5 my-3 md:my-6'>
             <div className='w-full md:w-2/3 '>
@@ -52,15 +55,22 @@ export default function FullWidthTabs() {
                         textColor="inherit"
                         variant="scrollable"
                     >
-                        <Tab label="Item One" className='!text-xs !p-2 md:!text-base md:!p-3' />
+                        {tabs?.map((i, index) => (
+                            <Tab key={index} label={i?.title} className='!text-xs !p-2 md:!text-base md:!p-3' />
+                        ))}
                     </Tabs>
-                    <TabPanel value={value} index={0} dir={theme.direction}>
-                        با استفاده از اطلاعات جدید
-                    </TabPanel>
+                    {tabs?.map((i, index) => (
+                        <TabPanel key={index} value={value} index={index} dir={theme.direction}>
+                            {i?.text}
+                        </TabPanel>
+                    ))}
                 </Box>
             </div>
             <div className='w-full md:w-1/3'>
-                <ImgTag src={"/8.jpg"} alt={"خدمات که ما ارائه میدهیم"} width={300} height={250} />
+                {image ?
+                    <ImgTag src={image?.url} alt={image?.alt} width={300} height={250} />
+                    : null
+                }
             </div>
         </section>
     );

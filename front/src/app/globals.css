@@ -106,7 +106,11 @@ a {
   transform: scale3d(1, 1, 1);
   transition: all ease-in-out 0.3s;
 }
-
+.not-found{
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
 .classDiv {
   max-width: 80rem;
   margin: 1rem auto;

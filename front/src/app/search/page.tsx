@@ -1,13 +1,13 @@
-import { fetchApi } from "@/action/fetchApi";
-import NotFound from "@/app/not-found";
+import ContactSocialMedia from "@/components/ContactSocialMedia/ContactSocialMedia";
 import { CardPostType, CardProjectsType, ExpertType } from "@/app/type";
-import React from "react";
 import Breadcrums from "@/components/Breadcrums/Breadcrums";
 import SwiperCards from "@/components/SwiperCards/SwiperCards";
-import ContactSocialMedia from "@/components/ContactSocialMedia/ContactSocialMedia";
+import { fetchApi } from "@/action/fetchApi";
+import React from "react";
 import { Metadata } from "next";
 import Script from "next/script";
 import { dataApi } from "@/data/tagsName";
+import { notFound } from "next/navigation";
 type pageType = {
   searchParams: { tags: string };
 };
@@ -18,8 +18,10 @@ type DataSearchType = {
 };
 const getData = async (tagId: string) => {
   let url = dataApi.search.url + "?tags=" + tagId;
+  console.log(url);
+  
   const data = await fetchApi({ url, next:dataApi.search.cache,tags:dataApi.search.tags });
-  if (data.error) return NotFound();
+  if (data.error) return notFound();
   return data;
 };
 export const metadata: Metadata = {

@@ -5,13 +5,16 @@ import OurServices from "@/components/OurServices/OurServices";
 import SwiperCards from "@/components/SwiperCards/SwiperCards";
 import SwiperHero from "@/components/SwiperHero/SwiperHero";
 import { FaPhone } from "react-icons/fa6";
-import { AllExpertType, AllPostType, AllProjectType } from "./type";
+import { AllExpertType, AllPostType, AllProjectType, HomePageType } from "./type";
 import { dataApi } from "@/data/tagsName";
-import Tabs from "@/components/Tabs/Tabs";
+import TabsComponent from "@/components/Tabs/Tabs";
 import BannerFooter from "@/components/BannerFooter/BannerFooter";
 import ImgTag from "@/components/ImgTag/ImgTag";
 import { servicesData } from "@/data/dataService";
 import Link from "next/link";
+const getData = () => {
+  return fetchApi({ url: dataApi.home.url, tags: dataApi.home.tags, next: dataApi.home.cache })
+}
 const getProject = () => {
   return fetchApi({ url: dataApi.projects.url, tags: dataApi.projects.tags, next: dataApi.projects.cache })
 }
@@ -25,9 +28,10 @@ export default async function Home() {
   const projects: AllProjectType = await getProject()
   const posts: AllPostType = await getPosts()
   const experts: AllExpertType = await getExperts()
+  const { data }: HomePageType = await getData()    
   return (
     <>
-      <SwiperHero />
+      <SwiperHero data={data?.text?.heroData} />
       <div className="p-3 md:p-5 my-3 md:my-6 bg-gradient-to-t to-white from-[#96c6fd] dark:from-[#242b36] dark:to-[#232528] shadow-md">
         <div className="max-w-7xl w-full flex gap-5 justify-between items-center mx-auto">
           <div className="flex flex-col gap-1 md:gap-2">
@@ -68,7 +72,7 @@ export default async function Home() {
           title="پروژه های ما"
           url="/blog?order=createdAt-DESC&page=1"
         />
-        <Tabs />
+        <TabsComponent tabs={data?.text?.tabs} image={data?.text?.tabImage} />
         <SwiperCards
           isPost
           data={posts.rows}

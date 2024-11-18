@@ -7,6 +7,7 @@ import { GrUserWorker } from "react-icons/gr";
 import { SiGooglemaps } from "react-icons/si";
 import { MdAddHomeWork } from 'react-icons/md'
 export default function CardProjects({ project }: { project: CardProjectsType }) {
+    if (!project) return
     return (
         <section className='hover:shadow-md dark:shadow-full-dark rounded-md group   '>
             <Link href={"/project/" + project.name.replace(/ /g, "-")} className="relative group/image">

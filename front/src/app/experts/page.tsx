@@ -6,14 +6,14 @@ import CardExperts from '@/components/CardExperts/CardExperts'
 import Pagination from '@/components/Pagination/Pagination'
 import DontData from '@/components/DontData/DontData'
 import ContactSocialMedia from '@/components/ContactSocialMedia/ContactSocialMedia'
-import NotFound from '../not-found'
 import Breadcrums from '@/components/Breadcrums/Breadcrums'
 import { Metadata } from 'next'
 import { dataApi } from '@/data/tagsName'
+import { notFound } from 'next/navigation'
 const getData = async (query: FilterQueryType) => {
     const url = dataApi.experts.url+"?" + new URLSearchParams(query)
     const data = await fetchApi({ url ,next:dataApi.experts.cache,tags:dataApi.experts.tags})
-    if (data.error) return NotFound();
+    if (data.error) return notFound();
     return data
 }
 export const metadata: Metadata = {

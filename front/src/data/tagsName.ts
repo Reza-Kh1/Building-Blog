@@ -1,4 +1,9 @@
 const dataApi = {
+  home: {
+    tags: ["home"],
+    url: "page/home",
+    cache: 86400,
+  },
   comments: {
     tags: ["comment"],
     url: "comment/null",
@@ -74,11 +79,7 @@ const dataApi = {
     url: "worker/name-worker",
     cache: 86400,
   },
-  home: {
-    tags: "",
-    url: "",
-    cache: 86400,
-  },
+
 };
 
 export { dataApi };

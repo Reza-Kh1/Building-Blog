@@ -7,7 +7,6 @@ import toast from "react-hot-toast";
 import { useFormState } from "react-dom";
 import UploadImage from "@/components/UploadImage/UploadImage";
 import actionProject from "@/action/actionProject";
-import InputForm from "@/components/InputForm/InputForm";
 const options = [
   "لوله کشی گاز",
   "کناف",
@@ -36,12 +35,34 @@ const initialize = {
 export default function FormRequest() {
   const [mediaArry, setMediaArry] = useState<string[]>([]);
   const [state, formAction] = useFormState(actionProject, initialize)
+  const [openNotif, setOpenNotif] = useState<boolean>(false)
   const [formValues, setFormValues] = useState({
     nameValue: "", phoneValue: "", metraghValue: "", priceValue: "", textValue: ""
   });
   if (state?.msg) {
     toast.dismiss("toast")
-    toast.success("اطلاعات با موفقیت ارسال شد", { id: "toast" })
+
+    toast(
+      (t) => (
+        <div className="w-full">
+          <p className="font-bold">در اسرع وقت تماس خواهیم گرفت</p>
+          <div className="mt-5 w-1/2 mx-auto">
+            <CustomButton
+              onClick={() => {
+                toast.dismiss(t.id); // حذف نوتیف
+              }}
+              name="فهمیدم !"
+              type="button"
+            />
+
+          </div>
+        </div>
+      ),
+      { duration: Infinity, position: "bottom-center" },
+    );
+
+    // setOpenNotif(true)
+    // toast.success("اطلاعات با موفقیت ارسال شد")
   }
   if (state?.err) {
     toast.dismiss("toast")

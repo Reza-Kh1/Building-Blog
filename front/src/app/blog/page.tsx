@@ -6,13 +6,14 @@ import Pagination from "@/components/Pagination/Pagination";
 import React, { Suspense } from "react";
 import { AllPostType, FilterQueryType } from "../type";
 import ContactSocialMedia from "@/components/ContactSocialMedia/ContactSocialMedia";
-import NotFound from "../not-found";
 import { Metadata } from "next";
 import { dataApi } from "@/data/tagsName";
+import DontData from "@/components/DontData/DontData";
+import { notFound } from "next/navigation";
 const getData = async (query: FilterQueryType) => {
   const url = "post?" + new URLSearchParams(query);
-  const data = await fetchApi({ url, next:dataApi.posts.cache,tags:dataApi.posts.tags  });
-  if (data.error) return NotFound();
+  const data = await fetchApi({ url, next: dataApi.posts.cache, tags: dataApi.posts.tags });
+  if (data.error) return notFound();
   return data;
 };
 export const metadata: Metadata = {
@@ -70,7 +71,12 @@ export default async function page({
           </div>
         </section>
         <div className="my-5">
-          <Cards props={data.rows} />
+          {
+            data.rows.length ?
+              <Cards props={data.rows} />
+              :
+              <DontData name="هیچ پستی یافت نشد!" />
+          }
         </div>
         <Suspense fallback={"در حال بارگیری ..."}>
           <Pagination pagination={data.paginate} />

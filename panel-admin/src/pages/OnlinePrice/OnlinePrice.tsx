@@ -101,7 +101,7 @@ export default function OnlinePrice() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["Onlineprice"] });
-      toast.success("اطلاعات ذخیره شد");
+      toast.info("آیتم مورد نظر حذف شد");
       setOpen(false);
     },
     onError: (err) => {

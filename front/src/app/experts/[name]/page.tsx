@@ -10,10 +10,10 @@ import SwiperCards from "@/components/SwiperCards/SwiperCards";
 import { IoIosCheckmarkCircleOutline, IoLogoTwitter } from "react-icons/io";
 import { FaInstagram, FaLinkedin, FaTelegram } from "react-icons/fa6";
 import { BiLogoInternetExplorer } from "react-icons/bi";
-import NotFound from "@/app/not-found";
 import { Metadata } from "next";
 import Script from "next/script";
 import { dataApi } from "@/data/tagsName";
+import { notFound } from "next/navigation";
 const dataSocialMedia = [
   {
     value: "whatsapp",
@@ -46,9 +46,9 @@ const dataSocialMedia = [
   },
 ];
 const getData = async (name: string) => {
-  const url = dataApi.singleExpert.url +"/" + name.replace(/-/g, " ");  
-  const data = await fetchApi({ url,next:dataApi.singleExpert.cache });
-  if (data.error) return NotFound();
+  const url = dataApi.singleExpert.url + "/" + name.replace(/-/g, " ");
+  const data = await fetchApi({ url, next: dataApi.singleExpert.cache });
+  if (data.error) return notFound();
   return data
 };
 export async function generateMetadata({ params }: { params: { name: string } }): Promise<Metadata> {
@@ -191,36 +191,38 @@ export default async function page({ params }: { params: { name: string } }) {
           </Link>
         </div>
         <div className="w-full md:w-2/3 flex flex-col gap-5">
-          <section aria-labelledby="information-expert" className="bg-gradient-to-br to-blue-400 dark:to-[#363e4a] dark:from-[#1b1b1f] transition-all dark:shadow-full-dark dark:hover:shadow-none from-slate-300 rounded-md shadow-md p-4">
-            <span className="text-base dark:text-h-dark md:text-xl mb-3 block ">معرفی</span>
-            <p id="information-expert" className="dark:text-p-dark">{data?.description}</p>
-            {data.address ? (
-              <>
-                <span className="text-base dark:text-h-dark md:text-xl my-3 block ">آدرس</span>
-                <p className="dark:text-p-dark">{data.address}</p>
-              </>
-            ) : null}
-          </section>
-          <div className="bg-gradient-to-tr to-blue-400 dark:to-[#363e4a] dark:from-[#1b1b1f] transition-all dark:shadow-full-dark dark:hover:shadow-none from-slate-300 rounded-md shadow-md p-4">
-            <span className="text-base dark:text-h-dark  md:text-xl mb-3 block">شبکه های اجتماعی</span>
-            <section aria-labelledby="social-media" className="grid grid-cols-2 gap-3 md:gap-5">
-              {data.socialMedia.map((i, index) => (
-                <Link
-                  href={i.link}
-                  key={index}
-                  className="flex bg-slate-50 dark:bg-info-dark dark:text-p-dark hover:shadow-blue-300 dark:shadow-low-dark  dark:hover:shadow-none hover:text-blue-300 p-2 md:p-3 shadow-md text-gray-900 gap-2 rounded-md items-center"
-                >
-                  <i>
-                    {
-                      dataSocialMedia?.find((item) => item.value === i.type)
-                        ?.icon
-                    }
-                  </i>
-                  <span>{i.text}</span>
-                </Link>
-              ))}
+          {data?.description || data?.address ?
+            <section aria-labelledby="information-expert" className="bg-gradient-to-br to-blue-400 dark:to-[#363e4a] dark:from-[#1b1b1f] transition-all dark:shadow-full-dark dark:hover:shadow-none from-slate-300 rounded-md shadow-md p-4">
+              <span className="text-base dark:text-h-dark md:text-xl mb-3 block ">معرفی</span>
+              <p id="information-expert" className="dark:text-p-dark">{data?.description || "ثبت نشده"}</p>
+              <span className="text-base dark:text-h-dark md:text-xl my-3 block ">آدرس</span>
+              <p className="dark:text-p-dark">{data?.address || "ثبت نشده"}</p>
             </section>
-          </div>
+            : null}
+          {
+            data.socialMedia.length ?
+              <div className="bg-gradient-to-tr to-blue-400 dark:to-[#363e4a] dark:from-[#1b1b1f] transition-all dark:shadow-full-dark dark:hover:shadow-none from-slate-300 rounded-md shadow-md p-4">
+                <span className="text-base dark:text-h-dark  md:text-xl mb-3 block">شبکه های اجتماعی</span>
+                <section aria-labelledby="social-media" className="grid grid-cols-2 gap-3 md:gap-5">
+                  {data.socialMedia.map((i, index) => (
+                    <Link
+                      href={i.link}
+                      key={index}
+                      className="flex bg-slate-50 dark:bg-info-dark dark:text-p-dark hover:shadow-blue-300 dark:shadow-low-dark  dark:hover:shadow-none hover:text-blue-300 p-2 md:p-3 shadow-md text-gray-900 gap-2 rounded-md items-center"
+                    >
+                      <i>
+                        {
+                          dataSocialMedia?.find((item) => item.value === i.type)
+                            ?.icon
+                        }
+                      </i>
+                      <span>{i.text}</span>
+                    </Link>
+                  ))}
+                </section>
+              </div>
+              : null
+          }
         </div>
       </div>
       <BannerCallUs />

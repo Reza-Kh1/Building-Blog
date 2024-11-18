@@ -7,7 +7,6 @@ import BannerCallUs from "../../components/BannerCallUs/BannerCallUs";
 import { fetchApi } from "@/action/fetchApi";
 import { AboutUsType, AllProjectType } from "../type";
 import ContactSocialMedia from "@/components/ContactSocialMedia/ContactSocialMedia";
-import NotFound from "../not-found";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import SwiperCards from "@/components/SwiperCards/SwiperCards";
@@ -16,7 +15,7 @@ import OurServices from "@/components/OurServices/OurServices";
 
 const getData = async () => {
   const data = await fetchApi({ url: dataApi.aboutUs.url, next: dataApi.aboutUs.cache, tags: dataApi.aboutUs.tags });
-  if (data.error) return NotFound();
+  if (data.error) return notFound();
   return data;
 };
 const getProjects = async () => {
@@ -56,7 +55,7 @@ export const metadata: Metadata = {
 };
 export default async function page() {
   const { data }: AboutUsType = await getData();
-  const projects: AllProjectType = await getProjects()
+  const projects: AllProjectType = await getProjects()  
   return (
     <>
       <Breadcrums />
@@ -80,7 +79,7 @@ export default async function page() {
       </div>
       <OurServices />
       <div className="classDiv">
-        <SwiperCards data={projects.rows} title="پروژه های ما" url="/project" />
+        <SwiperCards data={projects.rows}  isProject title="پروژه های ما" url="/project" />
       </div>
       <BannerCallUs />
       <div className="classDiv flex flex-col md:flex-row gap-3 items-center">

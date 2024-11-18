@@ -67,6 +67,7 @@ export default function FormPost({ dataPost }: { dataPost?: SinglePostType }) {
     onSuccess: ({ data }) => {
       setPostId(data.id);
       queryClient.invalidateQueries({ queryKey: ["AllPost"] });
+      queryClient.invalidateQueries({ queryKey: ["siglePost", slug] });
       toast.success("پست با موفقیت ثبت شد");
     },
     onError: (err: any) => {
@@ -87,9 +88,8 @@ export default function FormPost({ dataPost }: { dataPost?: SinglePostType }) {
       return axios.put(`post/${postId}`, body);
     },
     onSuccess: () => {
-      const newUrl = "/home/posts/" + getValues("title").replace(/ /g, "-");
-      window.history.pushState({}, '', newUrl);
       queryClient.invalidateQueries({ queryKey: ["AllPost"] });
+      queryClient.invalidateQueries({ queryKey: ["siglePost", slug] });
       toast.success("پست با موفقیت آپدیت شد");
     },
     onError: (err: any) => {

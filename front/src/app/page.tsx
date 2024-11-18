@@ -8,7 +8,6 @@ import { FaPhone } from "react-icons/fa6";
 import { AllExpertType, AllPostType, AllProjectType, HomePageType } from "./type";
 import { dataApi } from "@/data/tagsName";
 import TabsComponent from "@/components/Tabs/Tabs";
-import BannerFooter from "@/components/BannerFooter/BannerFooter";
 import ImgTag from "@/components/ImgTag/ImgTag";
 import { servicesData } from "@/data/dataService";
 import Link from "next/link";
@@ -109,7 +108,6 @@ export default async function Home() {
         />
       </div>
       <ContactSocialMedia />
-      <BannerFooter />
     </>
   );
 }

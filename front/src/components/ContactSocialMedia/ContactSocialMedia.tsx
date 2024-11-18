@@ -38,7 +38,7 @@ export default function ContactSocialMedia({
     <section
       aria-labelledby="link-social-media"
       className={
-        "grid grid-cols-4 px-3 md:px-4 pb-2 overflow-auto my-6 md:my-12 gap-1 justify-center md:gap-5 w-full max-w-7xl mx-auto pt-6 md:pt-12 " +
+        "grid grid-cols-4 px-3 md:px-4 pb-2 overflow-auto my-6 md:mb-10 md:mt-6 gap-1 justify-center md:gap-5 w-full max-w-7xl mx-auto pt-6 md:pt-10 " +
         classDiv
       }
     >

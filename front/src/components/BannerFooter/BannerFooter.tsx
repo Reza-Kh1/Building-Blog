@@ -8,7 +8,7 @@ export default function BannerFooter() {
             <ul className='flex w-full max-w-7xl mx-auto px-2 md:px-0 justify-between md:justify-evenly items-center gap-1 md:gap-3 text-gray-400'>
                 {servicesData.map((i, index) => (
                     <li className='flex flex-col items-center gap-3 justify-center' key={index}>
-                        <ImgTag src={i.img} classPlus='md:w-12 w-6 h-auto' alt={i.alt} width={96} height={96} />
+                        <ImgTag src={i.img} classPlus='md:w-12 w-6 h-auto' alt={""} width={96} height={96} />
                         <span className='text-[8px] md:text-base'>
                             {i.title}
                         </span>

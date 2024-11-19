@@ -2,7 +2,7 @@
 import Image, { StaticImageData } from "next/image";
 import React, { useState } from "react";
 import LoadingImg from "../LoadingImg/LoadingImg";
-import ImageError from "@/../public/errorImage.png";
+import ImageError from "@/../public/errorImage.webp";
 type ImageType = {
   src: any;
   alt: string | null;

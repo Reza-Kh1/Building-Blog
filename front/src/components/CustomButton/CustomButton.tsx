@@ -21,14 +21,15 @@ export default function CustomButton({ type, disable, iconEnd, iconStart, name, 
     }
     if (color === "warning") {
         colorButton = "from-[#ffaf66] to-[#e95858] hover:to-[#ff1010] hover:from-[#ff8b20] w-full"
-    }        
+    }
     return (
         <Button
+            aria-labelledby={name}
             onClick={onClick}
             startIcon={iconStart}
-            endIcon={pending || disable  ? <CgSpinner className='animate-spin' /> : iconEnd}
+            endIcon={pending || disable ? <CgSpinner className='animate-spin' /> : iconEnd}
             disabled={disable}
-            type={type} className={"!text-gray-100 bg-gradient-to-tl rounded-lg shadow-md " + colorButton + " " + className}>
+            type={type || "button"} className={"!text-gray-100 bg-gradient-to-tl rounded-lg shadow-md " + colorButton + " " + className}>
             {name}
         </Button>
     )

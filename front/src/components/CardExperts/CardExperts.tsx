@@ -16,14 +16,14 @@ export default function CardExperts(props: ExpertType) {
             مورد تایید<IoIosCheckmarkCircleOutline className='text-green-500 text-xl' />
           </span>
         </h3>
-        <Link href={"/experts/" + props?.name?.replace(/ /g, "-")} className='w-full flex justify-center'>
+        <Link aria-label={props.name} title={props.name} href={"/experts/" + props?.name?.replace(/ /g, "-")} className='w-full flex justify-center'>
           <ImgTag figureClass='relative' alt={props.name} src={props?.image} width={300} height={300} className='rounded-full border-8 dark:border-[#262e3b] border-[#b1d2f8] w-40 h-40 object-cover' />
         </Link>
       </div>
       <div className='mt-14 p-2 text-white'>
         <div className='flex flex-wrap gap-2 w-full md:px-2 my-2'>
           <div className='flex flex-col md:flex-row items-start md:items-center justify-between w-full'>
-            <Link href={"tel:" + props.phone} className='w-full text-sm hover:bg-blue-400/70 hover:shadow-md p-1 px-2 rounded-md dark:text-p-dark text-white flex items-center gap-2'>
+            <Link aria-label='شماره تلفن' title={props.phone} href={"tel:" + props.phone} className='w-full text-sm hover:bg-blue-400/70 hover:shadow-md p-1 px-2 rounded-md dark:text-p-dark text-white flex items-center gap-2'>
               <i className='text-gray-50 dark:text-p-dark'><FaPhone /></i>
               {props.phone}
             </Link>

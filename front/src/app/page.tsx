@@ -27,7 +27,7 @@ export default async function Home() {
   const projects: AllProjectType = await getProject()
   const posts: AllPostType = await getPosts()
   const experts: AllExpertType = await getExperts()
-  const { data }: HomePageType = await getData()    
+  const { data }: HomePageType = await getData()
   return (
     <>
       <SwiperHero data={data?.text?.heroData} />
@@ -42,7 +42,8 @@ export default async function Home() {
               با ما، خانه‌ رویایی‌تان را از پایه بسازید – کیفیت، ایمنی و زیبایی
               در هر قدم از ساخت!
             </span>
-            <Link className="block md:hidden w-1/3 mx-auto" href={"/contact-us"}>
+            <Link aria-label="تماس بگیرید"
+              title="تماس بگیرید" className="block md:hidden w-1/3 mx-auto" href="/contact-us">
               <CustomButton
                 className="!text-xs"
                 name="تماس بگیرید"
@@ -52,7 +53,7 @@ export default async function Home() {
             </Link>
           </div>
           <div className="hidden md:block md:w-1/6">
-            <Link href={"/contact-us"}>
+            <Link href="/contact-us" aria-label="تماس بگیرید" title="تماس بگیرید">
               <CustomButton
                 className="!text-xs md:!text-base"
                 name="تماس بگیرید"
@@ -85,7 +86,7 @@ export default async function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-7">
             {servicesData.map((i, index) => (
               <section key={index} className='flex w-full items-center gap-3'>
-                <ImgTag src={i.img} figureClass="inline" className='w-20 h-auto' alt={i.alt} width={96} height={96} />
+                <ImgTag src={i.img} figureClass="inline" className='w-20 h-auto' alt={""} width={96} height={96} />
                 <div>
                   <h3 className="text-gray-700 font-bold dark:text-p-dark text-sm md:text-base">
                     {i.title}

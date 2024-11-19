@@ -43,9 +43,9 @@ export default function SwiperGallery({
                 alt={i?.alt}
                 src={i?.url}
               />
-              <i
+              <button type="button" aria-label="fullscreen"
                 onClick={() => setOpen(true)}
-                className="absolute left-1/2 top-1/2 transform -translate-x-1/2 shadow-md -translate-y-1/2 bg-black/40 text-lg text-white p-2 rounded-lg"><BsFullscreen /></i>
+                className="absolute left-1/2 top-1/2 transform -translate-x-1/2 shadow-md -translate-y-1/2 bg-black/40 text-lg text-white p-2 rounded-lg"><BsFullscreen aria-label="تمام صفحه" title="تمام صفحه"/></button>
             </div>
           </SwiperSlide>
         ))}
@@ -82,7 +82,7 @@ export default function SwiperGallery({
       </Swiper >
       <div className={`${open ? "opacity-100 z-50" : "opacity-0 -z-20"} scroll-y fixed flex flex-col justify-between bg-black/80 top-0 left-0 w-full h-full`}>
         <div >
-          <i className="bg-gray-200 dark:text-gray-800 z-50 cursor-pointer hover:text-red-600 shadow-md absolute top-1 md:top-5 right-1 md:right-5 rounded-full inline-block p-2 md:p-3 text-xl" onClick={() => setOpen(false)}><MdClose /></i>
+          <button type="button" aria-label="close dialog" className="bg-gray-200 dark:text-gray-800 z-50 cursor-pointer hover:text-red-600 shadow-md absolute top-1 md:top-5 right-1 md:right-5 rounded-full inline-block p-2 md:p-3 text-xl" onClick={() => setOpen(false)}><MdClose aria-label="بستن" title="بستن باکس" /></button>
         </div>
         <div className="">
           <Swiper

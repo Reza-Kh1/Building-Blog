@@ -17,31 +17,31 @@ export default function CardProjects({ project }: { project: CardProjectsType })
                     src={project?.image}
                     width={400}
                     height={300}
-                    classPlus="group-hover/image:scale-125 h-40 md:h-52 w-full xl:h-64 hover-project"
+                    classPlus="group-hover/image:scale-125 !w-full !h-auto hover-project"
                 />
                 <i className="absolute text-[8px] md:text-xs md:left-2 left-1 md:top-2 top-1 p-1 rounded-md bg-slate-700/80 flex gap-1 items-center text-white ">
                     <FaRegCalendarCheck />
                     {new Date(project?.updatedAt).toLocaleDateString("fa")}
                 </i>
                 <i className="p-3 md:p-5 text-white group-hover:opacity-100  opacity-0 rounded-full backdrop-blur-md absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                    <FaPlay className=' md:text-xl' />
+                    <FaPlay className=' md:text-xl' aria-label='بازکردن' title='نمایش' />
                 </i>
             </Link>
             <div className="flex flex-col p-2 pb-4">
                 <div className='flex'>
                     <Link href={"/project/" + project.name.replace(/ /g, "-")} className='flex text-gray-800 dark:text-h-dark group/name items-center gap-1'>
-                        <i className='group-hover/name:text-blue-400'><MdAddHomeWork /></i>
+                        <MdAddHomeWork className='group-hover/name:text-blue-400' />
                         <h3 className="group-hover/name:text-blue-400 md:text-xl">{project.name}</h3>
                     </Link>
                 </div>
                 <div className='flex my-2 md:mt-3 mb-1'>
                     <Link href={"/experts/" + project.Worker?.name.replace(/ /g, "-")} className='group/expert dark:text-s-dark text-gray-600 flex items-center gap-1'>
-                        <i className='group-hover/expert:text-blue-400'><GrUserWorker /></i>
+                        <GrUserWorker className='group-hover/expert:text-blue-400' />
                         <span className='md:text-sm group-hover/expert:text-blue-400 text-xs'>{project.Worker?.name}</span>
                     </Link>
                 </div>
                 <div className='flex items-center gap-1 mb-1 text-gray-600 dark:text-s-dark'>
-                    <i><SiGooglemaps /></i>
+                    <SiGooglemaps aria-label='آدرس' title='آدرس' />
                     <span className="text-xs md:text-sm">
                         {project.address}
                     </span>

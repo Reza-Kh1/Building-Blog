@@ -141,6 +141,7 @@ export default async function page({ params }: { params: { name: string } }) {
             className="rounded-full shadow-md w-40 h-40 object-cover mx-auto"
           />
           <Link
+            aria-label="شماره تلفن"
             href={"tel:" + data.phone}
             className="flex gap-3 items-center dark:text-p-dark py-2 px-4 hover:bg-blue-400/70 hover:shadow-md rounded-md"
           >

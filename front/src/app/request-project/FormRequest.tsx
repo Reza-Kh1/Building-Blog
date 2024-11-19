@@ -81,10 +81,11 @@ export default function FormRequest() {
     <form action={changHandler} onSubmit={() => { toast.loading("...صبرکنید", { id: "toast" }) }} className="" >
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
         <div className="flex flex-col gap-2">
-          <label className="text-sm text-gray-600 dark:text-s-dark">
+          <label htmlFor="name" className="text-sm text-gray-600 dark:text-s-dark">
             نام*
           </label>
           <input
+            id="name"
             title="name"
             onChange={({ target }) => setFormValues({ ...formValues, nameValue: target.value })}
             required
@@ -95,10 +96,11 @@ export default function FormRequest() {
           />
         </div>
         <div className="flex flex-col gap-2">
-          <label className="text-sm text-gray-600 dark:text-s-dark">
+          <label htmlFor="phone" className="text-sm text-gray-600 dark:text-s-dark">
             شماره تلفن*
           </label>
           <input
+            id="phone"
             name="phone"
             onChange={({ target }) => setFormValues({ ...formValues, phoneValue: target.value.replace(/[^0-9]/g, "") })}
             required
@@ -126,11 +128,12 @@ export default function FormRequest() {
           />
         </div>
         <div className="flex flex-col gap-2">
-          <label className="text-sm text-gray-600 dark:text-s-dark">
+          <label htmlFor="price" className="text-sm text-gray-600 dark:text-s-dark">
             بودجه مورد نظر*
           </label>
           <div className="relative">
             <input
+              id="price"
               onChange={({ target }) => {
                 const test = target.value.replace(/[^0-9]/g, "");
                 setFormValues({ ...formValues, priceValue: Number(test).toLocaleString() })
@@ -141,17 +144,18 @@ export default function FormRequest() {
               placeholder="پر کردن این بخش الزامی نیست!"
               value={formValues.priceValue}
             />
-            <span className="absolute left-2 text-xs top-1/2 dark:text-s-dark dark:bg-[#313132] bg-slate-100 h-[90%] flex items-center transform -translate-y-1/2">
+            <span aria-hidden="true" className="absolute left-2 text-xs top-1/2 dark:text-s-dark dark:bg-[#313132] bg-slate-100 h-[90%] flex items-center transform -translate-y-1/2">
               تومان
             </span>
           </div>
         </div>
         <div className="flex flex-col gap-2">
-          <label className="text-sm text-gray-600 dark:text-s-dark">
+          <label htmlFor="size" className="text-sm text-gray-600 dark:text-s-dark">
             متراژ کار*
           </label>
           <div className="relative">
             <input
+              id="size"
               onChange={({ target }) => {
                 const test = target.value.replace(/[^0-9]/g, "");
                 setFormValues({ ...formValues, metraghValue: Number(test).toLocaleString() })
@@ -162,19 +166,20 @@ export default function FormRequest() {
               placeholder="پر کردن این بخش الزامی نیست!"
               value={formValues.metraghValue}
             />
-            <span className="absolute left-2 text-xs top-1/2 dark:text-s-dark dark:bg-[#313132] bg-slate-100 h-[90%] flex items-center transform -translate-y-1/2">
+            <span aria-hidden="true" className="absolute left-2 text-xs top-1/2 dark:text-s-dark dark:bg-[#313132] bg-slate-100 h-[90%] flex items-center transform -translate-y-1/2">
               مترمربع
             </span>
           </div>
         </div>
       </div>
       <div className="flex flex-col gap-2 my-5">
-        <label className="text-sm text-gray-600 dark:text-s-dark">
+        <label htmlFor="text" className="text-sm text-gray-600 dark:text-s-dark">
           توضیحات بیشتر*
         </label>
         <div className="relative">
           <textarea
             rows={6}
+            id="text"
             name="text"
             onChange={({ target }) => setFormValues({ ...formValues, textValue: target.value })}
             required

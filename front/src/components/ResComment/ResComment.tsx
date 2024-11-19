@@ -44,12 +44,12 @@ export default function ResComment({
   }
   return (
     <>
-      <i
+      <button type="button" aria-label="open dialog"
         className="cursor-pointer hover:text-gray-950 text-gray-500 dark:text-h-dark dark:hover:text-blue-500"
         onClick={() => setOpen(true)}
       >
         <IoArrowRedoSharp />
-      </i>
+      </button>
       <Dialog
         maxWidth="xl"
         open={open}
@@ -150,7 +150,7 @@ export default function ResComment({
             </div>
           </div>
         </DialogContent>
-        <DialogActions  className="dark:!bg-custom-dark">
+        <DialogActions className="dark:!bg-custom-dark">
           <div className="w-full flex justify-between">
             <div className="w-1/3 md:w-2/12">
               <CustomButton

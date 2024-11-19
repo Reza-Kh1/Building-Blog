@@ -65,6 +65,7 @@ export default function UploadImage({ mediaArry, setMediaArry }: UploadImageType
                         placeholder="upload"
                         id="upload"
                         hidden
+                        tabIndex={-1}
                     />
                     {progress ?
                         <i className="absolute flex items-center justify-center w-14 h-14 bg-green-500/80 hover:bg-orange-500 transition-all shadow-md border border-white text-white rounded-full left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
@@ -88,11 +89,11 @@ export default function UploadImage({ mediaArry, setMediaArry }: UploadImageType
                             width={300}
                             height={300}
                         />
-                        <i onClick={() => deleteImage(i)} className="absolute left-3 top-3 bg-slate-400/80 rounded-full ">
+                        <button aria-label='حذف' type='button' onClick={() => deleteImage(i)} className="absolute left-3 top-3 bg-slate-400/80 rounded-full ">
                             <IconButton color="error" size="small">
                                 <FaTrashAlt />
                             </IconButton>
-                        </i>
+                        </button>
                     </div>
                 ))}
             </div>

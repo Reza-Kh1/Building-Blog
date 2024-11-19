@@ -11,13 +11,13 @@ import { Metadata } from 'next'
 import { dataApi } from '@/data/tagsName'
 import { notFound } from 'next/navigation'
 const getData = async (query: FilterQueryType) => {
-    const url = dataApi.experts.url+"?" + new URLSearchParams(query)
-    const data = await fetchApi({ url ,next:dataApi.experts.cache,tags:dataApi.experts.tags})
+    const url = dataApi.experts.url + "?" + new URLSearchParams(query)
+    const data = await fetchApi({ url, next: dataApi.experts.cache, tags: dataApi.experts.tags })
     if (data.error) return notFound();
     return data
 }
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_URL || "http://localhost:3000"),
+    metadataBase: new URL(process.env.NEXT_PUBLIC_URL || "http://localhost:3000"),
     title: 'مجری ها | ساخت یار',
     description: 'با مجری های برتر حوزه ساخت و ساز آشنا شوید. در این صفحه می‌توانید پروفایل مجری های ما را مشاهده کنید و برای پروژه‌های خود از آنها مشاوره و خدمات دریافت کنید.',
     keywords: [
@@ -61,7 +61,8 @@ export default async function page({ searchParams }: { searchParams: FilterQuery
             <Breadcrums />
             <div className='classDiv'>
                 <section className='flex items-center justify-between'>
-                    <h1 className='font-semibold lg:text-xl'> مجریان</h1>
+                    <h1 className='font-semibold lg:text-xl dark:text-h-dark text-gray-800'> مجریان</h1>
+                    <h2 className='text-sm md:text-base dark:text-p-dark text-gray-700'>نمایش مجریان ساخت یار</h2>
                     <div className='w-1/3'>
                         <OrderSearch />
                     </div>

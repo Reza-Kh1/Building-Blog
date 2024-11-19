@@ -89,12 +89,12 @@ export default async function page({ params }: { params: { name: string } }) {
         <ImgTag width={1450} height={450} alt={data?.alt} src={data?.image} className="h-96 object-cover w-full md:max-h-[600px] md:h-auto md:min-h-[450px]" />
         <section className="bg-gray-50 text-gray-700 dark:bg-info-dark dark:shadow-low-dark py-3 md:py-6 rounded-md w-11/12 md:w-3/4 shadow-lg text-center absolute bottom-12 md:bottom-20 left-1/2 transform -translate-x-1/2 translate-y-full">
           <h1 className="lg:text-xl dark:text-h-dark font-semibold">{data?.name}</h1>
-          <div className="flex text-gray-400 dark:text-s-dark text-sm items-center justify-center gap-2 md:gap-4 mt-4 md:mt-7">
+          <div className="flex text-gray-600 dark:text-s-dark text-sm items-center justify-center gap-2 md:gap-4 mt-4 md:mt-7">
             <div className="flex text-sm md:text-base items-center gap-2">
               {data.Tags.map((i, index) => (
                 <Link
                   key={index}
-                  className="hover:text-blue-400"
+                  className="hover:text-blue-500"
                   href={"/search?tags=" + i.name}
                 >
                   {i.name}
@@ -164,13 +164,13 @@ export default async function page({ params }: { params: { name: string } }) {
           </div>
           <span className="border-t w-full h-1 block my-4 md:my-6"></span>
           <div className="w-full">
-            <h3 className="text-base lg:text-xl dark:text-h-dark text-gray-700 mb-3">تصاویر پروژه</h3>
+            <h2 className="text-base lg:text-xl dark:text-h-dark text-gray-700 mb-3">تصاویر پروژه</h2>
             <SwiperGallery imagesSrc={data.gallery} />
           </div>
           {data?.video ? (
             <>
               <span className="border-t w-full h-1 block my-6"></span>
-              <h3 className="text-base lg:text-xl dark:text-h-dark text-gray-700 mb-3 block">فیلم پروژه</h3>
+              <h2 className="text-base lg:text-xl dark:text-h-dark text-gray-700 mb-3 block">فیلم پروژه</h2>
               <div className="video-container">
                 <video
                   className="video-player h-52 md:h-80"

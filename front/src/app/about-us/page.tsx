@@ -101,7 +101,7 @@ export default async function page() {
         </section>
         <div className="w-full md:w-1/2">
           <ImgTag
-            src={"/about-us (2).jpg"}
+            src={"/about-us (2).webp"}
             alt={"about-us"}
             width={500}
             height={450}

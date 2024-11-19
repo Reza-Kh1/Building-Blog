@@ -20,6 +20,7 @@ export default function Pagination({ pagination }: PaginationComponentsType) {
             {
                 pagination?.prevPage ?
                     <Link
+                        aria-label="صفحه قبل"
                         href={{ query: newQuery + `&page=${pagination.prevPage}` }}
                     >
                         <IconButton type="button" title="صفحه قبل" aria-label="صفحه قبل" className="shadow-md dark:!bg-slate-700 dark:shadow-full-dark dark:hover:shadow-none !bg-[#77adff]" disabled={pagination.prevPage ? false : true}>
@@ -34,7 +35,7 @@ export default function Pagination({ pagination }: PaginationComponentsType) {
             <div className="flex gap-2 items-center justify-evenly">
                 {Number(page) > 4 && (
                     <>
-                        <Link href={{ query: newQuery + `&page=${1}` }}>
+                        <Link aria-label={"1"} href={{ query: newQuery + `&page=${1}` }}>
                             <IconButton type="button" title={'1'} size="small" className="shadow-md !px-4 dark:!bg-slate-700 dark:shadow-full-dark dark:hover:shadow-none !bg-[#77adff]">
                                 <span className="text-gray-50 pt-1">
                                     1
@@ -50,13 +51,13 @@ export default function Pagination({ pagination }: PaginationComponentsType) {
                         (_, i) => startPage + i
                     ).map((i) => {
                         return i === Number(page) ?
-                            <IconButton title={`${i}`} type="button" key={i} disabled={Number(page) === i} size="small" className={`!px-4 shadow-md ${i === Number(page) ? "!bg-[#d4d3d3] dark:!bg-zinc-800/80" : "!bg-[#77adff] dark:!bg-slate-700 dark:shadow-full-dark dark:hover:shadow-none"}`}>
+                            <IconButton aria-label={`${i}`} title={`${i}`} type="button" key={i} disabled={Number(page) === i} size="small" className={`!px-4 shadow-md ${i === Number(page) ? "!bg-[#d4d3d3] dark:!bg-zinc-800/80" : "!bg-[#77adff] dark:!bg-slate-700 dark:shadow-full-dark dark:hover:shadow-none"}`}>
                                 <span className="text-gray-50 pt-1">
                                     {i}
                                 </span>
                             </IconButton>
                             :
-                            <Link href={{ query: newQuery + `&page=${i}` }} key={i}>
+                            <Link aria-label={`${i}`} href={{ query: newQuery + `&page=${i}` }} key={i}>
                                 <IconButton title={`${i}`} type="button" disabled={Number(page) === i} size="small" className={`!px-4 shadow-md ${i === Number(page) ? "!bg-[#d4d3d3] dark:!bg-zinc-800/80" : "!bg-[#77adff] dark:!bg-slate-700 dark:shadow-full-dark dark:hover:shadow-none"}`}>
                                     <span className="text-gray-50 pt-1">
                                         {i}
@@ -68,7 +69,7 @@ export default function Pagination({ pagination }: PaginationComponentsType) {
                 {pagination.allPage - Number(page) > 3 && (
                     <>
                         <span>...</span>
-                        <Link href={{ query: newQuery + `&page=${pagination.allPage}` }}>
+                        <Link aria-label={`${pagination.allPage}`} href={{ query: newQuery + `&page=${pagination.allPage}` }}>
                             <IconButton title={`${pagination.allPage}`} type="button" size="small" className="shadow-md !px-4 !bg-[#77adff] dark:!bg-slate-700 dark:shadow-full-dark dark:hover:shadow-none">
                                 <span className="text-gray-50 pt-1">
                                     {pagination.allPage}
@@ -80,13 +81,13 @@ export default function Pagination({ pagination }: PaginationComponentsType) {
             </div>
             {
                 pagination.nextPage ?
-                    <Link href={{ query: newQuery + `&page=${pagination.nextPage ? Number(page) + 1 : page}` }}>
+                    <Link aria-label="صفحه بعد" href={{ query: newQuery + `&page=${pagination.nextPage ? Number(page) + 1 : page}` }}>
                         <IconButton type="button" title="صفحه بعد" aria-label="صفحه بعد" className="shadow-md !bg-[#77adff] dark:!bg-slate-700 dark:shadow-full-dark dark:hover:shadow-none" disabled={pagination.nextPage ? false : true}>
                             <FaAnglesLeft size={22} color="#ededed" />
                         </IconButton>
                     </Link>
                     :
-                    <IconButton disabled={true} type="button" title="صفحه بعد" aria-label="صفحه بعد">
+                    <IconButton aria-label="صفحه بعد" disabled={true} type="button" title="صفحه بعد">
                         <FaAnglesLeft size={22} />
                     </IconButton>
             }

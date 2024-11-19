@@ -125,10 +125,10 @@ export default async function page({ params }: { params: { slug: string } }) {
             <span className="border-r border-dashed border-black dark:border-bg-dark h-6 w-1"></span>
             <ScollComment totalComments={data?.totalComments} />
             <span className="border-r border-dashed border-black dark:border-bg-dark h-6 w-1"></span>
-            <span className="flex gap-2 items-center">
+            <h2 className="flex gap-2 items-center">
               {data?.User?.name}
               <IoPerson />
-            </span>
+            </h2>
             <span className="border-r border-dashed border-black dark:border-bg-dark h-6 w-1"></span>
             <span className="flex gap-2 items-center">
               {new Date(data?.updatedAt).toLocaleDateString("fa")}
@@ -166,7 +166,6 @@ export default async function page({ params }: { params: { slug: string } }) {
           url={`/project?page=1&tags=${data.Tags[data.Tags.length - 1].name}`}
         />
       </div>
-
     </>
   );
 }

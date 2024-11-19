@@ -97,9 +97,9 @@ export default function SearchBox() {
     <>
       <div className="w-2/12 flex items-center">
         <div className="mr-3 text-gray-800 dark:text-gray-300">
-          <i onClick={() => setIsShow(true)} className="cursor-pointer">
+          <button type="button" aria-label="جستجو" onClick={() => setIsShow(true)} className="cursor-pointer">
             <BsSearch className="text-xl lg:text-2xl" />
-          </i>
+          </button>
         </div>
       </div>
       <div
@@ -136,14 +136,16 @@ export default function SearchBox() {
                 <LoadingSearch />
               </i>
             )}
-            < Link href={`/${filterName === "post" ? "blog" : filterName === "expert" ? "experts" : "project"}?page=1&order=createdAt-DESC&search=` + valSearch} className="absolute lg:text-xl left-2 transform top-1/2 -translate-y-1/2">
+            < Link aria-label="جستجو" title="جستجو" href={`/${filterName === "post" ? "blog" : filterName === "expert" ? "experts" : "project"}?page=1&order=createdAt-DESC&search=` + valSearch} className="absolute lg:text-xl left-2 transform top-1/2 -translate-y-1/2">
               <i className="p-2 lg:p-3 rounded-full shadow-md block hover:bg-blue-600/70 bg-blue-400/90 text-white">
                 <FaSearch />
               </i>
             </Link>
             <div className="absolute left-9 lg:left-14 transform top-1/2 -translate-y-1/2">
               <FormControl className="!text-xs" size="small">
+                <span className="hidden" aria-hidden="true" id="demo-select-small">نوع فیلتر ها</span>
                 <Select
+                  title="نوع فیلتر"
                   size="small"
                   className="!text-sm md:!text-base"
                   id="demo-select-small"
@@ -169,12 +171,13 @@ export default function SearchBox() {
             </div>
           </div>
           <span className=" text-left flex justify-end">
-            <i
+            <button type="button"
+              aria-label="بستن"
               onClick={() => setIsShow(false)}
               className="cursor-pointer bg-blue-500/50 hover:bg-blue-600/70 text-white shadow-md transition-all rounded-full p-2 lg:p-3"
             >
               <MdClose size={20} />
-            </i>
+            </button>
           </span>
         </div>
       </div >

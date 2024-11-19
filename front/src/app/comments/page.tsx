@@ -10,7 +10,7 @@ import { Metadata } from "next";
 import { dataApi } from "@/data/tagsName";
 import { notFound } from "next/navigation";
 const getData = async (page: number) => {
-  const data = await fetchApi({ url: `${dataApi.comments.url}?page=${page || 1}`,next:dataApi.comments.cache,tags:dataApi.comments.tags })
+  const data = await fetchApi({ url: `${dataApi.comments.url}?page=${page || 1}`, next: dataApi.comments.cache, tags: dataApi.comments.tags })
   if (data.error) return notFound();
   return data
 }
@@ -60,10 +60,13 @@ export default async function page({ searchParams }: { searchParams: { page: num
       <div className="classDiv">
         <section aria-labelledby="comments-title">
           <h1 id="comments-title" className="lg:text-xl font-semibold mb-3 md:mb-6 dark:text-h-dark">نظرات مشتریان نسبت به ما</h1>
-          <span className="text-sm lg:text-base dark:text-p-dark">
+          <h2 className="text-sm lg:text-base dark:text-p-dark">
             {data.countNull} {" "}
             نظر تا اکنون ثبت شده
-          </span>
+          </h2>
+          <p className="text-sm lg:text-base dark:text-p-dark">
+            تجربه همکاری و یا خدماتی که از ما داشتید را میتوانید اینجا به اشتراک بگذارید
+          </p>
         </section>
         <div className="max-w-4xl mx-auto my-8">
           <Comments comments={data.comments.rows} />

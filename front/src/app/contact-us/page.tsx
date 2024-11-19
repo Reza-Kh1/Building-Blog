@@ -56,7 +56,7 @@ export default function page() {
         </section>
         <div className="w-full flex flex-col md:flex-row gap-3 my-12 justify-around">
           <div className="md:w-1/2 w-full md:order-1 order-2">
-            <h3 className="text-xl mb-5 dark:text-p-dark">پیام خود را برای ما ارسال کنید.</h3>
+            <h2 className="text-xl mb-5 dark:text-p-dark">پیام خود را برای ما ارسال کنید.</h2>
             <FormContactUs />
           </div>
           <figure className="md:w-1/2 w-full md:order-2 order-1">

@@ -127,8 +127,8 @@ export default function HeaderSticky({ category }: { category: CategoryType[] })
                   open={openMenu}
                   onClose={() => setOpenMenu(false)}
                 >
-                  <nav className="px-4 dark:bg-zinc-900/80">
-                    <Link href={"/"}>
+                  <nav className="px-4 dark:bg-zinc-900/80 min-h-screen">
+                    <Link href={"/"} aria-label="لوگو وب سایت" title="بازگشت به خانه">
                       <figure className="flex justify-center items-end">
                         <Image
                           src={"/logo.png"}
@@ -164,12 +164,12 @@ export default function HeaderSticky({ category }: { category: CategoryType[] })
                               <NavlinkHeader title={i.name} url={i.url} className="group-hover:text-blue-400 text-sm" />
                             </div>
                             {i.name === "وبلاگ" ? (
-                              <i onClick={() => setShowCategory(showCategory !== i.name ? i.name : null)}>
+                              <button aria-label="دسته بندی ها" type="button" onClick={() => setShowCategory(showCategory !== i.name ? i.name : null)}>
                                 <FaAngleDoubleDown
                                   size={14}
                                   className={`transition-all ${i.name === showCategory ? "text-blue-400 rotate-180" : ""}`}
                                 />
-                              </i>
+                              </button>
                             ) : null}
                           </div>
                           <ul className={`hidden ${showCategory === i.name ? "!block" : ""}`}>
@@ -243,14 +243,17 @@ export default function HeaderSticky({ category }: { category: CategoryType[] })
           </div>
         </div >
       </div >
-      <div
+      <button
+        type="button"
+        aria-label="رفتن به بالا"
         onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-        className={`p-3 lg:p-3 cursor-pointer fixed z-50 right-2 lg:right-5 rounded-full shadow-md bg-slate-500/70 text-white transition-all ${scrollTop ? "bottom-2 lg:bottom-5" : "-bottom-12"}`}
+        className={`p-3 lg:p-3 cursor-pointer fixed z-50 right-2 lg:right-5 rounded-full shadow-md bg-slate-500/70 text-white transition-all ${scrollTop ? "bottom-2 lg:bottom-5" : "-bottom-12"
+          }`}
       >
         <i>
           <IoIosArrowUp />
         </i>
-      </div>
+      </button>
     </>
   );
 }

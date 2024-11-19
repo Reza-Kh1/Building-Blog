@@ -1,3 +1,9 @@
 {
-  "extends": "next/core-web-vitals"
+  "rules": {
+    "jsx-a11y/media-has-caption": "off"
+  },
+  "extends": [
+    "plugin:jsx-a11y/recommended",
+    "next/core-web-vitals"
+  ]
 }

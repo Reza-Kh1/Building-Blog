@@ -14,12 +14,13 @@ export default function ScollComment({
     }
   };
   return (
-    <span
+    <button
       onClick={scrollToComments}
+      type="button"
       className="flex gap-2 items-center cursor-pointer hover:text-blue-400 transition-all"
     >
       <FaComments />
       {totalComments || 0}
-    </span>
+    </button>
   );
 }

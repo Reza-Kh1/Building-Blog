@@ -30,13 +30,15 @@ export default function DarkMode() {
     }
   };
   return (
-    <div
+    <button
+      type="button"
+      aria-label="darkmode"
       className={`darkmode ${isDark ? "btn-dark" : ""}`}
       onClick={darkHandler}
     >
       <MdSunny className="z-10 text-gray-50 dark:text-yellow-300" />
       <FaMoon className="z-10 text-gray-800 dark:text-gray-50" />
       <span className="btn-darkmode"></span>
-    </div>
+    </button>
   );
 }

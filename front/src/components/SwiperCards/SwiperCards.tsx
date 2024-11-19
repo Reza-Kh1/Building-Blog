@@ -30,7 +30,7 @@ export default function SwiperCards({
     <>
       <div className="flex w-full mt-6 md:mt-10 justify-between items-center">
         <h3 className="md:text-xl text-gray-700 dark:text-p-dark">{title}</h3>
-        <Link href={url} className="w-28 md:w-36">
+        <Link href={url} className="w-28 md:w-36" aria-labelledby={title}>
           <CustomButton
             name="نمایش بیشتر"
             className="!text-xs md:text-base"

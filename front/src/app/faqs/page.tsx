@@ -68,9 +68,9 @@ export default async function page() {
             {data?.text?.accordion[0].name
               ? data?.text.accordion.map((i, index) => (
                 <div key={i?.id}>
-                  <span className="lg:text-xl text-gray-900 mr-3 mb-1 block dark:text-p-dark">
+                  <h2 className="lg:text-xl text-gray-900 mr-3 mb-1 block dark:text-p-dark">
                     {i?.name}
-                  </span>
+                  </h2>
                   <section className="flex flex-col gap-1">
                     {i?.arry.length
                       ? i.arry.map((item) => (
@@ -101,7 +101,7 @@ export default async function page() {
         <div className="w-full md:w-1/4">
           {data?.text?.description && (
             <section className="w-full bg-gradient-to-bl from-[#60a5fa] dark:shadow-full-dark dark:from-[#363e4a] dark:to-[#1b1b1f]  shadow-md to-slate-200 rounded-md p-3 sticky top-24 left-0 min-h-12">
-              <h2 className="text-white text-xl mb-4 dark:text-p-dark lg:text-xl  font-semibold ">درباره ما</h2>
+              <h3 className="text-white text-xl mb-4 dark:text-p-dark lg:text-xl  font-semibold ">درباره ما</h3>
               <p className="text-justify !leading-7 dark:text-p-dark text-gray-600 textsm lg:text-base">
                 {data?.text?.description}
               </p>

@@ -66,7 +66,6 @@ export default async function page({
       <div className="classDiv">
         <section className="flex w-full items-center justify-between">
           <h1 className="font-semibold lg:text-xl">وبلاگ ساخت یار</h1>
-          <h2>پست ها یا مقالات ساخت یار</h2>
           <div className="w-2/6">
             <OrderSearch />
           </div>

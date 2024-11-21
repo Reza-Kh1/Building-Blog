@@ -14,7 +14,7 @@ export default async function Header() {
   return (
     <>
       <header className="w-full h-full">
-        <div className="bg-slate-200/80 dark:bg-zinc-900 transition-all pt-2 md:pt-8">
+        <div className="bg-slate-100/80 dark:bg-zinc-900 transition-all pt-2 md:pt-8">
           <div className="classDiv !my-0 flex w-full flex-wrap px-3 xl:px-0 md:flex-row justify-between items-center md:items-start">
             <div className="w-1/2 order-1 md:order-1 md:w-2/12 text-right">
               <IconSocialMedia />

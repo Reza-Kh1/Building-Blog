@@ -10,6 +10,6 @@ type NavlinkHeaderType = {
 export default function NavlinkHeader({ className, url, title }: NavlinkHeaderType) {
     const router = usePathname()
     return (
-        <Link className={className + ` ${url.split("?")[0] === router ? "text-blue-400" : ""}`} href={url}>{title}</Link>
+        <Link className={className + ` ${url.split("?")[0] === router ? "text-blue-600 dark:text-blue-400" : ""}`} href={url}>{title}</Link>
     )
 }

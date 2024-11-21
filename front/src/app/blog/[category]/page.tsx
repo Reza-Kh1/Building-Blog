@@ -24,7 +24,7 @@ export async function generateMetadata(query: PageType): Promise<Metadata> {
     const categorySlug = query.params.category.replace(/ /g, "-");
     return {
         metadataBase: new URL(process.env.NEXT_PUBLIC_URL || "http://localhost:3000"),
-        title: `پست‌های دسته‌بندی ${categoryName} | ساخت یار`,
+        title: `پست‌های دسته‌ ${categoryName} | ساخت یار`,
         description: `مطالب و مقالات مرتبط با ${categoryName} در حوزه ساخت و ساز و معماری.`,
         keywords: [categoryName, "ساختمان", "ساخت و ساز", "معماری", "پروژه‌های ساختمانی"],
         robots: "index, follow",
@@ -60,8 +60,11 @@ export default async function page(query: PageType) {
         <>
             <Breadcrums />
             <div className="classDiv">
-                <section className="flex w-full items-center mt-6 justify-between">
-                    <h1 className='font-semibold dark:text-h-dark text-gray-700 lg:text-lg'>پست های دسته بندی {data?.category?.name}</h1>
+                <section className="flex w-full flex-col gap-2 md:gap-3 mt-3 md:mt-6">
+                    <h1 className='font-semibold dark:text-h-dark text-gray-700 lg:text-lg'>پست های دسته {data?.category?.name}</h1>
+                    <h2 className="mt-2 text-gray-600 dark:text-p-dark">
+                        تمامی مطالب مرتبط با دسته‌بندی {'"'}{data?.category?.name}{'"'} در این صفحه فهرست شده‌اند.
+                    </h2>
                 </section>
                 <div className="my-5">
                     <Cards props={data.rows} />

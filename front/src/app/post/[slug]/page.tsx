@@ -104,12 +104,12 @@ export default async function page({ params }: { params: { slug: string } }) {
         />
         <section aria-labelledby="post-name" className="bg-gray-50 dark:bg-info-dark dark:shadow-low-dark py-3 md:py-6 rounded-md w-11/12 md:w-3/4 shadow-lg text-center absolute bottom-12 md:bottom-20 left-1/2 transform -translate-x-1/2 translate-y-full">
           <h1 id="post-name" className="lg:text-xl text-gray-700 font-bold dark:text-h-dark">{data?.title}</h1>
-          <div className="flex text-gray-400 dark:text-s-dark text-sm items-center justify-center gap-2 md:gap-4 mt-4 md:mt-7">
+          <div className="flex text-gray-500 dark:text-s-dark text-sm items-center justify-center gap-2 md:gap-4 mt-4 md:mt-7">
             <div className="flex text-sm md:text-base items-center gap-2">
               {data.Tags.map((i, index) => (
                 <Link
                   key={index}
-                  className="hover:text-blue-400"
+                  className="hover:text-blue-600"
                   href={"/search?tags=" + i.name}
                 >
                   {i.name}
@@ -119,9 +119,7 @@ export default async function page({ params }: { params: { slug: string } }) {
               <FaTags />
             </div>
             <span className="border-r border-dashed border-black dark:border-bg-dark h-6 w-1"></span>
-            <span>
-              <FaPhotoVideo />
-            </span>
+            <span><FaPhotoVideo /></span>
             <span className="border-r border-dashed border-black dark:border-bg-dark h-6 w-1"></span>
             <ScollComment totalComments={data?.totalComments} />
             <span className="border-r border-dashed border-black dark:border-bg-dark h-6 w-1"></span>

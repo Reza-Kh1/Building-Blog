@@ -29,7 +29,7 @@ export default function FormComments({ postId }: { postId?: number }) {
   return (
     <div className="form-comments" id="form-comments">
       <h4 id="create-comments" className="font-bold lg:text-xl mb-3 dark:text-p-dark">
-        <span className="text-[#58b2e9]">کامنت</span> خود را ثبت کنید.
+        کامنت خود را ثبت کنید.
       </h4>
       <form aria-labelledby="create-comments"
         action={commentsHandler}
@@ -62,7 +62,7 @@ export default function FormComments({ postId }: { postId?: number }) {
         </div>
         <div>
           <span className="text-sm mb-1 inline-block">
-            کامنت خود را ثبت کنید :*
+            متن نظر خود را بنویسید :*
           </span>
           <textarea
             name="text"

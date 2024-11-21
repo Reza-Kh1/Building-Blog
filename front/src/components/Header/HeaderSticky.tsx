@@ -110,7 +110,7 @@ export default function HeaderSticky({ category }: { category: CategoryType[] })
   return (
     <>
       <div
-        className={`header-sticky shadow-md shadow-[#dbdbdb] dark:shadow-full-dark bg-slate-200/80 dark:bg-zinc-900/80 ${visible
+        className={`header-sticky shadow-md shadow-[#dbdbdb] dark:shadow-full-dark bg-slate-100/80 dark:bg-zinc-900/80 ${visible
           ? "header-show bg-slate-100/40 dark:!bg-zinc-900/80"
           : "header-hidden"
           } `}

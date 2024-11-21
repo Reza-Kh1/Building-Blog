@@ -66,14 +66,14 @@ export default async function page() {
           </section>
           <div className="accordion flex flex-col gap-5 lg:gap-7">
             {data?.text?.accordion[0].name
-              ? data?.text.accordion.map((i, index) => (
+              ? data?.text.accordion.map((i) => (
                 <div key={i?.id}>
                   <h2 className="lg:text-xl text-gray-900 mr-3 mb-1 block dark:text-p-dark">
                     {i?.name}
                   </h2>
                   <section className="flex flex-col gap-1">
                     {i?.arry.length
-                      ? i.arry.map((item) => (
+                      ? i.arry.map((item, index) => (
                         <Accordion key={index}>
                           <AccordionSummary
                             expandIcon={<IoIosArrowDown />}

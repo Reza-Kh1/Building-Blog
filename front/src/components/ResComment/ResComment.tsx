@@ -122,11 +122,11 @@ export default function ResComment({
             <div className="w-full md:w-1/3 md:order-2 pr-7 order-1">
               <span>کامنت شخص :</span>
               <div className="relative w-full">
-                <div className="w-12 lg:w-16 absolute right-0 transform translate-x-1/2 top-1 lg:top-3 p-1 dark:border-bg-dark dark:bg-[#393939] bg-white border rounded-full">
+                <div className="w-12 lg:w-14 absolute right-0 transform translate-x-1/2 top-1 lg:top-3 p-1 dark:border-bg-dark dark:bg-[#393939] bg-white border rounded-full">
                   <ImgTag
-                    width={60}
-                    height={60}
-                    className="rounded-full w-10 lg:w-14 lg:h-14 h-10 shadow-md"
+                    width={40}
+                    height={40}
+                    className="rounded-full w-full h-auto shadow-md"
                     src={comment.position === "USER" ? "/comments/semicolon-image.png" : "/comments/image-admin.png"}
                     alt={comment?.name}
                   />

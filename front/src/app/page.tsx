@@ -42,7 +42,7 @@ export default async function Home() {
               با ما، خانه‌ رویایی‌تان را از پایه بسازید – کیفیت، ایمنی و زیبایی
               در هر قدم از ساخت!
             </span>
-            <Link aria-label="تماس بگیرید"
+            <Link aria-label="با ما تماس بگیرید"
               title="تماس بگیرید" className="block md:hidden w-1/3 mx-auto" href="/contact-us">
               <CustomButton
                 className="!text-xs"
@@ -53,7 +53,7 @@ export default async function Home() {
             </Link>
           </div>
           <div className="hidden md:block md:w-1/6">
-            <Link href="/contact-us" aria-label="تماس بگیرید" title="تماس بگیرید">
+            <Link href="/contact-us" aria-label="تماس بگیرید">
               <CustomButton
                 className="!text-xs md:!text-base"
                 name="تماس بگیرید"

@@ -62,7 +62,6 @@ export default async function page({ searchParams }: { searchParams: FilterQuery
             <div className='classDiv'>
                 <section className='flex items-center justify-between'>
                     <h1 className='font-semibold lg:text-xl dark:text-h-dark text-gray-800'> مجریان</h1>
-                    <h2 className='text-sm md:text-base dark:text-p-dark text-gray-700'>نمایش مجریان ساخت یار</h2>
                     <div className='w-1/3'>
                         <OrderSearch />
                     </div>

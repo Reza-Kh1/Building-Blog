@@ -60,10 +60,10 @@ export default async function page({ searchParams }: { searchParams: { page: num
       <div className="classDiv">
         <section aria-labelledby="comments-title">
           <h1 id="comments-title" className="lg:text-xl font-semibold mb-3 md:mb-6 dark:text-h-dark">نظرات مشتریان نسبت به ما</h1>
-          <h2 className="text-sm lg:text-base dark:text-p-dark">
+          <span className="text-sm lg:text-base dark:text-p-dark">
             {data.countNull} {" "}
             نظر تا اکنون ثبت شده
-          </h2>
+          </span>
           <p className="text-sm lg:text-base dark:text-p-dark">
             تجربه همکاری و یا خدماتی که از ما داشتید را میتوانید اینجا به اشتراک بگذارید
           </p>

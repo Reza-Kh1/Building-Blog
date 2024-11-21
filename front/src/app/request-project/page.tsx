@@ -50,14 +50,23 @@ export default function page() {
           <h1 className="lg:text-lg font-semibold mb-3 dark:text-h-dark">
             محاسبه آنلاین هزینه ساخت
           </h1>
+
+          <div className="flex items-start md:items-center gap-2">
+            <i className="text-yellow-300 text-xl">
+              <FaStar />
+            </i>
+            <h2 className="text-sm md:text-base text-justify dark:text-s-dark text-gray-700">
+              چگونه می‌توانید به صورت آنلاین هزینه ساخت را محاسبه کنید؟
+            </h2>
+          </div>
           <div className="flex items-start md:items-center gap-2">
             <i className="text-yellow-300 text-xl">
               <FaStar />
             </i>
             <p className="text-sm md:text-base text-justify dark:text-s-dark text-gray-700">
-              در این صفحه میتوانید با بارگزاری عکس از محیط کار یا پروژه خود و پر
-              کردن فرم های خواسته شده میتوانید از ما به صورت آنلاین قیمت بگیرید در
-              کمتر از 6 ساعت به درخواست شما پاسخ خواهیم داد.
+              در این صفحه می‌توانید با بارگذاری تصاویر از محیط کار یا پروژه خود،
+              و تکمیل فرم‌های خواسته شده، درخواست قیمت‌دهی آنلاین ثبت کنید.
+              تیم ما در کمتر از ۶ ساعت پاسخ شما را آماده خواهد کرد و اطلاعات کامل را در اختیارتان قرار می‌دهد.
             </p>
           </div>
         </section>

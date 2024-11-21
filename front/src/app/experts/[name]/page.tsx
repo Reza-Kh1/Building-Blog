@@ -146,7 +146,7 @@ export default async function page({ params }: { params: { name: string } }) {
             className="flex gap-3 items-center dark:text-p-dark py-2 px-4 hover:bg-blue-400/70 hover:shadow-md rounded-md"
           >
             <FaPhone />
-            <h2>{data.phone}</h2>
+            <p>{data.phone}</p>
           </Link>
           <div className="text-sm dark:text-s-dark hover:bg-blue-400/70 hover:shadow-md py-2 px-4 rounded-md text-white">
             عضویت :{" "}
@@ -194,16 +194,16 @@ export default async function page({ params }: { params: { name: string } }) {
         <div className="w-full md:w-2/3 flex flex-col gap-5">
           {data?.description || data?.address ?
             <section aria-labelledby="information-expert" className="bg-gradient-to-br to-blue-400 dark:to-[#363e4a] dark:from-[#1b1b1f] transition-all dark:shadow-full-dark dark:hover:shadow-none from-slate-300 rounded-md shadow-md p-4">
-              <span className="text-base dark:text-h-dark md:text-xl mb-3 block ">معرفی</span>
+              <h2 className="text-base dark:text-h-dark md:text-xl mb-3 block ">معرفی</h2>
               <p id="information-expert" className="dark:text-p-dark">{data?.description || "ثبت نشده"}</p>
-              <span className="text-base dark:text-h-dark md:text-xl my-3 block ">آدرس</span>
+              <h3 className="text-base dark:text-h-dark md:text-xl my-3 block ">آدرس</h3>
               <p className="dark:text-p-dark">{data?.address || "ثبت نشده"}</p>
             </section>
             : null}
           {
             data.socialMedia.length ?
               <div className="bg-gradient-to-tr to-blue-400 dark:to-[#363e4a] dark:from-[#1b1b1f] transition-all dark:shadow-full-dark dark:hover:shadow-none from-slate-300 rounded-md shadow-md p-4">
-                <span className="text-base dark:text-h-dark  md:text-xl mb-3 block">شبکه های اجتماعی</span>
+                <h2 className="text-base dark:text-h-dark  md:text-xl mb-3 block">شبکه های اجتماعی</h2>
                 <section aria-labelledby="social-media" className="grid grid-cols-2 gap-3 md:gap-5">
                   {data.socialMedia.map((i, index) => (
                     <Link

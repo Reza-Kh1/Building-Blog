@@ -61,7 +61,7 @@ export default function FormContactUs() {
           id="text"
           wrap="6"
           required
-          className="p-3 focus-visible:outline-blue-300 bg-slate-100 rounded dark:bg-input-dark dark:shadow-low-dark text-gray-900 w-full shadow-md resize-none"
+          className="p-3 focus-visible:outline-blue-300 bg-slate-100 dark:bg-input-dark dark:text-p-dark dark:shadow-low-dark rounded text-gray-900 w-full shadow-md resize-none"
           name="text"
           placeholder="کامنت خود را ثبت کنید"
         />

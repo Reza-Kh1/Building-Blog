@@ -15,7 +15,7 @@ const dataApi = {
     cache: 86400,
   },
   category: {
-    tags: ["category-"],
+    tags: ["category"],
     url: "category",
     cache: 86400,
   },

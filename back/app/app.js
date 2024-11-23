@@ -18,6 +18,8 @@ const message = require("../routes/messageRoute.js");
 const project = require("../routes/projectRoute.js");
 const media = require("../routes/mediaRoute.js");
 const tags = require("../routes/tagRoute.js");
+const backUp = require("../routes/backupRoute.js");
+
 //////////////// setting security api
 dotenv.config();
 const app = express();
@@ -32,7 +34,6 @@ app.use(express.json());
 app.use("/public", express.static(path.join(__dirname, "../public")));
 app.use(cookieParser());
 connectDb();
-
 ////////////////// routes api
 app.use(process.env.API_VERSION + "user", userRoute);
 app.use(process.env.API_VERSION + "category", categoryRoute);
@@ -46,7 +47,7 @@ app.use(process.env.API_VERSION + "message", message);
 app.use(process.env.API_VERSION + "project", project);
 app.use(process.env.API_VERSION + "media", media);
 app.use(process.env.API_VERSION + "tag", tags);
-
+app.use(process.env.API_VERSION + "backUp", backUp);
 app.use(globalHandler);
 app.use(notFound);
 module.exports = app;

@@ -6,8 +6,13 @@ import { FaPaintbrush, FaUsers } from "react-icons/fa6";
 import { GrUserWorker } from "react-icons/gr";
 import { TiMessages } from "react-icons/ti";
 import { BiSolidMessageRoundedError } from "react-icons/bi";
-import { MdImage, MdOutlineCategory, MdOutlinePostAdd, MdSettings, } from "react-icons/md";
-import { BsFillBuildingsFill } from "react-icons/bs";
+import {
+  MdImage,
+  MdOutlineCategory,
+  MdOutlinePostAdd,
+  MdSettings,
+} from "react-icons/md";
+import { BsDatabaseCheck, BsFillBuildingsFill } from "react-icons/bs";
 import { BiSolidDashboard } from "react-icons/bi";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -56,6 +61,7 @@ const dataLink = [
   { name: "دسته بندی", url: "/home/categorys", icon: <MdOutlineCategory /> },
   { name: "تگ ها", url: "/home/tags", icon: <IoMdPricetags /> },
   { name: "رسانه ها", url: "/home/image", icon: <MdImage /> },
+  { name: "بک آپ", url: "/home/back-up", icon: <BsDatabaseCheck /> },
   { name: "تنظیمات", url: "/home/setting", icon: <MdSettings /> },
 ];
 export default function Sidebar() {

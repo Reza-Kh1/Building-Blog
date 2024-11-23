@@ -11,8 +11,7 @@ import React, { Suspense } from 'react'
 type PageType = { params: { category: string }, searchParams: { page: string } }
 const getData = async (query: PageType) => {
     const url = `${dataApi.category.url}/${query.params.category.replace(/-/g, " ")}?page=${query.searchParams.page || 1}`
-    const tags = dataApi.category.tags + decodeURIComponent(query.params.category)
-    const data = await fetchApi({ url, next: dataApi.category.cache, tags: [tags] })
+    const data = await fetchApi({ url, next: dataApi.category.cache, tags: dataApi.category.tags })
     if (data.error) return notFound();
     return data
 }

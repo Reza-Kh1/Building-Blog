@@ -5,7 +5,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css/effect-fade";
 import { HeroDataType } from "@/app/type";
 export default function SwiperHero({ data }: { data: HeroDataType[] }) {
-  if ( !data[0]?.img) return;
+  if (!data || !data[0]?.img) return;
   return (
     <Swiper
       spaceBetween={30}

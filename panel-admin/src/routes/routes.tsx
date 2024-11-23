@@ -19,6 +19,7 @@ import Message from "../pages/Message/Message";
 import CreateProject from "../components/CreateProject/CreateProject";
 import Tags from "../pages/Tags/Tags";
 import CreateWorker from "../components/CreateWorker/CreateWorker";
+import BackUp from "../pages/BackUp/BackUp";
 
 export default [
   { path: "/", element: <Auth /> },
@@ -41,6 +42,7 @@ export default [
       { path: "image", element: <Images /> },
       { path: "tags", element: <Tags /> },
       { path: "setting", element: <Setting /> },
+      { path: "back-up", element: <BackUp /> },
       { path: "posts", element: <Posts /> },
       { path: "posts/create-post", element: <CreatePost /> },
       { path: "posts/*", element: <SinglePost /> },

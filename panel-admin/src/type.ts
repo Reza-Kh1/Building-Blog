@@ -85,9 +85,9 @@ type SinglePostType = {
     slug: string;
   };
   Tags: {
-    id: number
-    name: string
-  }[]
+    id: number;
+    name: string;
+  }[];
 };
 type AllReviewType = {
   count: number;
@@ -96,7 +96,7 @@ type AllReviewType = {
 };
 type ReviewType = {
   id: number;
-  position: "USER" | "AUTHOR" | "ADMIN"
+  position: "USER" | "AUTHOR" | "ADMIN";
   name: string | null;
   text: string | null;
   email: string | null;
@@ -177,11 +177,10 @@ type WorkerType = {
   alt: string | null;
   createdAt: Date;
   updatedAt: Date;
-  Tags:
-  {
+  Tags: {
     name: string;
-  }[]
-  Projects: ProjectType[]
+  }[];
+  Projects: ProjectType[];
 };
 type AllWorkerType = {
   count: number;
@@ -190,34 +189,42 @@ type AllWorkerType = {
 };
 
 type ProjectType = {
-  id: number,
-  name: string,
-  size: string,
-  price: string,
-  address: string,
-  image: string,
+  id: number;
+  name: string;
+  size: string;
+  price: string;
+  address: string;
+  image: string;
   gallery: {
-    alt: string,
-    url: string
-  }[]
-  video: string,
-  alt: string,
-  description: string,
-  status: boolean,
-  createdAt: Date,
-  updatedAt: Date,
-  workerId: number,
+    alt: string;
+    url: string;
+  }[];
+  video: string;
+  alt: string;
+  description: string;
+  status: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+  workerId: number;
   Worker: {
-    name: string,
-    id: number
-  },
-  Tags: { name: string, id: number }[]
-}
+    name: string;
+    id: number;
+  };
+  Tags: { name: string; id: number }[];
+};
 type AllProjectType = {
-  count: number
-  rows: ProjectType[]
-  paginate: PaginationType
-}
+  count: number;
+  rows: ProjectType[];
+  paginate: PaginationType;
+};
+type BackUpAllType = {
+  success: boolean;
+  backups: {
+    key: string;
+    url: string;
+    lastModified: Date;
+  }[];
+};
 export type {
   ReviewType,
   CategortType,
@@ -241,5 +248,6 @@ export type {
   WorkerType,
   AllWorkerType,
   AllProjectType,
-  ProjectType
+  ProjectType,
+  BackUpAllType,
 };

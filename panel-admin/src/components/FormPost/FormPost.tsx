@@ -59,8 +59,7 @@ export default function FormPost({ dataPost }: { dataPost?: SinglePostType }) {
         ...form,
         tags: tagPost || []
       };
-      const nameCategory = dataCategory?.find((i) => i.id === form.categoryId)
-      await deleteCache({ tag: `category-${nameCategory?.slug}` });
+      await deleteCache({ tag: `category` });
       await deleteCache({ tag: "post" });
       return axios.post("post", body);
     },
@@ -82,8 +81,7 @@ export default function FormPost({ dataPost }: { dataPost?: SinglePostType }) {
         ...form,
         tags: tagPost || []
       };
-      const nameCategory = dataCategory?.find((i) => i.id === form.categoryId)
-      await deleteCache({ tag: `category-${nameCategory?.slug}` });
+      await deleteCache({ tag: `category` });
       await deleteCache({ tag: "post" });
       return axios.put(`post/${postId}`, body);
     },
@@ -102,8 +100,7 @@ export default function FormPost({ dataPost }: { dataPost?: SinglePostType }) {
       if (!postId) {
         throw new Error("آیدی پست یافت نشد!")
       }
-      const nameCategory = dataCategory?.find((i) => i.id === getValues("categoryId"))
-      await deleteCache({ tag: `category-${nameCategory?.slug}` });
+      await deleteCache({ tag: `category` });
       await deleteCache({ tag: "post" });
       return axios.delete(`post/${postId}`);
     },

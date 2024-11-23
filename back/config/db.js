@@ -18,10 +18,19 @@ const dataBase = new Sequelize(
 );
 const connectDb = async () => {
   try {
+
     await dataBase.authenticate();
-    console.log(`connect ${process.env.DB_DIALECT}`);
+    console.log(`Connected to ${process.env.DB_DIALECT} database.`);
   } catch (err) {
-    console.log(err);
+    if (err.original && err.original.code === "3D000") {
+      // کد خطا برای "Database does not exist"
+      console.warn(
+        `Warning: Database "${process.env.DB_NAME}" does not exist. Server will continue running.`
+      );
+    } else {
+      console.error("Error connecting to the database:", err.message);
+    }
   }
 };
+
 module.exports = { dataBase, connectDb };

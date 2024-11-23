@@ -1,5 +1,5 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material'
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { FaCheck } from 'react-icons/fa6'
 import { IoMdTrash } from 'react-icons/io'
 import { MdClose } from 'react-icons/md'
@@ -7,8 +7,9 @@ type DeleteButtonType = {
     pendingDelete: boolean
     text: string
     deletePost: () => void
+    endIcon?: React.ReactNode
 }
-export default function DeleteButton({ deletePost, pendingDelete, text }: DeleteButtonType) {
+export default function DeleteButton({ deletePost, pendingDelete, text ,endIcon}: DeleteButtonType) {
     const [open, setOpen] = useState<boolean>(false)
     return (
         <>
@@ -17,7 +18,7 @@ export default function DeleteButton({ deletePost, pendingDelete, text }: Delete
                 disabled={pendingDelete}
                 onClick={() => setOpen(true)}
                 color="error"
-                endIcon={<IoMdTrash />}
+                endIcon={endIcon ? endIcon: <IoMdTrash />}
                 variant="contained"
             >
                 {text}

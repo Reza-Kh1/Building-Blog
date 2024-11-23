@@ -119,7 +119,7 @@ export default function HeaderSticky({ category }: { category: CategoryType[] })
           <div className="w-full flex justify-between items-center">
             <div className="w-1/3 md:w-1/12  flex items-center menu-mobile">
               <div className="md:hidden">
-                <IconButton onClick={() => setOpenMenu(true)}>
+                <IconButton onClick={() => setOpenMenu(true)} type="button" aria-label="open menu">
                   <MdMenuOpen />
                 </IconButton>
                 <Drawer

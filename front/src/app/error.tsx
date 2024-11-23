@@ -30,7 +30,7 @@ export default function Error({ error }: { error: Error }) {
             iconEnd={<FaPhone />}
           />
         </Link>
-        <Link href="tel:09390199977">
+        <Link href="/">
           <CustomButton
             className="!w-auto !px-12"
             name="بازگشت به خانه"

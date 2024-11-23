@@ -68,7 +68,6 @@ export default async function page({
       <div className="classDiv mb-20">
         <section className="mt-6 flex justify-between items-center">
           <h1 className="lg:text-xl font-semibold">پروژه های ساخت یار</h1>
-          <h2>نمایش تمام پروژه های ساختمانی ساخت یار</h2>
           <div className="w-3/6">
             <OrderSearch />
           </div>

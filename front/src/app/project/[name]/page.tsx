@@ -119,7 +119,7 @@ export default async function page({ params }: { params: { name: string } }) {
       <Breadcrums className="mt-14 md:!mt-20" />
       <div className="classDiv flex flex-col md:flex-row relative gap-3">
         <section className="w-full md:w-2/3">
-          <span className="text-sm dark:text-h-dark md:text-xl text-gray-700">توضیحات</span>
+          <h2 className="text-sm dark:text-h-dark md:text-xl text-gray-700">توضیحات</h2>
           <p className="text-sm md:text-base text-gray-600 dark:text-p-dark text-justify !leading-8">{data.description}</p>
           <span className="border-t w-full h-1 block my-4 md:my-6"></span>
           <div className="w-full flex flex-col gap-2 md:gap-5">
@@ -127,13 +127,13 @@ export default async function page({ params }: { params: { name: string } }) {
               <i className="text-base lg:text-2xl p-3 hover:bg-gray-200 rounded-full bg-gray-100 dark:bg-info-dark dark:shadow-low-dark dark:hover:shadow-none shadow-md">
                 <SiGooglemaps />
               </i>
-              <span className="text-sm lg:text-xl dark:text-p-dark text-gray-600">موقعیت : {data.address}</span>
+              <h3 className="text-sm lg:text-xl dark:text-p-dark text-gray-600">موقعیت : {data.address}</h3>
             </div>
             <div className="flex items-center gap-5">
               <i className="text-base lg:text-2xl p-3 hover:bg-gray-200 rounded-full bg-gray-100 dark:bg-info-dark dark:shadow-low-dark dark:hover:shadow-none shadow-md">
                 <BiDollar />
               </i>
-              <p className="text-sm lg:text-xl dark:text-p-dark text-gray-600">
+              <h3 className="text-sm lg:text-xl dark:text-p-dark text-gray-600">
                 بودجه :
                 {Number(data.price) ? (
                   <>
@@ -143,13 +143,13 @@ export default async function page({ params }: { params: { name: string } }) {
                 ) : (
                   <span className="text-xs lg:text-sm"> ثبت نشده!</span>
                 )}
-              </p>
+              </h3>
             </div>
             <div className="flex items-center gap-5">
               <i className="text-base lg:text-2xl p-3 hover:bg-gray-200 rounded-full bg-gray-100 dark:bg-info-dark dark:shadow-low-dark dark:hover:shadow-none shadow-md">
                 <GiPencilRuler />
               </i>
-              <p className="text-sm lg:text-xl dark:text-p-dark text-gray-600">
+              <h3 className="text-sm lg:text-xl dark:text-p-dark text-gray-600">
                 متراژ :
                 {Number(data.size) ? (
                   <>
@@ -159,7 +159,7 @@ export default async function page({ params }: { params: { name: string } }) {
                 ) : (
                   <span className="text-xs lg:text-sm"> ثبت نشده!</span>
                 )}
-              </p>
+              </h3>
             </div>
           </div>
           <span className="border-t w-full h-1 block my-4 md:my-6"></span>

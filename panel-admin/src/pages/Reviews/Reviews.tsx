@@ -68,6 +68,7 @@ export default function Reviews() {
   const [open, setOpen] = useState<boolean>(false);
   const { handleSubmit, register, setValue } = useForm<FormReviewType>();
   const [isUpdate, setIsUpdate] = useState<boolean>(false);
+  const [cachePage, setCachepage] = useState<boolean>(false);
   const query = useQueryClient();
   const { search } = useLocation();
   const [review, setReview] = useState<{
@@ -85,7 +86,10 @@ export default function Reviews() {
   const { isPending: isPendingUpdate, mutate: reviewUpdate } = useMutation({
     mutationFn: async ({ replie, ...other }: FormReviewType) => {
       if (!review?.data.Post) {
-        await deleteCache({ tag:"comment"});
+        await deleteCache({ tag: "comment" });
+      }
+      if(cachePage){
+        await deleteCache({ path: `/post/${review?.data.Post?.title}` });
       }
       try {
         if (isUpdate) {
@@ -127,7 +131,7 @@ export default function Reviews() {
   const { isPending: isPendingDelete, mutate: reviewDelete } = useMutation({
     mutationFn: async () => {
       if (!review?.data.Post) {
-        await deleteCache({ tag:"comment"});
+        await deleteCache({ tag: "comment" });
       }
       return axios.delete(`comment/${review?.data?.id}`);
     },
@@ -145,7 +149,7 @@ export default function Reviews() {
   const { isPending: isPendingCheck, mutate: reviewCheck } = useMutation({
     mutationFn: async (form: ReviewType) => {
       if (!form.Post) {
-        await deleteCache({ tag:"comment"});
+        await deleteCache({ tag: "comment" });
       }
       const body = {
         postId: form.Post?.id,
@@ -165,7 +169,7 @@ export default function Reviews() {
   const { isPending: isPendingMinus, mutate: reviewMinus } = useMutation({
     mutationFn: async (form: ReviewType) => {
       if (!form.Post) {
-        await deleteCache({ tag:"comment"});
+        await deleteCache({ tag: "comment" });
       }
       const body = {
         postId: form.Post?.id,
@@ -459,6 +463,13 @@ export default function Reviews() {
                   onChange={() => setIsUpdate((prev) => !prev)}
                   label="ویرایش اطلاعات کاربر"
                 />
+                {review.data.Post ?  <FormControlLabel
+                    control={<Switch value={isUpdate} />}
+                    onChange={() => setCachepage((prev) => !prev)}
+                    label="حذف کش صفحه"
+                  /> : (
+                 null
+                )}
               </>
             ) : (
               <Button

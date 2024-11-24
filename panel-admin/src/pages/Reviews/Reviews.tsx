@@ -8,6 +8,7 @@ import { fetchReview } from "../../services/review";
 import Pagination from "../../components/Pagination/Pagination";
 import {
   Button,
+  Checkbox,
   Dialog,
   DialogActions,
   DialogContent,
@@ -68,7 +69,7 @@ export default function Reviews() {
   const [open, setOpen] = useState<boolean>(false);
   const { handleSubmit, register, setValue } = useForm<FormReviewType>();
   const [isUpdate, setIsUpdate] = useState<boolean>(false);
-  const [cachePage, setCachepage] = useState<boolean>(false);
+  const [cachePage, setCachepage] = useState<string>("");
   const query = useQueryClient();
   const { search } = useLocation();
   const [review, setReview] = useState<{
@@ -88,8 +89,9 @@ export default function Reviews() {
       if (!review?.data.Post) {
         await deleteCache({ tag: "comment" });
       }
-      if(cachePage){
-        await deleteCache({ path: `/post/${review?.data.Post?.title}` });
+      if (cachePage) {
+        await deleteCache({ path: `/post/${cachePage.replace(/ /g, "-")}` });
+        setCachepage("")
       }
       try {
         if (isUpdate) {
@@ -130,6 +132,10 @@ export default function Reviews() {
   });
   const { isPending: isPendingDelete, mutate: reviewDelete } = useMutation({
     mutationFn: async () => {
+      if (cachePage) {
+        await deleteCache({ path: `/post/${cachePage.replace(/ /g, "-")}` });
+        setCachepage("")
+      }
       if (!review?.data.Post) {
         await deleteCache({ tag: "comment" });
       }
@@ -148,6 +154,10 @@ export default function Reviews() {
   });
   const { isPending: isPendingCheck, mutate: reviewCheck } = useMutation({
     mutationFn: async (form: ReviewType) => {
+      if (cachePage) {
+        await deleteCache({ path: `/post/${cachePage.replace(/ /g, "-")}` });
+        setCachepage("")
+      }
       if (!form.Post) {
         await deleteCache({ tag: "comment" });
       }
@@ -168,6 +178,10 @@ export default function Reviews() {
   });
   const { isPending: isPendingMinus, mutate: reviewMinus } = useMutation({
     mutationFn: async (form: ReviewType) => {
+      if (cachePage) {
+        await deleteCache({ path: `/post/${cachePage.replace(/ /g, "-")}` });
+        setCachepage("")
+      }
       if (!form.Post) {
         await deleteCache({ tag: "comment" });
       }
@@ -199,6 +213,8 @@ export default function Reviews() {
   };
   const closeHandler = () => {
     setOpen(false);
+    setIsUpdate(false)
+    setCachepage("")
     setIsUpdate(false);
     // setReview(null);
   };
@@ -226,6 +242,7 @@ export default function Reviews() {
               <Table sx={{ minWidth: 700 }} aria-label="customized table">
                 <TableHead>
                   <TableRow>
+                    <StyledTableCell align="center">حذف کش</StyledTableCell>
                     <StyledTableCell align="center">نام</StyledTableCell>
                     <StyledTableCell align="center">موقعیت</StyledTableCell>
                     <StyledTableCell align="center">
@@ -241,6 +258,9 @@ export default function Reviews() {
                 <TableBody>
                   {data?.pages[0]?.rows.map((i, index) => (
                     <StyledTableRow key={index}>
+                      <StyledTableCell align="center">
+                        <Checkbox checked={i.Post?.title === cachePage} onChange={() => setCachepage(cachePage === i.Post?.title ? "" : i.Post?.title || "")} />
+                      </StyledTableCell>
                       <StyledTableCell align="center">
                         <p className="text-sm cutline cutline-2">{i?.name}</p>
                       </StyledTableCell>
@@ -463,13 +483,6 @@ export default function Reviews() {
                   onChange={() => setIsUpdate((prev) => !prev)}
                   label="ویرایش اطلاعات کاربر"
                 />
-                {review.data.Post ?  <FormControlLabel
-                    control={<Switch value={isUpdate} />}
-                    onChange={() => setCachepage((prev) => !prev)}
-                    label="حذف کش صفحه"
-                  /> : (
-                 null
-                )}
               </>
             ) : (
               <Button

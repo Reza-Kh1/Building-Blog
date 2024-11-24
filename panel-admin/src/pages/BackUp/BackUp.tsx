@@ -56,7 +56,7 @@ export default function BackUp() {
     },
   });
   const { mutate: deleteSingleBackUp, isPending: pendingFile } = useMutation({
-    mutationFn: (key:string) => {
+    mutationFn: (key: string) => {
       return axios.delete(`backUp/delete?key=${key}`);
     },
     onSuccess: () => {
@@ -124,9 +124,8 @@ export default function BackUp() {
           <span className="mb-2 block">آپلود بک آپ</span>
           <label
             htmlFor="upload"
-            className={`transition-all group p-3 bg-gradient-to-tr from-slate-600 hover:from-slate-700 hover:to-sky-500 to-sky-400 shadow-md border-black flex items-center justify-center rounded-md border-dashed border h-32 w-full ${
-              !loading ? "cursor-pointer" : ""
-            }`}
+            className={`transition-all group p-3 bg-gradient-to-tr from-slate-600 hover:from-slate-700 hover:to-sky-500 to-sky-400 shadow-md border-black flex items-center justify-center rounded-md border-dashed border h-32 w-full ${!loading ? "cursor-pointer" : ""
+              }`}
           >
             <input
               onChange={uploadBackUp}
@@ -163,10 +162,11 @@ export default function BackUp() {
           />
         </div>
       </div>
-      <span>مرتب سازی بر اساس جدید ترین</span>
-      <div className="grid grid-cols-5 gap-3 mt-3">
-        {data?.backups?.length ? (
-          data.backups.map((i, index) => (
+      {data?.backups.length ? 
+      <>
+        <span>مرتب سازی بر اساس جدید ترین</span>
+        <div className="grid grid-cols-5 gap-3 mt-3">
+          {data.backups.map((i, index) => (
             <section
               key={index}
               className="bg-blue-200 rounded-md p-3 shadow-md flex flex-col gap-5 items-center justify-center relative"
@@ -194,14 +194,15 @@ export default function BackUp() {
                 />
               </div>
             </section>
-          ))
-        ) : (
-          <>
-            <DontData text="تا به حال بک آپ گرفته نشده است" />
-            <span>پیشنهاد میشود هر چه سریع تر بک آپ پشتیبانی کرفته شود.</span>
-          </>
-        )}
-      </div>
+          ))}
+        </div>
+      </>
+        : <div className="flex flex-col w-full gap-5">
+          <DontData text="تا به حال بک آپ گرفته نشده است" />
+          <span>پیشنهاد میشود هر چه سریع تر بک آپ پشتیبانی کرفته شود.</span>
+        </div>
+      }
+
     </div>
   );
 }

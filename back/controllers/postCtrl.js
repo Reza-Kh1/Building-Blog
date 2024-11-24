@@ -124,11 +124,11 @@ const getAllPostAdmin = asyncHandler(async (req, res) => {
   getAllPost(req, res, status, true);
 });
 const getSinglePost = asyncHandler(async (req, res) => {
-  const { id } = req.params;
+  const { id } = req.params;  
   let projects
   let posts
   try {
-    const data = await postModel.findOne({
+    let data = await postModel.findOne({
       where: { title: id },
       include: [
         {
@@ -174,6 +174,9 @@ const getSinglePost = asyncHandler(async (req, res) => {
         data.dataValues.Comments[i].id
       );
     }
+    const comments = await commentModel.count({ where: { postId: data.id ,status:true} })
+    data.totalComments = comments
+    data.save()
     if (!res?.isLogin) {
       const tagId = data?.Tags?.map((i) => i.id)
       posts = await postModel.findAll({

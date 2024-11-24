@@ -11,7 +11,7 @@ const path = require("path");
 const { Client } = require("pg");
 const dbConfig = {
   user: process.env.DB_USERNAME,
-  host: process.env.HOST_NAME,
+  host: process.env.DB_HOST,
   database: process.env.DB_NAME,
   password: process.env.DB_PASS,
   port: 5432,
@@ -58,7 +58,7 @@ const createBackUp = asyncHandler(async (req, res) => {
   );
   const dumpCommand = `pg_dump -U ${dbConfig.user} -h ${dbConfig.host} -d ${dbConfig.database} -F c -f "${backupPath}"`;
   exec(dumpCommand, async (error, stdout, stderr) => {
-    if (error) {
+    if (error) {      
       res.status(500).send({ error: `Backup failed: ${error.message}` });
       return;
     }
@@ -72,7 +72,7 @@ const createBackUp = asyncHandler(async (req, res) => {
         Key: `backups/${backupFileName}`,
         Body: fileContent,
       };
-      await client.send(new PutObjectCommand(uploadParams));
+      await client.send(new PutObjectCommand(uploadParams));      
       fs.unlink(backupPath, (err) => {
         if (err) {
           console.error("خطا در حذف فایل بکاپ:", err);

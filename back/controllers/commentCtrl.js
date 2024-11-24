@@ -14,11 +14,6 @@ const createComment = asyncHandler(async (req, res) => {
   }
   try {
     if (tokenUser && tokenUser?.role !== "USER") {
-      if (postId) {
-        const post = await postModel.findByPk(postId);
-        post.totalComments = Number(post.totalComments) + 1;
-        post.save();
-      }
       status = true;
     }
     if (tokenUser) {
@@ -47,11 +42,6 @@ const deleteComment = asyncHandler(async (req, res) => {
   try {
     const delComment = await commentModel.findByPk(id);
     if (!delComment) return customError("کامنت مورد نظر یافت نشد", 400);
-    if (delComment.postId) {
-      const post = await postModel.findByPk(delComment.postId);
-      post.totalComments = post.totalComments >= 0 ? Number(post.totalComments) - 1 : 0
-      await post.save();
-    }
     await delComment.destroy();
     res.send({ success: true });
   } catch (err) {
@@ -87,21 +77,9 @@ const getSinglePostComment = asyncHandler(async (req, res) => {
   }
 });
 const updateComment = asyncHandler(async (req, res) => {
-  const { name, text, email, phone, status, postId } = req.body;
+  const { name, text, email, phone, status } = req.body;
   const { id } = req.params;
   try {
-    if (postId) {
-      if (status) {
-        const post = await postModel.findByPk(postId);
-        post.totalComments = Number(post.totalComments) + 1;
-        post.save();
-      }
-      if (status === false) {
-        const post = await postModel.findByPk(postId);
-        post.totalComments = Number(post.totalComments) - 1;
-        post.save();
-      }
-    }
     const comment = await commentModel.update(
       { name, text, email, phone, status: status || false },
       { where: { id } }

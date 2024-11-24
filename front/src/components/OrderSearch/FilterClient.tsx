@@ -83,11 +83,12 @@ export default function FilterClient({
           }}
           options={nameTags}
           getOptionLabel={(option) => option.name}
-          className="shadow-md !border-slate-100 dark:shadow-low-dark"
-          renderInput={(params) => <TextField name="category" className="shadow-md dark:shadow-low-dark !border-slate-100"  {...params} label="انتخاب دسته" />}
+       
+          renderInput={(params) => <TextField name="category"  className="dark:shadow-low-dark shadow-md !rounded"  {...params} label="انتخاب دسته" />}
         />
         {pathName.search("/project") === 0 ? (
           <Autocomplete
+           
             fullWidth
             disablePortal
             value={filterExpert}
@@ -103,9 +104,9 @@ export default function FilterClient({
             }}
             options={nameExpert}
             getOptionLabel={(option) => option.name}
-            className="shadow-md dark:shadow-low-dark"
+  
             renderInput={(params) => (
-              <TextField {...params} name="experts" label="انتخاب مجری" />
+              <TextField className="dark:shadow-low-dark shadow-md !rounded" {...params} name="experts" label="انتخاب مجری" />
             )}
           />
         ) : null}

@@ -12,7 +12,7 @@ import { notFound } from "next/navigation";
 import SwiperCards from "@/components/SwiperCards/SwiperCards";
 import { dataApi } from "@/data/tagsName";
 import OurServices from "@/components/OurServices/OurServices";
-
+const nameSite = process.env.NEXT_PUBLIC_NAME_SITE || ""
 const getData = async () => {
   const data = await fetchApi({ url: dataApi.aboutUs.url, next: dataApi.aboutUs.cache, tags: dataApi.aboutUs.tags });
   if (data.error) return notFound();
@@ -25,11 +25,11 @@ const getProjects = async () => {
 }
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_URL || "http://localhost:3000"),
-  title: 'درباره ما | ساخت یار',
+  title: `درباره ما | ${nameSite}`,
   description: 'آماده ایم تا با شروع این همکاری ،رویاهای ساخت و ساز شما را به واقعیت تبدیل کنیم - با هم ، از ایده تا اجرا پیش خواهیم رفت.',
-  keywords: ['پروژه‌های ساختمانی', 'مشاوره ساخت‌وساز', 'ساخت یار', 'خدمات پیمانکاری'],
+  keywords: ['پروژه‌های ساختمانی', 'مشاوره ساخت‌وساز', nameSite, 'خدمات پیمانکاری'],
   openGraph: {
-    title: 'درباره ما | ساخت یار',
+    title: `درباره ما | ${nameSite}`,
     description: 'آماده ایم تا با شروع این همکاری ،رویاهای ساخت و ساز شما را به واقعیت تبدیل کنیم - با هم ، از ایده تا اجرا پیش خواهیم رفت.',
     url: `${process.env.NEXT_PUBLIC_URL + "/about-us"}`,
     images: [
@@ -37,14 +37,14 @@ export const metadata: Metadata = {
         url: `${process.env.NEXT_PUBLIC_URL + "/about-us.jpg"}`,
         width: 800,
         height: 600,
-        alt: 'درباره ما سایت ساخت یار',
+        alt: `درباره ما سایت ${nameSite}`,
       },
     ],
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'درباره ما | ساخت یار',
+    title: `درباره ما | ${nameSite}`,
     description: 'تیم ساختمان سازی آماده همکاری و تماس های شماس.',
     images: [`${process.env.NEXT_PUBLIC_URL + "/about-us.jpg"}`],
   },

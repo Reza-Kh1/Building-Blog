@@ -44,6 +44,9 @@ const reviewModel = dataBase.define(
       defaultValue: "USER"
     }
   },
-  { updatedAt: false, createdAt: true, tableName: "Comment" }
+  {
+    updatedAt: false, createdAt: true, tableName: "Comment",
+    indexes: [{ unique: false, fields: ["name", "email", "phone", "text", "status"] }]
+  }
 );
 module.exports = reviewModel;

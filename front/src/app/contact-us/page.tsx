@@ -4,36 +4,37 @@ import ImgTag from "@/components/ImgTag/ImgTag";
 import FormContactUs from "./FormContactUs";
 import React from "react";
 import { Metadata } from "next";
+const nameSite = process.env.NEXT_PUBLIC_NAME_SITE || ""
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_URL || "http://localhost:3000"),
-  title: 'ارتباط با ما | ساخت یار',
-  description: 'برای تماس با تیم ساخت یار، درخواست مشاوره یا هر سوال دیگری می‌توانید از فرم زیر استفاده کنید و یا از طریق شبکه‌های اجتماعی با ما ارتباط برقرار کنید.',
+  title: `ارتباط با ما | ${nameSite}`,
+  description: `برای تماس با ${nameSite}، درخواست مشاوره یا هر سوال دیگری می‌توانید از فرم زیر استفاده کنید و یا از طریق شبکه‌های اجتماعی با ما ارتباط برقرار کنید.`,
   keywords: [
     'ارتباط با ما',
-    'تماس با تیم ساخت یار',
+    `تماس با ${nameSite}`,
     'پشتیبانی مشتری',
     'مشاوره ساخت و ساز',
     'سوالات رایج',
     'پیمانکاری و ساخت‌وساز',
   ],
   openGraph: {
-    title: 'ارتباط با ما | ساخت یار',
-    description: 'برای تماس با تیم ساخت یار، درخواست مشاوره یا هر سوال دیگری می‌توانید از فرم زیر استفاده کنید و یا از طریق شبکه‌های اجتماعی با ما ارتباط برقرار کنید.',
+    title: `ارتباط با ما | ${nameSite}`,
+    description: `برای تماس با ${nameSite}، درخواست مشاوره یا هر سوال دیگری می‌توانید از فرم زیر استفاده کنید و یا از طریق شبکه‌های اجتماعی با ما ارتباط برقرار کنید.`,
     url: `${process.env.NEXT_PUBLIC_URL + "/contact-us"}`,
     images: [
       {
         url: `${process.env.NEXT_PUBLIC_URL + "/about-us.jpg"}`,
         width: 800,
         height: 600,
-        alt: 'ارتباط با ما در سایت ساخت یار',
+        alt: `ارتباط با ما در سایت ${nameSite}`,
       },
     ],
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'ارتباط با ما | ساخت یار',
-    description: 'برای تماس با تیم ساخت یار و دریافت مشاوره در زمینه خدمات ساخت و ساز، از طریق فرم زیر یا شبکه‌های اجتماعی با ما در تماس باشید.',
+    title: `ارتباط با ما | ${nameSite}`,
+    description: `برای تماس با ${nameSite} و دریافت مشاوره در زمینه خدمات ساخت و ساز، از طریق فرم زیر یا شبکه‌های اجتماعی با ما در تماس باشید.`,
     images: [`${process.env.NEXT_PUBLIC_URL + "/about-us.jpg"}`],
   },
   robots: "index, follow",

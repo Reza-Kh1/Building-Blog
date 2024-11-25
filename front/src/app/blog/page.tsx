@@ -10,6 +10,7 @@ import { Metadata } from "next";
 import { dataApi } from "@/data/tagsName";
 import DontData from "@/components/DontData/DontData";
 import { notFound } from "next/navigation";
+const nameSite = process.env.NEXT_PUBLIC_NAME_SITE || ""
 const getData = async (query: FilterQueryType) => {
   const url = "post?" + new URLSearchParams(query);
   const data = await fetchApi({ url, next: dataApi.posts.cache, tags: dataApi.posts.tags });
@@ -18,17 +19,17 @@ const getData = async (query: FilterQueryType) => {
 };
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_URL || "http://localhost:3000"),
-  title: "وبلاگ | ساخت یار",
+  title: `وبلاگ | ${nameSite}`,
   description:
     "ما برای افزایش آگاهی شما مقالاتی را نوشتیم که میتواند در انتخاب هاتون بهتون کمک کند.",
   keywords: [
     "پروژه‌های ساختمانی",
     "مشاوره ساخت‌وساز",
-    "ساخت یار",
     "خدمات پیمانکاری",
+    nameSite
   ],
   openGraph: {
-    title: "وبلاگ | ساخت یار",
+    title: `وبلاگ | ${nameSite}`,
     description:
       "ما برای افزایش آگاهی شما مقالاتی را نوشتیم که میتواند در انتخاب هاتون بهتون کمک کند.",
     url: `${process.env.NEXT_PUBLIC_URL + "/blog"}`,
@@ -38,13 +39,13 @@ export const metadata: Metadata = {
         url: `${process.env.NEXTAUTH_URL}/category.webp`,
         width: 1200,
         height: 630,
-        alt: "صفحه وبلاگ سایت ساخت یار",
+        alt: `صفحه وبلاگ سایت ${nameSite}`,
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "وبلاگ | ساخت یار",
+    title: `وبلاگ | ${nameSite}`,
     images: [`${process.env.NEXTAUTH_URL}/category.webp`],
     description:
       "ما برای افزایش آگاهی شما مقالاتی را نوشتیم که میتواند در انتخاب هاتون بهتون کمک کند.",
@@ -65,7 +66,7 @@ export default async function page({
       <Breadcrums />
       <div className="classDiv">
         <section className="flex w-full items-center justify-between">
-          <h1 className="font-semibold lg:text-xl">وبلاگ ساخت یار</h1>
+          <h1 className="font-semibold lg:text-xl">وبلاگ</h1>
           <div className="w-2/6">
             <OrderSearch />
           </div>

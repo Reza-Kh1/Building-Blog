@@ -5,9 +5,10 @@ import { PiWarningDiamondFill } from "react-icons/pi";
 import ContactSocialMedia from "@/components/ContactSocialMedia/ContactSocialMedia";
 import Breadcrums from "@/components/Breadcrums/Breadcrums";
 import { Metadata } from "next";
+const nameSite = process.env.NEXT_PUBLIC_NAME_SITE || ""
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_URL || "http://localhost:3000"),
-  title: 'درخواست محاسبه آنلاین | ساخت یار',
+  title: `درخواست محاسبه آنلاین | ${nameSite}`,
   description: 'برای محاسبه آنلاین هزینه پروژه‌های ساختمانی خود می‌توانید از این صفحه استفاده کنید. با وارد کردن اطلاعات پروژه خود، برآورد دقیقی از هزینه‌ها و زمان تحویل دریافت کنید.',
   keywords: [
     'محاسبه آنلاین پروژه',
@@ -17,7 +18,7 @@ export const metadata: Metadata = {
     'پروژه‌های ساختمانی',
   ],
   openGraph: {
-    title: 'درخواست محاسبه آنلاین | ساخت یار',
+    title: `درخواست محاسبه آنلاین | ${nameSite}`,
     description: 'با استفاده از فرم درخواست محاسبه آنلاین، می‌توانید هزینه و زمان تحویل پروژه‌های ساختمانی خود را به راحتی محاسبه کنید.',
     url: `${process.env.NEXT_PUBLIC_URL + "/request-project"}`,
     images: [
@@ -25,14 +26,14 @@ export const metadata: Metadata = {
         url: `${process.env.NEXT_PUBLIC_URL + "/about-us.jpg"}`,
         width: 800,
         height: 600,
-        alt: 'درخواست محاسبه آنلاین پروژه‌های ساخت یار',
+        alt: `درخواست محاسبه آنلاین پروژه‌های ${nameSite}`,
       },
     ],
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'درخواست محاسبه آنلاین | ساخت یار',
+    title: `درخواست محاسبه آنلاین | ${nameSite}`,
     description: 'برای درخواست محاسبه آنلاین پروژه‌های ساختمانی خود از این صفحه استفاده کنید و هزینه‌ها و زمان تحویل پروژه‌ها را محاسبه کنید.',
     images: [`${process.env.NEXT_PUBLIC_URL + "/about-us.jpg"}`],
   },

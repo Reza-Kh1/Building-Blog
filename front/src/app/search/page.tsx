@@ -8,6 +8,7 @@ import { Metadata } from "next";
 import Script from "next/script";
 import { dataApi } from "@/data/tagsName";
 import { notFound } from "next/navigation";
+const nameSite = process.env.NEXT_PUBLIC_NAME_SITE || ""
 type pageType = {
   searchParams: { tags: string };
 };
@@ -26,8 +27,8 @@ const getData = async (tagId: string) => {
 };
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_URL || "http://localhost:3000"),
-  title: 'نتایج جستجو | ساخت یار',
-  description: 'در این صفحه نتایج جستجو برای پروژه‌ها، خدمات، یا مقالات مختلف تیم ساخت یار را مشاهده خواهید کرد. از فیلترهای مختلف برای پیدا کردن دقیق‌تر موارد مورد نظر استفاده کنید.',
+  title: `نتایج جستجو | ${nameSite}`,
+  description: `در این صفحه نتایج جستجو برای پروژه‌ها، خدمات، یا مقالات مختلف تیم ${nameSite} را مشاهده خواهید کرد. از فیلترهای مختلف برای پیدا کردن دقیق‌تر موارد مورد نظر استفاده کنید.`,
   keywords: [
     'جستجو پروژه‌ها',
     'پروژه‌های ساختمانی',
@@ -37,23 +38,23 @@ export const metadata: Metadata = {
     'پیمانکاری',
   ],
   openGraph: {
-    title: 'نتایج جستجو | ساخت یار',
-    description: 'با استفاده از نتایج جستجو در ساخت یار، پروژه‌ها و خدمات مختلف ساختمانی خود را بیابید.',
+    title: `نتایج جستجو | ${nameSite}`,
+    description: `با استفاده از نتایج جستجو در ${nameSite}، پروژه‌ها و خدمات مختلف ساختمانی خود را بیابید.`,
     url: `${process.env.NEXT_PUBLIC_URL + "/search"}`,
     images: [
       {
         url: `${process.env.NEXT_PUBLIC_URL + "/about-us.jpg"}`,
         width: 800,
         height: 600,
-        alt: 'نتایج جستجو در سایت ساخت یار',
+        alt: `نتایج جستجو در سایت ${nameSite}`,
       },
     ],
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'نتایج جستجو | ساخت یار',
-    description: 'در این صفحه، نتایج جستجو و فیلترهای مختلف پروژه‌های ساختمانی تیم ساخت یار را مشاهده کنید.',
+    title: `نتایج جستجو | ${nameSite}`,
+    description: `در این صفحه، نتایج جستجو و فیلترهای مختلف پروژه‌های ساختمانی تیم ${nameSite} را مشاهده کنید.`,
     images: [`${process.env.NEXT_PUBLIC_URL + "/about-us.jpg"}`],
   },
   robots: "index, follow",
@@ -68,15 +69,15 @@ export default async function page({ searchParams }: pageType) {
   const jsonld = {
     "@context": "https://schema.org",
     "@type": "SearchResultsPage",
-    "name": "نتایج جستجو در ساخت یار",
+    "name": `نتایج جستجو در ${nameSite}`,
     "url": `${process.env.NEXT_PUBLIC_URL + "/search"}`,
-    "description": "نتایج جستجو برای پروژه‌های ساختمانی، خدمات مشاوره و طراحی در سایت ساخت یار",
+    "description": `نتایج جستجو برای پروژه‌های ساختمانی، خدمات مشاوره و طراحی در سایت ${nameSite}`,
     "query": "پروژه‌های ساختمانی",
     "mainEntity": {
       "@type": "WebPage",
       "url": `${process.env.NEXT_PUBLIC_URL + "/search"}`,
       "name": "نتایج جستجو",
-      "description": "صفحه‌ای برای نمایش نتایج جستجوی پروژه‌ها و خدمات مختلف در ساخت یار.",
+      "description": `صفحه‌ای برای نمایش نتایج جستجوی پروژه‌ها و خدمات مختلف در ${nameSite}.`,
     },
     "image": `${process.env.NEXT_PUBLIC_URL + "/about-us.jpg"}`,
     "keywords": ["جستجو پروژه", "پروژه‌های ساختمانی", "خدمات ساخت و ساز", "پیمانکاری"],

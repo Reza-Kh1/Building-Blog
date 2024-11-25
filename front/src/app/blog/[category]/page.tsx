@@ -8,6 +8,7 @@ import { dataApi } from '@/data/tagsName'
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import React, { Suspense } from 'react'
+const nameSite = process.env.NEXT_PUBLIC_NAME_SITE || ""
 type PageType = { params: { category: string }, searchParams: { page: string } }
 const getData = async (query: PageType) => {
     const url = `${dataApi.category.url}/${query.params.category.replace(/-/g, " ")}?page=${query.searchParams.page || 1}`
@@ -23,14 +24,14 @@ export async function generateMetadata(query: PageType): Promise<Metadata> {
     const categorySlug = query.params.category.replace(/ /g, "-");
     return {
         metadataBase: new URL(process.env.NEXT_PUBLIC_URL || "http://localhost:3000"),
-        title: `پست‌های دسته‌ ${categoryName} | ساخت یار`,
+        title: `پست‌های دسته‌ ${categoryName} | ${nameSite}`,
         description: `مطالب و مقالات مرتبط با ${categoryName} در حوزه ساخت و ساز و معماری.`,
         keywords: [categoryName, "ساختمان", "ساخت و ساز", "معماری", "پروژه‌های ساختمانی"],
         robots: "index, follow",
         openGraph: {
             type: "article",
             url: `${baseUrl}/blog/${categorySlug}`,
-            title: `پست‌های دسته‌بندی ${categoryName} | ساخت یار`,
+            title: `پست‌های دسته‌بندی ${categoryName} | ${nameSite}`,
             description: `در این بخش از سایت، جدیدترین مطالب مرتبط با ${categoryName} را بخوانید.`,
             images: [
                 {
@@ -40,11 +41,11 @@ export async function generateMetadata(query: PageType): Promise<Metadata> {
                     alt: `پست‌های دسته‌بندی ${categoryName}`,
                 },
             ],
-            siteName: "ساخت یار",
+            siteName: nameSite,
         },
         twitter: {
             card: 'summary_large_image',
-            title: `پست‌های دسته‌بندی ${categoryName} | ساخت یار`,
+            title: `پست‌های دسته‌بندی ${categoryName} | ${nameSite}`,
             description: `مطالب جدید در زمینه ${categoryName} را بخوانید.`,
             images: [`${baseUrl}/category.webp`],
         },

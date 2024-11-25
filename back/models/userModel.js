@@ -16,24 +16,24 @@ const userModel = dataBase.define("User", {
     email: {
         type: DataTypes.STRING,
         allowNull: false,
-        // unique: {
-        //     args: true,
-        //     msg: "ایمیل قبلا در سیستم ثبت شده است"
-        // },
+        unique: {
+            args: true,
+            msg: "ایمیل قبلا در سیستم ثبت شده است"
+        },
     },
     phone: {
         type: DataTypes.STRING,
         allowNull: false,
-        // unique: {
-        //     args: true,
-        //     msg: "شماره تلفن قبلا در سیستم ثبت شده است"
-        // },
-        // validate: {
-        //     is: {
-        //         args: /^(?:[0-9] ?){9,10}[0-9]$/,
-        //         msg: "لطفا شماره تلفن خود را صحیح وارد کنید",
-        //     },
-        // },
+        unique: {
+            args: true,
+            msg: "شماره تلفن قبلا در سیستم ثبت شده است"
+        },
+        validate: {
+            is: {
+                args: /^(?:[0-9] ?){9,10}[0-9]$/,
+                msg: "لطفا شماره تلفن خود را صحیح وارد کنید",
+            },
+        },
     },
     role: {
         type: DataTypes.ENUM("ADMIN", "AUTHOR", "USER"),
@@ -47,7 +47,7 @@ const userModel = dataBase.define("User", {
     timestamps: true,
     indexes: [
         { unique: false, fields: ["name", "role"] },
-        // { unique: true, fields: ["email", "phone"] }
+        { unique: true, fields: ["email", "phone"] }
     ],
     tableName: "User"
 })

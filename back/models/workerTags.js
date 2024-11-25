@@ -22,6 +22,7 @@ const workerTags = dataBase.define(
     {
         tableName: "WorkerTags",
         timestamps: false,
+        indexes: [{ unique: false, fields: ["WorkerId", "TagId"] }]
     }
 );
 module.exports = workerTags;

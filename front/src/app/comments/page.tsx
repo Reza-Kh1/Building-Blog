@@ -9,6 +9,7 @@ import Pagination from "@/components/Pagination/Pagination";
 import { Metadata } from "next";
 import { dataApi } from "@/data/tagsName";
 import { notFound } from "next/navigation";
+const nameSite = process.env.NEXT_PUBLIC_NAME_SITE || ""
 const getData = async (page: number) => {
   const data = await fetchApi({ url: `${dataApi.comments.url}?page=${page || 1}`, next: dataApi.comments.cache, tags: dataApi.comments.tags })
   if (data.error) return notFound();
@@ -16,7 +17,7 @@ const getData = async (page: number) => {
 }
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_URL || "http://localhost:3000"),
-  title: 'نظرات مشتریان | ساخت یار',
+  title: `نظرات مشتریان | ${nameSite}`,
   description: 'نظرات واقعی مشتریان ما درباره خدمات ساخت و ساز و پیمانکاری. بخوانید که مشتریان از تجربه همکاری با ما چه می‌گویند.',
   keywords: [
     'نظرات مشتریان',
@@ -24,11 +25,11 @@ export const metadata: Metadata = {
     'رضایت مشتریان',
     'تجربیات مشتریان',
     'نقد و بررسی خدمات ساختمانی',
-    'کیفیت خدمات ساخت یار',
+    `کیفیت خدمات ${nameSite}`,
     'پیمانکاری و ساخت‌وساز',
   ],
   openGraph: {
-    title: 'نظرات مشتریان | ساخت یار',
+    title: `نظرات مشتریان | ${nameSite}`,
     description: 'نظرات واقعی مشتریان ما درباره خدمات ساخت و ساز و پیمانکاری. بخوانید که مشتریان از تجربه همکاری با ما چه می‌گویند.',
     url: `${process.env.NEXT_PUBLIC_URL + "/comments"}`,
     images: [
@@ -36,14 +37,14 @@ export const metadata: Metadata = {
         url: `${process.env.NEXT_PUBLIC_URL + "/about-us.jpg"}`,
         width: 800,
         height: 600,
-        alt: 'نظرات مشتریان سایت ساخت یار',
+        alt: `نظرات مشتریان سایت ${nameSite}`,
       },
     ],
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'نظرات مشتریان | ساخت یار',
+    title: `نظرات مشتریان | ${nameSite}`,
     description: 'مشتریان ما تجربه‌های خود را از خدمات ما به اشتراک گذاشته‌اند. این نظرات را در صفحه نظرات کاربران ببینید.',
     images: [`${process.env.NEXT_PUBLIC_URL + "/about-us.jpg"}`],
   },

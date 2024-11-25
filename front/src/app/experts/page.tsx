@@ -10,6 +10,7 @@ import Breadcrums from '@/components/Breadcrums/Breadcrums'
 import { Metadata } from 'next'
 import { dataApi } from '@/data/tagsName'
 import { notFound } from 'next/navigation'
+const nameSite = process.env.NEXT_PUBLIC_NAME_SITE || ""
 const getData = async (query: FilterQueryType) => {
     const url = dataApi.experts.url + "?" + new URLSearchParams(query)
     const data = await fetchApi({ url, next: dataApi.experts.cache, tags: dataApi.experts.tags })
@@ -18,7 +19,7 @@ const getData = async (query: FilterQueryType) => {
 }
 export const metadata: Metadata = {
     metadataBase: new URL(process.env.NEXT_PUBLIC_URL || "http://localhost:3000"),
-    title: 'مجری ها | ساخت یار',
+    title: `مجری ها | ${nameSite}`,
     description: 'با مجری های برتر حوزه ساخت و ساز آشنا شوید. در این صفحه می‌توانید پروفایل مجری های ما را مشاهده کنید و برای پروژه‌های خود از آنها مشاوره و خدمات دریافت کنید.',
     keywords: [
         'متخصصان ساختمانی',
@@ -30,7 +31,7 @@ export const metadata: Metadata = {
         'مشاوره پروژه ساختمانی',
     ],
     openGraph: {
-        title: 'مجری ها | ساخت یار',
+        title: `مجری ها | ${nameSite}`,
         description: 'با متخصصان برتر حوزه ساخت و ساز آشنا شوید. در این صفحه می‌توانید پروفایل متخصصان ما را مشاهده کنید و برای پروژه‌های خود از آنها مشاوره و خدمات دریافت کنید.',
         url: `${process.env.NEXT_PUBLIC_URL + "/experts"}`,
         images: [
@@ -38,14 +39,14 @@ export const metadata: Metadata = {
                 url: `${process.env.NEXT_PUBLIC_URL + "/about-us.jpg"}`,
                 width: 800,
                 height: 600,
-                alt: 'پروفایل متخصصان ساخت یار',
+                alt: `پروفایل متخصصان ${nameSite}`,
             },
         ],
         type: 'website',
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'مجری ها | ساخت یار',
+        title: `مجری ها | ${nameSite}`,
         description: 'با متخصصان و مشاوران ساخت و ساز ما آشنا شوید و از خدمات حرفه‌ای آنها برای پروژه‌های خود استفاده کنید.',
         images: [`${process.env.NEXT_PUBLIC_URL + "/about-us.jpg"}`],
     },

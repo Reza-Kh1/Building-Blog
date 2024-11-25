@@ -22,6 +22,7 @@ const projectTags = dataBase.define(
     {
         tableName: "ProjectTags",
         timestamps: false,
+        indexes:[{unique:false,fields:["ProjectId","TagId"]}]
     }
 );
 module.exports = projectTags;

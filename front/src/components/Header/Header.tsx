@@ -32,7 +32,7 @@ export default async function Header() {
                 </li>
               </ul>
             </nav>
-            <div className="w-1/2 order-2 md:order-3 md:w-2/12 text-left text-xs md:text-base">test</div>
+            <div className="w-1/2 order-2 md:order-3 md:w-2/12 text-left text-xs md:text-base font-[math] font-bold">Build Masters</div>
           </div>
         </div >
       </header>

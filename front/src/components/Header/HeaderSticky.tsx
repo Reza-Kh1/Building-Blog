@@ -132,14 +132,15 @@ export default function HeaderSticky({ category }: { category: CategoryType[] })
                       <figure className="flex justify-center items-end">
                         <Image
                           src={"/logo.png"}
-                          className="w-full h-auto"
-                          width={60}
-                          height={20}
-                          alt="logo"
+                          className="w-28 h-auto"
+                          width={96}
+                          height={96}
+                          alt="لوگو وبسایت اساتید ساخت و ساز"
                           loading="eager"
                         />
                       </figure>
                     </Link>
+                    <h2 className="text-sm text-center mb-2 font-[math]">Build Masters</h2>
                     <ul className="flex flex-col gap-3 justify-evenly text-slate-600 dark:text-s-dark w-full">
                       <li className="hover:text-blue-400 text-sm flex items-center gap-2">
                         <FaUsersViewfinder className="text-gray-700 dark:text-s-dark" />
@@ -231,10 +232,10 @@ export default function HeaderSticky({ category }: { category: CategoryType[] })
                 <figure className="flex justify-end items-end">
                   <Image
                     src={"/logo.png"}
-                    className="rounded-md w-full h-auto"
-                    width={56}
-                    height={56}
-                    alt="logo"
+                    className="rounded-md w-20 md:w-28 h-auto"
+                    width={116}
+                    height={116}
+                    alt="لوگو وبسایت اساتید ساخت و ساز"
                     loading="eager"
                   />
                 </figure>

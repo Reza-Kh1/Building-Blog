@@ -16,6 +16,7 @@ const tagsModel = dataBase.define(
   {
     timestamps: false,
     tableName: "Tag",
+    indexes: [{ unique: true, fields: ["name"] }]
   }
 );
 module.exports = tagsModel;

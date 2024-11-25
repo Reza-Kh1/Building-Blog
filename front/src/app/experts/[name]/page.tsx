@@ -45,6 +45,7 @@ const dataSocialMedia = [
     icon: <FaLinkedin className="text-2xl text-blue-700" />,
   },
 ];
+const nameSite = process.env.NEXT_PUBLIC_NAME_SITE || ""
 const getData = async (name: string) => {
   const url = dataApi.singleExpert.url + "/" + name.replace(/-/g, " ");
   const data = await fetchApi({ url, next: dataApi.singleExpert.cache });
@@ -58,14 +59,14 @@ export async function generateMetadata({ params }: { params: { name: string } })
   const tags = data.Tags?.map(i => i.name) || ""
   return {
     metadataBase: new URL(process.env.NEXT_PUBLIC_URL || "http://localhost:3000"),
-    title: `${data.name} | ساخت یار`,
+    title: `${data.name} | ${nameSite}`,
     description: `آشنایی با متخصص ${data.name} در حوزه ساخت و ساز و معماری. خدمات و تجارب حرفه‌ای ${data.name} را مشاهده کنید و برای پروژه‌های خود از آنها مشاوره بگیرید.`,
     keywords: [data.name, ...tags],
     robots: "index, follow",
     openGraph: {
       type: "profile",
       url: `${baseUrl}/experts/${urlPage}`,
-      title: `${data.name} | ساخت یار`,
+      title: `${data.name} | ${nameSite}`,
       description: `آشنایی با خدمات و تجارب ${data.name} در زمینه ساخت و ساز و معماری. برای پروژه‌های خود از تخصص این متخصص استفاده کنید.`,
       images: [
         {
@@ -75,11 +76,11 @@ export async function generateMetadata({ params }: { params: { name: string } })
           alt: `پروفایل ${data.name} مجری ساخت و ساز`,
         },
       ],
-      siteName: "ساخت یار",
+      siteName: nameSite,
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${data.name} | ساخت یار`,
+      title: `${data.name} | ${nameSite}`,
       description: `آشنایی با تخصص‌ها و خدمات ${data.name} در حوزه ساخت و ساز و معماری. مشاوره برای پروژه‌های ساختمانی.`,
       images: [`${baseUrl}/experts/${data.name.toLowerCase().replace(/ /g, "-")}-profile.jpg`],
     },

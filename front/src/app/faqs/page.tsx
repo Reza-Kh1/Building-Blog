@@ -10,6 +10,7 @@ import { Accordion, AccordionDetails, AccordionSummary } from "@mui/material";
 import { IoIosArrowDown } from "react-icons/io";
 import { dataApi } from "@/data/tagsName";
 import { notFound } from "next/navigation";
+const nameSite = process.env.NEXT_PUBLIC_NAME_SITE || ""
 const getData = async () => {
   const data = await fetchApi({ url: dataApi.faqs.url, next: dataApi.faqs.cache, tags: dataApi.faqs.tags });
   if (data.error) return notFound();
@@ -17,7 +18,7 @@ const getData = async () => {
 };
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_URL || "http://localhost:3000"),
-  title: 'سوالات متداول | ساخت یار',
+  title: `سوالات متداول | ${nameSite}`,
   description: 'در این صفحه به سوالات متداول کاربران درباره خدمات ساخت و ساز، پیمانکاری، و مشاوره پروژه‌های ساختمانی پاسخ داده‌ایم. به راحتی اطلاعات مورد نظر خود را پیدا کنید.',
   keywords: [
     'سوالات متداول',
@@ -29,7 +30,7 @@ export const metadata: Metadata = {
     'ساخت و ساز سوالات',
   ],
   openGraph: {
-    title: 'سوالات متداول | ساخت یار',
+    title: `سوالات متداول | ${nameSite}`,
     description: 'در این بخش از سایت، به سوالات متداول شما درباره خدمات ساخت و ساز، مشاوره، پیمانکاری و پروژه‌های ساختمانی پاسخ داده‌ایم.',
     url: `${process.env.NEXT_PUBLIC_URL + "/faq"}`,
     images: [
@@ -37,14 +38,14 @@ export const metadata: Metadata = {
         url: `${process.env.NEXT_PUBLIC_URL + "/about-us.jpg"}`,
         width: 800,
         height: 600,
-        alt: 'سوالات متداول سایت ساخت یار',
+        alt: `سوالات متداول سایت ${nameSite}`,
       },
     ],
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'سوالات متداول | ساخت یار',
+    title: `سوالات متداول | ${nameSite}`,
     description: 'پاسخ به سوالات متداول کاربران درباره خدمات ساخت و ساز و پروژه‌های ساختمانی.',
     images: [`${process.env.NEXT_PUBLIC_URL + "/about-us.jpg"}`],
   },

@@ -10,13 +10,13 @@ import "swiper/css";
 import "swiper/css/navigation";
 import 'swiper/css/pagination';
 import local from "next/font/local"
+const nameSite = process.env.NEXT_PUBLIC_NAME_SITE || ""
 export const metadata: Metadata = {
-  title: "ساخت یار - اولین منبع برای ساختن",
+  title: `${nameSite} - اولین منبع برای ساختن`,
   description:
     "ما در اینجا به شما نیروهای مجرب و مصالح نوین ساختمانی را معرفی می‌کنیم. با ما همراه باشید تا از آخرین تکنولوژی‌ها و بهترین پیمانکاران در صنعت ساخت و ساز مطلع شوید.",
 };
 const fontSahel = local({ src: "../fonts/Sahel.woff", variable: "--sahel-font" })
-const fontIran = local({ src: "../fonts/Vazir-Regular.woff", variable: "--iransans-font" })
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -24,7 +24,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fa" dir="rtl">
-      <body className={`${fontSahel.variable} ${fontIran.variable}`}>
+      <body className={`${fontSahel.variable}`}>
         <React.StrictMode>
           <AppRouterCacheProvider options={{ key: "css" }}>
             <LayoutProvider>

@@ -131,8 +131,8 @@ export default function HeaderSticky({ category }: { category: CategoryType[] })
                     <Link href={"/"} aria-label="لوگو وب سایت" title="بازگشت به خانه">
                       <figure className="flex justify-center items-end">
                         <Image
-                          src={"/logo.png"}
-                          className="w-28 h-auto"
+                          src={"/logosite.png"}
+                          className="w-40 h-auto"
                           width={96}
                           height={96}
                           alt="لوگو وبسایت اساتید ساخت و ساز"
@@ -140,8 +140,7 @@ export default function HeaderSticky({ category }: { category: CategoryType[] })
                         />
                       </figure>
                     </Link>
-                    <h2 className="text-sm text-center mb-2 font-[math]">Build Masters</h2>
-                    <ul className="flex flex-col gap-3 justify-evenly text-slate-600 dark:text-s-dark w-full">
+                    <ul className="flex flex-col gap-3 mt-3 justify-evenly text-slate-600 dark:text-s-dark w-full">
                       <li className="hover:text-blue-400 text-sm flex items-center gap-2">
                         <FaUsersViewfinder className="text-gray-700 dark:text-s-dark" />
                         <NavlinkHeader title="درباره ما" url="/about-us" />
@@ -231,10 +230,10 @@ export default function HeaderSticky({ category }: { category: CategoryType[] })
               <Link href={"/"}>
                 <figure className="flex justify-end items-end">
                   <Image
-                    src={"/logo.png"}
-                    className="rounded-md w-20 md:w-28 h-auto"
-                    width={116}
-                    height={116}
+                    src={"/logosite.png"}
+                    className="rounded-md w-28 md:w-48 h-auto"
+                    width={200}
+                    height={200}
                     alt="لوگو وبسایت اساتید ساخت و ساز"
                     loading="eager"
                   />

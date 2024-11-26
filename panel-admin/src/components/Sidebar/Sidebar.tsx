@@ -108,8 +108,11 @@ export default function Sidebar() {
     <div className="w-full p-2 right-0 sidebar-site top-0 sticky">
       {load && <PendingApi />}
       <ul className="bg-gray-100 p-3 rounded-md flex flex-col gap-3">
+        <li className="flex justify-center items-center">
+          <img src="/logosite.png" className="w-40" alt="logo site" />
+        </li>
         {dataLink.map((i, index) => {
-          if (i.name === "کاربران" && role !== "ADMIN") return;
+          if ((i.name === "کاربران" || i.name === "بک آپ") && role !== "ADMIN") return;
           return (
             <li key={index}>
               <LinkSidebar name={i.name} url={i.url} icon={i.icon} />

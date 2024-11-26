@@ -33,14 +33,16 @@ export default async function Footer() {
           <div className="w-full lg:w-3/5">
             <section className="w-full border-b border-b-slate-700 mb-5 pb-5 flex items-stretch gap-2 md:gap-5 text-slate-400">
               <figure className="flex w-1/4">
-                <Image
-                  alt={data?.text?.logoUrl?.alt || "logo"}
-                  src={data?.text?.logoUrl?.url || "/logo.png"}
-                  width={250}
-                  className="h-auto object-contain w-full rounded-md"
-                  height={150}
-                  loading="lazy"
-                />
+                <Link href={"/"} aria-label="logo site" className="flex items-center w-full h-full">
+                  <Image
+                    alt={data?.text?.logoUrl?.alt || "لوگو سایت اساتید ساخت و ساز"}
+                    src={data?.text?.logoUrl?.url || "/logofooter.png"}
+                    width={250}
+                    className="h-auto object-contain w-full rounded-md"
+                    height={150}
+                    loading="lazy"
+                  />
+                </Link>
               </figure>
               <span className="border border-slate-500"></span>
               <p className="text-xs w-3/4 sm:text-base text-justify">
@@ -53,32 +55,32 @@ export default async function Footer() {
             >
               {data?.text?.menuLink.length
                 ? data.text.menuLink.map((i, index) => (
-                    <ul
-                      key={index}
-                      className="flex flex-col gap-1 md:gap-2 text-slate-400"
-                    >
-                      {i[0].name
-                        ? i.map((item) => (
-                            <li
-                              key={item.id}
-                              className="flex hover:pr-1 transition-all text-sm md:text-base"
-                            >
-                              <Link
-                                href={item.link}
-                                className="hover:text-slate-100 transition-all scale-1 flex items-center"
-                              >
-                                <i>
-                                  <FaAngleLeft />
-                                </i>
-                                <span className="mr-1 transition-shadow">
-                                  {item.name}
-                                </span>
-                              </Link>
-                            </li>
-                          ))
-                        : null}
-                    </ul>
-                  ))
+                  <ul
+                    key={index}
+                    className="flex flex-col gap-1 md:gap-2 text-slate-400"
+                  >
+                    {i[0].name
+                      ? i.map((item) => (
+                        <li
+                          key={item.id}
+                          className="flex hover:pr-1 transition-all text-sm md:text-base"
+                        >
+                          <Link
+                            href={item.link}
+                            className="hover:text-slate-100 transition-all scale-1 flex items-center"
+                          >
+                            <i>
+                              <FaAngleLeft />
+                            </i>
+                            <span className="mr-1 transition-shadow">
+                              {item.name}
+                            </span>
+                          </Link>
+                        </li>
+                      ))
+                      : null}
+                  </ul>
+                ))
                 : null}
             </nav>
           </div>

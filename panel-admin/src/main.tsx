@@ -34,10 +34,6 @@ const query = new QueryClient({
       } else {
         toast.error("در ارتباط با دیتابیس با خطا روبرو شدیم");
       }
-      // console.log(err.stack);
-      // console.log(err.message);
-      // console.log(err?.response?.status);
-      // console.log(err);
     },
   }),
 });

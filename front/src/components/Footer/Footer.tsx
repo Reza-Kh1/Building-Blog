@@ -119,7 +119,7 @@ export default async function Footer() {
                   </i>
                 </Link>
                 <Link
-                  href="tel:09226115716"
+                  href="tel:09121975658"
                   className="bg-[#1c2124] text-xs lg:text-sm hover:bg-gray-950 items-center gap-2 p-2 flex rounded-md shadow-custom-dark"
                 >
                   09121975658

@@ -28,12 +28,12 @@ const nextConfig = {
           { key: "Access-Control-Allow-Credentials", value: "true" },
           {
             key: "Access-Control-Allow-Origin",
-            value: "http://localhost:5173"
-            // value:"https://api.buildmasters.ir/"
+            value: "http://localhost:5173",
+            // value: "https://admin.buildmasters.ir",
           },
           {
             key: "Access-Control-Allow-Methods",
-            value: "GET,DELETE,PATCH,POST,PUT",
+            value: "OPTIONS, GET, DELETE, PATCH, POST, PUT",
           },
           {
             key: "Access-Control-Allow-Headers",

@@ -8,10 +8,10 @@ type DontDataType = {
 }
 export default function DontData({ name, icon, className }: DontDataType) {
     return (
-        <div className='bg-gradient-to-br dark:shadow-low-dark to-slate-600 dark:from-zinc-900 dark:to-slate-700 from-blue-300 w-full flex p-3 my-6 items-center text-white rounded-md shadow-md'>
-            <span>{name}</span>
+        <div className='bg-gradient-to-br dark:shadow-low-dark to-slate-600 dark:from-zinc-900 dark:to-slate-700 from-blue-300 w-full flex p-2 md:p-3 my-6 items-center text-white rounded-md shadow-md'>
+            <span className='text-sm md:text-base'>{name}</span>
             <Tooltip placement='top' title="هیچ اطلاعاتی در دیتابیس پیدا نشد!">
-                <IconButton color='inherit' >
+                <IconButton color='inherit' className='!text-sm md:!text-xl' >
                     <BsFillInfoCircleFill />
                 </IconButton>
             </Tooltip>

@@ -163,7 +163,7 @@ export default function HeaderSticky({ category }: { category: CategoryType[] })
                               {i.icon}
                               <NavlinkHeader title={i.name} url={i.url} className="group-hover:text-blue-400 text-sm" />
                             </div>
-                            {i.name === "وبلاگ" ? (
+                            {i.name === "وبلاگ" && category?.length ? (
                               <button aria-label="دسته بندی ها" type="button" onClick={() => setShowCategory(showCategory !== i.name ? i.name : null)}>
                                 <FaAngleDoubleDown
                                   size={14}
@@ -209,7 +209,7 @@ export default function HeaderSticky({ category }: { category: CategoryType[] })
                     className="flex items-center gap-2 group relative"
                   >
                     <NavlinkHeader title={i.name} url={i.url} className="group-hover:text-blue-400 dark:text-p-dark hover:scale-105 py-3 transition-all scale-1 flex items-center" />
-                    {i.name === "وبلاگ" ? (
+                    {i.name === "وبلاگ" && category?.length ? (
                       <>
                         <ul>
                           <MenuComponents props={category} />

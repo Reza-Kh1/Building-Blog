@@ -9,7 +9,7 @@ export default function BannerFooter() {
                 {servicesData.map((i, index) => (
                     <li className='flex flex-col items-center gap-3 justify-center' key={index}>
                         <ImgTag src={i.img} classPlus='md:w-12 w-6 h-auto' alt={""} width={96} height={96} />
-                        <span className='text-[8px] md:text-base'>
+                        <span className='text-[8px] md:text-base text-center'>
                             {i.title}
                         </span>
                     </li>

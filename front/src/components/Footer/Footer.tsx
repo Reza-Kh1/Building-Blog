@@ -86,13 +86,12 @@ export default async function Footer() {
           </div>
           <div className="w-full lg:w-2/5 lg:pr-7 text-sm mt-5 lg:text-base lg:mt-0">
             <div className=" flex flex-col gap-2 mb-5">
-              <h3 className="text-slate-400 mb-3">
+              <span className="text-slate-400 mb-3">
                 هرگونه سوال یا مشاوره ای خواستید ما به صورت رایگان در خدمتیم می
                 توانید با شماره های زیر تماس حاصل کنید :
-              </h3>
+              </span>
               <address className="text-slate-400 text-sm">
-                آدرس : تهران - فرحزاد - میدان فرحزاد - خیابان گلستان - بن بست
-                لاله یکم - پلاک 13
+                آدرس : تهران
               </address>
               <p className="text-slate-400 text-sm">
                 ایمیل :{" "}
@@ -103,12 +102,12 @@ export default async function Footer() {
                   R.khani1385.66@gmail.com
                 </Link>
               </p>
-              <p className="text-slate-400 text-sm">
+              {/* <p className="text-slate-400 text-sm">
                 تلفن :{" "}
                 <Link href="tel:02122087279" className="hover:text-blue-400">
                   22087279-021
                 </Link>
-              </p>
+              </p> */}
               <div className="text-blue-100 mt-3 flex justify-evenly lg:justify-between items-center text-sm">
                 <Link
                   href="tel:09390199977"
@@ -123,7 +122,7 @@ export default async function Footer() {
                   href="tel:09226115716"
                   className="bg-[#1c2124] text-xs lg:text-sm hover:bg-gray-950 items-center gap-2 p-2 flex rounded-md shadow-custom-dark"
                 >
-                  09226115716
+                  09121975658
                   <i>
                     <FiPhoneCall color="green" />
                   </i>

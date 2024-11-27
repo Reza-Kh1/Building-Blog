@@ -215,7 +215,7 @@ export default function SearchBox() {
               </Link>
             </>
             :
-            <span className="text-xs md:text-xl text-gray-700">
+            <span className="text-xs md:text-xl text-gray-700 dark:text-p-dark">
               هیچ اطلاعاتی با کلمه جستجوی شما یافت نشد !!!
             </span>
           }

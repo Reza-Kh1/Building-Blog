@@ -48,6 +48,7 @@ export async function generateMetadata(query: PageType): Promise<Metadata> {
             title: `پست‌های دسته‌بندی ${categoryName} | ${nameSite}`,
             description: `مطالب جدید در زمینه ${categoryName} را بخوانید.`,
             images: ["/category.webp"],
+            
         },
         alternates: {
             canonical: `${baseUrl}/blog/${categorySlug}`,

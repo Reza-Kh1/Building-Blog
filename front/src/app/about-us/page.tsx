@@ -29,24 +29,21 @@ export const metadata: Metadata = {
   description: 'آماده ایم تا با شروع این همکاری ،رویاهای ساخت و ساز شما را به واقعیت تبدیل کنیم - با هم ، از ایده تا اجرا پیش خواهیم رفت.',
   keywords: ['پروژه‌های ساختمانی', 'مشاوره ساخت‌وساز', nameSite, 'خدمات پیمانکاری'],
   openGraph: {
+    siteName:"اساتید ساخت و ساز",
     title: `درباره ما | ${nameSite}`,
     description: 'آماده ایم تا با شروع این همکاری ،رویاهای ساخت و ساز شما را به واقعیت تبدیل کنیم - با هم ، از ایده تا اجرا پیش خواهیم رفت.',
     url: `${process.env.NEXT_PUBLIC_URL + "/about-us"}`,
     images: [
       {
-        url: "/about-us.webp",
+        type:"image/png",
+        url: "/about-us",
         width: 800,
         height: 600,
         alt: `درباره ما سایت ${nameSite}`,
       },
     ],
     type: 'website',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: `درباره ما | ${nameSite}`,
-    description: 'آماده ایم تا با شروع این همکاری ،رویاهای ساخت و ساز شما را به واقعیت تبدیل کنیم - با هم ، از ایده تا اجرا پیش خواهیم رفت.',
-    images: ["/about-us.webp"],
+    locale:"fa_IR"
   },
   robots: "index, follow",
   alternates: {

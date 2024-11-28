@@ -35,15 +35,24 @@ export const metadata: Metadata = {
     url: `${process.env.NEXT_PUBLIC_URL + "/about-us"}`,
     images: [
       {
-        type:"image/png",
-        url: "/about-us",
+        type:"image/حدل",
+        url: "https://building-blog.storage.iran.liara.space/1732708926609-mapiran.png",
         width: 800,
         height: 600,
         alt: `درباره ما سایت ${nameSite}`,
       },
     ],
     type: 'website',
-    locale:"fa_IR"
+    locale:"fa_IR",
+    
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: `درباره ما | ${nameSite}`,
+    description: 'آماده ایم تا با شروع این همکاری ،رویاهای ساخت و ساز شما را به واقعیت تبدیل کنیم - با هم ، از ایده تا اجرا پیش خواهیم رفت.',
+    images: ["/about-us.webp"],
+    creator:"@buildMasters",
+    site:"@buildMasters"
   },
   robots: "index, follow",
   alternates: {

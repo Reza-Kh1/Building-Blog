@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: `${process.env.NEXTAUTH_URL}/category.webp`,
+        url: "/category.webp",
         width: 1200,
         height: 630,
         alt: `صفحه وبلاگ سایت ${nameSite}`,
@@ -46,13 +46,13 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: `وبلاگ | ${nameSite}`,
-    images: [`${process.env.NEXTAUTH_URL}/category.webp`],
+    images: ['/category.webp'],
     description:
       "ما برای افزایش آگاهی شما مقالاتی را نوشتیم که میتواند در انتخاب هاتون بهتون کمک کند.",
   },
   robots: "index, follow",
   alternates: {
-    canonical: `${process.env.NEXT_PUBLIC_URL + "/blog"}`,
+    canonical:"/blog",
   },
 };
 export default async function page({

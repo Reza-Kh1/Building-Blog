@@ -35,7 +35,7 @@ export async function generateMetadata(query: PageType): Promise<Metadata> {
             description: `در این بخش از سایت، جدیدترین مطالب مرتبط با ${categoryName} را بخوانید.`,
             images: [
                 {
-                    url: `${baseUrl}/category.webp`,
+                    url: "/category.webp",
                     width: 1200,
                     height: 630,
                     alt: `پست‌های دسته‌بندی ${categoryName}`,
@@ -47,7 +47,7 @@ export async function generateMetadata(query: PageType): Promise<Metadata> {
             card: 'summary_large_image',
             title: `پست‌های دسته‌بندی ${categoryName} | ${nameSite}`,
             description: `مطالب جدید در زمینه ${categoryName} را بخوانید.`,
-            images: [`${baseUrl}/category.webp`],
+            images: ["/category.webp"],
         },
         alternates: {
             canonical: `${baseUrl}/blog/${categorySlug}`,

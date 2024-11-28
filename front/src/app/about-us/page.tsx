@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     url: `${process.env.NEXT_PUBLIC_URL + "/about-us"}`,
     images: [
       {
-        url: `${process.env.NEXT_PUBLIC_URL + "/about-us.jpg"}`,
+        url: "/about-us.webp",
         width: 800,
         height: 600,
         alt: `درباره ما سایت ${nameSite}`,
@@ -45,17 +45,17 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: `درباره ما | ${nameSite}`,
-    description: 'تیم ساختمان سازی آماده همکاری و تماس های شماس.',
-    images: [`${process.env.NEXT_PUBLIC_URL + "/about-us.jpg"}`],
+    description: 'آماده ایم تا با شروع این همکاری ،رویاهای ساخت و ساز شما را به واقعیت تبدیل کنیم - با هم ، از ایده تا اجرا پیش خواهیم رفت.',
+    images: ["/about-us.webp"],
   },
   robots: "index, follow",
   alternates: {
-    canonical: `${process.env.NEXT_PUBLIC_URL + "/about-us"}`,
+    canonical: "/about-us",
   },
 };
 export default async function page() {
   const { data }: AboutUsType = await getData();
-  const projects: AllProjectType = await getProjects()  
+  const projects: AllProjectType = await getProjects()
   return (
     <>
       <Breadcrums />
@@ -79,7 +79,7 @@ export default async function page() {
       </div>
       <OurServices />
       <div className="classDiv">
-        <SwiperCards data={projects.rows}  isProject title="پروژه های ما" url="/project" />
+        <SwiperCards data={projects.rows} isProject title="پروژه های ما" url="/project" />
       </div>
       <BannerCallUs />
       <div className="classDiv flex flex-col md:flex-row gap-3 items-center">

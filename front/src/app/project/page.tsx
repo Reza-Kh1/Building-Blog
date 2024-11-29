@@ -45,12 +45,13 @@ export const metadata: Metadata = {
       },
     ],
     type: 'website',
+    locale:"fa_IR",
+    siteName:nameSite,
   },
   twitter: {
     card: 'summary_large_image',
-    title: `پروژه‌ها | ${nameSite}`,
-    description: `پروژه‌های مختلف ساختمانی و عمرانی انجام شده توسط تیم ${nameSite} را در این بخش مشاهده کنید.`,
-    images: [`${process.env.NEXT_PUBLIC_URL + "/about-us.jpg"}`],
+    creator:"@buildMasters",
+    site:"@buildMasters"
   },
   robots: "index, follow",
   alternates: {

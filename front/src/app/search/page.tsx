@@ -49,13 +49,14 @@ export const metadata: Metadata = {
         alt: `نتایج جستجو در سایت ${nameSite}`,
       },
     ],
+    locale:"fa_IR",
+    siteName:nameSite,
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: `نتایج جستجو | ${nameSite}`,
-    description: `در این صفحه، نتایج جستجو و فیلترهای مختلف پروژه‌های ساختمانی تیم ${nameSite} را مشاهده کنید.`,
-    images: [`${process.env.NEXT_PUBLIC_URL + "/about-us.jpg"}`],
+    creator:"@buildMasters",
+    site:"@buildMasters"
   },
   robots: "index, follow",
   alternates: {

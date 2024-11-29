@@ -41,12 +41,13 @@ export const metadata: Metadata = {
       },
     ],
     type: 'website',
+    locale:"fa_IR",
+    siteName:nameSite,
   },
   twitter: {
     card: 'summary_large_image',
-    title: `نظرات مشتریان | ${nameSite}`,
-    description: 'مشتریان ما تجربه‌های خود را از خدمات ما به اشتراک گذاشته‌اند. این نظرات را در صفحه نظرات کاربران ببینید.',
-    images: [`${process.env.NEXT_PUBLIC_URL + "/about-us.jpg"}`],
+    creator:"@buildMasters",
+    site:"@buildMasters"
   },
   robots: "index, follow",
   alternates: {

@@ -105,7 +105,7 @@ export default function SearchBox() {
       <div
         className={`w-full px-1 xl:px-0 absolute transition-all right-0 top-36 ${isShow ? "opacity-100 z-20 !top-24 md:!top-28" : "opacity-0 -z-20 pointer-events-none"}`}
       >
-        <div className="max-w-7xl gap-2  md:gap-5 transition-all rounded-xl p-2 px-1 lg:p-3 mx-auto flex justify-between items-center bg-gradient-to-br to-blue-300/70 from-gray-100/60 dark:to-slate-700 dark:from-zinc-900 backdrop-blur-lg">
+        <div className="max-w-7xl gap-2  md:gap-5 transition-all rounded-xl p-2 px-1 lg:p-3 mx-auto flex justify-between items-center bg-gradient-to-br to-blue-300/70 from-gray-100/60 dark:to-slate-700/70 dark:from-zinc-900/70 backdrop-blur-lg">
           <div className="w-full relative bg-white dark:bg-input-dark p-1 lg:p-2 rounded-full shadow-md">
             <input
               ref={ref}
@@ -128,7 +128,7 @@ export default function SearchBox() {
                   route.push(url)
                 }
               }}
-              className="text-xs md:text-base p-2  bg-transparent w-full border-b-black focus-visible:outline-none"
+              className="text-xs md:text-base p-2 bg-transparent w-8/12 md:w-10/12 border-b-black focus-visible:outline-none"
               placeholder="جستجوی هوشمند..."
             />
             {loading && (
@@ -136,7 +136,7 @@ export default function SearchBox() {
                 <LoadingSearch />
               </i>
             )}
-            < Link aria-label="جستجو" title="جستجو" href={`/${filterName === "post" ? "blog" : filterName === "expert" ? "experts" : "project"}?page=1&order=createdAt-DESC&search=` + valSearch} className="absolute lg:text-xl left-2 transform top-1/2 -translate-y-1/2">
+            < Link aria-label="جستجو" title="جستجو" href={`/${filterName === "post" ? "blog" : filterName === "expert" ? "experts" : "project"}?page=1&order=createdAt-DESC&search=` + valSearch} className="absolute lg:text-xl left-1 md:left-2 transform top-1/2 -translate-y-1/2">
               <i className="p-2 lg:p-3 rounded-full shadow-md block hover:bg-blue-600/70 bg-blue-400/90 text-white">
                 <FaSearch />
               </i>
@@ -185,7 +185,7 @@ export default function SearchBox() {
         className={`-z-20 px-1 xl:px-0 h-screen opacity-0 absolute w-full top-52 left-0 flex justify-center transition-all ${valSearch && isShow ? "z-20 opacity-100 top-[160px] md:top-52" : "invisible"
           }`}
       >
-        <div className="max-w-7xl h-3/4 overflow-y-auto w-full bg-gradient-to-tr dark:to-slate-700 dark:from-zinc-900  from-blue-300/60 backdrop-blur-md to-gray-100/60 shadow-md p-4 rounded-lg">
+        <div className="max-w-7xl h-3/4 overflow-y-auto w-full bg-gradient-to-tr dark:to-slate-700/70 dark:from-zinc-900/70  from-blue-300/60 backdrop-blur-md to-gray-100/60 shadow-md p-2 md:p-4 rounded-lg">
           {!isSearch ? null : isSearch && data?.rows.length ?
             <>
               {filterName === "project" ?
@@ -206,7 +206,7 @@ export default function SearchBox() {
                     ))}
                   </div>
               }
-              <Link className="mt-4 block w-1/3 sm:w-1/4 md:w-1/6 mx-auto" href={`/${filterName === "post" ? "blog" : filterName === "expert" ? "experts" : "project"}?page=1&order=createdAt-DESC&search=` + valSearch}>
+              <Link className="mt-4 block w-full md:w-1/6 mx-auto" href={`/${filterName === "post" ? "blog" : filterName === "expert" ? "experts" : "project"}?page=1&order=createdAt-DESC&search=` + valSearch}>
                 <CustomButton
                   name="مشاهده همه"
                   type="button"

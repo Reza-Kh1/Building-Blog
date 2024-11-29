@@ -77,12 +77,12 @@ export async function generateMetadata({ params }: { params: { name: string } })
         },
       ],
       siteName: nameSite,
+      locale:"fa_IR",
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${data.name} | ${nameSite}`,
-      description: `آشنایی با تخصص‌ها و خدمات ${data.name} در حوزه ساخت و ساز و معماری. مشاوره برای پروژه‌های ساختمانی.`,
-      images: [`${baseUrl}/experts/${data.name.toLowerCase().replace(/ /g, "-")}-profile.jpg`],
+      creator:"@buildMasters",
+      site:"@buildMasters"
     },
     alternates: {
       canonical: `${baseUrl}/experts/${urlPage}`,

@@ -29,27 +29,26 @@ export async function generateMetadata(query: PageType): Promise<Metadata> {
         keywords: [categoryName, "ساختمان", "ساخت و ساز", "معماری", "پروژه‌های ساختمانی"],
         robots: "index, follow",
         openGraph: {
-            type: "article",
+            type: "website",
             url: `${baseUrl}/blog/${categorySlug}`,
             title: `پست‌های دسته‌بندی ${categoryName} | ${nameSite}`,
             description: `در این بخش از سایت، جدیدترین مطالب مرتبط با ${categoryName} را بخوانید.`,
             images: [
                 {
-                    url: "/category.webp",
+                    url: "/category.jpg",
                     width: 1200,
                     height: 630,
                     alt: `پست‌های دسته‌بندی ${categoryName}`,
                 },
             ],
-            siteName: nameSite,
+            locale:"fa_IR",
+            siteName:nameSite,
         },
         twitter: {
             card: 'summary_large_image',
-            title: `پست‌های دسته‌بندی ${categoryName} | ${nameSite}`,
-            description: `مطالب جدید در زمینه ${categoryName} را بخوانید.`,
-            images: ["/category.webp"],
-            
-        },
+            creator:"@buildMasters",
+            site:"@buildMasters"
+          },
         alternates: {
             canonical: `${baseUrl}/blog/${categorySlug}`,
         },

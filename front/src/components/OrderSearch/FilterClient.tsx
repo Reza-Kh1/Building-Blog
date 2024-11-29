@@ -61,7 +61,7 @@ export default function FilterClient({
         <CustomButton
           name="فیلتر"
           type="button"
-          className="!text-xs"
+          className="dark:!shadow-low-dark !text-xs"
           iconEnd={<LuFilter />}
           onClick={() => setOpen(true)}
         />

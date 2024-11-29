@@ -32,7 +32,7 @@ export default async function Footer() {
         <div className="w-full xl:w-4/5 mx-auto flex flex-wrap items-start p-3 lg:pt-8">
           <div className="w-full lg:w-3/5">
             <section className="w-full border-b border-b-slate-700 mb-5 pb-5 flex items-stretch gap-2 md:gap-5 text-slate-400">
-              <figure className="flex w-1/4">
+              <figure className="flex w-2/5 md:w-1/4">
                 <Link href={"/"} aria-label="logo site" className="flex items-center w-full h-full">
                   <Image
                     alt={data?.text?.logoUrl?.alt || "لوگو سایت اساتید ساخت و ساز"}

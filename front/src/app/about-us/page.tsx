@@ -29,28 +29,24 @@ export const metadata: Metadata = {
   description: 'آماده ایم تا با شروع این همکاری ،رویاهای ساخت و ساز شما را به واقعیت تبدیل کنیم - با هم ، از ایده تا اجرا پیش خواهیم رفت.',
   keywords: ['پروژه‌های ساختمانی', 'مشاوره ساخت‌وساز', nameSite, 'خدمات پیمانکاری'],
   openGraph: {
-    siteName:"اساتید ساخت و ساز",
+    siteName:nameSite,
     title: `درباره ما | ${nameSite}`,
     description: 'آماده ایم تا با شروع این همکاری ،رویاهای ساخت و ساز شما را به واقعیت تبدیل کنیم - با هم ، از ایده تا اجرا پیش خواهیم رفت.',
     url: `${process.env.NEXT_PUBLIC_URL + "/about-us"}`,
     images: [
       {
-        type:"image/حدل",
-        url: "https://building-blog.storage.iran.liara.space/1732708926609-mapiran.png",
+        type:"image/png",
+        url: "/about-us.jpg",
         width: 800,
-        height: 600,
+        height: 450,
         alt: `درباره ما سایت ${nameSite}`,
       },
     ],
     type: 'website',
-    locale:"fa_IR",
-    
+    locale:"fa_IR",    
   },
   twitter: {
     card: 'summary_large_image',
-    title: `درباره ما | ${nameSite}`,
-    description: 'آماده ایم تا با شروع این همکاری ،رویاهای ساخت و ساز شما را به واقعیت تبدیل کنیم - با هم ، از ایده تا اجرا پیش خواهیم رفت.',
-    images: ["/about-us.webp"],
     creator:"@buildMasters",
     site:"@buildMasters"
   },
@@ -107,7 +103,7 @@ export default async function page() {
         </section>
         <div className="w-full md:w-1/2">
           <ImgTag
-            src={"/about-us (2).webp"}
+            src={"/about-us (2).jpg"}
             alt={"about-us"}
             width={500}
             height={450}

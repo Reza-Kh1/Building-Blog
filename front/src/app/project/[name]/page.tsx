@@ -51,7 +51,13 @@ export async function generateMetadata({
           alt: data?.alt,
         },
       ],
-      siteName: process.env.NEXTAUTH_URL,
+      siteName: process.env.NEXT_PUBLIC_NAME_SITE,
+      locale:"fa_IR",
+    },
+    twitter: {
+      card: 'summary_large_image',
+      creator:"@buildMasters",
+      site:"@buildMasters"
     },
     alternates: {
       canonical:

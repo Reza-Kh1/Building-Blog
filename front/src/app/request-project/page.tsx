@@ -30,12 +30,13 @@ export const metadata: Metadata = {
       },
     ],
     type: 'website',
+    locale:"fa_IR",
+    siteName:nameSite,
   },
   twitter: {
     card: 'summary_large_image',
-    title: `درخواست محاسبه آنلاین | ${nameSite}`,
-    description: 'برای درخواست محاسبه آنلاین پروژه‌های ساختمانی خود از این صفحه استفاده کنید و هزینه‌ها و زمان تحویل پروژه‌ها را محاسبه کنید.',
-    images: [`${process.env.NEXT_PUBLIC_URL + "/about-us.jpg"}`],
+    creator:"@buildMasters",
+    site:"@buildMasters"
   },
   robots: "index, follow",
   alternates: {

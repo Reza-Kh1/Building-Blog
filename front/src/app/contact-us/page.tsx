@@ -30,12 +30,13 @@ export const metadata: Metadata = {
       },
     ],
     type: 'website',
+    locale:"fa_IR",
+    siteName:nameSite,
   },
   twitter: {
     card: 'summary_large_image',
-    title: `ارتباط با ما | ${nameSite}`,
-    description: `برای تماس با ${nameSite} و دریافت مشاوره در زمینه خدمات ساخت و ساز، از طریق فرم زیر یا شبکه‌های اجتماعی با ما در تماس باشید.`,
-    images: [`${process.env.NEXT_PUBLIC_URL + "/about-us.jpg"}`],
+    creator:"@buildMasters",
+    site:"@buildMasters"
   },
   robots: "index, follow",
   alternates: {

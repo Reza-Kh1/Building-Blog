@@ -17,6 +17,7 @@ const getData = async (query: FilterQueryType) => {
   if (data.error) return notFound();
   return data;
 };
+
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_URL || "http://localhost:3000"),
   title: `وبلاگ | ${nameSite}`,
@@ -29,26 +30,26 @@ export const metadata: Metadata = {
     nameSite
   ],
   openGraph: {
+    type: 'website',
+    siteName:nameSite,
+    locale:"fa_IR",
     title: `وبلاگ | ${nameSite}`,
     description:
       "ما برای افزایش آگاهی شما مقالاتی را نوشتیم که میتواند در انتخاب هاتون بهتون کمک کند.",
     url: `${process.env.NEXT_PUBLIC_URL + "/blog"}`,
-    type: "website",
     images: [
       {
-        url: "/category.webp",
-        width: 1200,
-        height: 630,
+        url: "/category.jpg",
+        width: 600,
+        height: 350,
         alt: `صفحه وبلاگ سایت ${nameSite}`,
       },
     ],
   },
   twitter: {
-    card: "summary_large_image",
-    title: `وبلاگ | ${nameSite}`,
-    images: ['/category.webp'],
-    description:
-      "ما برای افزایش آگاهی شما مقالاتی را نوشتیم که میتواند در انتخاب هاتون بهتون کمک کند.",
+    card: 'summary_large_image',
+    creator:"@buildMasters",
+    site:"@buildMasters"
   },
   robots: "index, follow",
   alternates: {

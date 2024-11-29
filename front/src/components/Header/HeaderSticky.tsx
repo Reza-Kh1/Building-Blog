@@ -3,13 +3,22 @@ import React, { Suspense, useEffect, useState } from "react";
 import { IoIosArrowUp } from "react-icons/io";
 import { CategoryType } from "@/app/type";
 import Link from "next/link";
-import { FaAngleDoubleDown, FaAngleLeft, FaHome, FaPhone } from "react-icons/fa";
+import {
+  FaAngleDoubleDown,
+  FaAngleLeft,
+  FaHome,
+  FaPhone,
+} from "react-icons/fa";
 import DarkMode from "../DarkMode/DarkMode";
 import SearchBox from "../SearchBox/SearchBox";
 import Image from "next/image";
 import NavlinkHeader from "./NavlinkHeader";
 import { Drawer, IconButton } from "@mui/material";
-import { MdMapsHomeWork, MdMenuOpen, MdOutlineQuestionMark } from "react-icons/md";
+import {
+  MdMapsHomeWork,
+  MdMenuOpen,
+  MdOutlineQuestionMark,
+} from "react-icons/md";
 import { GrArticle, GrUserWorker } from "react-icons/gr";
 import { FaRegComments, FaUsersViewfinder } from "react-icons/fa6";
 import { LiaFileInvoiceDollarSolid } from "react-icons/lia";
@@ -19,39 +28,45 @@ const menuTitle = [
   {
     name: "پروژه ها",
     url: "/project",
-    icon: <MdMapsHomeWork className="text-gray-600 dark:text-s-dark" />
+    icon: <MdMapsHomeWork className="text-gray-600 dark:text-s-dark" />,
   },
   {
     name: "وبلاگ",
     url: "/blog?order=createdAt-DESC&page=1",
-    icon: <GrArticle className="text-gray-600 dark:text-s-dark" />
+    icon: <GrArticle className="text-gray-600 dark:text-s-dark" />,
   },
   {
     name: "ارتباط با ما",
     url: "/contact-us",
-    icon: <FaPhone className="text-gray-600 dark:text-s-dark" />
+    icon: <FaPhone className="text-gray-600 dark:text-s-dark" />,
   },
   {
     name: "نظرات مشتریان",
     url: "/comments?page=1",
-    icon: <FaRegComments className="text-gray-600 dark:text-s-dark" />
+    icon: <FaRegComments className="text-gray-600 dark:text-s-dark" />,
   },
   {
     name: "مجریان",
     url: "/experts?order=createdAt-DESC&page=1",
-    icon: <GrUserWorker className="text-gray-600 dark:text-s-dark" />
+    icon: <GrUserWorker className="text-gray-600 dark:text-s-dark" />,
   },
   {
     name: "محاسبه آنلاین هزینه",
     url: "/request-project",
-    icon: <LiaFileInvoiceDollarSolid className="text-gray-600 dark:text-s-dark" />
+    icon: (
+      <LiaFileInvoiceDollarSolid className="text-gray-600 dark:text-s-dark" />
+    ),
   },
 ];
-export default function HeaderSticky({ category }: { category: CategoryType[] }) {
+export default function HeaderSticky({
+  category,
+}: {
+  category: CategoryType[];
+}) {
   const [scroll, setScroll] = useState<Number>(0);
   const [visible, setVisible] = useState<boolean>(true);
   const [scrollTop, setScrollTop] = useState<boolean>(false);
-  const [openMenu, setOpenMenu] = useState<boolean>(false)
+  const [openMenu, setOpenMenu] = useState<boolean>(false);
   const [showCategory, setShowCategory] = useState<string | null>();
   const MenuComponents = ({ props }: { props: CategoryType[] }) => {
     if (!props.length) return;
@@ -76,10 +91,10 @@ export default function HeaderSticky({ category }: { category: CategoryType[] })
       </li>
     ));
   };
-  const params = usePathname()
+  const params = usePathname();
   useEffect(() => {
-    setOpenMenu(false)
-  }, [params])
+    setOpenMenu(false);
+  }, [params]);
   useEffect(() => {
     const handleScroll = () => {
       const currentScroll = window.scrollY as Number;
@@ -110,16 +125,21 @@ export default function HeaderSticky({ category }: { category: CategoryType[] })
   return (
     <>
       <div
-        className={`header-sticky shadow-md shadow-[#dbdbdb] dark:shadow-full-dark bg-slate-100/80 dark:bg-zinc-900/80 ${visible
-          ? "header-show bg-slate-100/40 dark:!bg-zinc-900/80"
-          : "header-hidden"
-          } `}
+        className={`header-sticky shadow-md shadow-[#dbdbdb] dark:shadow-full-dark bg-slate-100/80 dark:bg-zinc-900/80 ${
+          visible
+            ? "header-show bg-slate-100/40 dark:!bg-zinc-900/80"
+            : "header-hidden"
+        } `}
       >
         <div className="max-w-7xl w-full py-1 md:py-3 px-3 xl:px-0 flex mx-auto">
           <div className="w-full flex justify-between items-center">
             <div className="w-1/3 md:w-1/12  flex items-center menu-mobile">
               <div className="md:hidden">
-                <IconButton onClick={() => setOpenMenu(true)} type="button" aria-label="open menu">
+                <IconButton
+                  onClick={() => setOpenMenu(true)}
+                  type="button"
+                  aria-label="open menu"
+                >
                   <MdMenuOpen />
                 </IconButton>
                 <Drawer
@@ -128,7 +148,11 @@ export default function HeaderSticky({ category }: { category: CategoryType[] })
                   onClose={() => setOpenMenu(false)}
                 >
                   <nav className="px-4 dark:bg-zinc-900/80 min-h-screen">
-                    <Link href={"/"} aria-label="لوگو وب سایت" title="بازگشت به خانه">
+                    <Link
+                      href={"/"}
+                      aria-label="لوگو وب سایت"
+                      title="بازگشت به خانه"
+                    >
                       <figure className="flex justify-center items-end">
                         <Image
                           src={"/logosite.png"}
@@ -140,50 +164,71 @@ export default function HeaderSticky({ category }: { category: CategoryType[] })
                         />
                       </figure>
                     </Link>
-                    <ul className="flex flex-col gap-3 mt-3 justify-evenly text-slate-600 dark:text-s-dark w-full">
-                      <li className="hover:text-blue-400 text-sm flex items-center gap-2">
-                        <FaUsersViewfinder className="text-gray-700 dark:text-s-dark" />
-                        <NavlinkHeader title="درباره ما" url="/about-us" />
-                      </li>
-                      <li className="hover:text-blue-400 text-sm flex items-center gap-2">
-                        <MdOutlineQuestionMark className="text-gray-700 dark:text-s-dark" />
-                        <NavlinkHeader title="سوالات متداول" url="/faqs" />
-                      </li>
-                      <li className="hover:text-blue-400 text-sm flex items-center gap-2">
+                    <ul className="flex flex-col gap-5 mt-3 justify-evenly text-slate-600 dark:text-s-dark w-full">
+                      <li className="hover:text-blue-400 flex items-center gap-2">
                         <FaHome className="text-gray-700 dark:text-s-dark" />
                         <NavlinkHeader title="صفحه اصلی" url="/" />
                       </li>
+                      <li className="hover:text-blue-400 flex items-center gap-2">
+                        <FaUsersViewfinder className="text-gray-700 dark:text-s-dark" />
+                        <NavlinkHeader title="درباره ما" url="/about-us" />
+                      </li>
+                      <li className="hover:text-blue-400 flex items-center gap-2">
+                        <MdOutlineQuestionMark className="text-gray-700 dark:text-s-dark" />
+                        <NavlinkHeader title="سوالات متداول" url="/faqs" />
+                      </li>
                       {menuTitle.map((i, index) => (
-                        <li
-                          key={index}
-                          className="flex flex-col gap-2"
-                        >
+                        <li key={index} className="flex flex-col gap-2">
                           <div className="flex justify-between items-center">
                             <div className="flex items-center gap-2">
                               {i.icon}
-                              <NavlinkHeader title={i.name} url={i.url} className="group-hover:text-blue-400 text-sm" />
+                              <NavlinkHeader
+                                title={i.name}
+                                url={i.url}
+                                className="group-hover:text-blue-400"
+                              />
                             </div>
                             {i.name === "وبلاگ" && category?.length ? (
-                              <button aria-label="دسته بندی ها" type="button" onClick={() => setShowCategory(showCategory !== i.name ? i.name : null)}>
+                              <button
+                                aria-label="دسته بندی ها"
+                                type="button"
+                                onClick={() =>
+                                  setShowCategory(
+                                    showCategory !== i.name ? i.name : null
+                                  )
+                                }
+                              >
                                 <FaAngleDoubleDown
                                   size={14}
-                                  className={`transition-all ${i.name === showCategory ? "text-blue-400 rotate-180" : ""}`}
+                                  className={`transition-all ${
+                                    i.name === showCategory
+                                      ? "text-blue-400 rotate-180"
+                                      : ""
+                                  }`}
                                 />
                               </button>
                             ) : null}
                           </div>
-                          <ul className={`hidden ${showCategory === i.name ? "!block" : ""}`}>
-                            {category.length ? category.map((item, ind) => (
-                              <li key={ind}>
-                                <Link
-                                  className="flex w-full gap-1 items-center text-sm"
-                                  href={"blog/" + item.slug.replace(/ /g, "-")}
-                                >
-                                  <span className="w-[6px] h-[1px] bg-black"></span>
-                                  {item.name}
-                                </Link>
-                              </li>
-                            )) : null}
+                          <ul
+                            className={`hidden ${
+                              showCategory === i.name ? "!block" : ""
+                            }`}
+                          >
+                            {category.length
+                              ? category.map((item, ind) => (
+                                  <li key={ind}>
+                                    <Link
+                                      className="flex w-full gap-1 items-center"
+                                      href={
+                                        "blog/" + item.slug.replace(/ /g, "-")
+                                      }
+                                    >
+                                      <span className="w-[6px] h-[1px] bg-black"></span>
+                                      {item.name}
+                                    </Link>
+                                  </li>
+                                ))
+                              : null}
                           </ul>
                         </li>
                       ))}
@@ -208,7 +253,11 @@ export default function HeaderSticky({ category }: { category: CategoryType[] })
                     key={index}
                     className="flex items-center gap-2 group relative"
                   >
-                    <NavlinkHeader title={i.name} url={i.url} className="group-hover:text-blue-400 dark:text-p-dark hover:scale-105 py-3 transition-all scale-1 flex items-center" />
+                    <NavlinkHeader
+                      title={i.name}
+                      url={i.url}
+                      className="group-hover:text-blue-400 dark:text-p-dark hover:scale-105 py-3 transition-all scale-1 flex items-center"
+                    />
                     {i.name === "وبلاگ" && category?.length ? (
                       <>
                         <ul>
@@ -241,14 +290,15 @@ export default function HeaderSticky({ category }: { category: CategoryType[] })
               </Link>
             </div>
           </div>
-        </div >
-      </div >
+        </div>
+      </div>
       <button
         type="button"
         aria-label="رفتن به بالا"
         onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-        className={`p-3 lg:p-3 cursor-pointer fixed z-50 right-2 lg:right-5 rounded-full shadow-md bg-slate-500/70 text-white transition-all ${scrollTop ? "bottom-2 lg:bottom-5" : "-bottom-12"
-          }`}
+        className={`p-3 lg:p-3 cursor-pointer fixed z-50 right-3 lg:right-5 rounded-full shadow-md bg-slate-500/70 text-white transition-all ${
+          scrollTop ? "bottom-3 lg:bottom-5" : "-bottom-12"
+        }`}
       >
         <i>
           <IoIosArrowUp />

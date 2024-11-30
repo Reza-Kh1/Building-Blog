@@ -28,7 +28,7 @@ export default function RootLayout({
         <React.StrictMode>
           <AppRouterCacheProvider options={{ key: "css" }}>
             <LayoutProvider>
-              <div className="bg-white dark:bg-custom-dark dark:text-p-dark">
+              <div className="bg-slate-200 dark:bg-custom-dark dark:text-p-dark">
                 <Header />
                 <main>
                   {children}

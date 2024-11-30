@@ -45,17 +45,17 @@ export default function ContactSocialMedia({
       {data.map((i, index) => (
         <div
           key={index}
-          className="border dark:shadow-low-dark dark:border-bg-dark shadow-md rounded-md text-center p-1 md:p-3 flex flex-col gap-1 md:gap-3 relative pt-6 md:pt-12"
+          className="border border-slate-300 dark:shadow-low-dark dark:border-bg-dark shadow-md rounded-md text-center p-1 md:p-3 flex flex-col md:gap-3 relative pt-6 md:pt-12"
         >
           <Link
             aria-label={i.title}
             href={i.url}
             title={i.title}
-            className="absolute link-contact-us dark:to-[#363e4a] dark:from-[#1b1b1f] text-blue-400 dark:bg-custom-dark dark:text-h-dark bg-white rounded-full p-2 md:p-4 hover:text-white hover:bg-gradient-to-tl hover:to-blue-400 hover:from-slate-300 left-1/2 top-0 transform -translate-x-1/2 -translate-y-1/2"
+            className="absolute link-contact-us dark:to-[#363e4a] dark:from-[#1b1b1f] text-blue-400 dark:bg-custom-dark dark:text-h-dark bg-slate-200 rounded-full p-2 md:p-4 hover:text-white hover:bg-gradient-to-tl hover:to-blue-400 hover:from-slate-300 left-1/2 top-0 transform -translate-x-1/2 -translate-y-1/2"
           >
             {i.icon}
           </Link>
-          <span className="text-xs md:text-xl">{i.title}</span>
+          <span className="text-[9px] md:text-xl">{i.title}</span>
           <div className="overflow-auto">
             <span className="text-[8px]  md:text-base text-gray-700 dark:text-p-dark">{i.span}</span>
           </div>

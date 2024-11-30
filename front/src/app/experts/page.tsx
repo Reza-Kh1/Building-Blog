@@ -81,8 +81,10 @@ export default async function page({
             <OrderSearch />
           </div>
         </section>
+        <h2>تمام مجریان</h2>
+
         {data?.rows?.length ? (
-          <div className="grid gap-2 md:gap-5 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 my-6">
+          <div className="grid gap-4 md:gap-5 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 my-6">
             {data.rows.map((items, index) => (
               <CardExperts key={index} {...items} />
             ))}

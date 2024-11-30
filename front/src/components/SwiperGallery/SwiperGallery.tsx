@@ -53,6 +53,10 @@ export default function SwiperGallery({
       <Swiper
         onSwiper={setThumbsSwiper}
         breakpoints={{
+          330: {
+            slidesPerView: 3,
+            spaceBetween: 10
+          },
           380: {
             slidesPerView: 3,
             spaceBetween: 10
@@ -73,7 +77,7 @@ export default function SwiperGallery({
             <ImgTag
               width={160}
               height={115}
-              classPlus="cursor-pointer h-28 w-40 object-cover"
+              classPlus="cursor-pointer h-24 w-36 md:h-28 md:w-40 object-cover"
               alt={i?.alt}
               src={i?.url}
             />
@@ -116,12 +120,16 @@ export default function SwiperGallery({
           <Swiper
             onSwiper={setThumbZoom}
             breakpoints={{
+              330: {
+                slidesPerView: 3,
+                spaceBetween: 10
+              },
               380: {
-                slidesPerView: 4,
+                slidesPerView: 3,
                 spaceBetween: 10
               },
               1024: {
-                slidesPerView: 5,
+                slidesPerView: 4,
                 spaceBetween: 10
               },
             }}

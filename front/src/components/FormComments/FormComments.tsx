@@ -28,9 +28,9 @@ export default function FormComments({ postId }: { postId?: number }) {
   };
   return (
     <div className="form-comments" id="form-comments">
-      <h4 id="create-comments" className="font-bold lg:text-xl mb-3 dark:text-p-dark">
+      <h3 id="create-comments" className="font-bold lg:text-xl mb-3 dark:text-p-dark">
         کامنت خود را ثبت کنید.
-      </h4>
+      </h3>
       <form aria-labelledby="create-comments"
         action={commentsHandler}
         onSubmit={() => {

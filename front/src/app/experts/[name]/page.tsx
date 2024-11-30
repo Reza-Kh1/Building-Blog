@@ -205,7 +205,7 @@ export default async function page({ params }: { params: { name: string } }) {
             data.socialMedia.length ?
               <div className="bg-gradient-to-tr to-blue-400 dark:to-[#363e4a] dark:from-[#1b1b1f] transition-all dark:shadow-full-dark dark:hover:shadow-none from-slate-300 rounded-md shadow-md p-4">
                 <h2 className="text-base dark:text-h-dark  md:text-xl mb-3 block">شبکه های اجتماعی</h2>
-                <section aria-labelledby="social-media" className="grid grid-cols-2 gap-3 md:gap-5">
+                <section aria-labelledby="social-media" className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-5">
                   {data.socialMedia.map((i, index) => (
                     <Link
                       href={i.link}
@@ -218,7 +218,7 @@ export default async function page({ params }: { params: { name: string } }) {
                             ?.icon
                         }
                       </i>
-                      <span>{i.text}</span>
+                      <span className="text-sm md:text-base">{i.text}</span>
                     </Link>
                   ))}
                 </section>

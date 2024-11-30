@@ -42,6 +42,10 @@ export default function SwiperCards({
       {data.length ? (
         <Swiper
           breakpoints={{
+            330: {
+              slidesPerView: 1,
+              spaceBetween: 15
+            },
             380: {
               slidesPerView: 2,
               spaceBetween: 15

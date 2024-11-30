@@ -189,18 +189,18 @@ export default function SearchBox() {
           {!isSearch ? null : isSearch && data?.rows.length ?
             <>
               {filterName === "project" ?
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
                   {data.rows.map((item, index) => (
                     <CardProjects project={item as CardProjectsType} key={index} />
                   ))}
                 </div>
                 : filterName === "expert" ?
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
                     {data.rows.map((item, index) => (
                       <CardExperts {...item as ExpertType} key={index} />
                     ))}
                   </div> :
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
                     {data.rows.map((item, index) => (
                       <CardPost post={item as CardPostType} key={index} />
                     ))}

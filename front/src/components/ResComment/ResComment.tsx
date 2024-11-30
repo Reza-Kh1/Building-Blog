@@ -51,9 +51,8 @@ export default function ResComment({
         <IoArrowRedoSharp />
       </button>
       <Dialog
-        maxWidth="xl"
         open={open}
-        fullWidth
+        fullScreen
         onClose={() => setOpen(false)}
         TransitionComponent={Transition}
         PaperProps={{

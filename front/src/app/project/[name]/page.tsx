@@ -52,12 +52,12 @@ export async function generateMetadata({
         },
       ],
       siteName: process.env.NEXT_PUBLIC_NAME_SITE,
-      locale:"fa_IR",
+      locale: "fa_IR",
     },
     twitter: {
       card: 'summary_large_image',
-      creator:"@buildMasters",
-      site:"@buildMasters"
+      creator: "@buildMasters",
+      site: "@buildMasters"
     },
     alternates: {
       canonical:
@@ -199,14 +199,16 @@ export default async function page({ params }: { params: { name: string } }) {
         </aside>
       </div>
       <BannerCallUs />
-      <div className="classDiv">
-        <SwiperCards
-          isProject
-          title="پروژه های مشابه"
-          data={projects}
-          url={`/project?page=1&tags=${data.Tags[0].name}`}
-        />
-      </div>
+      {data?.Tags[0]?.name && (
+        <div className="classDiv">
+          <SwiperCards
+            isProject
+            title="پروژه های مشابه"
+            data={projects}
+            url={`/project?page=1&tags=${data.Tags[0].name}`}
+          />
+        </div>
+      )}
     </>
   );
 }

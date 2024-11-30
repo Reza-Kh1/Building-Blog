@@ -6,11 +6,11 @@ import { CardProjectsType } from '@/app/type'
 import { GrUserWorker } from "react-icons/gr";
 import { SiGooglemaps } from "react-icons/si";
 import { MdAddHomeWork } from 'react-icons/md'
-export default function CardProjects({ project }: { project: CardProjectsType }) {
+export default function CardProjects({ project }: { project: CardProjectsType }) {    
     if (!project) return
     return (
         <section className='hover:shadow-md dark:shadow-full-dark rounded-md group   '>
-            <Link href={"/project/" + project.name.replace(/ /g, "-")} className="relative group/image">
+            <Link href={"/project/" + project?.name?.replace(/ /g, "-")} className="relative group/image">
                 <ImgTag
                     figureClass="relative w-full overflow-hidden rounded-md"
                     alt={"نمونه پروژه"}
@@ -31,18 +31,18 @@ export default function CardProjects({ project }: { project: CardProjectsType })
                 <div className='flex'>
                     <Link href={"/project/" + project.name.replace(/ /g, "-")} className='flex text-gray-800 dark:text-h-dark group/name items-center gap-1'>
                         <MdAddHomeWork className='group-hover/name:text-blue-400 min-w-[16px]' />
-                        <h3 className="group-hover/name:text-blue-400 md:text-xl">{project.name}</h3>
+                        <h3 className="group-hover/name:text-blue-400 md:text-xl cutline cutline-1">{project.name}</h3>
                     </Link>
                 </div>
                 <div className='flex my-2 md:mt-3 mb-1'>
                     <Link href={"/experts/" + project.Worker?.name.replace(/ /g, "-")} className='group/expert dark:text-s-dark text-gray-600 flex items-center gap-1'>
                         <GrUserWorker className='group-hover/expert:text-blue-400 min-w-[16px]' />
-                        <span className='md:text-sm group-hover/expert:text-blue-400 text-xs'>{project.Worker?.name}</span>
+                        <span className='md:text-sm group-hover/expert:text-blue-400 text-xs cutline cutline-1'>{project.Worker?.name}</span>
                     </Link>
                 </div>
                 <div className='flex items-center gap-1 mb-1 text-gray-600 dark:text-s-dark'>
                     <SiGooglemaps aria-label='آدرس' title='آدرس' className='min-w-[16px]' />
-                    <span className="text-xs md:text-sm cutline cutline-2 ">
+                    <span className="text-xs md:text-sm cutline cutline-1">
                         {project.address}
                     </span>
                 </div>

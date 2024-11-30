@@ -30,6 +30,7 @@ const config: Config = {
         "bg-dark": "#6b7280"
       },
       backgroundColor: {
+        "hight-dark":"#1d1d1d",
         "input-dark": "#48484b69",
         "custom-dark": "#212121",
         "info-dark": "#232528"

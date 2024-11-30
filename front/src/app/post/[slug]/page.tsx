@@ -63,8 +63,8 @@ export async function generateMetadata({
     },
     twitter: {
       card: 'summary_large_image',
-      creator:"@buildMasters",
-      site:"@buildMasters"
+      creator: "@buildMasters",
+      site: "@buildMasters"
     },
     robots: "index, follow",
   };
@@ -116,21 +116,24 @@ export default async function page({ params }: { params: { slug: string } }) {
           >
             {data?.title}
           </h1>
+
           <div className="flex text-gray-500 dark:text-s-dark text-sm items-center justify-center gap-2 md:gap-4 mt-4 md:mt-7">
-            <div className="flex text-sm md:text-base items-center gap-2">
-              {data.Tags.map((i, index) => (
-                <Link
-                  key={index}
-                  className="hover:text-blue-600"
-                  href={"/search?tags=" + i.name}
-                >
-                  {i.name}
-                  {data.Tags.length !== Number(index + 1) ? " ،" : null}
-                </Link>
-              ))}
-              <FaTags />
+            <div className="hidden md:flex gap-4">
+              <div className="flex text-sm md:text-base items-center gap-2">
+                {data.Tags.map((i, index) => (
+                  <Link
+                    key={index}
+                    className="hover:text-blue-600"
+                    href={"/search?tags=" + i.name}
+                  >
+                    {i.name}
+                    {data.Tags.length !== Number(index + 1) ? " ،" : null}
+                  </Link>
+                ))}
+                <FaTags />
+              </div>
+              <span className="border-r border-dashed border-black dark:border-bg-dark h-6 w-1"></span>
             </div>
-            <span className="border-r border-dashed border-black dark:border-bg-dark h-6 w-1"></span>
             <span>
               <FaPhotoVideo />
             </span>
@@ -150,6 +153,22 @@ export default async function page({ params }: { params: { slug: string } }) {
         </section>
       </div>
       <Breadcrums className="mt-14 md:!mt-20" />
+      <section className="flex gap-1 classDiv md:hidden items-center">
+        <FaTags />
+        <h2>تگ ها :</h2>
+        <div className="flex text-sm md:text-base items-center gap-1">
+          {data.Tags.map((i, index) => (
+            <Link
+              key={index}
+              className="hover:text-blue-600"
+              href={"/search?tags=" + i.name}
+            >
+              {i.name}
+              {data.Tags.length !== Number(index + 1) ? " ،" : null}
+            </Link>
+          ))}
+        </div>
+      </section>
       <article className="classDiv !max-w-3xl mx-auto text-justify !leading-8 dark:text-p-dark text-gray-700">
         {data?.DetailPost?.text && parse(data?.DetailPost?.text)}
       </article>

@@ -14,7 +14,7 @@ export default function Pagination({ pagination }: PaginationComponentsType) {
     const startPage = Math.max(1, Number(page) - 2);
     const endPage = Math.min(pagination.allPage, Number(page) + 2);
     return (
-        <div className="w-full mx-auto md:w-7/12 flex gap-1 sm:gap-2 items-center justify-center mt-12 md:mt-14">
+        <div className="w-full mx-auto md:w-7/12 flex gap-2 sm:gap-2 items-center justify-center mt-12 md:mt-14">
             {Number(page) > 3 && (
                 <>
                     <Link aria-label={"1"} href={{ query: newQuery + `&page=${1}` }}>

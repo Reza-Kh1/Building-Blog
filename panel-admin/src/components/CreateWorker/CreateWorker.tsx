@@ -449,6 +449,7 @@ export default function CreateWorker() {
           <div>
             <span className="mb-1 inline-block">انتخاب عکس پروفایل</span>
             <SelectMedia
+              textHelp="ابعاد عکس 160*160"
               addMedia={(alt, img) => setImage({ alt, url: img.url })}
             />
             {image ? (

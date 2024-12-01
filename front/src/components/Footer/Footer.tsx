@@ -35,8 +35,8 @@ export default async function Footer() {
               <figure className="flex w-2/5 md:w-1/4">
                 <Link href={"/"} aria-label="logo site" className="flex items-center w-full h-full">
                   <Image
-                    alt={data?.text?.logoUrl?.alt || "لوگو سایت اساتید ساخت و ساز"}
-                    src={data?.text?.logoUrl?.url || "/logofooter.png"}
+                    alt={"لوگو اساتید ساخت و ساز"}
+                    src={"/logofooter.png"}
                     width={250}
                     className="h-auto object-contain w-full rounded-md"
                     height={150}
@@ -152,7 +152,7 @@ export default async function Footer() {
               </div>
             </div>
             <div className="lg:w-1/3 w-full text-slate-500 mx-auto text-xs md:text-base text-center">
-              <p>©️ کلیه حقوق این سایت متعلق به invetion است .</p>
+              <p>©️ کلیه حقوق این سایت متعلق به Build Masters است .</p>
             </div>
           </div>
         </div>

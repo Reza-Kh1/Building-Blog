@@ -186,7 +186,7 @@ export default function SearchBox() {
           }`}
       >
         <div className="max-w-7xl h-3/4 overflow-y-auto w-full bg-gradient-to-tr dark:to-slate-700/70 dark:from-zinc-900/70  from-blue-300/60 backdrop-blur-md to-gray-100/60 shadow-md p-2 md:p-4 rounded-lg">
-          {!isSearch ? null : isSearch && data?.rows.length ?
+          {!isSearch ? null : isSearch && data?.rows?.length ?
             <>
               {filterName === "project" ?
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
@@ -215,7 +215,7 @@ export default function SearchBox() {
               </Link>
             </>
             :
-            <span className="text-xs md:text-xl text-gray-700 dark:text-p-dark">
+            <span className="text-xs md:text-xl text-gray-700 dark:text-h-dark">
               هیچ اطلاعاتی با کلمه جستجوی شما یافت نشد !!!
             </span>
           }

@@ -65,7 +65,7 @@ export default function Footer() {
     setMenuFooter(newMenu);
   };
   const { isPending, mutate: saveHandler } = useMutation({
-    mutationFn:async () => {
+    mutationFn: async () => {
       const body = {
         page: "footer",
         text: {
@@ -74,7 +74,7 @@ export default function Footer() {
           menuLink: menuFooter,
         },
       };
-      await deleteCache({ tag:"footer"});
+      await deleteCache({ tag: "footer" });
       return axios.post("page/footer", body);
     },
     onSuccess: () => {
@@ -120,6 +120,7 @@ export default function Footer() {
         <div className="w-1/2 flex flex-col gap-5 justify-between h-full">
           <span className="block font-semibold">لوگو وبسایت :</span>
           <SelectMedia
+            textHelp="ابعاد تصویر 150*250"
             addMedia={(alt, img) => {
               setLogo({
                 alt,
@@ -165,9 +166,8 @@ export default function Footer() {
                     <IconButton
                       disabled={i.length > 4}
                       onClick={() => addBtn(index)}
-                      className={`${
-                        i.length > 4 ? "!bg-slate-200" : "!bg-slate-700"
-                      } text-xl  !shadow-md hover:!text-gray-700 hover:!bg-gray-400 transition-all p-3 !text-white`}
+                      className={`${i.length > 4 ? "!bg-slate-200" : "!bg-slate-700"
+                        } text-xl  !shadow-md hover:!text-gray-700 hover:!bg-gray-400 transition-all p-3 !text-white`}
                     >
                       <i>
                         <FaPlus />
@@ -176,9 +176,8 @@ export default function Footer() {
                     <IconButton
                       disabled={i.length == 1}
                       onClick={() => deleteBtn(item.id, index)}
-                      className={`${
-                        i.length == 1 ? "!bg-red-200" : "!bg-red-700"
-                      } text-xl  !shadow-md hover:!text-red-700 hover:!bg-gray-300 transition-all p-3 !text-white`}
+                      className={`${i.length == 1 ? "!bg-red-200" : "!bg-red-700"
+                        } text-xl  !shadow-md hover:!text-red-700 hover:!bg-gray-300 transition-all p-3 !text-white`}
                     >
                       <i>
                         <MdClose />

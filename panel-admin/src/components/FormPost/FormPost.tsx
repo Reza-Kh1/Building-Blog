@@ -236,7 +236,7 @@ export default function FormPost({ dataPost }: { dataPost?: SinglePostType }) {
           </div>
           <div className="w-1/2 flex gap-3 items-start">
             <div className="w-1/3">
-              <SelectMedia addMedia={(alt, img) => setImagePost({ url: img.url, alt })} />
+              <SelectMedia textHelp="ابعاد تصویر 450*1450" addMedia={(alt, img) => setImagePost({ url: img.url, alt })} />
             </div>
             <div className="w-2/3 text-center">
               <ImageComponent deleteHandler={() => setImagePost(null)} img={imagePost} />

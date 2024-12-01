@@ -168,6 +168,7 @@ export default function HomePage() {
                   <div>
                     <span className="block font-semibold mb-3">انتخاب عکس :</span>
                     <SelectMedia
+                      textHelp='ابعاد تصویر 1450*550'
                       addMedia={(alt, img) => {
                         const newMenu = heroData.map((maper, ind) => {
                           if (index === ind) {

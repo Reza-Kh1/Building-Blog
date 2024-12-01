@@ -145,6 +145,7 @@ export default function AboutMe() {
         </div>
         <div className="w-1/2">
           <SelectMedia
+            textHelp="ابعاد تصوری 288*384"
             addMedia={(alt, img) =>
               setImgArry([...imgArry, { url: img.url, alt }])
             }

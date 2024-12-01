@@ -19,7 +19,8 @@ import { LuFilter } from "react-icons/lu";
 import React, { useEffect, useState } from "react";
 import { MdClose, MdDataSaverOn } from "react-icons/md";
 import CustomButton from "../CustomButton/CustomButton";
-
+import { Box } from "@mui/system";
+import Link from "next/link";
 type FilterClienttype = {
   nameTags: TagsType[];
   nameExpert: { id: string; name: string }[];
@@ -51,6 +52,15 @@ export default function FilterClient({
   const [filterTags, setFilterTags] = useState<{ name: string }>({
     name: paramsQuery?.tags || "",
   });
+  let namePage = ""
+  if (pathName.includes("blog")) {
+    namePage = "/blog"
+  } else if (pathName.includes("expert")) {
+    namePage = "/expert"
+  } else {
+    namePage = "/project"
+  }
+
   paramsQuery.page = "1";
   useEffect(() => {
 
@@ -78,17 +88,15 @@ export default function FilterClient({
               router.replace(pathName + "?" + new URLSearchParams(other));
             } else {
               paramsQuery.tags = value?.name;
-              router.replace(pathName + "?" + new URLSearchParams(paramsQuery));
+              router.replace(pathName + `/tag/${value.name}?` + new URLSearchParams(paramsQuery));
             }
           }}
           options={nameTags}
           getOptionLabel={(option) => option.name}
-       
-          renderInput={(params) => <TextField name="category"  className="dark:shadow-low-dark shadow-md !rounded"  {...params} label="انتخاب دسته" />}
+          renderInput={(params) => <TextField name="category" className="dark:shadow-low-dark shadow-md !rounded"  {...params} label="انتخاب دسته" />}
         />
         {pathName.search("/project") === 0 ? (
           <Autocomplete
-           
             fullWidth
             disablePortal
             value={filterExpert}
@@ -104,7 +112,7 @@ export default function FilterClient({
             }}
             options={nameExpert}
             getOptionLabel={(option) => option.name}
-  
+
             renderInput={(params) => (
               <TextField className="dark:shadow-low-dark shadow-md !rounded" {...params} name="experts" label="انتخاب مجری" />
             )}

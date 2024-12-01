@@ -2,12 +2,44 @@ import { toast } from 'react-toastify';
 import React, { useState } from 'react'
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from 'axios';
-import { IoCloudUploadSharp } from 'react-icons/io5';
 import { GiCloudUpload } from 'react-icons/gi';
+import CircularProgress, {
+    CircularProgressProps,
+} from '@mui/material/CircularProgress';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+
+function CircularProgressWithLabel(
+    props: CircularProgressProps & { value: number },
+) {
+    return (
+        <Box sx={{ position: 'relative', display: 'inline-flex' }}>
+            <CircularProgress variant="determinate" color='inherit'{...props} />
+            <Box
+                sx={{
+                    top: 0,
+                    left: 0,
+                    bottom: 0,
+                    right: 0,
+                    position: 'absolute',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                }}
+            >
+                <Typography
+                    variant="caption"
+                    component="div"
+                    color={"inherit"}
+                >{`${Math.round(props.value)}%`}</Typography>
+            </Box>
+        </Box>
+    );
+}
 export default function UploadMedia() {
     const query = useQueryClient();
     const [loading, setLoading] = useState<boolean>(false);
-    const [progress, setProgress] = useState<number>(60)
+    const [progress, setProgress] = useState<number>()
     const { mutate } = useMutation({
         mutationFn: async (event: React.ChangeEvent<HTMLInputElement>) => {
             setLoading(true);
@@ -31,6 +63,7 @@ export default function UploadMedia() {
             toast.success("عکس با موفقیت افزوده شد");
             query.invalidateQueries({ queryKey: ['mediaDB'] });
             query.invalidateQueries({ queryKey: ['mediaDBaaS'] });
+            setProgress(0)
             setLoading(false);
         },
         onError: (err) => {
@@ -44,7 +77,7 @@ export default function UploadMedia() {
                 <input onChange={mutate} type="file" multiple hidden id='upload' disabled={loading} />
                 {loading ?
                     <i className='text-white flex gap-3'>
-                        <IoCloudUploadSharp className='text-2xl' /> % {progress}
+                        <CircularProgressWithLabel value={progress || 0} />
                     </i>
                     :
                     <i className='text-3xl text-white '><GiCloudUpload /></i>

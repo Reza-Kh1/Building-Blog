@@ -22,9 +22,10 @@ const Transition = forwardRef(function Transition(
   return <Slide direction="up" ref={ref} {...props} />;
 });
 type SelectMediaType = {
+  textHelp?: string
   addMedia: (alt: string, image: MediaType) => void;
 };
-export default function SelectMedia({ addMedia }: SelectMediaType) {
+export default function SelectMedia({ addMedia, textHelp }: SelectMediaType) {
   const [open, setOpen] = useState<boolean>(false);
   const [altMedia, setAltMedia] = useState<string>("");
   const [urlMedia, setUrlMedia] = useState<MediaType | null>(null);
@@ -41,13 +42,14 @@ export default function SelectMedia({ addMedia }: SelectMediaType) {
     <>
       <div className="w-full">
         <Button
-        onClick={()=>setOpen(true)}
+          onClick={() => setOpen(true)}
           color="primary"
           variant="contained"
           endIcon={<IoMdImages />}
         >
           انتخاب تصویر یا ویدئو
         </Button>
+        {textHelp && (<span className="text-xs block mt-1 text-gray-400">{textHelp}</span>)}
       </div>
       <Dialog
         fullWidth={true}

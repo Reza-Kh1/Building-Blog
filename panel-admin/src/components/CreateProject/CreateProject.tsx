@@ -194,6 +194,7 @@ export default function CreateProject() {
             <div className="flex flex-col items-start w-1/2 gap-3">
               <span>تصویر پروژه</span>
               <SelectMedia
+              textHelp="ابعاد تصویر 450*1450"
                 addMedia={(alt, image) => setImage({ alt, url: image.url })}
               />
             </div>
@@ -288,6 +289,7 @@ export default function CreateProject() {
             <div className="flex flex-col gap-3">
               <span>گالری پروژه</span>
               <SelectMedia
+              textHelp="ابعاد تصوری 288*384"
                 addMedia={(alt, image) => {
                   const newGallery = [
                     ...galleryProject,

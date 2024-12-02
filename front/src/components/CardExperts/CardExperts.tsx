@@ -10,8 +10,10 @@ export default function CardExperts(props: ExpertType) {
   return (
     <section className='w-full shadow-md dark:shadow-full-dark dark:hover:shadow-none transition-all bg-gradient-to-b to-blue-300 dark:to-slate-700 dark:from-zinc-900 from-slate-200 rounded-md'>
       <div className='h-28 md:h-32 dark:bg-hight-dark bg-gray-50 shadow-md rounded-t-md'>
-        <h3 className='font-semibold text-sm md:text-base p-2 flex justify-between items-center dark:text-p-dark'>
-          {props.name}
+        <h3 className='font-semibold text-sm md:text-base gap-1 p-2 flex justify-between items-center dark:text-p-dark'>
+          <span className='cutline cutline-1 w-2/3'>
+            {props.name}
+          </span>
           <span className='text-xs md:text-sm font-normal flex items-center gap-1 dark:text-s-dark'>
             مورد تایید<IoIosCheckmarkCircleOutline className='text-green-500 text-xl' />
           </span>

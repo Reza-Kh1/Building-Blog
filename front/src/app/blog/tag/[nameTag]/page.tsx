@@ -1,7 +1,6 @@
 import { fetchApi } from "@/action/fetchApi";
 import Breadcrums from "@/components/Breadcrums/Breadcrums";
 import Cards from "@/components/Cards/Cards";
-import OrderSearch from "@/components/OrderSearch/OrderSearch";
 import Pagination from "@/components/Pagination/Pagination";
 import React, { Suspense } from "react";
 import { AllPostType, FilterQueryType, TagsType } from "../../../type";
@@ -10,13 +9,9 @@ import { Metadata } from "next";
 import { dataApi } from "@/data/tagsName";
 import DontData from "@/components/DontData/DontData";
 import { notFound } from "next/navigation";
-import Link from "next/link";
+import SelectTag from "@/components/SelectTag/SelectTag";
 const nameSite = process.env.NEXT_PUBLIC_NAME_SITE || ""
 type PageType = { params: { category: string }, searchParams: FilterQueryType }
-type ExpertNameType = {
-    name: string;
-    id: string;
-};
 const getData = async (query: FilterQueryType) => {
     const url = "post?" + new URLSearchParams(query);
     const data = await fetchApi({ url, next: dataApi.posts.cache, tags: dataApi.posts.tags });
@@ -25,9 +20,6 @@ const getData = async (query: FilterQueryType) => {
 };
 const getTags = () => {
     return fetchApi({ url: dataApi.tags.url, next: dataApi.tags.cache, tags: dataApi.tags.tags });
-};
-const getExpertName = () => {
-    return fetchApi({ url: dataApi.expertName.url, next: dataApi.expertName.cache, tags: dataApi.expertName.tags });
 };
 export async function generateMetadata({ searchParams }: PageType): Promise<Metadata> {
     const tag = searchParams?.tags || "وبلاگ";
@@ -71,13 +63,7 @@ export async function generateMetadata({ searchParams }: PageType): Promise<Meta
         },
     };
 }
-export default async function page({
-    searchParams,
-}: {
-    searchParams: FilterQueryType;
-}) {
-    const { data: dataExpert }: { data: ExpertNameType[] } =
-        await getExpertName();
+export default async function page({ searchParams }: { searchParams: FilterQueryType; }) {
     const { data: dataTags }: { data: TagsType[] } = await getTags();
     const data: AllPostType = await getData(searchParams);
     return (
@@ -87,16 +73,7 @@ export default async function page({
                 <section className="flex w-full items-center justify-between">
                     <h1 className="font-semibold lg:text-xl">{`مقالات مرتبط با ${searchParams.tags}`}</h1>
                     <div className="w-2/6 flex gap-2">
-                        <OrderSearch />
-                        <nav aria-label="tags" className="hidden">
-                            <ul>
-                                {dataTags.map((i, index) => (
-                                    <li key={index}><Link href={i.name}>
-                                        {i.name}
-                                    </Link></li>
-                                ))}
-                            </ul>
-                        </nav>
+                        <SelectTag dataTags={dataTags} title="انتخاب تگ" />
                     </div>
                 </section>
                 <h2 className="text-sm mt-5 md:text-lg text-gray-600 dark:text-p-dark flex items-center gap-2">

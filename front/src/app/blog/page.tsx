@@ -1,21 +1,24 @@
 import { fetchApi } from "@/action/fetchApi";
 import Breadcrums from "@/components/Breadcrums/Breadcrums";
 import Cards from "@/components/Cards/Cards";
-import OrderSearch from "@/components/OrderSearch/OrderSearch";
 import Pagination from "@/components/Pagination/Pagination";
 import React, { Suspense } from "react";
-import { AllPostType, FilterQueryType } from "../type";
+import { AllPostType, FilterQueryType, TagsType } from "../type";
 import ContactSocialMedia from "@/components/ContactSocialMedia/ContactSocialMedia";
 import { Metadata } from "next";
 import { dataApi } from "@/data/tagsName";
 import DontData from "@/components/DontData/DontData";
 import { notFound } from "next/navigation";
+import SelectTag from "@/components/SelectTag/SelectTag";
 const nameSite = process.env.NEXT_PUBLIC_NAME_SITE || ""
 const getData = async (query: FilterQueryType) => {
   const url = "post?" + new URLSearchParams(query);
   const data = await fetchApi({ url, next: dataApi.posts.cache, tags: dataApi.posts.tags });
   if (data.error) return notFound();
   return data;
+};
+const getTags = () => {
+  return fetchApi({ url: dataApi.tags.url, next: dataApi.tags.cache, tags: dataApi.tags.tags });
 };
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_URL || "http://localhost:3000"),
@@ -61,14 +64,15 @@ export default async function page({
   searchParams: FilterQueryType;
 }) {
   const data: AllPostType = await getData(searchParams);
+  const { data: dataTags }: { data: TagsType[] } = await getTags();
   return (
     <>
       <Breadcrums />
       <div className="classDiv">
         <section className="flex w-full items-center justify-between">
           <h1 className="font-semibold lg:text-xl">{searchParams.tags ? `مقالات مرتبط با ${searchParams.tags}` : "وبلاگ"}</h1>
-          <div className="w-2/6">
-            <OrderSearch />
+          <div className="w-2/6 flex gap-2">
+            <SelectTag dataTags={dataTags} title="انتخاب تگ" />
           </div>
         </section>
         <h2 className="text-sm mt-5 md:text-lg text-gray-600 dark:text-p-dark flex items-center gap-2">

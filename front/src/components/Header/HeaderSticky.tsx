@@ -125,15 +125,14 @@ export default function HeaderSticky({
   return (
     <>
       <div
-        className={`header-sticky shadow-md shadow-[#dbdbdb] dark:shadow-full-dark bg-slate-100/80 dark:bg-zinc-900/80 ${
-          visible
+        className={`header-sticky shadow-md shadow-[#dbdbdb] dark:shadow-full-dark bg-slate-100/80 dark:bg-zinc-900/80 ${visible
             ? "header-show bg-slate-100/40 dark:!bg-zinc-900/80"
             : "header-hidden"
-        } `}
+          } `}
       >
         <div className="max-w-7xl w-full py-1 md:py-3 px-3 xl:px-0 flex mx-auto">
           <div className="w-full flex justify-between items-center">
-            <div className="w-1/3 md:w-1/12  flex items-center menu-mobile">
+            <div className="w-1/3 md:w-1/12  flex items-center menu-mobile" aria-label="menu mobile">
               <div className="md:hidden">
                 <IconButton
                   onClick={() => setOpenMenu(true)}
@@ -200,34 +199,32 @@ export default function HeaderSticky({
                               >
                                 <FaAngleDoubleDown
                                   size={14}
-                                  className={`transition-all ${
-                                    i.name === showCategory
+                                  className={`transition-all ${i.name === showCategory
                                       ? "text-blue-400 rotate-180"
                                       : ""
-                                  }`}
+                                    }`}
                                 />
                               </button>
                             ) : null}
                           </div>
                           <ul
-                            className={`hidden ${
-                              showCategory === i.name ? "!block" : ""
-                            }`}
+                            className={`hidden ${showCategory === i.name ? "!block" : ""
+                              }`}
                           >
                             {category.length
                               ? category.map((item, ind) => (
-                                  <li key={ind}>
-                                    <Link
-                                      className="flex w-full gap-1 items-center"
-                                      href={
-                                        "blog/" + item.slug.replace(/ /g, "-")
-                                      }
-                                    >
-                                      <span className="w-[6px] h-[1px] bg-black"></span>
-                                      {item.name}
-                                    </Link>
-                                  </li>
-                                ))
+                                <li key={ind}>
+                                  <Link
+                                    className="flex w-full gap-1 items-center"
+                                    href={
+                                      "blog/" + item.slug.replace(/ /g, "-")
+                                    }
+                                  >
+                                    <span className="w-[6px] h-[1px] bg-black"></span>
+                                    {item.name}
+                                  </Link>
+                                </li>
+                              ))
                               : null}
                           </ul>
                         </li>
@@ -296,9 +293,8 @@ export default function HeaderSticky({
         type="button"
         aria-label="رفتن به بالا"
         onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-        className={`p-3 lg:p-3 cursor-pointer fixed z-50 right-3 lg:right-5 rounded-full shadow-md bg-slate-500/70 text-white transition-all ${
-          scrollTop ? "bottom-3 lg:bottom-5" : "-bottom-12"
-        }`}
+        className={`p-3 lg:p-3 cursor-pointer fixed z-50 right-3 lg:right-5 rounded-full shadow-md bg-slate-500/70 text-white transition-all ${scrollTop ? "bottom-3 lg:bottom-5" : "-bottom-12"
+          }`}
       >
         <i>
           <IoIosArrowUp />

@@ -1,7 +1,6 @@
 import { fetchApi } from "@/action/fetchApi";
 import React, { Suspense } from "react";
-import OrderSearch from "@/components/OrderSearch/OrderSearch";
-import { AllExpertType, FilterQueryType } from "../type";
+import { AllExpertType, FilterQueryType, TagsType } from "../type";
 import CardExperts from "@/components/CardExperts/CardExperts";
 import Pagination from "@/components/Pagination/Pagination";
 import DontData from "@/components/DontData/DontData";
@@ -10,6 +9,7 @@ import Breadcrums from "@/components/Breadcrums/Breadcrums";
 import { Metadata } from "next";
 import { dataApi } from "@/data/tagsName";
 import { notFound } from "next/navigation";
+import SelectTag from "@/components/SelectTag/SelectTag";
 const nameSite = process.env.NEXT_PUBLIC_NAME_SITE || "";
 const getData = async (query: FilterQueryType) => {
   const url = dataApi.experts.url + "?" + new URLSearchParams(query);
@@ -21,9 +21,16 @@ const getData = async (query: FilterQueryType) => {
   if (data.error) return notFound();
   return data;
 };
+const getTags = () => {
+  return fetchApi({
+    url: dataApi.tags.url,
+    next: dataApi.tags.cache,
+    tags: dataApi.tags.tags,
+  });
+};
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_URL || "http://localhost:3000"),
-  title: `مجری ها | ${nameSite}`,
+  title: `مجریان | ${nameSite}`,
   description:
     "با مجری های برتر حوزه ساخت و ساز آشنا شوید. در این صفحه می‌توانید پروفایل مجری های ما را مشاهده کنید و برای پروژه‌های خود از آنها مشاوره و خدمات دریافت کنید.",
   keywords: [
@@ -62,11 +69,8 @@ export const metadata: Metadata = {
     canonical: `${process.env.NEXT_PUBLIC_URL + "/about-us"}`,
   },
 };
-export default async function page({
-  searchParams,
-}: {
-  searchParams: FilterQueryType;
-}) {
+export default async function page({searchParams }: {searchParams: FilterQueryType;}) {
+  const { data: dataTags }: { data: TagsType[] } = await getTags();
   const data: AllExpertType = await getData(searchParams);
   return (
     <>
@@ -74,14 +78,25 @@ export default async function page({
       <div className="classDiv">
         <section className="flex items-center justify-between">
           <h1 className="font-semibold lg:text-xl dark:text-h-dark text-gray-800">
-            {" "}
             مجریان
           </h1>
-          <div className="w-1/3">
-            <OrderSearch />
+          <div className="w-2/6 flex gap-2">
+            <SelectTag urlPage="experts" dataTags={dataTags} />
           </div>
         </section>
-        <h2>تمام مجریان</h2>
+        <h2 className="text-sm mt-5 md:text-lg text-gray-600 dark:text-s-dark flex items-center gap-2">
+          <i className="w-3 h-3 dark:text-s-dark bg-gray-500 rounded-full inline-block"></i>
+          {searchParams.search ? (
+            <>
+              کلمه جستجو شده :{" "}
+              <b className="text-gray-800 dark:text-h-dark">
+                {searchParams.search}
+              </b>
+            </>
+          ) : (
+            "تمام مجریان در این صفحه فهرست شده اند."
+          )}
+        </h2>
         {data?.rows?.length ? (
           <div className="grid gap-4 md:gap-5 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 my-6">
             {data.rows.map((items, index) => (

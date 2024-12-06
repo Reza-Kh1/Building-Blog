@@ -23,7 +23,7 @@ const getTags = () => {
 };
 export async function generateMetadata({ searchParams }: PageType): Promise<Metadata> {
     const tag = searchParams?.tags || "وبلاگ";
-    const title = `مقالات مرتبط با ${tag} | ${nameSite}`
+    const title = `${tag} | ${nameSite}`
     const desc = `در این صفحه تمامی مقالات مرتبط با تگ ${tag} را مشاهده می‌کنید. این مقالات به شما در انتخاب بهتر و آگاهی بیشتر کمک می‌کنند.`
     return {
         metadataBase: new URL(process.env.NEXT_PUBLIC_URL || "http://localhost:3000"),
@@ -42,7 +42,7 @@ export async function generateMetadata({ searchParams }: PageType): Promise<Meta
             locale: "fa_IR",
             title: title,
             description: desc,
-            url: `${process.env.NEXT_PUBLIC_URL}/blog?tags=${encodeURIComponent(tag)}`,
+            url: `${process.env.NEXT_PUBLIC_URL}/blog/tags/${searchParams.tags}?tags=${encodeURIComponent(tag)}`,
             images: [
                 {
                     url: `${process.env.NEXT_PUBLIC_URL}/category.jpg`,
@@ -59,7 +59,7 @@ export async function generateMetadata({ searchParams }: PageType): Promise<Meta
         },
         robots: "index, follow",
         alternates: {
-            canonical: `/blog/tag/${searchParams.tags}?tags=${encodeURIComponent(tag)}`,
+            canonical: `/blog/tags/${searchParams.tags}?tags=${encodeURIComponent(tag)}`,
         },
     };
 }
@@ -71,14 +71,20 @@ export default async function page({ searchParams }: { searchParams: FilterQuery
             <Breadcrums />
             <div className="classDiv">
                 <section className="flex w-full items-center justify-between">
-                    <h1 className="font-semibold lg:text-xl">{`مقالات مرتبط با ${searchParams.tags}`}</h1>
+                    <h1 className="font-semibold lg:text-xl">{searchParams.tags}</h1>
                     <div className="w-2/6 flex gap-2">
-                        <SelectTag dataTags={dataTags} title="انتخاب تگ" />
+                        <SelectTag urlPage="blog" dataTags={dataTags} />
                     </div>
                 </section>
+                {searchParams.search?
+                <span className="text-sm mt-5 md:text-lg text-gray-600 dark:text-p-dark flex items-center gap-2">
+                    <i className="w-3 h-3 dark:bg-gray-300 bg-gray-500 rounded-full inline-block"></i>
+                             کلمه جستجو شده : <b>{searchParams.search}</b>
+                </span>
+                :null}
                 <h2 className="text-sm mt-5 md:text-lg text-gray-600 dark:text-p-dark flex items-center gap-2">
                     <i className="w-3 h-3 dark:bg-gray-300 bg-gray-500 rounded-full inline-block"></i>
-                    تمامی مطالب مرتبط با تگ {'"'}{searchParams.tags}{'"'} در این صفحه فهرست شده‌اند.
+                    تمام مطالب مرتبط با تگ {'"'}{searchParams.tags}{'"'} در این صفحه فهرست شده‌اند.
                 </h2>
                 <div className="my-5">
                     {

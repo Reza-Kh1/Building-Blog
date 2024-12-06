@@ -25,6 +25,12 @@ export default function Breadcrums({ className }: { className?: string }) {
         url: "/blog",
       };
     }
+    if (i === "tag") {
+      return {
+        name: "تگ",
+        url: "",
+      };
+    }
     if (i === "post") {
       return {
         name: "پست ها",

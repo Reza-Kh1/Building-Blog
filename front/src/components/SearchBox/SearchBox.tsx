@@ -8,7 +8,7 @@ import toast from "react-hot-toast";
 import Link from "next/link";
 import { FaSearch } from "react-icons/fa";
 import CustomButton from "../CustomButton/CustomButton";
-import { AllCardPostType, AllExpertType, AllProjectType, CardPostType, CardProjectsType, ExpertType } from "@/app/type";
+import { AllCardPostType, AllExpertType, AllProjectType, CardPostType, CardProjectsType, ExpertType, FilterQueryType } from "@/app/type";
 import CardPost from "../CardPost/CardPost";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { FormControl, MenuItem, Select } from "@mui/material";
@@ -25,12 +25,26 @@ export default function SearchBox() {
   const [isSearch, setIsSearch] = useState<boolean>(false)
   const ref = useRef<HTMLInputElement>(null);
   const paramasPath: string = usePathname()
-  const paramsQuery = useSearchParams()
   const route = useRouter()
+  const searchParams = useSearchParams()
+  const paramsQuery: FilterQueryType = Object.fromEntries(searchParams.entries());
+  paramsQuery.page = "1"
+  paramsQuery.order = paramsQuery.order === "createdAt-DESC" ? "createdAt-ASC" : "createdAt-DESC"
+  const createLink = (filter:string)=>{
+    paramsQuery.search = valSearch
+    let url
+    if (filter === "post") {
+      url = `blog?${new URLSearchParams(paramsQuery)}`;
+    }
+    if (filter === "project") {
+      url = `project?${new URLSearchParams(paramsQuery)}`;
+    }
+    return url || `experts?${new URLSearchParams(paramsQuery)}`
+  }
   useEffect(() => {
     setIsShow(false)
     const search = Object.fromEntries(
-      paramsQuery.entries()
+      searchParams.entries()
     );
     if (search?.search) {
       setValSearch(search.search)
@@ -39,7 +53,7 @@ export default function SearchBox() {
     }
     const filterNameParam = paramasPath.split("/")[1] === "experts" ? "expert" : paramasPath.split("/")[1] === "project" ? "project" : "post"
     setFilterName(filterNameParam)
-  }, [paramasPath, paramsQuery])
+  }, [paramasPath, searchParams])
   useEffect(() => {
     if (isShow && ref.current) {
       ref.current.focus();
@@ -115,14 +129,15 @@ export default function SearchBox() {
               onKeyDown={(props) => {
                 if (props.key === "Enter") {
                   let url
+                  paramsQuery.search = valSearch
                   if (filterName === "post") {
-                    url = `blog?search=${valSearch}&order=createdAt-DESC`;
+                    url = `blog?${new URLSearchParams(paramsQuery)}`;
                   }
                   if (filterName === "project") {
-                    url = `project?order=createdAt-DESC&search=${valSearch}`;
+                    url = `project?${new URLSearchParams(paramsQuery)}`;
                   }
                   if (filterName === "expert") {
-                    url = `experts?order=createdAt-DESC&search=${valSearch}`;
+                    url = `experts?${new URLSearchParams(paramsQuery)}`;
                   }
                   if (!url) return
                   route.push(url)
@@ -136,7 +151,7 @@ export default function SearchBox() {
                 <LoadingSearch />
               </i>
             )}
-            < Link aria-label="جستجو" title="جستجو" href={`/${filterName === "post" ? "blog" : filterName === "expert" ? "experts" : "project"}?page=1&order=createdAt-DESC&search=` + valSearch} className="absolute lg:text-xl left-1 md:left-2 transform top-1/2 -translate-y-1/2">
+            < Link aria-label="جستجو" title="جستجو" href={createLink(filterName)} className="absolute lg:text-xl left-1 md:left-2 transform top-1/2 -translate-y-1/2">
               <i className="p-2 lg:p-3 rounded-full shadow-md block hover:bg-blue-600/70 bg-blue-400/90 text-white">
                 <FaSearch />
               </i>
@@ -206,7 +221,7 @@ export default function SearchBox() {
                     ))}
                   </div>
               }
-              <Link className="mt-4 block w-full md:w-1/6 mx-auto" href={`/${filterName === "post" ? "blog" : filterName === "expert" ? "experts" : "project"}?page=1&order=createdAt-DESC&search=` + valSearch}>
+              <Link className="mt-4 block w-full md:w-1/6 mx-auto" href={createLink(filterName)}>
                 <CustomButton
                   name="مشاهده همه"
                   type="button"

@@ -1,20 +1,19 @@
 "use client";
 import { FilterQueryType, TagsType } from "@/app/type";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { useState, useRef, useEffect } from "react";
 import { FaAngleUp } from "react-icons/fa6";
 type SelectTagType = {
-    title: string
     dataTags: TagsType[]
+    urlPage: string
 }
-export default function SelectTag({ title, dataTags }: SelectTagType) {
+export default function SelectTag({ dataTags,urlPage }: SelectTagType) {    
     const searchParam = useSearchParams();
+    const pathName = usePathname()    
     const [openDropdowns, setOpenDropdowns] = useState<{ [key: number]: boolean }>({});
     const dropdownRefs = useRef<Array<HTMLDivElement | null>>([]);
-    const setDropdownRef = (index: number) => (el: HTMLDivElement | null) => {
-        dropdownRefs.current[index] = el; // مقداردهی بدون بازگشت مقدار
-    };
+    const setDropdownRef = (index: number) => (el: HTMLDivElement | null) => {dropdownRefs.current[index] = el};
     const paramsQuery: FilterQueryType = Object.fromEntries(searchParam.entries());
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -24,12 +23,12 @@ export default function SelectTag({ title, dataTags }: SelectTagType) {
                 }
             });
         };
-
         document.addEventListener("mousedown", handleClickOutside);
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, []);
+    useEffect(()=>{setOpenDropdowns({0:false,1:false})},[pathName,searchParam])
     const toggleDropdown = (index: number) => {
         setOpenDropdowns((prev) => ({ ...prev, [index]: !prev[index] }));
     };
@@ -40,7 +39,7 @@ export default function SelectTag({ title, dataTags }: SelectTagType) {
     return (
         <>
             <div ref={setDropdownRef(0)} className="relative w-full">
-                <span className="text-sm">{title}</span>
+                <span className="text-sm">انتخاب تگ</span>
                 <div className="w-full cursor-pointer flex relative bg-gradient-to-br dark:to-slate-800 dark:from-gray-600 dark:shadow-low-dark to-blue-400 from-gray-300 rounded-md shadow-md">
                     <button
                         title={paramsQuery.tags || "نمایش همه"}
@@ -54,11 +53,11 @@ export default function SelectTag({ title, dataTags }: SelectTagType) {
                         <FaAngleUp className={`transition-all text-white dark:text-h-dark ${openDropdowns[0] ? "rotate-180" : ""}`} />
                     </i>
                     <ul
-                        className={`absolute top-[110%] bg-blue-400/80 dark:bg-gray-400/80 text-white w-full max-h-96 h-auto shadow-md z-50 p-2 rounded-md overflow-y-auto left-0 flex flex-col transition-all gap-2 ${openDropdowns[0] ? "" : "opacity-0 invisible"}`}
+                        className={`absolute top-[110%] bg-blue-400/80 dark:bg-[#282f38ed] text-white w-full max-h-96 h-auto shadow-md z-40 p-2 rounded-md overflow-y-auto left-0 flex flex-col transition-all gap-2 ${openDropdowns[0] ? "" : "opacity-0 invisible"}`}
                     >
                         {paramsQuery.tags ?
                             <li>
-                                <Link href={"/blog?order=createdAt-DESC&page=1"} className="bg-slate-200 block text-gray-600 hover:bg-slate-50 p-3 shadow-md dark:bg-gray-700 hover:dark:bg-gray-800 dark:text-h-dark rounded-md">
+                                <Link href={`/${urlPage}?order=createdAt-DESC&page=1`} className="bg-slate-200 block text-gray-600 hover:bg-slate-z-40 p-2 shadow-md dark:bg-gray-700 hover:dark:bg-[#42597a] dark:text-h-dark rounded-md">
                                     نمایش همه
                                 </Link>
                             </li>
@@ -67,7 +66,7 @@ export default function SelectTag({ title, dataTags }: SelectTagType) {
                             const { tags, ...other } = paramsQuery
                             return i.name === paramsQuery.tags ? null :
                                 <li key={index}>
-                                    <Link href={`/blog/tag/${i.name}?${new URLSearchParams(other)}&tags=${i.name}`} className="bg-slate-200 block text-gray-600 hover:bg-slate-50 p-3 shadow-md dark:bg-gray-700 hover:dark:bg-gray-800 dark:text-h-dark rounded-md">
+                                    <Link href={`/${urlPage}/tags/${i.name}?${new URLSearchParams(other)}&tags=${i.name}`} className="bg-slate-200 block text-gray-600 hover:bg-slate-50 p-2 shadow-md dark:bg-gray-700 hover:dark:bg-[#42597a] dark:text-h-dark rounded-md">
                                         {i.name}
                                     </Link>
                                 </li>
@@ -90,10 +89,10 @@ export default function SelectTag({ title, dataTags }: SelectTagType) {
                         <FaAngleUp className={`transition-all text-white dark:text-h-dark ${openDropdowns[1] ? "rotate-180" : ""}`} />
                     </i>
                     <ul
-                        className={`absolute top-[110%] bg-blue-400/80 dark:bg-gray-400/80 text-white w-full max-h-96 h-auto shadow-md z-50 p-2 rounded-md overflow-y-auto left-0 flex flex-col transition-all gap-2 ${openDropdowns[1] ? "" : "opacity-0 invisible"}`}
+                        className={`absolute top-[110%] bg-blue-400/80 dark:bg-[#282f38ed] text-white w-full max-h-96 h-auto shadow-md z-50 p-2 rounded-md overflow-y-auto left-0 flex flex-col transition-all gap-2 ${openDropdowns[1] ? "" : "opacity-0 invisible"}`}
                     >
                         <li>
-                            <Link href={`?${new URLSearchParams(orderFilter)}`} className="bg-slate-200 block text-gray-600 hover:bg-slate-50 p-3 shadow-md dark:bg-gray-700 hover:dark:bg-gray-800 dark:text-h-dark rounded-md">
+                            <Link href={`?${new URLSearchParams(orderFilter)}`} className="bg-slate-200 block text-gray-600 hover:bg-slate-50 p-2 shadow-md dark:bg-gray-700 hover:dark:bg-[#42597a] dark:text-h-dark rounded-md">
                                 {paramsQuery.order === "createdAt-DESC" ? "قدیمی ترین" : "جدید ترین"}
                             </Link>
                         </li>

@@ -30,7 +30,7 @@
 
 .header-sticky {
   transition: all ease 0.5s;
-  z-index: 30;
+  z-index: 50;
   position: sticky;
   display: flex;
   top: 0;

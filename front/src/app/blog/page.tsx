@@ -10,15 +10,23 @@ import { dataApi } from "@/data/tagsName";
 import DontData from "@/components/DontData/DontData";
 import { notFound } from "next/navigation";
 import SelectTag from "@/components/SelectTag/SelectTag";
-const nameSite = process.env.NEXT_PUBLIC_NAME_SITE || ""
+const nameSite = process.env.NEXT_PUBLIC_NAME_SITE || "";
 const getData = async (query: FilterQueryType) => {
   const url = "post?" + new URLSearchParams(query);
-  const data = await fetchApi({ url, next: dataApi.posts.cache, tags: dataApi.posts.tags });
+  const data = await fetchApi({
+    url,
+    next: dataApi.posts.cache,
+    tags: dataApi.posts.tags,
+  });
   if (data.error) return notFound();
   return data;
 };
 const getTags = () => {
-  return fetchApi({ url: dataApi.tags.url, next: dataApi.tags.cache, tags: dataApi.tags.tags });
+  return fetchApi({
+    url: dataApi.tags.url,
+    next: dataApi.tags.cache,
+    tags: dataApi.tags.tags,
+  });
 };
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_URL || "http://localhost:3000"),
@@ -29,10 +37,10 @@ export const metadata: Metadata = {
     "پروژه‌های ساختمانی",
     "مشاوره ساخت‌وساز",
     "خدمات پیمانکاری",
-    nameSite
+    nameSite,
   ],
   openGraph: {
-    type: 'website',
+    type: "website",
     siteName: nameSite,
     locale: "fa_IR",
     title: `وبلاگ | ${nameSite}`,
@@ -49,9 +57,9 @@ export const metadata: Metadata = {
     ],
   },
   twitter: {
-    card: 'summary_large_image',
+    card: "summary_large_image",
     creator: "@buildMasters",
-    site: "@buildMasters"
+    site: "@buildMasters",
   },
   robots: "index, follow",
   alternates: {
@@ -64,28 +72,32 @@ export default async function page({
   searchParams: FilterQueryType;
 }) {
   const data: AllPostType = await getData(searchParams);
-  const { data: dataTags }: { data: TagsType[] } = await getTags();
+  const { data: dataTags }: { data: TagsType[] } = await getTags();  
   return (
     <>
       <Breadcrums />
       <div className="classDiv">
         <section className="flex w-full items-center justify-between">
-          <h1 className="font-semibold lg:text-xl">{searchParams.tags ? `مقالات مرتبط با ${searchParams.tags}` : "وبلاگ"}</h1>
+          <h1 className="font-semibold lg:text-xl">وبلاگ</h1>
           <div className="w-2/6 flex gap-2">
-            <SelectTag dataTags={dataTags} title="انتخاب تگ" />
+            <SelectTag urlPage="blog" dataTags={dataTags} />
           </div>
         </section>
-        <h2 className="text-sm mt-5 md:text-lg text-gray-600 dark:text-p-dark flex items-center gap-2">
-          <i className="w-3 h-3 dark:bg-gray-300 bg-gray-500 rounded-full inline-block"></i>
-          تمامی مطالب مرتبط با تگ {'"'}{searchParams.tags}{'"'} در این صفحه فهرست شده‌اند.
+        <h2 className="text-sm mt-5 md:text-lg text-gray-600 dark:text-s-dark flex items-center gap-2">
+          <i className="w-3 h-3 dark:text-s-dark bg-gray-500 rounded-full inline-block"></i>
+          {searchParams.search
+            ? 
+            <>
+            کلمه جستجو شده : <b className="text-gray-800 dark:text-h-dark">{searchParams.search}</b>
+            </>
+            : "تمام پست ها در این صفحه فهرست شده اند."}
         </h2>
         <div className="my-5">
-          {
-            data.rows.length ?
-              <Cards props={data.rows} />
-              :
-              <DontData name="هیچ پستی یافت نشد!" />
-          }
+          {data.rows.length ? (
+            <Cards props={data.rows} />
+          ) : (
+            <DontData name="هیچ پستی یافت نشد!" />
+          )}
         </div>
         <Suspense fallback={"در حال بارگیری ..."}>
           <Pagination pagination={data.paginate} />

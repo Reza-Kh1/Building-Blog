@@ -10,6 +10,7 @@ import { Metadata } from "next";
 import { dataApi } from "@/data/tagsName";
 import { notFound } from "next/navigation";
 import SelectTag from "@/components/SelectTag/SelectTag";
+import Script from "next/script";
 const nameSite = process.env.NEXT_PUBLIC_NAME_SITE || "";
 const getData = async (query: FilterQueryType) => {
   if (query.tags) {
@@ -62,8 +63,7 @@ export async function generateMetadata({ searchParams }: { searchParams: FilterQ
       locale: "fa_IR",
       title: title,
       description: desc,
-      url: `${process.env.NEXT_PUBLIC_URL}/experts/tags/${searchParams.tags
-        }?tags=${encodeURIComponent(expert)}`,
+      url: `${process.env.NEXT_PUBLIC_URL}/experts/tags/${searchParams.tags}?tags=${searchParams.tags}`,
       images: [
         {
           url: `${process.env.NEXT_PUBLIC_URL}/category.jpg`,
@@ -80,9 +80,7 @@ export async function generateMetadata({ searchParams }: { searchParams: FilterQ
     },
     robots: "index, follow",
     alternates: {
-      canonical: `/experts/tags/${searchParams.tags}?tags=${encodeURIComponent(
-        expert
-      )}`,
+      canonical:`${process.env.NEXT_PUBLIC_URL}/experts/tags/${searchParams.tags}?tags=${searchParams.tags}`,
     },
   };
 }

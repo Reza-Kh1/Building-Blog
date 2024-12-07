@@ -82,7 +82,7 @@ export default async function page({ searchParams }: { searchParams: FilterQuery
       <div className="classDiv mb-20">
         <section className="mt-6 flex justify-between items-center">
           <h1 className="lg:text-xl font-semibold">پروژه ها</h1>
-          <nav aria-label="منوی دسته بندی ها و نام مجری ها در پروژه ها" className="w-1/2 flex gap-2">
+          <nav aria-label="منوی دسته بندی ها و نام مجری ها در پروژه ها" className="w-1/2">
             <SelectTag urlPage="project" dataTags={dataTags} dataProject={dataExpert} />
           </nav>
         </section>

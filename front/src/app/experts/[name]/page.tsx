@@ -93,7 +93,7 @@ export default async function page({ params }: { params: { name: string } }) {
   const { data }: { data: ExpertType } = await getData(params.name);
   const jsonld = {
     "@context": "https://schema.org",
-    "@type": "Person",
+    "@type": "profile",
     "name": data?.name || "نام فرد",
     "description": data?.description || "بیوگرافی فرد",
     "image": data?.image || `${process.env.NEXTAUTH_URL}/comments/image-admin.png`,

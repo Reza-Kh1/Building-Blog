@@ -49,7 +49,7 @@ export async function generateMetadata({ searchParams }: PageType): Promise<Meta
             locale: "fa_IR",
             title: title,
             description: desc,
-            url: `${process.env.NEXT_PUBLIC_URL}/blog/tags/${searchParams.tags}?tags=${encodeURIComponent(tag)}`,
+            url: `${process.env.NEXT_PUBLIC_URL}/blog/tags/${searchParams.tags}?tags=${searchParams.tags}`,
             images: [
                 {
                     url: `${process.env.NEXT_PUBLIC_URL}/category.jpg`,
@@ -66,7 +66,7 @@ export async function generateMetadata({ searchParams }: PageType): Promise<Meta
         },
         robots: "index, follow",
         alternates: {
-            canonical: `/blog/tags/${searchParams.tags}?tags=${encodeURIComponent(tag)}`,
+            canonical: `/blog/tags/${searchParams.tags}?tags=${searchParams.tags}`,
         },
     };
 }

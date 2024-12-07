@@ -80,9 +80,9 @@ export default async function page({searchParams }: {searchParams: FilterQueryTy
           <h1 className="font-semibold lg:text-xl dark:text-h-dark text-gray-800">
             مجریان
           </h1>
-          <div className="w-2/6 flex gap-2">
+          <nav aria-label="منوی دسته بندی ها برای مجری ها" className="w-2/6 flex gap-2">
             <SelectTag urlPage="experts" dataTags={dataTags} />
-          </div>
+          </nav>
         </section>
         <h2 className="text-sm mt-5 md:text-lg text-gray-600 dark:text-s-dark flex items-center gap-2">
           <i className="w-3 h-3 dark:text-s-dark bg-gray-500 rounded-full inline-block"></i>

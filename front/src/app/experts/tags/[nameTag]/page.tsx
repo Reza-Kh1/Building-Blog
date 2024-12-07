@@ -12,6 +12,12 @@ import { notFound } from "next/navigation";
 import SelectTag from "@/components/SelectTag/SelectTag";
 const nameSite = process.env.NEXT_PUBLIC_NAME_SITE || "";
 const getData = async (query: FilterQueryType) => {
+  if (query.tags) {
+    query.tags = query.tags?.replace(/-/g, " ")
+  }
+  if (query.expert) {
+    query.expert = query.expert?.replace(/-/g, " ")
+  }
   const url = dataApi.experts.url + "?" + new URLSearchParams(query);
   const data = await fetchApi({
     url,
@@ -28,14 +34,10 @@ const getTags = () => {
     tags: dataApi.tags.tags,
   });
 };
-export async function generateMetadata({
-  searchParams,
-}: {
-  searchParams: FilterQueryType;
-}): Promise<Metadata> {
-  const expert = searchParams?.expert || "مجریان";
-  const title = `${expert} | ${nameSite}`;
-  const desc = `با مجری های برتر حوزه ساخت و ساز آشنا شوید. در این صفحه می‌توانید پروفایل تمام مجری های ما را در رابطه با تگ ${expert} مشاهده کنید و برای پروژه‌های خود از آنها مشاوره و خدمات دریافت کنید.`;
+export async function generateMetadata({ searchParams }: { searchParams: FilterQueryType; }): Promise<Metadata> {
+  const expert =  searchParams?.tags || "مجریان";
+  const title = `مجری های ${expert} | ${nameSite}`;
+  const desc = `با مجری های برتر حوزه ساخت و ساز آشنا شوید. در این صفحه می‌توانید پروفایل تمام مجری های ما را در رابطه با دسته ${expert} مشاهده کنید و برای پروژه‌های خود از آنها مشاوره و خدمات دریافت کنید.`;
   return {
     metadataBase: new URL(
       process.env.NEXT_PUBLIC_URL || "http://localhost:3000"
@@ -44,6 +46,7 @@ export async function generateMetadata({
     description: desc,
     keywords: [
       expert,
+      title,
       "متخصصان ساختمانی",
       "مشاورین ساخت و ساز",
       "پیمانکاران حرفه‌ای",
@@ -59,15 +62,14 @@ export async function generateMetadata({
       locale: "fa_IR",
       title: title,
       description: desc,
-      url: `${process.env.NEXT_PUBLIC_URL}/experts/tags/${
-        searchParams.tags
-      }?tags=${encodeURIComponent(expert)}`,
+      url: `${process.env.NEXT_PUBLIC_URL}/experts/tags/${searchParams.tags
+        }?tags=${encodeURIComponent(expert)}`,
       images: [
         {
           url: `${process.env.NEXT_PUBLIC_URL}/category.jpg`,
           width: 600,
           height: 350,
-          alt: `صفحه وبلاگ با تگ ${expert} در سایت ${nameSite}`,
+          alt: `صفحه وبلاگ با دسته ${expert} در سایت ${nameSite}`,
         },
       ],
     },
@@ -96,7 +98,7 @@ export default async function page({
       <Breadcrums />
       <div className="classDiv">
         <section className="flex w-full items-center justify-between">
-          <h1 className="font-semibold lg:text-xl">{searchParams.tags}</h1>
+          <h1 className="font-semibold lg:text-xl">مجری های {searchParams.tags}</h1>
           <div className="w-2/6 flex gap-2">
             <SelectTag urlPage="experts" dataTags={dataTags} />
           </div>
@@ -109,7 +111,7 @@ export default async function page({
         ) : null}
         <h2 className="text-sm mt-5 md:text-lg text-gray-600 dark:text-p-dark flex items-center gap-2">
           <i className="w-3 h-3 dark:bg-gray-300 bg-gray-500 rounded-full inline-block"></i>
-          تمام مجریان مرتبط با تگ {'"'}
+          تمام مجریان مرتبط با دسته {'"'}
           {searchParams.tags}
           {'"'} در این صفحه فهرست شده‌اند.
         </h2>

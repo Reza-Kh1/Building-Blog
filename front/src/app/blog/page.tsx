@@ -79,9 +79,9 @@ export default async function page({
       <div className="classDiv">
         <section className="flex w-full items-center justify-between">
           <h1 className="font-semibold lg:text-xl">وبلاگ</h1>
-          <div className="w-2/6 flex gap-2">
+          <nav aria-label="منوی دسته بندی ها برای وبلاگ" className="w-2/6 flex gap-2">
             <SelectTag urlPage="blog" dataTags={dataTags} />
-          </div>
+          </nav>
         </section>
         <h2 className="text-sm mt-5 md:text-lg text-gray-600 dark:text-s-dark flex items-center gap-2">
           <i className="w-3 h-3 dark:text-s-dark bg-gray-500 rounded-full inline-block"></i>

@@ -30,14 +30,19 @@ export default function SearchBox() {
   const paramsQuery: FilterQueryType = Object.fromEntries(searchParams.entries());
   paramsQuery.page = "1"
   paramsQuery.order = paramsQuery.order === "createdAt-DESC" ? "createdAt-ASC" : "createdAt-DESC"
-  const createLink = (filter:string)=>{
+  const createLink = (filter: string) => {
     paramsQuery.search = valSearch
     let url
     if (filter === "post") {
       url = `blog?${new URLSearchParams(paramsQuery)}`;
     }
     if (filter === "project") {
-      url = `project?${new URLSearchParams(paramsQuery)}`;
+      if (paramsQuery.expert) {
+        const expertFilter = paramasPath.split("/")[3] ? decodeURIComponent(paramasPath?.split("/")[3]) : null
+        url = `project/experts/${expertFilter || ""}?${new URLSearchParams(paramsQuery)}`;
+      } else {
+        url = `project?${new URLSearchParams(paramsQuery)}`;
+      }
     }
     return url || `experts?${new URLSearchParams(paramsQuery)}`
   }
@@ -134,7 +139,12 @@ export default function SearchBox() {
                     url = `blog?${new URLSearchParams(paramsQuery)}`;
                   }
                   if (filterName === "project") {
-                    url = `project?${new URLSearchParams(paramsQuery)}`;
+                    if (paramsQuery.expert) {
+                      const expertFilter = paramasPath.split("/")[3] ? decodeURIComponent(paramasPath?.split("/")[3]) : null
+                      url = `/project/experts/${expertFilter || ""}?${new URLSearchParams(paramsQuery)}`;
+                    } else {
+                      url = `project?${new URLSearchParams(paramsQuery)}`;
+                    }
                   }
                   if (filterName === "expert") {
                     url = `experts?${new URLSearchParams(paramsQuery)}`;

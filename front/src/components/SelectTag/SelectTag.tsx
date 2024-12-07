@@ -7,13 +7,17 @@ import { FaAngleUp } from "react-icons/fa6";
 type SelectTagType = {
     dataTags: TagsType[]
     urlPage: string
+    dataProject?: {
+        name: string
+        id: string
+    }[]
 }
-export default function SelectTag({ dataTags,urlPage }: SelectTagType) {    
+export default function SelectTag({ dataTags, urlPage, dataProject }: SelectTagType) {
     const searchParam = useSearchParams();
-    const pathName = usePathname()    
+    const pathName = usePathname()
     const [openDropdowns, setOpenDropdowns] = useState<{ [key: number]: boolean }>({});
     const dropdownRefs = useRef<Array<HTMLDivElement | null>>([]);
-    const setDropdownRef = (index: number) => (el: HTMLDivElement | null) => {dropdownRefs.current[index] = el};
+    const setDropdownRef = (index: number) => (el: HTMLDivElement | null) => { dropdownRefs.current[index] = el };
     const paramsQuery: FilterQueryType = Object.fromEntries(searchParam.entries());
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -28,7 +32,7 @@ export default function SelectTag({ dataTags,urlPage }: SelectTagType) {
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, []);
-    useEffect(()=>{setOpenDropdowns({0:false,1:false})},[pathName,searchParam])
+    useEffect(() => { setOpenDropdowns({ 0: false, 1: false, 3: false }) }, [pathName, searchParam])
     const toggleDropdown = (index: number) => {
         setOpenDropdowns((prev) => ({ ...prev, [index]: !prev[index] }));
     };
@@ -36,10 +40,58 @@ export default function SelectTag({ dataTags,urlPage }: SelectTagType) {
     const orderFilter = { ...paramsQuery }
     orderFilter.page = "1"
     orderFilter.order = paramsQuery.order === "createdAt-DESC" ? "createdAt-ASC" : "createdAt-DESC"
+    const formatLink = (value: string) => {
+        if (value.toString()) {
+            return value?.replace(/ /g, "-")
+        } else {
+            return ""
+        }
+    }
+    const expertFilter = pathName.split("/")[3]?.replace(/-/g, " ") ? decodeURIComponent(pathName?.split("/")[3]?.replace(/-/g, " ")) : null
     return (
         <>
+            {dataProject?.length ?
+                <div ref={setDropdownRef(3)} className="relative w-full">
+                    <span className="text-sm mr-1">انتخاب مجری</span>
+                    <div className="w-full cursor-pointer flex relative bg-gradient-to-br dark:to-slate-800 dark:from-gray-600 dark:shadow-low-dark to-blue-400 from-gray-300 rounded-md shadow-md">
+                        <button
+                            title={expertFilter ? expertFilter : "نمایش همه"}
+                            type="button"
+                            className="cursor-pointer text-right w-full p-3 text-white dark:text-h-dark"
+                            onClick={() => toggleDropdown(3)}
+                        >
+                            <span className="cutline cutline-1">
+                                {expertFilter ? expertFilter : "نمایش همه"}
+                            </span>
+                        </button>
+                        <i className="absolute left-5 top-1/2 transform -translate-y-1/2">
+                            <FaAngleUp className={`transition-all text-white dark:text-h-dark ${openDropdowns[3] ? "rotate-180" : ""}`} />
+                        </i>
+                        <ul
+                            className={`absolute top-[110%] bg-blue-400/80 dark:bg-[#282f38ed] text-white w-full max-h-96 h-auto shadow-md z-40 p-2 rounded-md overflow-y-auto left-0 flex flex-col transition-all gap-2 ${openDropdowns[3] ? "" : "opacity-0 invisible"}`}
+                        >
+                            {paramsQuery.expert ?
+                                <li>
+                                    <Link href={`/project?order=createdAt-DESC&page=1${paramsQuery.tags ? "&tags=" + formatLink(paramsQuery.tags) : ""}`} className="bg-slate-200 block text-gray-600 hover:bg-slate-z-40 p-2 shadow-md dark:bg-gray-700 hover:dark:bg-[#42597a] dark:text-h-dark rounded-md">
+                                        نمایش همه
+                                    </Link>
+                                </li>
+                                : null}
+                            {dataProject.map((i, index) => {
+                                const { expert, ...other } = paramsQuery
+                                return i.name === paramsQuery.expert ? null :
+                                    <li key={index}>
+                                        <Link href={`/${urlPage}/experts/${formatLink(i.name)}?${new URLSearchParams(other)}&expert=${i.id}`} className="bg-slate-200 block text-gray-600 hover:bg-slate-50 p-2 shadow-md dark:bg-gray-700 hover:dark:bg-[#42597a] dark:text-h-dark rounded-md">
+                                            {i.name}
+                                        </Link>
+                                    </li>
+                            })}
+                        </ul>
+                    </div>
+                </div>
+                : null}
             <div ref={setDropdownRef(0)} className="relative w-full">
-                <span className="text-sm">انتخاب تگ</span>
+                <span className="text-sm mr-1">انتخاب دسته</span>
                 <div className="w-full cursor-pointer flex relative bg-gradient-to-br dark:to-slate-800 dark:from-gray-600 dark:shadow-low-dark to-blue-400 from-gray-300 rounded-md shadow-md">
                     <button
                         title={paramsQuery.tags || "نمایش همه"}
@@ -47,7 +99,9 @@ export default function SelectTag({ dataTags,urlPage }: SelectTagType) {
                         className="cursor-pointer text-right w-full p-3 text-white dark:text-h-dark"
                         onClick={() => toggleDropdown(0)}
                     >
-                        {paramsQuery.tags || "نمایش همه"}
+                        <span className="cutline cutline-1">
+                            {paramsQuery.tags || "نمایش همه"}
+                        </span>
                     </button>
                     <i className="absolute left-5 top-1/2 transform -translate-y-1/2">
                         <FaAngleUp className={`transition-all text-white dark:text-h-dark ${openDropdowns[0] ? "rotate-180" : ""}`} />
@@ -57,7 +111,7 @@ export default function SelectTag({ dataTags,urlPage }: SelectTagType) {
                     >
                         {paramsQuery.tags ?
                             <li>
-                                <Link href={`/${urlPage}?order=createdAt-DESC&page=1`} className="bg-slate-200 block text-gray-600 hover:bg-slate-z-40 p-2 shadow-md dark:bg-gray-700 hover:dark:bg-[#42597a] dark:text-h-dark rounded-md">
+                                <Link href={dataProject?.length && paramsQuery.expert ? `?order=createdAt-DESC&page=1&expert=${formatLink(paramsQuery.expert)}` : `/${urlPage}?order=createdAt-DESC&page=1`} className="bg-slate-200 block text-gray-600 hover:bg-slate-z-40 p-2 shadow-md dark:bg-gray-700 hover:dark:bg-[#42597a] dark:text-h-dark rounded-md">
                                     نمایش همه
                                 </Link>
                             </li>
@@ -66,7 +120,7 @@ export default function SelectTag({ dataTags,urlPage }: SelectTagType) {
                             const { tags, ...other } = paramsQuery
                             return i.name === paramsQuery.tags ? null :
                                 <li key={index}>
-                                    <Link href={`/${urlPage}/tags/${i.name}?${new URLSearchParams(other)}&tags=${i.name}`} className="bg-slate-200 block text-gray-600 hover:bg-slate-50 p-2 shadow-md dark:bg-gray-700 hover:dark:bg-[#42597a] dark:text-h-dark rounded-md">
+                                    <Link href={dataProject?.length ? `?${new URLSearchParams(other)}&tags=${formatLink(i.name)}` : `/${urlPage}/tags/${formatLink(i.name)}?${new URLSearchParams(other)}&tags=${formatLink(i.name)}`} className="bg-slate-200 block text-gray-600 hover:bg-slate-50 p-2 shadow-md dark:bg-gray-700 hover:dark:bg-[#42597a] dark:text-h-dark rounded-md">
                                         {i.name}
                                     </Link>
                                 </li>
@@ -75,7 +129,7 @@ export default function SelectTag({ dataTags,urlPage }: SelectTagType) {
                 </div>
             </div>
             <div ref={setDropdownRef(1)} className="relative w-full">
-                <span className="text-sm">مرتب سازی</span>
+                <span className="text-sm mr-1">مرتب سازی</span>
                 <div className="w-full cursor-pointer flex relative bg-gradient-to-br dark:to-slate-800 dark:from-gray-600 dark:shadow-low-dark to-blue-400 from-gray-300 rounded-md shadow-md">
                     <button
                         title={paramsQuery.order === "createdAt-DESC" ? "جدید ترین" : "قدیمی ترین"}
@@ -83,7 +137,9 @@ export default function SelectTag({ dataTags,urlPage }: SelectTagType) {
                         className="cursor-pointer text-right w-full p-3 text-white dark:text-h-dark"
                         onClick={() => toggleDropdown(1)}
                     >
-                        {paramsQuery.order === "createdAt-DESC" ? "جدید ترین" : "قدیمی ترین"}
+                        <span className="cutline cutline-1">
+                            {paramsQuery.order === "createdAt-DESC" ? "جدید ترین" : "قدیمی ترین"}
+                        </span>
                     </button>
                     <i className="absolute left-5 top-1/2 transform -translate-y-1/2">
                         <FaAngleUp className={`transition-all text-white dark:text-h-dark ${openDropdowns[1] ? "rotate-180" : ""}`} />

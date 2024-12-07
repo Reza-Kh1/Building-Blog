@@ -27,7 +27,7 @@ import { usePathname } from "next/navigation";
 const menuTitle = [
   {
     name: "پروژه ها",
-    url: "/project",
+    url: "/project?order=createdAt-DESC&page=1",
     icon: <MdMapsHomeWork className="text-gray-600 dark:text-s-dark" />,
   },
   {

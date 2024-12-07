@@ -27,7 +27,7 @@ export default function Breadcrums({ className }: { className?: string }) {
     }
     if (i === "tag") {
       return {
-        name: "تگ",
+        name: "دسته",
         url: "",
       };
     }

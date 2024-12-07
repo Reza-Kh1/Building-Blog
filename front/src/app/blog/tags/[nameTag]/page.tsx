@@ -13,6 +13,12 @@ import SelectTag from "@/components/SelectTag/SelectTag";
 const nameSite = process.env.NEXT_PUBLIC_NAME_SITE || ""
 type PageType = { params: { category: string }, searchParams: FilterQueryType }
 const getData = async (query: FilterQueryType) => {
+    if (query.tags) {
+        query.tags = query.tags?.replace(/-/g, " ")
+    }
+    if (query.expert) {
+        query.expert = query.expert?.replace(/-/g, " ")
+    }
     const url = "post?" + new URLSearchParams(query);
     const data = await fetchApi({ url, next: dataApi.posts.cache, tags: dataApi.posts.tags });
     if (data.error) return notFound();
@@ -23,14 +29,15 @@ const getTags = () => {
 };
 export async function generateMetadata({ searchParams }: PageType): Promise<Metadata> {
     const tag = searchParams?.tags || "وبلاگ";
-    const title = `${tag} | ${nameSite}`
-    const desc = `در این صفحه تمامی مقالات مرتبط با تگ ${tag} را مشاهده می‌کنید. این مقالات به شما در انتخاب بهتر و آگاهی بیشتر کمک می‌کنند.`
+    const title = `مقاله های ${tag} | ${nameSite}`
+    const desc = `در این صفحه تمامی مقالات مرتبط با دسته ${tag} را مشاهده می‌کنید. این مقالات به شما در انتخاب بهتر و آگاهی بیشتر کمک می‌کنند.`
     return {
         metadataBase: new URL(process.env.NEXT_PUBLIC_URL || "http://localhost:3000"),
         title: title,
         description: desc,
         keywords: [
             tag,
+            title,
             "پروژه‌های ساختمانی",
             "مشاوره ساخت‌وساز",
             "خدمات پیمانکاری",
@@ -48,7 +55,7 @@ export async function generateMetadata({ searchParams }: PageType): Promise<Meta
                     url: `${process.env.NEXT_PUBLIC_URL}/category.jpg`,
                     width: 600,
                     height: 350,
-                    alt: `صفحه وبلاگ با تگ ${tag} در سایت ${nameSite}`,
+                    alt: `صفحه وبلاگ با دسته ${tag} در سایت ${nameSite}`,
                 },
             ],
         },
@@ -71,20 +78,20 @@ export default async function page({ searchParams }: { searchParams: FilterQuery
             <Breadcrums />
             <div className="classDiv">
                 <section className="flex w-full items-center justify-between">
-                    <h1 className="font-semibold lg:text-xl">{searchParams.tags}</h1>
+                    <h1 className="font-semibold lg:text-xl">مقاله های {searchParams.tags}</h1>
                     <div className="w-2/6 flex gap-2">
                         <SelectTag urlPage="blog" dataTags={dataTags} />
                     </div>
                 </section>
-                {searchParams.search?
-                <span className="text-sm mt-5 md:text-lg text-gray-600 dark:text-p-dark flex items-center gap-2">
-                    <i className="w-3 h-3 dark:bg-gray-300 bg-gray-500 rounded-full inline-block"></i>
-                             کلمه جستجو شده : <b>{searchParams.search}</b>
-                </span>
-                :null}
+                {searchParams.search ?
+                    <span className="text-sm mt-5 md:text-lg text-gray-600 dark:text-p-dark flex items-center gap-2">
+                        <i className="w-3 h-3 dark:bg-gray-300 bg-gray-500 rounded-full inline-block"></i>
+                        کلمه جستجو شده : <b>{searchParams.search}</b>
+                    </span>
+                    : null}
                 <h2 className="text-sm mt-5 md:text-lg text-gray-600 dark:text-p-dark flex items-center gap-2">
                     <i className="w-3 h-3 dark:bg-gray-300 bg-gray-500 rounded-full inline-block"></i>
-                    تمام مطالب مرتبط با تگ {'"'}{searchParams.tags}{'"'} در این صفحه فهرست شده‌اند.
+                    تمام مطالب مرتبط با دسته {'"'}{searchParams.tags}{'"'} در این صفحه فهرست شده‌اند.
                 </h2>
                 <div className="my-5">
                     {

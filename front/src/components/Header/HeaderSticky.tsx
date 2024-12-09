@@ -230,7 +230,7 @@ export default function HeaderSticky({
                         </li>
                       ))}
                     </ul>
-                    <div className="mt-8 flex justify-center">
+                    <div className="mt-8 flex justify-center pb-5">
                       <IconSocialMedia />
                     </div>
                   </nav>

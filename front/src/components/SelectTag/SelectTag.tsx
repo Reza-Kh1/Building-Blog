@@ -37,12 +37,12 @@ export default function SelectTag({
         <CustomButton
           name="فیلتر"
           type="button"
-          className="!w-1/2"
+          className="!w-1/2 !text-xs"
           onClick={() => setOpen((prev) => !prev)}
-          iconEnd={<FaFilter size={15}/>}
+          iconEnd={<FaFilter size={12}/>}
         />
         <Drawer anchor={"right"} open={open} onClose={() => setOpen(false)}>
-          <div className="min-w-56 md:hidden flex flex-col gap-2 p-3">
+          <div className="min-w-56 md:hidden flex flex-col gap-3 p-3 overflow-hidden h-full">
             <Filters
               dataTags={dataTags}
               urlPage={urlPage}

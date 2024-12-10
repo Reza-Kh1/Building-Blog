@@ -1,11 +1,12 @@
 import Link from 'next/link'
 import React from 'react'
 import ImgTag from '../ImgTag/ImgTag'
-import { FaPlay, FaRegCalendarCheck } from 'react-icons/fa'
+import { FaPlay } from 'react-icons/fa'
 import { CardProjectsType } from '@/app/type'
 import { GrUserWorker } from "react-icons/gr";
 import { SiGooglemaps } from "react-icons/si";
 import { MdAddHomeWork } from 'react-icons/md'
+import { FaCalendarDays } from 'react-icons/fa6'
 export default function CardProjects({ project }: { project: CardProjectsType }) {    
     if (!project) return
     return (
@@ -19,8 +20,8 @@ export default function CardProjects({ project }: { project: CardProjectsType })
                     height={300}
                     classPlus="group-hover/image:scale-125 !w-full !h-auto hover-project"
                 />
-                <i className="absolute text-[8px] md:text-xs md:left-2 left-1 md:top-2 top-1 p-1 rounded-md bg-slate-700/80 flex gap-1 items-center text-white ">
-                    <FaRegCalendarCheck />
+                <i className="absolute text-xs md:left-2 left-1 md:top-2 top-1 p-1 rounded-sm bg-slate-700/80 flex gap-1 items-center text-white ">
+                    <FaCalendarDays  />
                     {new Date(project?.updatedAt).toLocaleDateString("fa")}
                 </i>
                 <i className="p-3 md:p-5 text-white group-hover:opacity-100  opacity-0 rounded-full backdrop-blur-md absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
@@ -31,18 +32,18 @@ export default function CardProjects({ project }: { project: CardProjectsType })
                 <div className='flex'>
                     <Link href={"/project/" + project.name.replace(/ /g, "-")} className='flex text-gray-800 dark:text-h-dark group/name items-center gap-1'>
                         <MdAddHomeWork className='group-hover/name:text-blue-400 min-w-[16px]' />
-                        <h3 className="group-hover/name:text-blue-400 md:text-xl cutline cutline-1">{project.name}</h3>
+                        <h3 className="group-hover/name:text-blue-400 text-lg md:text-xl cutline cutline-1">{project.name}</h3>
                     </Link>
                 </div>
-                <div className='flex my-2 md:mt-3 mb-1'>
+                <div className='flex my-2 mb-1 md:mt-3'>
                     <Link href={"/experts/" + project.Worker?.name.replace(/ /g, "-")} className='group/expert dark:text-s-dark text-gray-600 flex items-center gap-1'>
                         <GrUserWorker className='group-hover/expert:text-blue-400 min-w-[16px]' />
-                        <span className='md:text-sm group-hover/expert:text-blue-400 text-xs cutline cutline-1'>{project.Worker?.name}</span>
+                        <span className='md:text-sm group-hover/expert:text-blue-400 cutline cutline-1'>{project.Worker?.name}</span>
                     </Link>
                 </div>
                 <div className='flex items-center gap-1 mb-1 text-gray-600 dark:text-s-dark'>
                     <SiGooglemaps aria-label='آدرس' title='آدرس' className='min-w-[16px]' />
-                    <span className="text-xs md:text-sm cutline cutline-1">
+                    <span className="md:text-sm cutline cutline-1">
                         {project.address}
                     </span>
                 </div>

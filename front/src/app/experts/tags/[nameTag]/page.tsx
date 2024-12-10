@@ -78,7 +78,7 @@ export async function generateMetadata({ searchParams }: { searchParams: FilterQ
       creator: "@buildMasters",
       site: "@buildMasters",
     },
-    robots: "index, follow",
+    robots: "noindex,nofollow",
     alternates: {
       canonical:`${process.env.NEXT_PUBLIC_URL}/experts/tags/${searchParams.tags}?tags=${searchParams.tags}`,
     },

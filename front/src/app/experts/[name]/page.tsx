@@ -62,7 +62,7 @@ export async function generateMetadata({ params }: { params: { name: string } })
     title: `${data.name} | ${nameSite}`,
     description: `آشنایی با متخصص ${data.name} در حوزه ساخت و ساز و معماری. خدمات و تجارب حرفه‌ای ${data.name} را مشاهده کنید و برای پروژه‌های خود از آنها مشاوره بگیرید.`,
     keywords: [data.name, ...tags],
-    robots: "index, follow",
+    robots: "noindex,nofollow",
     openGraph: {
       type: "profile",
       url: `${baseUrl}/experts/${urlPage}`,

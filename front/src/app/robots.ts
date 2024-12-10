@@ -5,7 +5,7 @@ export default function robots(): MetadataRoute.Robots {
         rules: [
             {
                 userAgent: '*',
-                allow: '/',
+                disallow: '/',
             },
         ],
         sitemap: process.env.NEXT_PUBLIC_URL,

@@ -64,7 +64,7 @@ export async function generateMetadata({ searchParams }: PageType): Promise<Meta
             creator: "@buildMasters",
             site: "@buildMasters",
         },
-        robots: "index, follow",
+        robots: "noindex,nofollow",
         alternates: {
             canonical: `/blog/tags/${searchParams.tags}?tags=${searchParams.tags}`,
         },

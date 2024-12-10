@@ -83,7 +83,7 @@ export async function generateMetadata(query: PageComponentType): Promise<Metada
             creator: "@buildMasters",
             site: "@buildMasters",
         },
-        robots: "index, follow",
+        robots: "noindex,nofollow",
         alternates: {
             canonical: `${process.env.NEXT_PUBLIC_URL}/project/experts/${decodeURIComponent(query.params?.nameExperts)}?${new URLSearchParams(query.searchParams)}}`,
         },

@@ -61,7 +61,7 @@ export const metadata: Metadata = {
     creator: "@buildMasters",
     site: "@buildMasters",
   },
-  robots: "index, follow",
+  robots: "noindex,nofollow",
   alternates: {
     canonical: "/blog",
   },

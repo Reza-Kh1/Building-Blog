@@ -66,7 +66,7 @@ export async function generateMetadata({
       creator: "@buildMasters",
       site: "@buildMasters"
     },
-    robots: "index, follow",
+    robots: "noindex,nofollow",
   };
 }
 export default async function page({ params }: { params: { slug: string } }) {

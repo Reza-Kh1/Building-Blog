@@ -27,7 +27,7 @@ export async function generateMetadata(query: PageType): Promise<Metadata> {
         title: `پست‌های دسته‌ ${categoryName} | ${nameSite}`,
         description: `مطالب و مقالات مرتبط با ${categoryName} در حوزه ساخت و ساز و معماری.`,
         keywords: [categoryName, "ساختمان", "ساخت و ساز", "معماری", "پروژه‌های ساختمانی"],
-        robots: "index, follow",
+        robots: "noindex,nofollow",
         openGraph: {
             type: "website",
             url: `${baseUrl}/blog/${categorySlug}`,

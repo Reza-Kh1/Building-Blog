@@ -59,8 +59,8 @@ export default function Filters({
   return (
     <>
         {dataProject?.length ? (
-          <div ref={setDropdownRef(3)} className="relative w-full">
-            <span className="text-sm mr-1">انتخاب مجری</span>
+          <div ref={setDropdownRef(3)} className="relative w-full text-sm md:text-base">
+            <span className="text-sm mr-1 mb-1 block">انتخاب مجری</span>
             <div className="w-full cursor-pointer flex relative bg-gradient-to-br dark:to-slate-800 dark:from-gray-600 dark:shadow-low-dark to-blue-400 from-gray-300 rounded-md shadow-md">
               <button
                 title={expertFilter ? expertFilter : "نمایش همه"}
@@ -117,8 +117,8 @@ export default function Filters({
             </div>
           </div>
         ) : null}
-        <div ref={setDropdownRef(0)} className="relative w-full">
-          <span className="text-sm mr-1">انتخاب دسته</span>
+        <div ref={setDropdownRef(0)} className="relative w-full text-sm md:text-base">
+          <span className="text-sm mr-1 mb-1 block">انتخاب دسته</span>
           <div className="w-full cursor-pointer flex relative bg-gradient-to-br dark:to-slate-800 dark:from-gray-600 dark:shadow-low-dark to-blue-400 from-gray-300 rounded-md shadow-md">
             <button
               title={paramsQuery.tags || "نمایش همه"}
@@ -184,8 +184,8 @@ export default function Filters({
             </ul>
           </div>
         </div>
-        <div ref={setDropdownRef(1)} className="relative w-full">
-          <span className="text-sm mr-1">مرتب سازی</span>
+        <div ref={setDropdownRef(1)} className="relative w-full text-sm md:text-base">
+          <span className="text-sm mr-1 mb-1 block">مرتب سازی</span>
           <div className="w-full cursor-pointer flex relative bg-gradient-to-br dark:to-slate-800 dark:from-gray-600 dark:shadow-low-dark to-blue-400 from-gray-300 rounded-md shadow-md">
             <button
               title={

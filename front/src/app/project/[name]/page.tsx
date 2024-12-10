@@ -36,7 +36,7 @@ export async function generateMetadata({
     title: data?.name,
     description: data?.description,
     keywords: data?.Tags.map((i) => i.name),
-    robots: "index, follow",
+    robots: "noindex,nofollow",
     openGraph: {
       type: "article",
       url:
@@ -125,18 +125,18 @@ export default async function page({ params }: { params: { name: string } }) {
       <Breadcrums className="mt-14 md:!mt-20" />
       <div className="classDiv flex flex-col md:flex-row relative gap-3">
         <section className="w-full md:w-2/3">
-          <h2 className="text-sm dark:text-h-dark md:text-xl text-gray-700">توضیحات</h2>
+          <h2 className="dark:text-h-dark md:text-xl text-lg text-gray-700">توضیحات</h2>
           <p className="text-sm md:text-base text-gray-600 dark:text-p-dark text-justify !leading-8">{data.description}</p>
           <span className="border-t w-full h-1 block my-4 md:my-6"></span>
           <div className="w-full flex flex-col gap-2 md:gap-5">
             <div className="flex items-center gap-5">
-              <i className="text-base lg:text-2xl p-3 hover:bg-gray-200 rounded-full bg-gray-100 dark:bg-info-dark dark:shadow-low-dark dark:hover:shadow-none shadow-md">
+              <i className="text-xl lg:text-2xl p-3 hover:bg-gray-200 rounded-full bg-gray-100 dark:bg-info-dark dark:shadow-low-dark dark:hover:shadow-none shadow-md">
                 <SiGooglemaps />
               </i>
               <h3 className="text-sm lg:text-xl dark:text-p-dark text-gray-600">موقعیت : {data.address}</h3>
             </div>
             <div className="flex items-center gap-5">
-              <i className="text-base lg:text-2xl p-3 hover:bg-gray-200 rounded-full bg-gray-100 dark:bg-info-dark dark:shadow-low-dark dark:hover:shadow-none shadow-md">
+              <i className="text-xl lg:text-2xl p-3 hover:bg-gray-200 rounded-full bg-gray-100 dark:bg-info-dark dark:shadow-low-dark dark:hover:shadow-none shadow-md">
                 <BiDollar />
               </i>
               <h3 className="text-sm lg:text-xl dark:text-p-dark text-gray-600">
@@ -152,7 +152,7 @@ export default async function page({ params }: { params: { name: string } }) {
               </h3>
             </div>
             <div className="flex items-center gap-5">
-              <i className="text-base lg:text-2xl p-3 hover:bg-gray-200 rounded-full bg-gray-100 dark:bg-info-dark dark:shadow-low-dark dark:hover:shadow-none shadow-md">
+              <i className="text-xl lg:text-2xl p-3 hover:bg-gray-200 rounded-full bg-gray-100 dark:bg-info-dark dark:shadow-low-dark dark:hover:shadow-none shadow-md">
                 <GiPencilRuler />
               </i>
               <h3 className="text-sm lg:text-xl dark:text-p-dark text-gray-600">
@@ -170,13 +170,13 @@ export default async function page({ params }: { params: { name: string } }) {
           </div>
           <span className="border-t w-full h-1 block my-4 md:my-6"></span>
           <div className="w-full">
-            <h2 className="text-base lg:text-xl dark:text-h-dark text-gray-700 mb-3">تصاویر پروژه</h2>
+            <h2 className="text-lg lg:text-xl dark:text-h-dark text-gray-700 mb-3">تصاویر پروژه</h2>
             <SwiperGallery imagesSrc={data.gallery} />
           </div>
           {data?.video ? (
             <>
               <span className="border-t w-full h-1 block my-6"></span>
-              <h2 className="text-base lg:text-xl dark:text-h-dark text-gray-700 mb-3 block">فیلم پروژه</h2>
+              <h2 className="text-lg lg:text-xl dark:text-h-dark text-gray-700 mb-3 block">فیلم پروژه</h2>
               <div className="video-container">
                 <video
                   className="video-player h-52 md:h-80"

@@ -22,10 +22,10 @@ export default function CardExperts(props: ExpertType) {
           <ImgTag figureClass='relative' alt={props.name} src={props?.image} width={300} height={300} className='rounded-full border-8 dark:border-[#262e3b] border-[#b1d2f8] w-36 h-36 md:w-40 md:h-40 object-cover' />
         </Link>
       </div>
-      <div className='mt-14 p-2 text-white'>
+      <div className='mt-16 p-2 text-white'>
         <div className='flex flex-wrap gap-1 sm:gap-2 w-full md:px-2 sm:my-2'>
           <div className='flex flex-row items-start md:items-center justify-between w-full'>
-            <Link aria-label='شماره تلفن' title={props.phone} href={"tel:" + props.phone} className='w-full text-sm hover:bg-blue-400/70 hover:shadow-md p-1 px-2 rounded-md dark:text-p-dark text-white'>
+            <Link aria-label='شماره تلفن' title={props.phone} href={"tel:" + props.phone} className='w-full hover:bg-blue-400/70 hover:shadow-md p-1 px-2 rounded-md dark:text-p-dark text-white'>
               <div className='flex items-center gap-2'>
                 <i className='text-gray-50 dark:text-p-dark'><FaPhone /></i>
                 <span className='cutline cutline-1'>
@@ -33,7 +33,7 @@ export default function CardExperts(props: ExpertType) {
                 </span>
               </div>
             </Link>
-            <div className='text-sm w-full justify-end hover:bg-blue-400/70 hover:shadow-md p-1 px-2 rounded-md dark:text-p-dark text-white flex items-center gap-2'>
+            <div className='w-full justify-end hover:bg-blue-400/70 hover:shadow-md p-1 px-2 rounded-md dark:text-p-dark text-white flex items-center gap-2'>
               <FaCalendar className='text-gray-50 dark:text-p-dark' />
               <span>
                 {new Date(props.createdAt).toLocaleDateString("fa")}
@@ -43,7 +43,7 @@ export default function CardExperts(props: ExpertType) {
           {props?.Tags?.length ?
             (
               <div className='w-full text-white flex gap-1 items-center dark:text-p-dark px-2'>
-                <p className='text-sm md:text-base'>تخصص :</p>
+                <p className='md:text-base'>تخصص :</p>
                 <span className='text-sm md:text-base cutline cutline-1'>
                   {props.Tags.map((i, index) => {
                     if ((index + 1) === props.Tags?.length) return i.name

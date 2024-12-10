@@ -83,22 +83,24 @@ export default function Breadcrums({ className }: { className?: string }) {
     };
   });
   return (
-    <div
-      className={`my-3 gap-1 md:gap-2 flex items-center flex-wrap lg:my-6 md:mx-3 p-2 lg:p-3 xl:mx-auto w-full max-w-7xl  bg-gradient-to-br text-white to-blue-400 from-slate-200  dark:text-gray-200 dark:to-slate-700 dark:from-zinc-800 shadow-md dark:shadow-low-dark rounded-md ${className}`}
-    >
-      {newArry.map((i, index) => (
-        <React.StrictMode key={index}>
-          {i.url ? (
-            <Link href={i.url} className="hover:text-blue-500 text-xs md:text-sm items-center gap-1 inline">
-              {i.name === "صفحه اصلی" ? <FaHome className="inline ml-1"/> : null}
-              {i.name}
-            </Link>
-          ) : (
-            <span className="text-xs md:text-sm">{i.name}</span>
-          )}
-          {newArry.length - 1 === index ? null : "/"}
-        </React.StrictMode>
-      ))}
+    <div className="classDiv">
+      <div
+        className={`my-3 gap-1 md:gap-2 flex items-center flex-wrap lg:my-6 md:mx-3 p-2 lg:p-3 xl:mx-auto w-full max-w-7xl  bg-gradient-to-br text-white to-blue-500 from-slate-300  dark:text-gray-200 dark:to-slate-700 dark:from-zinc-800 shadow-md dark:shadow-low-dark rounded-md ${className}`}
+      >
+        {newArry.map((i, index) => (
+          <React.StrictMode key={index}>
+            {i.url ? (
+              <Link href={i.url} className="hover:text-blue-500 text-xs md:text-sm items-center gap-1 inline">
+                {i.name === "صفحه اصلی" ? <FaHome className="inline ml-1" /> : null}
+                {i.name}
+              </Link>
+            ) : (
+              <span className="text-xs md:text-sm">{i.name}</span>
+            )}
+            {newArry.length - 1 === index ? null : "/"}
+          </React.StrictMode>
+        ))}
+      </div>
     </div>
   );
 }

@@ -18,7 +18,7 @@ export default function Cards({ props }: { props: CardPostType[] }) {
         <div className="w-3/5 lg:w-2/3 order-2 flex justify-evenly md:justify-between flex-col md:py-2 gap-1">
           <span className="text-xs lg:text-sm text-gray-500 dark:text-p-dark">{i?.Category?.name}</span>
           <h3 className="text-sm lg:text-lg text-gray-800 dark:text-h-dark cutline cutline-1">{i.title}</h3>
-          <div className="flex gap-1 text-xs md:text-base lg:gap-5 text-gray-500 dark:text-s-dark">
+          <div className="flex gap-1 text-xs md:text-base lg:gap-5 text-gray-600 dark:text-s-dark">
             <i>
               <FaPhotoVideo />
             </i>

@@ -11,6 +11,8 @@ import TabsComponent from "@/components/Tabs/Tabs";
 import ImgTag from "@/components/ImgTag/ImgTag";
 import { servicesData } from "@/data/dataService";
 import Link from "next/link";
+import { Metadata } from "next";
+const nameSite = process.env.NEXT_PUBLIC_NAME_SITE || ""
 const getData = () => {
   return fetchApi({ url: dataApi.home.url, tags: dataApi.home.tags, next: dataApi.home.cache })
 }
@@ -23,6 +25,44 @@ const getPosts = () => {
 const getExperts = () => {
   return fetchApi({ url: dataApi.experts.url, tags: dataApi.experts.tags, next: dataApi.experts.cache })
 }
+export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_URL || "http://localhost:3000"),
+  title: `${nameSite} | پیشرو در ساخت و ساز و بازسازی`,
+  description: 'با ${nameSite}، پروژه‌های ساختمانی و بازسازی خود را با کیفیت بالا و در زمان کوتاه به انجام برسانید. از طراحی تا اجرا، ما همراه شما هستیم.',
+  keywords: [
+    'ساخت و ساز',
+    'بازسازی ساختمان',
+    'پروژه‌های ساختمانی',
+    'کیفیت ساخت',
+    'خدمات ساختمانی',
+    'طراحی و اجرا',
+  ],
+  openGraph: {
+    title: `${nameSite} | پیشرو در خدمات ساخت و ساز`,
+    description: 'ما در ${nameSite} خدمات متنوعی از طراحی تا اجرای پروژه‌های ساختمانی ارائه می‌دهیم. کیفیت، زمان‌بندی و هزینه مناسب را با ما تجربه کنید.',
+    url: `${process.env.NEXT_PUBLIC_URL}`,
+    images: [
+      {
+        url: `${process.env.NEXT_PUBLIC_URL + "/about-us.jpg"}`,
+        width: 1200,
+        height: 630,
+        alt: `صفحه اصلی ${nameSite}`,
+      },
+    ],
+    type: 'website',
+    locale: "fa_IR",
+    siteName: nameSite,
+  },
+  twitter: {
+    card: 'summary_large_image',
+    creator: "@buildMasters",
+    site: "@buildMasters",
+  },
+  robots: "index,follow",
+  alternates: {
+    canonical: `${process.env.NEXT_PUBLIC_URL}`,
+  },
+};
 export default async function Home() {
   const projects: AllProjectType = await getProject()
   const posts: AllPostType = await getPosts()

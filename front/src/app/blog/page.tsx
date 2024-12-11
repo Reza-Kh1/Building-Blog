@@ -10,6 +10,7 @@ import { dataApi } from "@/data/tagsName";
 import DontData from "@/components/DontData/DontData";
 import { notFound } from "next/navigation";
 import SelectTag from "@/components/SelectTag/SelectTag";
+import TagInfo from "@/components/TagInfo/TagInfo";
 const nameSite = process.env.NEXT_PUBLIC_NAME_SITE || "";
 const getData = async (query: FilterQueryType) => {
   const url = "post?" + new URLSearchParams(query);
@@ -72,7 +73,7 @@ export default async function page({
   searchParams: FilterQueryType;
 }) {
   const data: AllPostType = await getData(searchParams);
-  const { data: dataTags }: { data: TagsType[] } = await getTags();  
+  const { data: dataTags }: { data: TagsType[] } = await getTags();
   return (
     <>
       <Breadcrums />
@@ -83,15 +84,7 @@ export default async function page({
             <SelectTag urlPage="blog" dataTags={dataTags} />
           </nav>
         </section>
-        <h2 className="text-sm mt-5 md:text-lg text-gray-600 dark:text-s-dark flex items-center gap-2">
-          <i className="w-3 h-3 dark:text-s-dark bg-gray-500 rounded-full inline-block"></i>
-          {searchParams.search
-            ? 
-            <>
-            کلمه جستجو شده : <b className="text-gray-800 dark:text-h-dark">{searchParams.search}</b>
-            </>
-            : "تمام پست ها در این صفحه فهرست شده اند."}
-        </h2>
+        <TagInfo text="تمام مطالب در همین صفحه فهرست شده اند." categoryName="مطالب" searchData={searchParams} />
         <div className="my-5">
           {data.rows.length ? (
             <Cards props={data.rows} />

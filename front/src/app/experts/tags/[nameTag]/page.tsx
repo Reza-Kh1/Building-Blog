@@ -10,7 +10,7 @@ import { Metadata } from "next";
 import { dataApi } from "@/data/tagsName";
 import { notFound } from "next/navigation";
 import SelectTag from "@/components/SelectTag/SelectTag";
-import Script from "next/script";
+import TagInfo from "@/components/TagInfo/TagInfo";
 const nameSite = process.env.NEXT_PUBLIC_NAME_SITE || "";
 const getData = async (query: FilterQueryType) => {
   if (query.tags) {
@@ -36,7 +36,7 @@ const getTags = () => {
   });
 };
 export async function generateMetadata({ searchParams }: { searchParams: FilterQueryType; }): Promise<Metadata> {
-  const expert =  searchParams?.tags || "مجریان";
+  const expert = searchParams?.tags || "مجریان";
   const title = `مجری های ${expert} | ${nameSite}`;
   const desc = `با مجری های برتر حوزه ساخت و ساز آشنا شوید. در این صفحه می‌توانید پروفایل تمام مجری های ما را در رابطه با دسته ${expert} مشاهده کنید و برای پروژه‌های خود از آنها مشاوره و خدمات دریافت کنید.`;
   return {
@@ -80,7 +80,7 @@ export async function generateMetadata({ searchParams }: { searchParams: FilterQ
     },
     robots: "noindex,nofollow",
     alternates: {
-      canonical:`${process.env.NEXT_PUBLIC_URL}/experts/tags/${searchParams.tags}?tags=${searchParams.tags}`,
+      canonical: `${process.env.NEXT_PUBLIC_URL}/experts/tags/${searchParams.tags}?tags=${searchParams.tags}`,
     },
   };
 }
@@ -101,18 +101,7 @@ export default async function page({
             <SelectTag urlPage="experts" dataTags={dataTags} />
           </div>
         </section>
-        {searchParams.search ? (
-          <span className="text-sm mt-5 md:text-lg text-gray-600 dark:text-p-dark flex items-center gap-2">
-            <i className="w-3 h-3 dark:bg-gray-300 bg-gray-500 rounded-full inline-block"></i>
-            کلمه جستجو شده : <b>{searchParams.search}</b>
-          </span>
-        ) : null}
-        <h2 className="text-sm mt-5 md:text-lg text-gray-600 dark:text-p-dark flex items-center gap-2">
-          <i className="w-3 h-3 dark:bg-gray-300 bg-gray-500 rounded-full inline-block"></i>
-          تمام مجریان مرتبط با دسته {'"'}
-          {searchParams.tags}
-          {'"'} در این صفحه فهرست شده‌اند.
-        </h2>
+        <TagInfo categoryName="مجریان" searchData={searchParams} text="" />
         {data?.rows?.length ? (
           <div className="grid gap-4 md:gap-5 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 my-6">
             {data.rows.map((items, index) => (

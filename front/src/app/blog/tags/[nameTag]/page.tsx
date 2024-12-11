@@ -10,6 +10,7 @@ import { dataApi } from "@/data/tagsName";
 import DontData from "@/components/DontData/DontData";
 import { notFound } from "next/navigation";
 import SelectTag from "@/components/SelectTag/SelectTag";
+import TagInfo from "@/components/TagInfo/TagInfo";
 const nameSite = process.env.NEXT_PUBLIC_NAME_SITE || ""
 type PageType = { params: { category: string }, searchParams: FilterQueryType }
 const getData = async (query: FilterQueryType) => {
@@ -83,16 +84,7 @@ export default async function page({ searchParams }: { searchParams: FilterQuery
                         <SelectTag urlPage="blog" dataTags={dataTags} />
                     </div>
                 </section>
-                {searchParams.search ?
-                    <span className="text-sm mt-5 md:text-lg text-gray-600 dark:text-p-dark flex items-center gap-2">
-                        <i className="w-3 h-3 dark:bg-gray-300 bg-gray-500 rounded-full inline-block"></i>
-                        کلمه جستجو شده : <b>{searchParams.search}</b>
-                    </span>
-                    : null}
-                <h2 className="text-sm mt-5 md:text-lg text-gray-600 dark:text-p-dark flex items-center gap-2">
-                    <i className="w-3 h-3 dark:bg-gray-300 bg-gray-500 rounded-full inline-block"></i>
-                    تمام مطالب مرتبط با دسته {'"'}{searchParams.tags}{'"'} در این صفحه فهرست شده‌اند.
-                </h2>
+                <TagInfo text="تمام مطالب در همین صفحه فهرست شده اند" categoryName="مطالب" searchData={searchParams} />
                 <div className="my-5">
                     {
                         data.rows.length ?

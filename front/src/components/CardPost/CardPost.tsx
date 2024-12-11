@@ -1,7 +1,8 @@
 import { CardPostType } from '@/app/type'
 import Link from 'next/link'
 import React from 'react'
-import { FaArrowLeft, FaCalendarDay, FaComments, FaPhotoVideo } from 'react-icons/fa'
+import { FaArrowLeft, FaComments, FaPhotoVideo } from 'react-icons/fa'
+import { FaCalendarDays } from 'react-icons/fa6'
 
 export default function CardPost({ post }: { post?: CardPostType }) {
     return (
@@ -12,10 +13,11 @@ export default function CardPost({ post }: { post?: CardPostType }) {
                         <span className="text-xs text-gray-300">{post?.Category?.name}</span>
                         <h3 className="text-sm md:text-xl font-semibold text-gray-50">{post?.title}</h3>
                         <div className="flex text-gray-300 text-xs md:text-sm items-center gap-1 md:gap-3 justify-start">
-                            <div>
+                            <div className="flex gap-1 md:gap-2 items-center">
                                 <i>
-                                    <FaPhotoVideo />
+                                    <FaCalendarDays />
                                 </i>
+                                <span>{post?.updatedAt ? new Date(post.updatedAt).toLocaleDateString("fa") : null}</span>
                             </div>
                             |
                             <div className="flex gap-1 md:gap-2  items-center">
@@ -25,11 +27,10 @@ export default function CardPost({ post }: { post?: CardPostType }) {
                                 <span>{post?.totalComments}</span>
                             </div>
                             |
-                            <div className="flex gap-1 md:gap-2 items-center">
+                            <div>
                                 <i>
-                                    <FaCalendarDay />
+                                    <FaPhotoVideo />
                                 </i>
-                                <span>{post?.updatedAt ? new Date(post.updatedAt).toLocaleDateString("fa") : null}</span>
                             </div>
                         </div>
                         <p className="text-justify text-gray-200 text-sm md:text-base cutline cutline-3">

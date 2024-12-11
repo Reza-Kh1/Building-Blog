@@ -12,6 +12,7 @@ import { dataApi } from "@/data/tagsName";
 import DontData from "@/components/DontData/DontData";
 import { notFound } from "next/navigation";
 import SelectTag from "@/components/SelectTag/SelectTag";
+import TagInfo from "@/components/TagInfo/TagInfo";
 const nameSite = process.env.NEXT_PUBLIC_NAME_SITE || ""
 const getData = async (query: FilterQueryType) => {
   const url = dataApi.projects.url + "?" + new URLSearchParams(query);
@@ -86,30 +87,7 @@ export default async function page({ searchParams }: { searchParams: FilterQuery
             <SelectTag urlPage="project" dataTags={dataTags} dataProject={dataExpert} />
           </nav>
         </section>
-        {!searchParams.search && !searchParams.tags
-          ?
-          <h2 className="text-sm mt-5 md:text-lg text-gray-600 dark:text-s-dark flex items-center gap-2">
-            <i className="w-3 h-3 dark:text-s-dark bg-gray-500 rounded-full inline-block"></i>
-            تمام پروژه ها در این صفحه فهرست شده اند.
-          </h2>
-          :
-          null
-        }
-        {searchParams.search
-          ?
-          <h2 className="text-sm mt-5 md:text-lg text-gray-600 dark:text-s-dark flex items-center gap-2">
-            <i className="w-3 h-3 dark:text-s-dark bg-gray-500 rounded-full inline-block"></i>
-            کلمه جستجو شده : <b className="text-gray-800 dark:text-h-dark">{searchParams.search}</b>
-          </h2>
-          :
-          null
-        }
-        {searchParams.tags ?
-          <h2 className="text-sm mt-5 md:text-lg text-gray-600 dark:text-p-dark flex items-center gap-2">
-            <i className="w-3 h-3 dark:bg-gray-300 bg-gray-500 rounded-full inline-block"></i>
-            تمام پروژه های مرتبط با دسته {'"'}{searchParams.tags}{'"'} در این صفحه فهرست شده‌اند.
-          </h2>
-          : null}
+        <TagInfo categoryName="پروژه های" searchData={searchParams} text="تمام پروژه ها در این صفحه فهرست شده اند." />
         {data.rows.length ?
           (
             <div className="my-5 md:my-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">

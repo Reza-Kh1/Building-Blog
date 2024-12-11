@@ -29,7 +29,8 @@ app.use(
       "http://localhost:5173",
       "http://localhost:3000",
       "https://buildmasters.ir",
-      "https://admin.buildmasters.ir"],
+      "https://admin.buildmasters.ir"
+    ],
     credentials: true,
   })
 );

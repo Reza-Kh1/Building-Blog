@@ -10,6 +10,7 @@ import { Metadata } from "next";
 import { dataApi } from "@/data/tagsName";
 import { notFound } from "next/navigation";
 import SelectTag from "@/components/SelectTag/SelectTag";
+import TagInfo from "@/components/TagInfo/TagInfo";
 const nameSite = process.env.NEXT_PUBLIC_NAME_SITE || "";
 const getData = async (query: FilterQueryType) => {
   const url = dataApi.experts.url + "?" + new URLSearchParams(query);
@@ -84,19 +85,7 @@ export default async function page({searchParams }: {searchParams: FilterQueryTy
             <SelectTag urlPage="experts" dataTags={dataTags} />
           </nav>
         </section>
-        <h2 className="text-sm mt-5 md:text-lg text-gray-600 dark:text-s-dark flex items-center gap-2">
-          <i className="w-3 h-3 dark:text-s-dark bg-gray-500 rounded-full inline-block"></i>
-          {searchParams.search ? (
-            <>
-              کلمه جستجو شده :{" "}
-              <b className="text-gray-800 dark:text-h-dark">
-                {searchParams.search}
-              </b>
-            </>
-          ) : (
-            "تمام مجریان در این صفحه فهرست شده اند."
-          )}
-        </h2>
+        <TagInfo categoryName="" searchData={searchParams} text="تمام مجریان در این صفحه فهرست شده اند."/>
         {data?.rows?.length ? (
           <div className="grid gap-4 md:gap-5 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 my-6">
             {data.rows.map((items, index) => (

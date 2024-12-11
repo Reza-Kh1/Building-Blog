@@ -17,7 +17,7 @@ export default function ScollComment({
     <button
       onClick={scrollToComments}
       type="button"
-      className="flex gap-2 items-center cursor-pointer hover:text-blue-400 transition-all"
+      className="flex gap-1 md:gap-2 items-center cursor-pointer hover:text-blue-400 transition-all"
     >
       <FaComments />
       {totalComments || 0}

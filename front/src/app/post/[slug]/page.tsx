@@ -32,11 +32,7 @@ const getData = async (name: string) => {
   }
   return data;
 };
-export async function generateMetadata({
-  params,
-}: {
-  params: { slug: string };
-}): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const { data }: DataPostPageType = await getData(params.slug);
   return {
     metadataBase: new URL(
@@ -70,9 +66,7 @@ export async function generateMetadata({
   };
 }
 export default async function page({ params }: { params: { slug: string } }) {
-  const { data, posts, projects }: DataPostPageType = await getData(
-    params.slug
-  );
+  const { data, posts, projects }: DataPostPageType = await getData(params.slug);
   const jsonld = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
@@ -112,14 +106,14 @@ export default async function page({ params }: { params: { slug: string } }) {
         >
           <h1
             id="post-name"
-            className="lg:text-xl text-gray-700 font-bold dark:text-h-dark"
+            className="lg:text-xl text-gray-700 text-sm cutline cutline-1 font-bold dark:text-h-dark"
           >
             {data?.title}
           </h1>
-
-          <div className="flex text-gray-500 dark:text-s-dark text-sm items-center justify-center gap-2 md:gap-4 mt-4 md:mt-7">
+          <div className="flex text-gray-500 px-1 dark:text-s-dark text-sm items-center justify-center gap-2 md:gap-4 mt-4 md:mt-7">
             <div className="hidden md:flex gap-4">
               <div className="flex text-sm md:text-base items-center gap-2">
+                <FaTags />
                 {data.Tags.map((i, index) => (
                   <Link
                     key={index}
@@ -130,7 +124,6 @@ export default async function page({ params }: { params: { slug: string } }) {
                     {data.Tags.length !== Number(index + 1) ? " ،" : null}
                   </Link>
                 ))}
-                <FaTags />
               </div>
               <span className="border-r border-dashed border-black dark:border-bg-dark h-6 w-1"></span>
             </div>
@@ -138,34 +131,38 @@ export default async function page({ params }: { params: { slug: string } }) {
               <FaPhotoVideo />
             </span>
             <span className="border-r border-dashed border-black dark:border-bg-dark h-6 w-1"></span>
-            <ScollComment totalComments={data?.totalComments} />
+            <ScollComment totalComments={100} />
             <span className="border-r border-dashed border-black dark:border-bg-dark h-6 w-1"></span>
-            <h2 className="flex gap-2 items-center">
+            <h2 className="cutline cutline-1">
+              <IoPerson className="inline ml-1" />
               {data?.User?.name}
-              <IoPerson />
             </h2>
             <span className="border-r border-dashed border-black dark:border-bg-dark h-6 w-1"></span>
-            <span className="flex gap-2 items-center">
-              {new Date(data?.updatedAt).toLocaleDateString("fa")}
+            <span className="flex gap-1 md:gap-2 items-center">
               <FaCalendarDays />
+              {new Date(data?.updatedAt).toLocaleDateString("fa")}
             </span>
           </div>
         </section>
       </div>
       <Breadcrums className="mt-14 md:!mt-20" />
-      <section className="flex gap-1 classDiv md:hidden items-center">
-        <FaTags />
-        <h2>تگ ها :</h2>
-        <div className="flex text-sm md:text-base items-center gap-1">
-          {data.Tags.map((i, index) => (
-            <Link
-              key={index}
-              className="hover:text-blue-600"
-              href={"/search?tags=" + i.name}
-            >
-              {i.name}
+      <section className="classDiv md:hidden">
+        <h2 className="inline">
+          <FaTags className="inline ml-1" />
+          تگ ها :
+        </h2>
+        <div className="inline text-sm md:text-base">
+          {data.Tags?.map((i, index) => (
+            <React.Fragment key={index}>
+              <Link
+                key={index}
+                className="hover:text-blue-600 mx-1 dark:text-blue-400"
+                href={"/search?tags=" + i.name}
+              >
+                {i.name}
+              </Link>
               {data.Tags.length !== Number(index + 1) ? " ،" : null}
-            </Link>
+            </React.Fragment>
           ))}
         </div>
       </section>

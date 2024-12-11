@@ -12,6 +12,7 @@ import DontData from "@/components/DontData/DontData";
 import { notFound } from "next/navigation";
 import SelectTag from "@/components/SelectTag/SelectTag";
 import BannerCallUs from "@/components/BannerCallUs/BannerCallUs";
+import TagInfo from "@/components/TagInfo/TagInfo";
 const nameSite = process.env.NEXT_PUBLIC_NAME_SITE || ""
 type PageComponentType = {
     params: { nameExperts: 'set' }, searchParams: FilterQueryType
@@ -103,26 +104,7 @@ export default async function page(query: PageComponentType) {
                         <SelectTag urlPage="project" dataTags={dataTags} dataProject={dataExpert} />
                     </div>
                 </section>
-                {query.searchParams.search ? (
-                    <h2 className="text-sm mt-5 md:text-lg text-gray-600 dark:text-p-dark flex items-center gap-2">
-                        <i className="w-3 h-3 dark:bg-gray-300 bg-gray-500 rounded-full inline-block"></i>
-                        کلمه جستجو شده : <b>{query.searchParams.search}</b>
-                    </h2>
-                ) : null}
-                {query.searchParams.tags ? (
-                    <h2 className="text-sm mt-5 md:text-lg text-gray-600 dark:text-p-dark flex items-center gap-2">
-                        <i className="w-3 h-3 dark:bg-gray-300 bg-gray-500 rounded-full inline-block"></i>
-                        دسته انتخاب شده : <b>{query.searchParams.tags}</b>
-                    </h2>
-                ) : null}
-                {!query.searchParams.tags && !query.searchParams.search ?
-                    <h2 className="text-sm mt-5 md:text-lg text-gray-600 dark:text-p-dark flex items-center gap-2">
-                        <i className="w-3 h-3 dark:bg-gray-300 bg-gray-500 rounded-full inline-block"></i>
-                        تمام پروژه های مجری {'"'}
-                        {decodeURIComponent(query.params?.nameExperts.replace(/-/g, " "))}
-                        {'"'} در این صفحه فهرست شده‌اند.
-                    </h2>
-                    : null}
+                <TagInfo categoryName="پروژه های" searchData={query.searchParams} text="تمام پروژه ها در این صفحه فهرست شده اند." />
                 {data.rows.length ?
                     (
                         <div className="my-5 md:my-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">

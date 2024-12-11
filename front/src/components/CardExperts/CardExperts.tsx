@@ -42,9 +42,9 @@ export default function CardExperts(props: ExpertType) {
           </div>
           {props?.Tags?.length ?
             (
-              <div className='w-full text-white flex gap-1 items-center dark:text-p-dark px-2'>
-                <p className='md:text-base'>تخصص :</p>
-                <span className='text-sm md:text-base cutline cutline-1'>
+              <div className='w-full text-white px-2 flex dark:text-p-dark'>
+                <p className='md:text-base block'>تخصص</p>
+                <span className='text-sm md:text-base cutline cutline-1 pr-1'> : {" "} 
                   {props.Tags.map((i, index) => {
                     if ((index + 1) === props.Tags?.length) return i.name
                     return i.name + " ، "

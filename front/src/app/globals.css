@@ -129,3 +129,13 @@ a {
 .dark .swiper-button-prev {
   color: rgb(240, 237, 237) !important;
 }
+
+.bg-pagination { 
+  background: linear-gradient(113deg, #91b4e9, #4186f5);
+}
+.bg-pagination:hover{ 
+  background: linear-gradient(113deg, #76a8f3, #025cec);
+}
+.dark .bg-pagination {
+  background: linear-gradient(292deg, #0c0e11, #3b4046);
+}

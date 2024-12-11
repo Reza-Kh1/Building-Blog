@@ -14,7 +14,7 @@
 
 .dark .btn-dark {
     background-color: rgb(35 35 35) !important;
-    box-shadow: inset 0px -1px 2px 0px #000000 !important;
+    box-shadow: inset 0px -1px 20px 0px #000000a1 !important;
 }
 
 .btn-dark {

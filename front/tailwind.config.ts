@@ -20,7 +20,8 @@ const config: Config = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
       boxShadow: {
-        "custom-dark": "0px 1px 4px #000000"
+        "custom-dark": "0px 1px 4px #000000",
+        "shadow-header": "0px 3px 2px #b4b4b4"
       },
       boxShadowColor: {
         "low-dark": "#171717",
@@ -30,7 +31,7 @@ const config: Config = {
         "bg-dark": "#6b7280"
       },
       backgroundColor: {
-        "hight-dark":"#1d1d1d",
+        "hight-dark": "#1d1d1d",
         "input-dark": "#48484b69",
         "custom-dark": "#212121",
         "info-dark": "#232528"

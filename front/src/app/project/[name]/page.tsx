@@ -17,6 +17,7 @@ import BannerCallUs from "@/components/BannerCallUs/BannerCallUs";
 import CardExperts from "@/components/CardExperts/CardExperts";
 import SwiperGallery from "@/components/SwiperGallery/SwiperGallery";
 import { dataApi } from "@/data/tagsName";
+import { FaPhotoVideo } from "react-icons/fa";
 const getData = async (name: string) => {
   const url = `${dataApi.singleProject.url}/${name.replace(/-/g, " ")}`
   const data = await fetchApi({ url, next: dataApi.singleProject.cache });
@@ -94,9 +95,10 @@ export default async function page({ params }: { params: { name: string } }) {
       <div className="w-full mx-auto relative">
         <ImgTag width={1450} height={450} alt={data?.alt} src={data?.image} className="h-96 object-cover w-full md:max-h-[600px] md:h-auto md:min-h-[450px]" />
         <section className="bg-gray-50 text-gray-700 dark:bg-info-dark dark:shadow-low-dark py-3 md:py-6 rounded-md w-11/12 md:w-3/4 shadow-lg text-center absolute bottom-12 md:bottom-20 left-1/2 transform -translate-x-1/2 translate-y-full">
-          <h1 className="lg:text-xl dark:text-h-dark font-semibold">{data?.name}</h1>
-          <div className="flex text-gray-600 dark:text-s-dark text-sm items-center justify-center gap-2 md:gap-4 mt-4 md:mt-7">
-            <div className="flex text-sm md:text-base items-center gap-2">
+          <h1 className="lg:text-xl dark:text-h-dark text-sm cutline cutline-1 font-semibold">{data?.name}
+          </h1>
+          <div className="flex text-gray-600 dark:text-s-dark text-sm items-center justify-center gap-2 md:gap-4 mt-4 md:mt-7 px-1">
+            <div className="hidden md:flex text-sm md:text-base items-center gap-2">
               {data.Tags.map((i, index) => (
                 <Link
                   key={index}
@@ -109,20 +111,44 @@ export default async function page({ params }: { params: { name: string } }) {
               ))}
               <FaTags />
             </div>
-            <span className="border-r border-dashed border-black dark:border-bg-dark h-6 w-1"></span>
-            <span className="flex gap-2 text-sm md:text-base items-center">
+            <span className="hidden md:block border-r border-dashed border-black dark:border-bg-dark h-6 w-1"></span>
+            <span className="text-sm md:text-base cutline cutline-1">
+              <GrUserWorker className="inline ml-1 md:ml-2" />
               {data?.Worker?.name}
-              <GrUserWorker />
             </span>
             <span className="border-r border-dashed border-black dark:border-bg-dark h-6 w-1"></span>
             <span className="flex gap-2 text-sm md:text-base items-center">
-              {new Date(data?.updatedAt).toLocaleDateString("fa")}
               <FaCalendarDays />
+              {new Date(data?.updatedAt).toLocaleDateString("fa")}
+            </span>
+            <span className="border-r border-dashed border-black dark:border-bg-dark h-6 w-1"></span>
+            <span>
+              <FaPhotoVideo />
             </span>
           </div>
         </section>
       </div>
       <Breadcrums className="mt-14 md:!mt-20" />
+      <section className="classDiv md:hidden">
+        <h2 className="inline">
+          <FaTags className="inline ml-1" />
+          تگ ها :
+        </h2>
+        <div className="inline text-sm md:text-base">
+          {data.Tags?.map((i, index) => (
+            <React.Fragment key={index}>
+              <Link
+                key={index}
+                className="hover:text-blue-600 mx-1 dark:text-blue-400"
+                href={"/search?tags=" + i.name}
+              >
+                {i.name}
+              </Link>
+              {data.Tags.length !== Number(index + 1) ? " ،" : null}
+            </React.Fragment>
+          ))}
+        </div>
+      </section>
       <div className="classDiv flex flex-col md:flex-row relative gap-3">
         <section className="w-full md:w-2/3">
           <h2 className="dark:text-h-dark md:text-xl text-lg text-gray-700">توضیحات</h2>

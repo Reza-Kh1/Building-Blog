@@ -85,6 +85,7 @@ export default async function page({ params }: { params: { slug: string } }) {
       `${process.env.NEXTAUTH_URL}/blog/${data?.title.replace(/ /g, "-")}` ||
       "آدرس مقاله",
   };
+  const LinkTagPost = data.Tags[data.Tags.length - 1].name.replace(/ /g,"-") 
   return (
     <>
       <Script
@@ -185,7 +186,7 @@ export default async function page({ params }: { params: { slug: string } }) {
           title="پست های مشابه"
           isPost
           data={posts}
-          url={`/blog?page=1&tags=${data.Tags[data.Tags.length - 1].name}`}
+          url={`/blog/tags/${LinkTagPost}?page=1&tags=${LinkTagPost}`}
         />
         <SwiperCards
           title="پروژه های مشابه"

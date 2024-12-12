@@ -5,7 +5,7 @@ import CustomButton from "../CustomButton/CustomButton";
 import { useEffect, useState } from "react";
 import { Drawer } from "@mui/material";
 import { useSearchParams } from "next/navigation";
-import { BsFilterLeft } from "react-icons/bs";
+import { GiSettingsKnobs } from "react-icons/gi";
 type SelectTagType = {
   dataTags: TagsType[];
   urlPage: string;
@@ -37,9 +37,9 @@ export default function SelectTag({
         <CustomButton
           name="فیلتر"
           type="button"
-          className="!w-10/12 !text-xs"
+          className="!max-w-28 !text-xs"
           onClick={() => setOpen((prev) => !prev)}
-          iconEnd={<BsFilterLeft size={15}/>}
+          iconEnd={<GiSettingsKnobs size={18}/>}
         />
         <Drawer anchor={"right"} open={open} onClose={() => setOpen(false)}>
           <div className="min-w-56 md:hidden flex flex-col gap-3 p-3 overflow-hidden h-full dark:bg-zinc-900/80">

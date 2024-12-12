@@ -77,12 +77,12 @@ export async function generateMetadata({ params }: { params: { name: string } })
         },
       ],
       siteName: nameSite,
-      locale:"fa_IR",
+      locale: "fa_IR",
     },
     twitter: {
       card: 'summary_large_image',
-      creator:"@buildMasters",
-      site:"@buildMasters"
+      creator: "@buildMasters",
+      site: "@buildMasters"
     },
     alternates: {
       canonical: `${baseUrl}/experts/${urlPage}`,
@@ -232,7 +232,7 @@ export default async function page({ params }: { params: { name: string } }) {
         <SwiperCards
           isProject
           title="پروژه های بیشتر"
-          url={`/project?page=1&order=createdAt-DESC&expert=${data.id}`}
+          url={`/project/experts/${data.name.replace(/ /g,"-")}?page=1&order=createdAt-DESC&expert=${data.id}`}
           data={data.Projects}
         />
       </div>

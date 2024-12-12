@@ -146,7 +146,7 @@ export default function HeaderSticky({
                   open={openMenu}
                   onClose={() => setOpenMenu(false)}
                 >
-                  <nav className="px-4 dark:bg-zinc-900/80 min-h-screen">
+                  <nav className="px-4 dark:bg-zinc-900/80">
                     <Link
                       href={"/"}
                       aria-label="لوگو وب سایت"
@@ -155,7 +155,7 @@ export default function HeaderSticky({
                       <figure className="flex justify-center items-end">
                         <Image
                           src={"/logosite.png"}
-                          className="w-40 h-auto"
+                          className="w-48 h-auto"
                           width={96}
                           height={96}
                           alt="لوگو وبسایت اساتید ساخت و ساز"

@@ -90,14 +90,16 @@ export default function Breadcrums({ className }: { className?: string }) {
         {newArry.map((i, index) => (
           <React.StrictMode key={index}>
             {i.url ? (
-              <Link href={i.url} className="hover:text-blue-500 text-xs md:text-sm items-center gap-1 inline ml-1">
+              <Link href={i.url} className="hover:text-blue-500 text-xs md:text-sm items-center gap-1 inline">
                 {i.name === "صفحه اصلی" ? <FaHome className="inline ml-1" size={18} /> : null}
                 {i.name}
               </Link>
             ) : (
               <span className="text-xs md:text-sm mx-1">{i.name}</span>
             )}
-            {newArry.length - 1 === index ? null : "/"}
+            <span className="inline mx-1">
+              {newArry.length - 1 === index ? null : "/"}
+            </span>
           </React.StrictMode>
         ))}
       </div>

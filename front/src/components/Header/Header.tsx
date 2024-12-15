@@ -14,11 +14,11 @@ export default async function Header() {
   return (
     <>
       <header className="w-full h-full">
-        <div className="bg-slate-100/80 dark:bg-zinc-900/80 transition-all pt-2 md:pt-8">
+        <div className="bg-blue-color/90 dark:bg-zinc-900/80 transition-all pt-2 md:pt-8 pb-3 md:pb-0">
           <div className="classDiv !my-0 flex w-full flex-wrap px-3 xl:px-0 md:flex-row justify-between items-center md:items-start">
-            <div className="w-1/2 order-1 md:order-1 md:w-2/12 text-right text-xs md:text-base font-bold">اساتید ساخت و ساز</div>
-            <nav className="w-full my-3 md:my-0 order-3 pt-4 md:pt-0 dark:border-bg-dark md:order-2 md:w-8/12 text-center md:border-b md:pb-8">
-              <ul className="flex gap-4 md:gap-7 justify-center text-sm text-gray-700 dark:text-p-dark">
+            <div className="w-1/2 order-1 md:order-1 md:w-2/12 text-right text-xs md:text-base font-bold text-gray-100">اساتید ساخت و ساز</div>
+            <nav className="w-full hidden md:block my-3 md:my-0 order-3 pt-4 md:pt-0 dark:border-bg-dark border-orange-400/40 md:order-2 md:w-8/12 text-center md:border-b md:pb-8">
+              <ul className="flex gap-4 md:gap-7 justify-center text-sm text-gray-200 dark:text-p-dark">
                 <li className="hover:text-blue-400 text-xs md:text-base">
                   <NavlinkHeader title="درباره ما" url="/about-us" />
                 </li>

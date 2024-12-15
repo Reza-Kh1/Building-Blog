@@ -115,7 +115,7 @@ export default function SearchBox() {
   return (
     <>
       <div className="w-2/12 flex items-center">
-        <div className="mr-3 text-gray-800 dark:text-gray-300 flex">
+        <div className="mr-3 text-gray-200 dark:text-gray-300 flex">
           <button type="button" aria-label="جستجو" onClick={() => setIsShow(true)} className="cursor-pointer">
             <BsSearch className="text-xl lg:text-2xl" />
           </button>

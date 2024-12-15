@@ -23,7 +23,7 @@ export default function FormContactUs() {
   return (
     <form action={formAction} onSubmit={() => { toast.loading("...صبرکنید", { id: "toast" }) }}
       className="flex flex-col gap-3 justify-center">
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         <InputForm
           name="name"
           lable="نام کامل خود را بنویسید"
@@ -67,7 +67,7 @@ export default function FormContactUs() {
         />
       </div>
       <div className="w-1/3 md:w-1/4">
-        <CustomButton name="ارسال" color="blue" className="w-full" type="submit" iconEnd={<TbMessage2Check />} />
+        <CustomButton name="ارسال" color="primary" className="w-full" type="submit" iconEnd={<TbMessage2Check />} />
       </div>
     </form>
   );

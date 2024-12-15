@@ -49,7 +49,7 @@ export default function page() {
       <Breadcrums />
       <div className="classDiv">
         <section>
-          <h1 className="lg:text-lg font-semibold mb-3 dark:text-h-dark">
+          <h1 className="lg:text-lg font-semibold mb-3 text-c-blue dark:text-h-dark">
             محاسبه آنلاین هزینه ساخت
           </h1>
           <div className="flex items-start md:items-center gap-2">

@@ -126,7 +126,7 @@ export default async function page({ params }: { params: { name: string } }) {
       />
       <Breadcrums className="mt-4 md:mt-6" />
       <div className="classDiv flex flex-col md:flex-row gap-5 text-white">
-        <div className="bg-gradient-to-t dark:to-[#363e4a] dark:from-[#1b1b1f] dark:hover:shadow-none transition-all dark:shadow-full-dark from-blue-400 to-slate-200 rounded-md shadow-md w-full md:w-1/3 p-4 flex flex-col gap-3 justify-evenly items-center">
+        <div className="bg-gradient-to-t dark:to-[#363e4a] dark:from-[#1b1b1f] dark:hover:shadow-none transition-all dark:shadow-full-dark from-blue-500 to-slate-200 rounded-md shadow-md w-full md:w-1/3 p-4 flex flex-col gap-3 justify-evenly items-center">
           <section aria-labelledby="name-expert" className="flex justify-between dark:bg-info-dark dark:text-s-dark dark:shadow-low-dark items-center w-full bg-slate-50 shadow-md rounded-md text-black gap-2 p-2">
             <h1 id="name-exper" className="text-right font-semibold md:text-xl">{data.name}</h1>
             <span className="flex text-sm md:text-base items-center gap-1 md:gap-2 w-1/3">
@@ -194,7 +194,7 @@ export default async function page({ params }: { params: { name: string } }) {
         </div>
         <div className="w-full md:w-2/3 flex flex-col gap-5">
           {data?.description || data?.address ?
-            <section aria-labelledby="information-expert" className="bg-gradient-to-br to-blue-400 dark:to-[#363e4a] dark:from-[#1b1b1f] transition-all dark:shadow-full-dark dark:hover:shadow-none from-slate-300 rounded-md shadow-md p-4">
+            <section aria-labelledby="information-expert" className="bg-gradient-to-br to-blue-500 dark:to-[#363e4a] dark:from-[#1b1b1f] transition-all dark:shadow-full-dark dark:hover:shadow-none from-slate-300 rounded-md shadow-md p-4">
               <h2 className="text-lg dark:text-h-dark md:text-xl mb-3 block ">معرفی</h2>
               <p id="information-expert" className="dark:text-p-dark">{data?.description || "ثبت نشده"}</p>
               <h3 className="text-lg dark:text-h-dark md:text-xl my-3 block ">آدرس</h3>
@@ -203,7 +203,7 @@ export default async function page({ params }: { params: { name: string } }) {
             : null}
           {
             data.socialMedia.length ?
-              <div className="bg-gradient-to-tr to-blue-400 dark:to-[#363e4a] dark:from-[#1b1b1f] transition-all dark:shadow-full-dark dark:hover:shadow-none from-slate-300 rounded-md shadow-md p-4">
+              <div className="bg-gradient-to-tr to-blue-500 dark:to-[#363e4a] dark:from-[#1b1b1f] transition-all dark:shadow-full-dark dark:hover:shadow-none from-slate-300 rounded-md shadow-md p-4">
                 <h2 className="text-lg dark:text-h-dark  md:text-xl mb-3 block">شبکه های اجتماعی</h2>
                 <section aria-labelledby="social-media" className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-5">
                   {data.socialMedia.map((i, index) => (

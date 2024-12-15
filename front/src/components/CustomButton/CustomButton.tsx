@@ -9,19 +9,23 @@ type CustomButtonType = {
     name: string,
     className?: string
     type: "submit" | "reset" | "button"
-    color?: "warning" | "blue" | "primary"
+    color?: "warning" | "blue" | "primary" | "orange"
     disable?: boolean
     onClick?: (value: any) => void
 }
 export default function CustomButton({ type, disable, iconEnd, iconStart, name, className, color, onClick }: CustomButtonType) {
-    const { pending } = useFormStatus()
-    let colorButton = "hover:from-blue-500/70 hover:to-blue-600/90 from-blue-400/70 to-blue-500 w-full dark:from-slate-700 dark:to-zinc-900 dark:shadow-low-dark dark:hover:shadow-none"
+    const { pending } = useFormStatus()    
+    let colorButton = ""
     if (color === "blue") {
         colorButton = "hover:to-[#1a99e7] hover:from-[#a9e0ff] from-[#acdcf7] to-[#58b2e9] w-full dark:from-slate-700 dark:to-zinc-900 dark:shadow-low-dark dark:hover:shadow-none"
     }
-    if (color === "warning") {
-        colorButton = "from-[#ffaf66] to-[#e95858] hover:to-[#ff1010] hover:from-[#ff8b20] w-full"
+    if (color === "orange") {
+        colorButton = "from-[#d04e0d] to-[#e95858] hover:to-[#ff1010] hover:from-[#ff8b20] w-full"
     }
+    if (color === "warning") {
+        colorButton = "from-[#a34d00] to-[#b46430] hover:to-[#ff1010] hover:from-[#ff8b20] w-full  dark:from-slate-700 dark:to-zinc-900 dark:shadow-low-dark dark:hover:shadow-none"
+    }
+    colorButton = colorButton || "hover:from-blue-500/70 hover:to-blue-600/90 from-blue-400/70 to-blue-500 w-full dark:from-slate-700 dark:to-zinc-900 dark:shadow-low-dark dark:hover:shadow-none"
     return (
         <Button
             aria-labelledby={name}

@@ -16,8 +16,8 @@ export default function Cards({ props }: { props: CardPostType[] }) {
           <ImgTag alt={i.title} height={200} src={i.image} width={450} className="w-44 md:w-80 md:h-56 lg:w-[450px] lg:h-56 h-36 object-cover rounded-md shadow-md" />
         </div>
         <div className="w-3/5 lg:w-2/3 order-2 flex justify-evenly md:justify-between flex-col md:py-2 gap-1">
-          <span className="text-xs lg:text-sm text-gray-600 dark:text-p-dark">{i?.Category?.name}</span>
-          <h3 className="text-sm lg:text-lg text-gray-800 dark:text-h-dark cutline cutline-1">{i.title}</h3>
+          <span className="text-xs lg:text-sm text-c-orange dark:text-p-dark">{i?.Category?.name}</span>
+          <h3 className="text-sm lg:text-lg text-c-blue font-bold dark:text-h-dark cutline cutline-1">{i.title}</h3>
           <div className="flex gap-1 text-sm md:text-base lg:gap-5 text-gray-600 dark:text-s-dark">
             <p className="flex gap-2">
               <i>
@@ -40,7 +40,7 @@ export default function Cards({ props }: { props: CardPostType[] }) {
           <p className="text-xs lg:text-sm text-gray-700 cutline cutline-3 text-justify dark:text-p-dark">
             {i.description}</p>
           <div className="hidden md:!block">
-            <button type="button" title={i.title} className="p-[6px] text-xs md:text-base lg:p-2 custom-button-card relative flex items-center bg-gradient-to-b from-blue-400/70 dark:to-zinc-900 dark:from-slate-600 dark:group-hover:to-zinc-900 dark:group-hover:from-slate-600 to-blue-500 rounded-full group-hover:from-blue-500/70 shadow-md  group-hover:to-blue-600/90 text-white">
+            <button type="button" title={i.title} className="p-[6px] text-xs md:text-base lg:p-2 custom-button-card relative flex items-center bg-gradient-to-b from-orange-300 dark:to-zinc-900 dark:from-slate-600 dark:group-hover:to-zinc-900 dark:group-hover:from-slate-600 to-orange-600 rounded-full group-hover:from-orange-500/70 shadow-md  group-hover:to-orange-600/90 text-white">
               <span className="group-hover:block ">مشاهده مقاله</span>
               <i>
                 <FaAngleLeft />

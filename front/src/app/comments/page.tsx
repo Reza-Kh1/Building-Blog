@@ -61,7 +61,7 @@ export default async function page({ searchParams }: { searchParams: { page: num
       <Breadcrums />
       <div className="classDiv">
         <section aria-labelledby="comments-title">
-          <h1 id="comments-title" className="lg:text-xl font-semibold mb-3 md:mb-6 dark:text-h-dark">نظرات مشتریان نسبت به ما</h1>
+          <h1 id="comments-title" className="lg:text-xl font-semibold mb-3 md:mb-6 dark:text-h-dark text-c-blue">نظرات مشتریان نسبت به ما</h1>
           <span className="text-sm lg:text-base dark:text-p-dark">
             {data.countNull} {" "}
             نظر تا اکنون ثبت شده

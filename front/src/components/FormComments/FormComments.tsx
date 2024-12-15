@@ -77,7 +77,7 @@ export default function FormComments({ postId }: { postId?: number }) {
           <CustomButton
             name="ارسال"
             type="submit"
-            color="blue"
+            color="primary"
             iconEnd={<TbMessage2Plus />}
           />
         </div>

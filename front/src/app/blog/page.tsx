@@ -79,7 +79,7 @@ export default async function page({
       <Breadcrums />
       <div className="classDiv">
         <section className="flex w-full items-center justify-between">
-          <h1 className="font-semibold lg:text-xl">وبلاگ</h1>
+          <h1 className="font-semibold lg:text-xl text-c-blue">وبلاگ</h1>
           <nav aria-label="منوی دسته بندی ها برای وبلاگ" className="w-2/6">
             <SelectTag urlPage="blog" dataTags={dataTags} />
           </nav>

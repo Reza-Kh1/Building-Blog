@@ -49,7 +49,7 @@ export default function page() {
       <Breadcrums />
       <div className="classDiv">
         <section className="mt-6">
-          <h1 className="text-2xl mb-2 block font-semibold dark:text-h-dark">ارتباط با ما</h1>
+          <h1 className="text-2xl mb-2 block font-semibold dark:text-h-dark text-c-blue">ارتباط با ما</h1>
           <h2 className="dark:text-s-dark text-gray-700">
             با ما در ارتباط باشید تا پروژه‌های ساختمانی خود را با راهکارهای
             حرفه‌ای و نوآورانه به واقعیت تبدیل کنید. تیم ما آماده پاسخگویی به

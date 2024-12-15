@@ -62,7 +62,7 @@ export default async function page() {
     <>
       <Breadcrums />
       <section className="classDiv">
-        <h1 className="lg:text-xl mb-2 font-semibold dark:text-h-dark">درباره ما</h1>
+        <h1 className="lg:text-xl mb-2 font-semibold dark:text-h-dark text-c-blue">درباره ما</h1>
         <span className="text-xs lg:text-base text-gray-700 dark:text-s-dark">
           صفحه ای کوچک درباره خدمات ما
         </span>

@@ -28,33 +28,33 @@ const menuTitle = [
   {
     name: "پروژه ها",
     url: "/project?order=createdAt-DESC&page=1",
-    icon: <MdMapsHomeWork className="text-gray-600 dark:text-s-dark" />,
+    icon: <MdMapsHomeWork className="text-gray-200 dark:text-s-dark" />,
   },
   {
     name: "وبلاگ",
     url: "/blog?order=createdAt-DESC&page=1",
-    icon: <GrArticle className="text-gray-600 dark:text-s-dark" />,
+    icon: <GrArticle className="text-gray-200 dark:text-s-dark" />,
   },
   {
     name: "ارتباط با ما",
     url: "/contact-us",
-    icon: <FaPhone className="text-gray-600 dark:text-s-dark" />,
+    icon: <FaPhone className="text-gray-200 dark:text-s-dark" />,
   },
   {
     name: "نظرات مشتریان",
     url: "/comments?page=1",
-    icon: <FaRegComments className="text-gray-600 dark:text-s-dark" />,
+    icon: <FaRegComments className="text-gray-200 dark:text-s-dark" />,
   },
   {
     name: "مجریان",
     url: "/experts?order=createdAt-DESC&page=1",
-    icon: <GrUserWorker className="text-gray-600 dark:text-s-dark" />,
+    icon: <GrUserWorker className="text-gray-200 dark:text-s-dark" />,
   },
   {
     name: "محاسبه آنلاین هزینه",
     url: "/request-project",
     icon: (
-      <LiaFileInvoiceDollarSolid className="text-gray-600 dark:text-s-dark" />
+      <LiaFileInvoiceDollarSolid className="text-gray-200 dark:text-s-dark" />
     ),
   },
 ];
@@ -125,9 +125,9 @@ export default function HeaderSticky({
   return (
     <>
       <div
-        className={`header-sticky shadow-shadow-header shadow-[#dbdbdb] dark:shadow-low-dark bg-slate-100/80 dark:bg-zinc-900/80 ${visible
-            ? "header-show bg-slate-100/40 dark:!bg-zinc-900/80"
-            : "header-hidden"
+        className={`header-sticky shadow-shadow-header shadow-[#17315a] dark:shadow-low-dark bg-blue-color/90 dark:bg-zinc-900/80 ${visible
+          ? "header-show bg-blue-color/90 dark:!bg-zinc-900/80"
+          : "header-hidden"
           } `}
       >
         <div className="max-w-7xl w-full py-1 md:py-3 px-3 xl:px-0 flex mx-auto">
@@ -139,99 +139,101 @@ export default function HeaderSticky({
                   type="button"
                   aria-label="open menu"
                 >
-                  <MdMenuOpen />
+                  <MdMenuOpen className="text-gray-200"/>
                 </IconButton>
                 <Drawer
                   anchor={"left"}
                   open={openMenu}
                   onClose={() => setOpenMenu(false)}
                 >
-                  <nav className="px-4 dark:bg-zinc-900/80">
-                    <Link
-                      href={"/"}
-                      aria-label="لوگو وب سایت"
-                      title="بازگشت به خانه"
-                    >
-                      <figure className="flex justify-center items-end">
-                        <Image
-                          src={"/logosite.png"}
-                          className="w-48 h-auto"
-                          width={96}
-                          height={96}
-                          alt="لوگو وبسایت اساتید ساخت و ساز"
-                          loading="eager"
-                        />
-                      </figure>
-                    </Link>
-                    <ul className="flex flex-col gap-5 mt-3 justify-evenly text-slate-600 dark:text-s-dark w-full">
-                      <li className="hover:text-blue-400 flex items-center gap-2">
-                        <FaHome className="text-gray-700 dark:text-s-dark" />
-                        <NavlinkHeader title="صفحه اصلی" url="/" />
-                      </li>
-                      <li className="hover:text-blue-400 flex items-center gap-2">
-                        <FaUsersViewfinder className="text-gray-700 dark:text-s-dark" />
-                        <NavlinkHeader title="درباره ما" url="/about-us" />
-                      </li>
-                      <li className="hover:text-blue-400 flex items-center gap-2">
-                        <MdOutlineQuestionMark className="text-gray-700 dark:text-s-dark" />
-                        <NavlinkHeader title="سوالات متداول" url="/faqs" />
-                      </li>
-                      {menuTitle.map((i, index) => (
-                        <li key={index} className="flex flex-col gap-2">
-                          <div className="flex justify-between items-center">
-                            <div className="flex items-center gap-2">
-                              {i.icon}
-                              <NavlinkHeader
-                                title={i.name}
-                                url={i.url}
-                                className="group-hover:text-blue-400"
-                              />
-                            </div>
-                            {i.name === "وبلاگ" && category?.length ? (
-                              <button
-                                aria-label="دسته بندی ها"
-                                type="button"
-                                onClick={() =>
-                                  setShowCategory(
-                                    showCategory !== i.name ? i.name : null
-                                  )
-                                }
-                              >
-                                <FaAngleDoubleDown
-                                  size={14}
-                                  className={`transition-all ${i.name === showCategory
-                                      ? "text-blue-400 rotate-180"
-                                      : ""
-                                    }`}
-                                />
-                              </button>
-                            ) : null}
-                          </div>
-                          <ul
-                            className={`hidden ${showCategory === i.name ? "!block" : ""
-                              }`}
-                          >
-                            {category.length
-                              ? category.map((item, ind) => (
-                                <li key={ind}>
-                                  <Link
-                                    className="flex w-full gap-1 items-center"
-                                    href={
-                                      "blog/" + item.slug.replace(/ /g, "-")
-                                    }
-                                  >
-                                    <span className="w-[6px] h-[1px] bg-black"></span>
-                                    {item.name}
-                                  </Link>
-                                </li>
-                              ))
-                              : null}
-                          </ul>
+                  <nav className="px-4 dark:bg-zinc-900/80 h-full !bg-blue-color overflow-scroll flex justify-between flex-col">
+                    <div>
+                      <Link
+                        href={"/"}
+                        aria-label="لوگو وب سایت"
+                        title="بازگشت به خانه"
+                      >
+                        <figure className="flex justify-center items-end">
+                          <Image
+                            src={"/logofooter.png"}
+                            className="w-48 h-auto"
+                            width={96}
+                            height={96}
+                            alt="لوگو وبسایت اساتید ساخت و ساز"
+                            loading="eager"
+                          />
+                        </figure>
+                      </Link>
+                      <ul className="flex flex-col gap-5 mt-3 justify-evenly text-slate-200 dark:text-s-dark w-full">
+                        <li className="hover:text-c-orange flex items-center gap-2">
+                          <FaHome className="text-gray-200 dark:text-s-dark" />
+                          <NavlinkHeader title="صفحه اصلی" url="/" />
                         </li>
-                      ))}
-                    </ul>
+                        <li className="hover:text-c-orange flex items-center gap-2">
+                          <FaUsersViewfinder className="text-gray-200 dark:text-s-dark" />
+                          <NavlinkHeader title="درباره ما" url="/about-us" />
+                        </li>
+                        <li className="hover:text-c-orange flex items-center gap-2">
+                          <MdOutlineQuestionMark className="text-gray-200 dark:text-s-dark" />
+                          <NavlinkHeader title="سوالات متداول" url="/faqs" />
+                        </li>
+                        {menuTitle.map((i, index) => (
+                          <li key={index} className="flex flex-col gap-2">
+                            <div className="flex justify-between items-center">
+                              <div className="flex items-center gap-2">
+                                {i.icon}
+                                <NavlinkHeader
+                                  title={i.name}
+                                  url={i.url}
+                                  className="group-hover:text-c-orange"
+                                />
+                              </div>
+                              {i.name === "وبلاگ" && category?.length ? (
+                                <button
+                                  aria-label="دسته بندی ها"
+                                  type="button"
+                                  onClick={() =>
+                                    setShowCategory(
+                                      showCategory !== i.name ? i.name : null
+                                    )
+                                  }
+                                >
+                                  <FaAngleDoubleDown
+                                    size={14}
+                                    className={`transition-all ${i.name === showCategory
+                                      ? "text-c-orange rotate-180"
+                                      : ""
+                                      }`}
+                                  />
+                                </button>
+                              ) : null}
+                            </div>
+                            <ul
+                              className={`hidden ${showCategory === i.name ? "!block" : ""
+                                }`}
+                            >
+                              {category.length
+                                ? category.map((item, ind) => (
+                                  <li key={ind} className="my-1">
+                                    <Link
+                                      className="flex w-full gap-2 items-center"
+                                      href={
+                                        "blog/" + item.slug.replace(/ /g, "-")
+                                      }
+                                    >
+                                      <span className="w-[6px] h-[1px] bg-gray-100"></span>
+                                      {item.name}
+                                    </Link>
+                                  </li>
+                                ))
+                                : null}
+                            </ul>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                     <div className="mt-8 flex justify-center pb-5">
-                      <IconSocialMedia />
+                      <IconSocialMedia size="!text-2xl"/>
                     </div>
                   </nav>
                 </Drawer>
@@ -253,7 +255,7 @@ export default function HeaderSticky({
                     <NavlinkHeader
                       title={i.name}
                       url={i.url}
-                      className="group-hover:text-blue-400 dark:text-p-dark hover:scale-105 py-3 transition-all scale-1 flex items-center"
+                      className="group-hover:text-c-orange text-gray-200 dark:text-p-dark hover:scale-105 py-3 transition-all scale-1 flex items-center"
                     />
                     {i.name === "وبلاگ" && category?.length ? (
                       <>
@@ -263,7 +265,7 @@ export default function HeaderSticky({
                         <i>
                           <FaAngleDoubleDown
                             size={14}
-                            className="group-hover:text-blue-400 group-hover:rotate-180 transition-all"
+                            className="group-hover:text-c-orange text-gray-200 group-hover:rotate-180 transition-all"
                           />
                         </i>
                       </>
@@ -276,7 +278,7 @@ export default function HeaderSticky({
               <Link href={"/"}>
                 <figure className="flex justify-end items-end">
                   <Image
-                    src={"/logosite.png"}
+                    src={"/logofooter.png"}
                     className="rounded-md w-28 md:w-48 h-auto"
                     width={200}
                     height={200}

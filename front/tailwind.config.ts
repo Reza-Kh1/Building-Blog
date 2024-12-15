@@ -12,12 +12,14 @@ const config: Config = {
       textColor: {
         "h-dark": "#e9ecef",
         "p-dark": "#dadada",
-        "s-dark": "#b0b0b0"
+        "s-dark": "#b0b0b0",
+        "hover": "#feaf51",
+        "c-blue": "#3c476a",
+        "c-orange": "#fe8764"
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+        "gradient-conic": "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
       boxShadow: {
         "custom-dark": "0px 1px 4px #000000",
@@ -28,9 +30,18 @@ const config: Config = {
         "full-dark": "#000000"
       },
       borderColor: {
-        "bg-dark": "#6b7280"
+        "bg-dark": "#6b7280",
+      },
+      colors: {
+        "blue-low":"#1f2866",
+        "blue-full":"#07285e",
+        "orange-low":"#e7af9c",
+        "orange-full":"#dd6415"
       },
       backgroundColor: {
+        "light-theme": "#ffffff",
+        "blue-color": "#07285e",
+        "orange-color": "#ff631c",
         "hight-dark": "#1d1d1d",
         "input-dark": "#48484b69",
         "custom-dark": "#212121",

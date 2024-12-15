@@ -37,6 +37,7 @@ export default function SelectTag({
         <CustomButton
           name="فیلتر"
           type="button"
+          color="warning"
           className="!max-w-28 !text-xs"
           onClick={() => setOpen((prev) => !prev)}
           iconEnd={<GiSettingsKnobs size={18}/>}

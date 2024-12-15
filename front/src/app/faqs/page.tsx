@@ -63,7 +63,7 @@ export default async function page() {
       <div className="classDiv flex-col flex md:flex-row gap-3">
         <div className="w-full md:w-3/4">
           <section className="mb-3 md:mb-4">
-            <h1 className="lg:text-xl text-base mb-1 md:mb-2 font-semibold dark:text-h-dark"> سوالات متدوال:</h1>
+            <h1 className="lg:text-xl text-base mb-1 md:mb-2 font-semibold dark:text-h-dark text-c-blue"> سوالات متدوال:</h1>
             <span className="text-xs lg:text-base text-gray-700 dark:text-s-dark">{data?.text?.title}</span>
           </section>
           <div className="accordion flex flex-col gap-5 lg:gap-7">

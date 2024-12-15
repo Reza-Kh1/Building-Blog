@@ -107,7 +107,7 @@ export default async function page({ params }: { params: { slug: string } }) {
         >
           <h1
             id="post-name"
-            className="lg:text-xl text-gray-700 text-sm cutline cutline-1 font-bold dark:text-h-dark"
+            className="lg:text-xl text-c-blue text-sm cutline cutline-1 font-bold dark:text-h-dark"
           >
             {data?.title}
           </h1>

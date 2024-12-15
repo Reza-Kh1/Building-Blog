@@ -10,8 +10,8 @@ export default function TagInfo({ searchData, text, categoryName }: TagInfoType)
     return (
         <section>
             {tags ?
-                <h2 className="text-sm mt-5 md:text-lg text-gray-600 dark:text-p-dark flex items-center gap-2">
-                    <i className="w-3 h-3 dark:bg-gray-300 bg-blue-400 animate-bounce rounded-full inline-block"></i>
+                <h2 className="text-sm mt-5 md:text-lg text-c-orange dark:text-p-dark flex items-center gap-2">
+                    <i className="w-3 h-3 dark:bg-gray-300 bg-blue-full animate-bounce rounded-full inline-block"></i>
                     {search ?
                         <>دسته انتخاب شده : <b className='text-gray-800 dark:text-p-dark'>{tags}</b></>
                         :
@@ -21,8 +21,8 @@ export default function TagInfo({ searchData, text, categoryName }: TagInfoType)
                 :
                 null}
             {!tags ?
-                <h2 className="text-sm mt-5 md:text-lg text-gray-600 dark:text-p-dark flex items-center gap-2">
-                    <i className="w-3 h-3 dark:bg-gray-300 bg-blue-400 animate-bounce rounded-full inline-block"></i>
+                <h2 className="text-sm mt-5 md:text-lg text-c-orange dark:text-p-dark flex items-center gap-2">
+                    <i className="w-3 h-3 dark:bg-gray-300 bg-blue-full animate-bounce rounded-full inline-block"></i>
                     {
                         search ?
                             <>کلمه جستجو شده : <b className='text-gray-800 dark:text-p-dark'>{search}</b></>
@@ -32,8 +32,8 @@ export default function TagInfo({ searchData, text, categoryName }: TagInfoType)
                 </h2>
                 :
                 search && tags ?
-                    <span className="text-sm mt-5 md:text-lg text-gray-600 dark:text-p-dark flex items-center gap-2">
-                        <i className="w-3 h-3 dark:bg-gray-300 bg-blue-400 animate-bounce rounded-full inline-block"></i>
+                    <span className="text-sm mt-5 md:text-lg text-c-orange dark:text-p-dark flex items-center gap-2">
+                        <i className="w-3 h-3 dark:bg-gray-300 bg-blblue-fbg-blue-fullnimate-bounce rounded-full inline-block"></i>
                         کلمه جستجو شده : <b className='text-gray-800 dark:text-p-dark'>{search}</b>
                     </span>
                     : null

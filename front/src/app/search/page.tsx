@@ -94,7 +94,7 @@ export default async function page({ searchParams }: pageType) {
       <div className="classDiv">
         <section className="navbar-search flex md:my-6">
           <div className="w-2/3">
-            <h1 className="text-lg my-3">
+            <h1 className="text-lg my-3 text-c-blue">
               جستجو در دسته :
               <span className=" text-xl text-blue-400 mr-2">
                 {searchParams.tags}

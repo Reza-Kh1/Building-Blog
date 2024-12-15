@@ -78,7 +78,7 @@ export default async function page({searchParams }: {searchParams: FilterQueryTy
       <Breadcrums />
       <div className="classDiv">
         <section className="flex items-center justify-between">
-          <h1 className="font-semibold lg:text-xl dark:text-h-dark text-gray-800">
+          <h1 className="font-semibold lg:text-xl dark:text-h-dark text-c-blue">
             مجریان
           </h1>
           <nav aria-label="منوی دسته بندی ها برای مجری ها" className="w-2/6">

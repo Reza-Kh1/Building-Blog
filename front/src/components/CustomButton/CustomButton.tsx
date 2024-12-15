@@ -23,7 +23,7 @@ export default function CustomButton({ type, disable, iconEnd, iconStart, name, 
         colorButton = "from-[#d04e0d] to-[#e95858] hover:to-[#ff1010] hover:from-[#ff8b20] w-full"
     }
     if (color === "warning") {
-        colorButton = "from-[#a34d00] to-[#b46430] hover:to-[#ff1010] hover:from-[#ff8b20] w-full  dark:from-slate-700 dark:to-zinc-900 dark:shadow-low-dark dark:hover:shadow-none"
+        colorButton = "from-[#fe9c65] to-[#e77e3a] hover:to-[#ff1010] hover:from-[#ff8b20] w-full  dark:from-slate-700 dark:to-zinc-900 dark:shadow-low-dark dark:hover:shadow-none"
     }
     colorButton = colorButton || "hover:from-blue-500/70 hover:to-blue-600/90 from-blue-400/70 to-blue-500 w-full dark:from-slate-700 dark:to-zinc-900 dark:shadow-low-dark dark:hover:shadow-none"
     return (

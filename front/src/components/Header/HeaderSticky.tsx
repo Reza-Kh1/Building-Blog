@@ -146,7 +146,7 @@ export default function HeaderSticky({
                   open={openMenu}
                   onClose={() => setOpenMenu(false)}
                 >
-                  <nav className="px-4 dark:bg-zinc-900/80 h-full !bg-blue-color overflow-scroll flex justify-between flex-col">
+                  <nav className="px-4 dark:bg-zinc-900/80 h-full bg-blue-color overflow-scroll flex justify-between flex-col">
                     <div>
                       <Link
                         href={"/"}
